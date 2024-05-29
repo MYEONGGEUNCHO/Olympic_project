@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.co.olympic.member.MemberMapper">
+	<insert id="regist"
+		parameterType="kr.co.olympic.member.MemberVO">
+		INSERT INTO MEMBER (
+		email, pwd, name,
+		gender, birthday, hp,
+		zipcode, addr1, addr2,
+		regdate, state
+		)
+		VALUES (
+		#{email}, MD5(#{pwd}), #{name},
+		#{gender}, #{birthday}, #{hp},
+		#{zipcode}, #{addr1}, #{addr2},
+		NOW(), #{state}
+		)
+		<selectKey order="AFTER" keyProperty="no" resultType="int">
+			SELECT
+			LAST_INSERT_ID()
+		</selectKey>
+	</insert>
+	<select id="emailCheck" parameterType="String" resultType="int">
+		SELECT COUNT(*) FROM member WHERE email=#{email}
+	</select>
+
+	<select id="login" parameterType="kr.co.olympic.member.MemberVO"
+		resultType="kr.co.olympic.member.MemberVO">
+		SELECT * FROM member WHERE email=#{email} AND pwd = MD5(#{pwd})
+	</select>
+
+</mapper>
