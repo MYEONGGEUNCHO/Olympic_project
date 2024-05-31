@@ -21,7 +21,11 @@
 		<beans:property name="suffix" value=".jsp" />
 	</beans:bean>
 	
-	<context:component-scan base-package="kr.co.project" />
+	<beans:bean id="swagger2Config" class="config.SwaggerConfig"/>
+	<resources location="classpath:/META-INF/resources/" mapping="swagger-ui.html"/>
+	<resources location="classpath:/META-INF/resources/webjars/"  mapping="/webjars/**"/>
+	
+	<context:component-scan base-package="kr.co.olympic" />
 	
 	
 	
