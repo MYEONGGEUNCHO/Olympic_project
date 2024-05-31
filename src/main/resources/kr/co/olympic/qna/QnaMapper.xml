@@ -1,32 +1,62 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="kr.co.olympic.member.MemberMapper">
-	<insert id="regist"
-		parameterType="kr.co.olympic.member.MemberVO">
-		INSERT INTO MEMBER (
-		email, pwd, name,
-		gender, birthday, hp,
-		zipcode, addr1, addr2,
-		regdate, state
+<mapper namespace="kr.co.olympic.qna.QnaMapper">
+	<!-- 문의글 작성 -->
+	<insert id="write" parameterType="kr.co.olympic.qna.QnaVO">
+		INSERT INTO qna (
+		regdate, type, content, title, game_id, 
+		member_no
 		)
 		VALUES (
-		#{email}, MD5(#{pwd}), #{name},
-		#{gender}, #{birthday}, #{hp},
-		#{zipcode}, #{addr1}, #{addr2},
-		NOW(), #{state}
+		NOW(), #{type}, #{content}, #{title}, #{game_id},
+		#{member_no}
 		)
-		<selectKey order="AFTER" keyProperty="no" resultType="int">
+		<selectKey order="AFTER" keyProperty="qna_no"
+			resultType="int">
 			SELECT
 			LAST_INSERT_ID()
 		</selectKey>
 	</insert>
-	<select id="emailCheck" parameterType="String" resultType="int">
-		SELECT COUNT(*) FROM member WHERE email=#{email}
+	<!-- 리스트 조회 경우의 수(기본 정렬은 번호 내림차순) 1. 전체 조회 2. 경기 문의 조회 3. 일반, 결제, 티켓 문의 
+		조회 4. 작성자에 따른 문의 조회 5. -->
+	<sql id="searchSql">
+		<where>
+			<if test="game_id != null">
+				AND game_id = #{game_id}
+			</if>
+			<if test="game_id == null">
+				AND game_id IS NULL
+			</if>
+			<if test="member_no != null">
+				AND member_no = #{member_no}
+			</if>
+			<if test="type != null">
+				AND type = #{type}
+			</if>
+			<if test="type == null">
+				AND type != 0
+			</if>
+		</where>
+	</sql>
+	<select id="list" parameterType="map"
+		resultType="kr.co.olympic.qna.QnaVO">
+		SELECT * FROM qna
+		<include refid="searchSql" />
+		ORDER BY qna_no desc
 	</select>
-
-	<select id="login" parameterType="kr.co.olympic.member.MemberVO"
-		resultType="kr.co.olympic.member.MemberVO">
-		SELECT * FROM member WHERE email=#{email} AND pwd = MD5(#{pwd})
+	<select id="count" parameterType="Integer"
+		resultType="Integer">
+		SELECT COUNT(*) FROM qna
+		<include refid="searchSql" />
 	</select>
+	
+	
+	<!-- 답변 작성 -->
+	<update id="reply" parameterType="kr.co.olympic.qna.QnaVO">
+		UPDATE qna SET
+		reply =
+		#{reply}
+		WHERE qna_no=#{qna_no}
+	</update>
 
 </mapper>
