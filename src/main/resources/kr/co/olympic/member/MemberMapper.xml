@@ -1,32 +1,90 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="kr.co.olympic.member.MemberMapper">
+	<!-- 회원가입 -->
 	<insert id="regist"
 		parameterType="kr.co.olympic.member.MemberVO">
-		INSERT INTO MEMBER (
+		INSERT INTO member (
 		email, pwd, name,
-		gender, birthday, hp,
-		zipcode, addr1, addr2,
-		regdate, state
+		phone, birthday, credate,
+		membership, point, state
 		)
 		VALUES (
 		#{email}, MD5(#{pwd}), #{name},
-		#{gender}, #{birthday}, #{hp},
-		#{zipcode}, #{addr1}, #{addr2},
-		NOW(), #{state}
+		#{phone}, #{birthday}, NOW(),
+		'common', 0, 0
 		)
-		<selectKey order="AFTER" keyProperty="no" resultType="int">
+		<selectKey order="AFTER" keyProperty="member_no" resultType="int">
 			SELECT
 			LAST_INSERT_ID()
 		</selectKey>
 	</insert>
+	
+	<!-- 이메일 중복 조회 -->
 	<select id="emailCheck" parameterType="String" resultType="int">
 		SELECT COUNT(*) FROM member WHERE email=#{email}
 	</select>
-
+	
+	<!-- 로그인 -->
 	<select id="login" parameterType="kr.co.olympic.member.MemberVO"
 		resultType="kr.co.olympic.member.MemberVO">
-		SELECT * FROM member WHERE email=#{email} AND pwd = MD5(#{pwd})
+		SELECT * FROM member WHERE email=#{email} AND pwd = MD5(#{pwd}) AND state = 0
 	</select>
+	
+	<!-- 비밀번호 찾기(초기화) -->
+	<update id="findPwd" parameterType="kr.co.olympic.member.MemberVO">
+		UPDATE member SET pwd = MD5(#{birthday})
+		WHERE email = #{email}
+	</update>
+	
+	<!-- 비밀번호 확인 -->
+	<select id="pwdCheck" parameterType="String" resultType="int">
+		SELECT COUNT(*) FROM member WHERE email = #{email} AND pwd = MD5(#{pwd})
+	</select>
+	
+	<!-- 회원정보 조회 -->
+	<select id="detail" resultType="kr.co.olympic.member.MemberVO" parameterType="kr.co.olympic.member.MemberVO">
+		SELECT * FROM member WHERE member_no=#{member_no}
+	</select>
+	
+	<!-- 회원 정보 수정 -->
+	<update id="update" parameterType="kr.co.olympic.member.MemberVO">
+		UPDATE member SET
+			<if test="pwd != ''">
+			pwd = MD5(#{pwd})
+			</if>
+		WHERE member_no = #{member_no}
+	</update>
+	
+	<!-- 회원 탈퇴 -->
+	<update id="delete" parameterType="kr.co.olympic.member.MemberVO">
+		UPDATE member SET
+		state = 1
+		WHERE member_no = #{member_no}
+	</update>
+	
+	
+	<!-- 관심 목록 확인 -->
+	<!--
+	<select id="favorite_list" resultType="kr.co.project.game.GameVO" parameterType="kr.co.olympic.member.MemberVO">
+		SELECT g.* FROM member m
+		JOIN favorite_game f ON m.member_no = f.member_no
+    	JOIN game g ON f.game_id = g.game_id
+    	WHERE m.member_no=#{member_no}
+	</select>
+	-->  
+
+	<!-- 멤버십 구매-->
+	<update id="buy_membership" parameterType="kr.co.olympic.member.MemberVO">
+		UPDATE member SET membership = 'VIP', point = point - 10000 
+		WHERE member_no = #{member_no} AND point >= 10000
+	</update>
+	
+	<!-- 쿠폰 확인-->
+	<select id="coupon_list" resultType="kr.co.olympic.member.CouponVO" parameterType="kr.co.olympic.member.MemberVO">
+		SELECT * FROM coupon WHERE member_no=#{member_no}
+	</select>
+	
+	
 
 </mapper>
