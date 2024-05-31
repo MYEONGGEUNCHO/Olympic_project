@@ -9,15 +9,25 @@
 <!-- Editor's Style -->
 <link rel="stylesheet" href="https://uicdn.toast.com/editor/latest/toastui-editor.min.css" />
 <script>
+	let editor;
+	
 	$(function() {
-		const editor = new toastui.Editor({
+		editor = new toastui.Editor({
 			el : document.querySelector('#editor'), // 에디터를 적용할 요소 (컨테이너)
 			height : '500px', // 에디터 영역의 높이 값 (OOOpx || auto)
 			initialEditType : 'markdown', // 최초로 보여줄 에디터 타입 (markdown || wysiwyg)
 			initialValue : '내용을 입력해 주세요.', // 내용의 초기 값으로, 반드시 마크다운 문자열 형태여야 함
 			previewStyle : 'vertical' // 마크다운 프리뷰 스타일 (tab || vertical)
 		});
+
 	});
+	function printdiv() {
+// 		$("#printdiv").html(editor.getMarkdown());		
+		$("#printdiv").html(editor.getHTML());
+		console.log("HTML:", editor.getHTML());
+		console.log("Markdown:", editor.getMarkdown());
+		
+	}
 </script>
 </head>
 <body>
@@ -25,6 +35,8 @@
 	<form action="/qna/write.do" method="post">
 		<label> 에디터 적용 </label>
 		<div id="editor"></div>
+		<button type="button" onclick=printdiv()>입력</button>
+		<div id="printdiv"></div>
 	</form>
 </body>
 </html>

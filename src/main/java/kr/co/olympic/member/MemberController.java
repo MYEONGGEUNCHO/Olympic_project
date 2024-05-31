@@ -75,9 +75,9 @@ public class MemberController {
 		model.addAttribute("vo", service.detail(uv));
 		return "회원정보 수정페이지";
 	}
-	@PostMapping("")
+//	@PostMapping("")
 	
-}
+//}
 	
 	//이메일인증
 //	@GetMapping("/mailCheck")
