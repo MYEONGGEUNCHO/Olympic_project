@@ -1,5 +1,6 @@
 package kr.co.olympic.member;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -70,7 +71,8 @@ public class MemberController {
 	}
 	
 	@PostMapping("/member/edit.do")
-	public String edit(HttpSession sess, Model model) {
+	public String edit(HttpSession sess, Model model, HttpServletRequest request) {
+		
 		MemberVO uv = (MemberVO)sess.getAttribute("login");
 		model.addAttribute("vo", service.detail(uv));
 		return "회원정보 수정페이지";
