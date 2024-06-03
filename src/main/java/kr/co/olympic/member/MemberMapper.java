@@ -13,6 +13,8 @@ public interface MemberMapper {
 	int emailCheck(String email);
 	// 로그인
 	MemberVO login(MemberVO vo);
+	//이름, 이메일 유효성 검사
+	MemberVO checkEmail(MemberVO vo);
 	//비밀번호 찾기
 	int findPwd(MemberVO vo);
 	//비밀번호 확인

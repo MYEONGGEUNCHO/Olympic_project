@@ -23,17 +23,17 @@ public class MemberTest {
 	@Test
 	public void regist() {
 		MemberVO vo = new MemberVO();
-		vo.setEmail("test2@gmail.com");
+		vo.setEmail("test12@gmail.com");
 		vo.setPwd("test1234");
-		vo.setName("test2");
+		vo.setName("test12");
 		mapper.regist(vo);
 	}
 
 	@Test
 	public void login() {
 		MemberVO vo = new MemberVO();
-		vo.setEmail("test@gmail.com");
-		vo.setPwd("20011010");
+		vo.setEmail("test12@gmail.com");
+		vo.setPwd("test1234");
 		log.info(mapper.login(vo));
 	}
 	
@@ -46,8 +46,8 @@ public class MemberTest {
 	@Test
 	public void findPwd() {
 		MemberVO vo = new MemberVO();
-		vo.setEmail("test@gmail.com");
-		vo.setBirthday("20011010");
+		vo.setEmail("test2@gmail.com");
+		vo.setBirthday("2001-10-10");
 		mapper.findPwd(vo);
 	}
 	
@@ -60,27 +60,34 @@ public class MemberTest {
 	@Test
 	public void detail() {
 		MemberVO vo = new MemberVO();
-		vo.setMember_no(1);
+		vo.setMember_no("d62d43b2-0587-49df-9901-7ec3219164de");
 		mapper.detail(vo);
 	}
 	@Test
 	public void update() {
 		MemberVO vo = new MemberVO();
-		vo.setMember_no(5);
+		vo.setMember_no("");
 		vo.setPwd("test12345");
 		mapper.update(vo);
 	}
 	@Test
 	public void buy_membership() {
 		MemberVO vo = new MemberVO();
-		vo.setMember_no(5);
+		vo.setMember_no("d62d43b2-0587-49df-9901-7ec3219164de");
 		System.out.println(mapper.buy_membership(vo));
 	}
 	@Test
 	public void coupon_list() {
 		MemberVO vo = new MemberVO();
-		vo.setMember_no(5);
+		vo.setMember_no("d62d43b2-0587-49df-9901-7ec3219164de");
 		mapper.coupon_list(vo);
+	}
+	@Test
+	public void checkEmail() {
+		MemberVO vo = new MemberVO();
+		vo.setName("테스트");
+		vo.setEmail("test@gmail.com");
+		mapper.checkEmail(vo);
 	}
 	
 }

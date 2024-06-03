@@ -2,6 +2,7 @@ package kr.co.olympic.member;
 
 import java.sql.Timestamp;
 import java.util.List;
+import java.util.UUID;
 
 import kr.co.olympic.game.GameVO;
 import lombok.Data;
@@ -10,7 +11,7 @@ import lombok.Data;
 public class MemberVO {
 	
 	//회원 목록
-	private int member_no;
+	private String member_no;
 	private String email;
 	private String pwd;
 	private String name;
@@ -25,5 +26,9 @@ public class MemberVO {
 	private List<GameVO> favorite_game;
 	//쿠폰 목록
 	private List<CouponVO> coupon;
+	
+	public MemberVO() {
+	        this.member_no = UUID.randomUUID().toString();
+	}
 
 }
