@@ -4,11 +4,11 @@
 	<!-- 문의글 작성 -->
 	<insert id="write" parameterType="kr.co.olympic.qna.QnaVO">
 		INSERT INTO qna (
-		regdate, type, content, title, game_id,
+		regdate, type, content, title, game_id, readcnt
 		member_no
 		)
 		VALUES (
-		NOW(), #{type}, #{content}, #{title}, #{game_id},
+		NOW(), #{type}, #{content}, #{title}, #{game_id}, 0
 		#{member_no}
 		)
 		<selectKey order="AFTER" keyProperty="qna_no"
@@ -19,7 +19,7 @@
 	</insert>
 	<!-- 리스트 조회 경우의 수(기본 정렬은 번호 내림차순) 1. 전체 조회 2. 경기 문의 조회 3. 일반, 결제, 티켓 문의 
 		조회 4. 작성자에 따른 문의 조회 5. -->
-<!-- 		TODO: 조건 확인해야함 -->
+	<!-- TODO: 조건 확인해야함 -->
 	<sql id="searchQna">
 		<where>
 			<if test="game_id != null">
@@ -37,20 +37,30 @@
 			</if>
 		</where>
 	</sql>
-
+	<!-- 리스트 조회 -->
 	<select id="list" parameterType="map"
 		resultType="kr.co.olympic.qna.QnaVO">
 		SELECT * FROM qna
 		<include refid="searchQna" />
 		ORDER BY qna_no DESC
 	</select>
-
+	<!-- 개수 조회 -->
 	<select id="count" parameterType="Integer" resultType="Integer">
 		SELECT COUNT(*) FROM qna
 		<include refid="searchQna" />
 	</select>
 
-
+	<!-- 상세 페이지 조회 -->
+	<select id="detail" parameterType="kr.co.olympic.qna.QnaVO"
+		resultType="kr.co.olympic.qna.QnaVO">
+		SELECT * FROM qna
+		WHERE qna_no = #{qna_no}
+	</select>
+	<!-- 조회한 페이지 readcnt 증가 -->
+	<update id="updateReadCnt" parameterType="int">
+		UPDATE qna SET readcnt
+		= readcnt+1 WHERE qna_no = #{qna_no}
+	</update>
 	<!-- 답변 작성 -->
 	<update id="reply" parameterType="kr.co.olympic.qna.QnaVO">
 		UPDATE qna SET
@@ -58,5 +68,14 @@
 		#{reply}
 		WHERE qna_no=#{qna_no}
 	</update>
-
+	<!-- 게시글 수정 -->
+	<update id="update" parameterType="kr.co.olympic.qna.QnaVO">
+		UPDATE qna SET
+		update=NOW(), title=#{title}, content=#{content}
+		WHERE qna_no=#{qna_no}
+	</update>
+<!-- 	게시글 삭제 (첨부파일은 별도 mapper) -->
+	<delete id="delete" parameterType="int">
+		DELETE FROM qna WHERE qna_no=#{qna_no}
+	</delete>
 </mapper>

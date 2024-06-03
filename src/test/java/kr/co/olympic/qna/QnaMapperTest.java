@@ -28,7 +28,7 @@ public class QnaMapperTest {
 		vo.setType(1);
 		vo.setContent("내용임");
 		vo.setTitle("제목임");
-		vo.setMember_no(3333);
+		vo.setMember_no("3333");
 		qnaMapper.write(vo);
 	}
 	
@@ -57,6 +57,17 @@ public class QnaMapperTest {
 
 		log.debug(result);	
 	}
+	@Test
+	public void detail() {
+		QnaVO vo = qnaMapper.detail(30);
+		log.debug(vo);
+	}
+	
+	@Test
+	public void updateReadCnt() {
+		qnaMapper.updateReadCnt(30);
+	}
+	
 	/*
 	 * 실제로는 로그인한 유저의 memberVO를 받아오고
 	 * 해당 memberVO의 state를 체크해서 3인 경우에만 답변 작성

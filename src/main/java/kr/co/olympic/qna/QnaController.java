@@ -59,15 +59,44 @@ public class QnaController {
 			loginMember.setMember_no(121212); // 테스트용 데이터
 			loginMember.setName("테스트");
 		}
-
-//		QnaVO qnaVO = new QnaVO();
 //		qnaVO.setMember_no(loginMember.getMember_no());
-//		qnaVO.setContent(vo.getContent());
-//		qnaVO.setTitle(vo.getTitle());
-//		qnaVO.setType(vo.getType());
 
 		service.write(vo, request); // 파일 업로드가 없으므로 null 전달
 
 		return "redirect: qna/write";
 	}
+
+	@GetMapping("/qna/detail.do")
+	public String detailWithCnt(Model model, @RequestParam(value = "qna_no") Integer qna_no) {
+
+		model.addAttribute("qna", service.detailWithCnt(qna_no));
+		return "qna/detail";
+	}
+
+	@PostMapping("qna/delete.do")
+	public String delete(Model model, HttpSession session, QnaVO qnaVO) {
+		MemberVO loginMember = (MemberVO) session.getAttribute("login");
+		if (loginMember.getMember_no().equals(qnaVO.getMember_no())) {
+			service.delete(qnaVO);
+		} else {
+			model.addAttribute("msg", "본인이 작성한 게시글만 삭제가 가능합니다.");
+			model.addAttribute("url", "/qna/index.do");
+			return "common/alert.do";
+		}
+		return "qna/index.do";
+	}
+	
+	@PostMapping("qna/update.do")
+	public String update(Model model, HttpSession session, QnaVO qnaVO) {
+		MemberVO loginMember = (MemberVO) session.getAttribute("login");
+		if (loginMember.getMember_no().equals(qnaVO.getMember_no())) {
+			service.update(qnaVO);
+		} else {
+			model.addAttribute("msg", "본인이 작성한 게시글만 수정이 가능합니다.");
+			model.addAttribute("url", "/qna/index.do");
+			return "common/alert.do";
+		}
+		return "qna/index.do";
+	}
+
 }

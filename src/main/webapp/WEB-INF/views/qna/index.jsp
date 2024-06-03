@@ -29,7 +29,9 @@
 					<td>${item.qna_no}</td>
 					<td>${item.regdate}</td>
 					<td>${item.type}</td>
-					<td>${item.title}</td>
+					<td>
+						<a href="/qna/detail.do?qna_no=${item.qna_no }">${item.title}</a>
+					</td>
 					<td>${item.content}</td>
 					<td>${item.readcnt}</td>
 					<td>${item.reply}</td>
