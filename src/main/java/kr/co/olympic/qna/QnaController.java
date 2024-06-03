@@ -56,7 +56,8 @@ public class QnaController {
 		MemberVO loginMember = (MemberVO) session.getAttribute("login");
 		if (loginMember == null) {
 			loginMember = new MemberVO();
-			loginMember.setMember_no(""); // 테스트용 데이터
+
+			loginMember.setMember_no("testuuid"); // 테스트용 데이터
 			loginMember.setName("테스트");
 		}
 //		qnaVO.setMember_no(loginMember.getMember_no());
@@ -68,14 +69,18 @@ public class QnaController {
 
 	@GetMapping("/qna/detail.do")
 	public String detailWithCnt(Model model, @RequestParam(value = "qna_no") Integer qna_no) {
-
 		model.addAttribute("qna", service.detailWithCnt(qna_no));
 		return "qna/detail";
 	}
 
-	@PostMapping("qna/delete.do")
+	@PostMapping("/qna/delete.do")
 	public String delete(Model model, HttpSession session, QnaVO qnaVO) {
 		MemberVO loginMember = (MemberVO) session.getAttribute("login");
+		if (loginMember == null) {
+			loginMember = new MemberVO();
+			loginMember.setMember_no("abcdefg"); // 테스트용 데이터
+			loginMember.setName("테스트");
+		}
 		if (loginMember.getMember_no().equals(qnaVO.getMember_no())) {
 			service.delete(qnaVO);
 		} else {
@@ -83,10 +88,10 @@ public class QnaController {
 			model.addAttribute("url", "/qna/index.do");
 			return "common/alert.do";
 		}
-		return "qna/index.do";
+		return "qna/index";
 	}
 	
-	@PostMapping("qna/update.do")
+	@PostMapping("/qna/update.do")
 	public String update(Model model, HttpSession session, QnaVO qnaVO) {
 		MemberVO loginMember = (MemberVO) session.getAttribute("login");
 		if (loginMember.getMember_no().equals(qnaVO.getMember_no())) {
@@ -96,7 +101,10 @@ public class QnaController {
 			model.addAttribute("url", "/qna/index.do");
 			return "common/alert.do";
 		}
-		return "qna/index.do";
+		return "qna/index";
 	}
 
+	@GetMapping("/qna/write2.do")
+	public void write2() {
+	}
 }
