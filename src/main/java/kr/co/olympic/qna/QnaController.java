@@ -56,7 +56,7 @@ public class QnaController {
 		MemberVO loginMember = (MemberVO) session.getAttribute("login");
 		if (loginMember == null) {
 			loginMember = new MemberVO();
-			loginMember.setMember_no(121212); // 테스트용 데이터
+			loginMember.setMember_no(""); // 테스트용 데이터
 			loginMember.setName("테스트");
 		}
 //		qnaVO.setMember_no(loginMember.getMember_no());

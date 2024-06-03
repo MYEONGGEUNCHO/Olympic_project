@@ -5,19 +5,18 @@
 	<insert id="regist"
 		parameterType="kr.co.olympic.member.MemberVO">
 		INSERT INTO member (
+		member_no,
 		email, pwd, name,
 		phone, birthday, credate,
 		membership, point, state
 		)
 		VALUES (
+		#{member_no},
 		#{email}, MD5(#{pwd}), #{name},
 		#{phone}, #{birthday}, NOW(),
 		'common', 0, 0
 		)
-		<selectKey order="AFTER" keyProperty="member_no" resultType="int">
-			SELECT
-			LAST_INSERT_ID()
-		</selectKey>
+
 	</insert>
 	
 	<!-- 이메일 중복 조회 -->
@@ -31,13 +30,18 @@
 		SELECT * FROM member WHERE email=#{email} AND pwd = MD5(#{pwd}) AND state = 0
 	</select>
 	
+	<!-- 이름 이메일 유효성 검사 -->
+	<select id="checkEmail" parameterType="kr.co.olympic.member.MemberVO" resultType="kr.co.olympic.member.MemberVO">
+		SELECT * FROM member WHERE name=#{name} AND email = #{email}
+	</select>
+	
 	<!-- 비밀번호 찾기(초기화) -->
 	<update id="findPwd" parameterType="kr.co.olympic.member.MemberVO">
-		UPDATE member SET pwd = MD5(#{birthday})
+		UPDATE member SET pwd = MD5(REPLACE(DATE_FORMAT(#{birthday}, '%Y-%m-%d'), '-', ''))
 		WHERE email = #{email}
 	</update>
 	
-	<!-- 비밀번호 확인 -->
+	<!-- 비밀번호 확인(필요한가...?) -->
 	<select id="pwdCheck" parameterType="String" resultType="int">
 		SELECT COUNT(*) FROM member WHERE email = #{email} AND pwd = MD5(#{pwd})
 	</select>
@@ -84,6 +88,8 @@
 	<select id="coupon_list" resultType="kr.co.olympic.member.CouponVO" parameterType="kr.co.olympic.member.MemberVO">
 		SELECT * FROM coupon WHERE member_no=#{member_no}
 	</select>
+	
+	
 	
 	
 
