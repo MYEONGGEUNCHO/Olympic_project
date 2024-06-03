@@ -104,7 +104,7 @@ public class QnaController {
 		return "qna/index";
 	}
 
-	@GetMapping("/qna/write2.do")
-	public void write2() {
-	}
+//	@GetMapping("/qna/write2.do")
+//	public void write2() {
+//	}
 }

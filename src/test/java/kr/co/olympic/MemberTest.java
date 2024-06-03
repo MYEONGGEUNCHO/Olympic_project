@@ -60,42 +60,27 @@ public class MemberTest {
 	@Test
 	public void detail() {
 		MemberVO vo = new MemberVO();
-<<<<<<< HEAD
 		vo.setMember_no("d62d43b2-0587-49df-9901-7ec3219164de");
-=======
-		vo.setMember_no("1");
->>>>>>> stash
+
 		mapper.detail(vo);
 	}
 	@Test
 	public void update() {
 		MemberVO vo = new MemberVO();
-<<<<<<< HEAD
-		vo.setMember_no("");
-=======
 		vo.setMember_no("5");
->>>>>>> stash
 		vo.setPwd("test12345");
 		mapper.update(vo);
 	}
 	@Test
 	public void buy_membership() {
 		MemberVO vo = new MemberVO();
-<<<<<<< HEAD
 		vo.setMember_no("d62d43b2-0587-49df-9901-7ec3219164de");
-=======
-		vo.setMember_no("5");
->>>>>>> stash
 		System.out.println(mapper.buy_membership(vo));
 	}
 	@Test
 	public void coupon_list() {
 		MemberVO vo = new MemberVO();
-<<<<<<< HEAD
 		vo.setMember_no("d62d43b2-0587-49df-9901-7ec3219164de");
-=======
-		vo.setMember_no("5");
->>>>>>> stash
 		mapper.coupon_list(vo);
 	}
 	@Test

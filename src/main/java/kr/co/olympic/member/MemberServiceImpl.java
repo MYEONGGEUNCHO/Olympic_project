@@ -107,7 +107,7 @@ public class MemberServiceImpl implements MemberService {
 
 		message.setText(msgg, "utf-8", "html"); // 메일 내용, charset타입, subtype
 		// 보내는 사람의 이메일 주소, 보내는 사람 이름
-		message.setFrom(new InternetAddress("ywy2001@naver.com", "Olympic_Admin"));
+		message.setFrom(new InternetAddress("shdsearlybird@naver.com", "Olympic_Admin"));
 
 		// 출력 확인
 		System.out.println("********creatMessage 함수에서 생성된 msgg 메시지********" + msgg);
