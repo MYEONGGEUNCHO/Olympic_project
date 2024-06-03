@@ -33,13 +33,15 @@ $(document).ready(function() {
                     con = false;
                     return;
                 } else {
-	               	 $('#emailCheck').after(
-                         '<div id="authCodeInput" style="margin-top: 10px;">' +
-                         '<label for="authCode">인증 코드: </label>' +
-                         '<input type="text" id="authCode" name="authCode">' +
-                         '<button id="checkAuth" type="button">인증확인</button>'+
-                         '</div>'
-                     );
+                	 if ($('#authCodeInput').length === 0) {
+                         $('#emailCheck').after(
+                             '<div id="authCodeInput" style="margin-top: 10px;">' +
+                             '<label for="authCode">인증 코드: </label>' +
+                             '<input type="text" id="authCode" name="authCode">' +
+                             '<button id="checkAuth" type="button">인증확인</button>'+
+                             '</div>'
+                         );
+                     }
 	               	 
 	               	 $.ajax({
 	               		 url: '/olympic/member/mailCheck.do',
