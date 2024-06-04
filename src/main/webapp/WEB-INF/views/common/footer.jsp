@@ -140,12 +140,12 @@
 					<div class="col-auto">
 
 						<!-- Payment methods -->
-						<img class="footer-payment" src="../dist/assets//img/payment/mastercard.svg" alt="...">
-						<img class="footer-payment" src="../dist/assets//img/payment/visa.svg" alt="...">
-						<img class="footer-payment" src="../dist/assets//img/payment/amex.svg" alt="...">
-						<img class="footer-payment" src="../dist/assets//img/payment/paypal.svg" alt="...">
-						<img class="footer-payment" src="../dist/assets//img/payment/maestro.svg" alt="...">
-						<img class="footer-payment" src="../dist/assets//img/payment/klarna.svg" alt="...">
+						<img class="footer-payment" src="../dist/assets/img/payment/mastercard.svg" alt="...">
+						<img class="footer-payment" src="../dist/assets/img/payment/visa.svg" alt="...">
+						<img class="footer-payment" src="../dist/assets/img/payment/amex.svg" alt="...">
+						<img class="footer-payment" src="../dist/assets/img/payment/paypal.svg" alt="...">
+						<img class="footer-payment" src="../dist/assets/img/payment/maestro.svg" alt="...">
+						<img class="footer-payment" src="../dist/assets/img/payment/klarna.svg" alt="...">
 
 					</div>
 				</div>
@@ -155,10 +155,10 @@
 	
 		<!-- JAVASCRIPT -->
 	<!-- Map (replace the API key to enable) -->
-	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCnKt8_N4-FKOnhI_pSaDL7g_g-XI1-R9E"></script>
+<!-- 	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCnKt8_N4-FKOnhI_pSaDL7g_g-XI1-R9E"></script> -->
 
 	<!-- Vendor JS -->
-	<script src="../dist/assets//js/vendor.bundle.js"></script>
+	<script src="../dist/assets/js/vendor.bundle.js"></script>
 
 	<!-- Theme JS -->
-	<script src="../dist/assets//js/theme.bundle.js"></script>
+	<script src="../dist/assets/js/theme.bundle.js"></script>

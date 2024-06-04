@@ -247,7 +247,7 @@
 													<div class="card">
 
 														<!-- Image -->
-														<img class="card-img" src="./assets/img/products/product-110.jpg" alt="...">
+														<img class="card-img" src="../dist/assets/img/products/product-110.jpg" alt="...">
 
 														<!-- Overlay -->
 														<div class="card-img-overlay bg-dark-0 bg-hover align-items-center">

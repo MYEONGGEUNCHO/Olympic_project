@@ -1,6 +1,9 @@
 package kr.co.olympic.qna;
 
+import java.text.DateFormat;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -45,7 +48,15 @@ public class QnaController {
 	}
 
 	@GetMapping("/qna/write.do")
-	public String write() {
+	public String write(Model model, Locale locale) {
+//		System.out.println("####write get 요청 들어옴");
+		Date date = new Date();
+		DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.FULL, locale);
+
+		String formattedDate = dateFormat.format(date);
+
+		model.addAttribute("serverTime", formattedDate);
+
 		return "qna/write";
 	}
 
@@ -61,7 +72,7 @@ public class QnaController {
 			loginMember.setName("테스트");
 		}
 //		qnaVO.setMember_no(loginMember.getMember_no());
-
+//		System.out.println("########write post 요청 들어왔습니다.");
 		service.write(vo, request); // 파일 업로드가 없으므로 null 전달
 
 		return "redirect: qna/write";

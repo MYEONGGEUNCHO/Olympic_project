@@ -4,11 +4,11 @@
 	<!-- 문의글 작성 -->
 	<insert id="write" parameterType="kr.co.olympic.qna.QnaVO">
 		INSERT INTO qna (
-		regdate, type, content, title, game_id, readcnt
+		regdate, type, content, title, game_id, readcnt,
 		member_no
 		)
 		VALUES (
-		NOW(), #{type}, #{content}, #{title}, #{game_id}, 0
+		NOW(), #{type}, #{content}, #{title}, #{game_id}, 0,
 		#{member_no}
 		)
 		<selectKey order="AFTER" keyProperty="qna_no"

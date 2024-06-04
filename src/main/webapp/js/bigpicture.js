@@ -6,24 +6,24 @@ import BigPicture from 'bigpicture';
 
 const toggles = document.querySelectorAll('[data-bigpicture]');
 
-toggles.forEach(function (toggle) {
-  toggle.addEventListener('click', function (e) {
-    e.preventDefault();
+toggles.forEach(function(toggle) {
+	toggle.addEventListener('click', function(e) {
+		e.preventDefault();
 
-    const elementOptions = JSON.parse(toggle.dataset.bigpicture);
+		const elementOptions = JSON.parse(toggle.dataset.bigpicture);
 
-    const defaultOptions = {
-      el: toggle,
-      noLoader: true,
-    };
+		const defaultOptions = {
+			el: toggle,
+			noLoader: true,
+		};
 
-    const options = {
-      ...defaultOptions,
-      ...elementOptions,
-    };
+		const options = {
+			...defaultOptions,
+			...elementOptions,
+		};
 
-    BigPicture(options);
-  });
+		BigPicture(options);
+	});
 });
 
 window.BigPicture = BigPicture;
