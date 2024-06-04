@@ -59,13 +59,14 @@ public class QnaMapperTest {
 	}
 	@Test
 	public void detail() {
-		QnaVO vo = qnaMapper.detail(30);
+		QnaVO vo = qnaMapper.detail(12);
+		updateReadCnt();
 		log.debug(vo);
 	}
 	
 	@Test
 	public void updateReadCnt() {
-		qnaMapper.updateReadCnt(30);
+		qnaMapper.updateReadCnt(12);
 	}
 	
 	/*

@@ -5,7 +5,12 @@
 <head>
 <meta charset="UTF-8">
 <title>QNA 상세 페이지 테스트</title>
+<script>
+
+</script>
+
 </head>
+
 <body>
 	<div>
 		<h1>${qna.title }</h1>
@@ -36,12 +41,12 @@
 
 		</table>
 		
-		<button type="button">
+		<a href="/qna/update.do">
 		수정하기
-		</button>
-		<button type="button">
+		</a>
+		<a href="/qna/delete.do">
 		삭제하기
-		</button>
+		</a>
 		
 	</div>
 </body>

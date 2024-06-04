@@ -57,7 +57,7 @@
 		WHERE qna_no = #{qna_no}
 	</select>
 	<!-- 조회한 페이지 readcnt 증가 -->
-	<update id="updateReadCnt" parameterType="int">
+	<update id="updateReadCnt" parameterType="kr.co.olympic.qna.QnaVO">
 		UPDATE qna SET readcnt
 		= readcnt+1 WHERE qna_no = #{qna_no}
 	</update>

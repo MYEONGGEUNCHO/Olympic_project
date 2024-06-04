@@ -1,0 +1,98 @@
+<nav class="navbar navbar-expand-lg navbar-light {{classList}}">
+  <div class="container">
+
+    <!-- Brand -->
+    <a class="navbar-brand" href="{{webRoot}}/overview.html">
+      Shopper.
+    </a>
+
+    <!-- Toggler -->
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <!-- Collapse -->
+    <div class="collapse navbar-collapse" id="navbarCollapse">
+
+      <!-- Nav -->
+      <ul class="navbar-nav mx-auto">
+        <li class="nav-item dropdown">
+
+          <!-- Toggle -->
+          <a class="nav-link" data-bs-toggle="dropdown" href="#">Home</a>
+
+          <!-- Menu -->
+          {{> dropdowns/dropdown-home}}
+
+        </li>
+        <li class="nav-item dropdown position-static">
+
+          <!-- Toggle -->
+          <a class="nav-link" data-bs-toggle="dropdown" href="#">Catalog</a>
+
+          <!-- Menu -->
+          {{> dropdowns/dropdown-catalog}}
+
+        </li>
+        <li class="nav-item dropdown">
+
+          <!-- Toggle -->
+          <a class="nav-link" data-bs-toggle="dropdown" href="#">Shop</a>
+
+          <!-- Menu -->
+          {{> dropdowns/dropdown-shop}}
+
+        </li>
+        <li class="nav-item dropdown">
+
+          <!-- Toggle -->
+          <a class="nav-link" data-bs-toggle="dropdown" href="#">Pages</a>
+
+          <!-- Menu -->
+          {{> dropdowns/dropdown-pages}}
+
+        </li>
+        <li class="nav-item dropdown">
+
+          <!-- Toggle -->
+          <a class="nav-link" data-bs-toggle="dropdown" href="#">Blog</a>
+
+          <!-- Menu -->
+          {{> dropdowns/dropdown-blog}}
+
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="docs/getting-started.html">Docs</a>
+        </li>
+      </ul>
+
+      <!-- Nav -->
+      <ul class="navbar-nav flex-row">
+        <li class="nav-item">
+          <a class="nav-link" data-bs-toggle="offcanvas" href="#modalSearch">
+            <i class="fe fe-search"></i>
+          </a>
+        </li>
+        <li class="nav-item ms-lg-n4">
+          <a class="nav-link" href="{{webRoot}}/account-orders.html">
+            <i class="fe fe-user"></i>
+          </a>
+        </li>
+        <li class="nav-item ms-lg-n4">
+          <a class="nav-link" href="{{webRoot}}/account-wishlist.html">
+            <i class="fe fe-heart"></i>
+          </a>
+        </li>
+        <li class="nav-item ms-lg-n4">
+          <a class="nav-link" data-bs-toggle="offcanvas" href="#modalShoppingCart">
+            <span data-cart-items="2">
+              <i class="fe fe-shopping-cart"></i>
+            </span>
+          </a>
+        </li>
+      </ul>
+
+    </div>
+
+  </div>
+</nav>

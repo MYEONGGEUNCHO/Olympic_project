@@ -61,12 +61,13 @@ public class MemberTest {
 	public void detail() {
 		MemberVO vo = new MemberVO();
 		vo.setMember_no("d62d43b2-0587-49df-9901-7ec3219164de");
+
 		mapper.detail(vo);
 	}
 	@Test
 	public void update() {
 		MemberVO vo = new MemberVO();
-		vo.setMember_no("");
+		vo.setMember_no("5");
 		vo.setPwd("test12345");
 		mapper.update(vo);
 	}
