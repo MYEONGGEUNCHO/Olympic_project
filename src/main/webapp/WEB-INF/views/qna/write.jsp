@@ -3,10 +3,11 @@
 <!doctype html>
 <html lang="ko">
 <head>
+<script src="../js/jquery-3.7.1.min.js"></script>
+
 <script src="https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js"></script>
 <!-- Editor's Style -->
 <link rel="stylesheet" href="https://uicdn.toast.com/editor/latest/toastui-editor.min.css" />
-<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 
 <script>
 	let editor;
@@ -28,11 +29,11 @@
 		});
 		
 	});
-	function printdiv() {
+	function qna_write() {
 // 		$("#printdiv").html(editor.getMarkdown());		
 // 		$("#printdiv").html(editor.getHTML());
-		console.log("HTML:", editor.getHTML());
-		console.log("Markdown:", editor.getMarkdown());
+// 		console.log("HTML:", editor.getHTML());
+// 		console.log("Markdown:", editor.getMarkdown());
 		const inner_html = editor.getHTML();
 		$.ajax({
 			type: 'POST',
@@ -105,14 +106,14 @@
 
 						<!-- 제목 -->
 						<div class="form-group">
-							<input class="form-control form-control-sm" name="title" id="contactTitle" type="text" placeholder="제목" required>
+							<input class="form-control form-control-sm" name="title" id="title" type="text" placeholder="제목" required>
 						</div>
 
 						<!-- 내용 -->
 						<div class="form-group mb-7" id="editor"></div>
 
 						<!-- Button -->
-						<button class="btn btn-dark">입력하기</button>
+						<button class="btn btn-dark" onclick="qna_write()">입력하기</button>
 
 					</form>
 
