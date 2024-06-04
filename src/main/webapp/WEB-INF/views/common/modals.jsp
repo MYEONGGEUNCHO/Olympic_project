@@ -1,24 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-
-<!DOCTYPE HTML>
-<html>
-<head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-
-<!-- Favicon -->
-<link rel="shortcut icon" href="./assets/favicon/favicon.ico" type="image/x-icon" />
-
-<!-- Libs CSS -->
-<link rel="stylesheet" href="./assets/css/libs.bundle.css" />
-
-<!-- Theme CSS -->
-<link rel="stylesheet" href="./assets/css/theme.bundle.css" />
-
-<!-- Title -->
-<title>Shopper</title>
-</head>
-<body>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 
 	<!-- MODALS -->
 	<!-- Newsletter: Horizontal -->
@@ -36,7 +17,7 @@
 					<div class="col-12 col-lg-5">
 
 						<!-- Image -->
-						<img class="img-fluid" src="./assets/img/covers/cover-25.jpg" alt="...">
+						<img class="img-fluid" src="../assets/img/covers/cover-25.jpg" alt="...">
 
 					</div>
 					<div class="col-12 col-lg-7 d-flex flex-column px-md-8">
@@ -108,7 +89,7 @@
 				</button>
 
 				<!-- Body -->
-				<div class="modal-body mt-2 me-2 ms-2 py-10 bg-cover text-center text-white" style="background-image: url(./assets/img/covers/cover-26.jpg);">
+				<div class="modal-body mt-2 me-2 ms-2 py-10 bg-cover text-center text-white" style="background-image: url(../assets/img/covers/cover-26.jpg);">
 
 					<!-- Heading -->
 					<h4>Subscribe to Newsletter and get 15% Discount</h4>
@@ -221,7 +202,7 @@
 						<div class="col-12 col-lg-6 col-xl-5 py-4 py-xl-0 px-xl-0">
 
 							<!-- Image -->
-							<img class="img-fluid" src="./assets/img/products/product-7.jpg" alt="...">
+							<img class="img-fluid" src="../assets/img/products/product-7.jpg" alt="...">
 
 							<!-- Button -->
 							<a class="btn btn-sm w-100 btn-primary" href="./product.html">
@@ -252,10 +233,10 @@
 									<!-- Radio -->
 									<div class="mb-8 ms-n1">
 										<div class="form-check form-check-inline form-check-img">
-											<input type="radio" class="form-check-input" id="modalProductColorOne" name="modalProductColor" data-toggle="form-caption" data-target="#modalProductColorCaption" value="White" style="background-image: url(./assets/img/products/product-7.jpg);" checked>
+											<input type="radio" class="form-check-input" id="modalProductColorOne" name="modalProductColor" data-toggle="form-caption" data-target="#modalProductColorCaption" value="White" style="background-image: url(../assets/img/products/product-7.jpg);" checked>
 										</div>
 										<div class="form-check form-check-inline form-check-img">
-											<input type="radio" class="form-check-input" id="modalProductColorTwo" name="modalProductColor" data-toggle="form-caption" data-target="#modalProductColorCaption" value="Black" style="background-image: url(./assets/img/products/product-49.jpg);">
+											<input type="radio" class="form-check-input" id="modalProductColorTwo" name="modalProductColor" data-toggle="form-caption" data-target="#modalProductColorCaption" value="Black" style="background-image: url(../assets/img/products/product-49.jpg);">
 										</div>
 									</div>
 
@@ -417,7 +398,7 @@
 				<div class="col-4 col-md-3">
 
 					<!-- Image -->
-					<img class="img-fluid" src="./assets/img/products/product-5.jpg" alt="...">
+					<img class="img-fluid" src="../assets/img/products/product-5.jpg" alt="...">
 
 				</div>
 				<div class="col position-static">
@@ -435,7 +416,7 @@
 				<div class="col-4 col-md-3">
 
 					<!-- Image -->
-					<img class="img-fluid" src="./assets/img/products/product-6.jpg" alt="...">
+					<img class="img-fluid" src="../assets/img/products/product-6.jpg" alt="...">
 
 				</div>
 				<div class="col position-static">
@@ -453,7 +434,7 @@
 				<div class="col-4 col-md-3">
 
 					<!-- Image -->
-					<img class="img-fluid" src="./assets/img/products/product-7.jpg" alt="...">
+					<img class="img-fluid" src="../assets/img/products/product-7.jpg" alt="...">
 
 				</div>
 				<div class="col position-static">
@@ -471,7 +452,7 @@
 				<div class="col-4 col-md-3">
 
 					<!-- Image -->
-					<img class="img-fluid" src="./assets/img/products/product-8.jpg" alt="...">
+					<img class="img-fluid" src="../assets/img/products/product-8.jpg" alt="...">
 
 				</div>
 				<div class="col position-static">
@@ -489,7 +470,7 @@
 				<div class="col-4 col-md-3">
 
 					<!-- Image -->
-					<img class="img-fluid" src="./assets/img/products/product-9.jpg" alt="...">
+					<img class="img-fluid" src="../assets/img/products/product-9.jpg" alt="...">
 
 				</div>
 				<div class="col position-static">
@@ -547,7 +528,7 @@
 
 						<!-- Image -->
 						<a href="./product.html">
-							<img class="img-fluid" src="./assets/img/products/product-6.jpg" alt="...">
+							<img class="img-fluid" src="../assets/img/products/product-6.jpg" alt="...">
 						</a>
 
 					</div>
@@ -586,7 +567,7 @@
 
 						<!-- Image -->
 						<a href="./product.html">
-							<img class="img-fluid" src="./assets/img/products/product-10.jpg" alt="...">
+							<img class="img-fluid" src="../assets/img/products/product-10.jpg" alt="...">
 						</a>
 
 					</div>
@@ -1326,7 +1307,7 @@
 
 							<!-- Image -->
 							<a href="./product.html">
-								<img class="img-fluid mb-7 mb-md-0" src="./assets/img/products/product-6.jpg" alt="...">
+								<img class="img-fluid mb-7 mb-md-0" src="../assets/img/products/product-6.jpg" alt="...">
 							</a>
 
 						</div>
@@ -1424,434 +1405,3 @@
 
 		</div>
 	</div>
-
-	<!-- NAVBAR -->
-	<div class="navbar navbar-topbar navbar-expand-xl navbar-light bg-light">
-		<div class="container">
-
-			<!-- Promo -->
-			<div class="me-xl-8">
-				<i class="fe fe-truck me-2"></i>
-				<span class="heading-xxxs">Free shipping worldwide</span>
-			</div>
-
-			<!-- Toggler -->
-			<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#topbarCollapse" aria-controls="topbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
-				<span class="navbar-toggler-icon"></span>
-			</button>
-
-			<!-- Collapse -->
-			<div class="collapse navbar-collapse" id="topbarCollapse">
-
-				<!-- Nav -->
-				<ul class="nav nav-divided navbar-nav me-auto">
-					<li class="nav-item dropdown">
-
-						<!-- Toggle -->
-						<a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#">
-							<img class="mb-1 me-1" src="./assets/img/flags/usa.svg" alt="..." />
-							United States
-						</a>
-
-						<!-- Menu -->
-						<div class="dropdown-menu min-w-0">
-							<a class="dropdown-item" href="#!">
-								<img class="mb-1 me-2" src="./assets/img/flags/usa.svg" alt="USA">
-								United States
-							</a>
-							<a class="dropdown-item" href="#!">
-								<img class="mb-1 me-2" src="./assets/img/flags/canada.svg" alt="Canada">
-								Canada
-							</a>
-							<a class="dropdown-item" href="#!">
-								<img class="mb-1 me-2" src="./assets/img/flags/germany.svg" alt="Germany">
-								Germany
-							</a>
-						</div>
-
-					</li>
-					<li class="nav-item dropdown">
-
-						<!-- Toggle -->
-						<a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#">USD</a>
-
-						<!-- Menu -->
-						<div class="dropdown-menu min-w-0">
-							<a class="dropdown-item" href="#!">USD</a>
-							<a class="dropdown-item" href="#!">EUR</a>
-						</div>
-
-					</li>
-					<li class="nav-item dropdown">
-
-						<!-- Toggle -->
-						<a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#">English</a>
-
-						<!-- Menu -->
-						<div class="dropdown-menu min-w-0">
-							<a class="dropdown-item" href="#">English</a>
-							<a class="dropdown-item" href="#">French</a>
-							<a class="dropdown-item" href="#">German</a>
-						</div>
-
-					</li>
-				</ul>
-
-				<!-- Nav -->
-				<ul class="nav navbar-nav me-8">
-					<li class="nav-item">
-						<a class="nav-link" href="./shipping-and-returns.html">Shipping</a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link" href="./faq.html">FAQ</a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link" href="./contact-us.html">Contact</a>
-					</li>
-				</ul>
-
-				<!-- Nav -->
-				<ul class="nav navbar-nav flex-row">
-					<li class="nav-item">
-						<a class="nav-link text-gray-350" href="#!">
-							<i class="fab fa-facebook-f"></i>
-						</a>
-					</li>
-					<li class="nav-item ms-xl-n4">
-						<a class="nav-link text-gray-350" href="#!">
-							<i class="fab fa-twitter"></i>
-						</a>
-					</li>
-					<li class="nav-item ms-xl-n4">
-						<a class="nav-link text-gray-350" href="#!">
-							<i class="fab fa-instagram"></i>
-						</a>
-					</li>
-					<li class="nav-item ms-xl-n4">
-						<a class="nav-link text-gray-350" href="#!">
-							<i class="fab fa-medium"></i>
-						</a>
-					</li>
-				</ul>
-
-			</div>
-		</div>
-	</div>
-
-	<!-- NAVBAR -->
-
-	<%@include file="views/common/header.jsp">
-
-	<!-- BREADCRUMB -->
-	<nav class="py-5">
-		<div class="container">
-			<div class="row">
-				<div class="col-12">
-
-					<!-- Breadcrumb -->
-					<ol class="breadcrumb mb-0 fs-xs text-gray-400">
-						<li class="breadcrumb-item">
-							<a class="text-gray-400" href="index.html">Home</a>
-						</li>
-						<li class="breadcrumb-item active">Contact Us</li>
-					</ol>
-
-				</div>
-			</div>
-		</div>
-	</nav>
-
-	<!-- CONTENT -->
-	<section class="pt-7 pb-12">
-		<div class="container">
-			<div class="row">
-				<div class="col-12">
-
-					<!-- Heading -->
-					<h3 class="mb-10 text-center">Contact Us</h3>
-
-				</div>
-			</div>
-			<div class="row justify-content-between">
-				<div class="col-12 col-md-4 col-xl-3">
-					<aside class="mb-9 mb-md-0">
-
-						<!-- Heading -->
-						<h6 class="mb-6">
-							<i class="fe fe-phone text-primary me-4"></i> Call to Us:
-						</h6>
-
-						<!-- Text -->
-						<p class="text-gray-500">We're available from 10 am - 10 pm EST, 7 days a week.</p>
-						<p>
-							<strong>Customer Service:</strong><br>
-							<a class="text-gray-500" href="tel:60146-389-574">6-146-389-574</a>
-						</p>
-						<p class="mb-0">
-							<strong>Careers:</strong><br>
-							<a class="text-gray-500" href="tel:60146-389-574">6-146-389-574</a>
-						</p>
-
-						<!-- Divider -->
-						<hr>
-
-						<!-- Heading -->
-						<h6 class="mb-6">
-							<i class="fe fe-mail text-primary me-4"></i> Write to Us:
-						</h6>
-
-						<!-- Text -->
-						<p class="text-gray-500">Fill out our form and we will contact you within 24 hours.</p>
-						<p>
-							<strong>Customer Service:</strong><br>
-							<a class="text-gray-500" href="mailto:customer@example.com">customer@example.com</a>
-						</p>
-						<p class="mb-0">
-							<strong>Careers:</strong><br>
-							<a class="text-gray-500" href="mailto:careers@example.com">careers@example.com</a>
-						</p>
-
-						<!-- Divider -->
-						<hr>
-
-						<!-- Heading -->
-						<h6 class="mb-6">
-							<i class="fe fe-mail text-primary me-4"></i> Find Us:
-						</h6>
-
-						<!-- Text -->
-						<p class="mb-0 text-gray-500">Want to visit our Offline Stores?</p>
-
-						<!-- Button -->
-						<p class="mb-0">
-							<a class="btn btn-link px-0 text-body" href="store-locator.html">
-								Go to Store Locator <i class="fe fe-arrow-right ms-2"></i>
-							</a>
-						</p>
-
-					</aside>
-				</div>
-				<div class="col-12 col-md-8">
-
-					<!-- Form -->
-					<form>
-
-						<!-- Email -->
-						<div class="form-group">
-							<label class="visually-hidden" for="contactName"> Your Name * </label>
-							<input class="form-control form-control-sm" id="contactName" type="text" placeholder="Your Name *" required>
-						</div>
-
-						<!-- Email -->
-						<div class="form-group">
-							<label class="visually-hidden" for="contactEmail"> Your Email * </label>
-							<input class="form-control form-control-sm" id="contactEmail" type="email" placeholder="Your Email *" required>
-						</div>
-
-						<!-- Email -->
-						<div class="form-group">
-							<label class="visually-hidden" for="contactTitle"> Title * </label>
-							<input class="form-control form-control-sm" id="contactTitle" type="text" placeholder="Title *" required>
-						</div>
-
-						<!-- Email -->
-						<div class="form-group mb-7">
-							<label class="visually-hidden" for="contactMessage"> Message * </label>
-							<textarea class="form-control form-control-sm" id="contactMessage" rows="5" placeholder="Message *" required></textarea>
-						</div>
-
-						<!-- Button -->
-						<button class="btn btn-dark">Send Message</button>
-
-					</form>
-
-				</div>
-			</div>
-		</div>
-	</section>
-
-	<!-- FOOTER -->
-	<footer class="bg-dark bg-cover " style="background-image: url(./assets/img/patterns/pattern-2.svg)">
-		<div class="py-12 border-bottom border-gray-700">
-			<div class="container">
-				<div class="row justify-content-center">
-					<div class="col-12 col-md-10 col-lg-8 col-xl-6">
-
-						<!-- Heading -->
-						<h5 class="mb-7 text-center text-white">Want style Ideas and Treats?</h5>
-
-						<!-- Form -->
-						<form class="mb-11">
-							<div class="row gx-5 align-items-start">
-								<div class="col">
-									<input type="email" class="form-control form-control-gray-700 form-control-lg" placeholder="Enter Email *">
-								</div>
-								<div class="col-auto">
-									<button type="submit" class="btn btn-gray-500 btn-lg">Subscribe</button>
-								</div>
-							</div>
-						</form>
-
-					</div>
-				</div>
-				<div class="row">
-					<div class="col-12 col-md-3">
-
-						<!-- Heading -->
-						<h4 class="mb-6 text-white">Shopper.</h4>
-
-						<!-- Social -->
-						<ul class="list-unstyled list-inline mb-7 mb-md-0">
-							<li class="list-inline-item">
-								<a href="#!" class="text-gray-350">
-									<i class="fab fa-facebook-f"></i>
-								</a>
-							</li>
-							<li class="list-inline-item">
-								<a href="#!" class="text-gray-350">
-									<i class="fab fa-youtube"></i>
-								</a>
-							</li>
-							<li class="list-inline-item">
-								<a href="#!" class="text-gray-350">
-									<i class="fab fa-twitter"></i>
-								</a>
-							</li>
-							<li class="list-inline-item">
-								<a href="#!" class="text-gray-350">
-									<i class="fab fa-instagram"></i>
-								</a>
-							</li>
-							<li class="list-inline-item">
-								<a href="#!" class="text-gray-350">
-									<i class="fab fa-medium"></i>
-								</a>
-							</li>
-						</ul>
-
-					</div>
-					<div class="col-6 col-sm">
-
-						<!-- Heading -->
-						<h6 class="heading-xxs mb-4 text-white">Support</h6>
-
-						<!-- Links -->
-						<ul class="list-unstyled mb-7 mb-sm-0">
-							<li>
-								<a class="text-gray-300" href="./contact-us.html">Contact Us</a>
-							</li>
-							<li>
-								<a class="text-gray-300" href="./faq.html">FAQs</a>
-							</li>
-							<li>
-								<a class="text-gray-300" data-bs-toggle="modal" href="#modalSizeChart">Size Guide</a>
-							</li>
-							<li>
-								<a class="text-gray-300" href="./shipping-and-returns.html">Shipping & Returns</a>
-							</li>
-						</ul>
-
-					</div>
-					<div class="col-6 col-sm">
-
-						<!-- Heading -->
-						<h6 class="heading-xxs mb-4 text-white">Shop</h6>
-
-						<!-- Links -->
-						<ul class="list-unstyled mb-7 mb-sm-0">
-							<li>
-								<a class="text-gray-300" href="./shop.html">Men's Shopping</a>
-							</li>
-							<li>
-								<a class="text-gray-300" href="./shop.html">Women's Shopping</a>
-							</li>
-							<li>
-								<a class="text-gray-300" href="./shop.html">Kids' Shopping</a>
-							</li>
-							<li>
-								<a class="text-gray-300" href="./shop.html">Discounts</a>
-							</li>
-						</ul>
-
-					</div>
-					<div class="col-6 col-sm">
-
-						<!-- Heading -->
-						<h6 class="heading-xxs mb-4 text-white">Company</h6>
-
-						<!-- Links -->
-						<ul class="list-unstyled mb-0">
-							<li>
-								<a class="text-gray-300" href="./about.html">Our Story</a>
-							</li>
-							<li>
-								<a class="text-gray-300" href="#!">Careers</a>
-							</li>
-							<li>
-								<a class="text-gray-300" href="#!">Terms & Conditions</a>
-							</li>
-							<li>
-								<a class="text-gray-300" href="#!">Privacy & Cookie policy</a>
-							</li>
-						</ul>
-
-					</div>
-					<div class="col-6 col-sm">
-
-						<!-- Heading -->
-						<h6 class="heading-xxs mb-4 text-white">Contact</h6>
-
-						<!-- Links -->
-						<ul class="list-unstyled mb-0">
-							<li>
-								<a class="text-gray-300" href="#!">1-202-555-0105</a>
-							</li>
-							<li>
-								<a class="text-gray-300" href="#!">1-202-555-0106</a>
-							</li>
-							<li>
-								<a class="text-gray-300" href="#!">help@shopper.com</a>
-							</li>
-						</ul>
-
-					</div>
-				</div>
-			</div>
-		</div>
-		<div class="py-6">
-			<div class="container">
-				<div class="row">
-					<div class="col">
-
-						<!-- Copyright -->
-						<p class="mb-3 mb-md-0 fs-xxs text-muted">© 2019 All rights reserved. Designed by Unvab.</p>
-
-					</div>
-					<div class="col-auto">
-
-						<!-- Payment methods -->
-						<img class="footer-payment" src="./assets/img/payment/mastercard.svg" alt="...">
-						<img class="footer-payment" src="./assets/img/payment/visa.svg" alt="...">
-						<img class="footer-payment" src="./assets/img/payment/amex.svg" alt="...">
-						<img class="footer-payment" src="./assets/img/payment/paypal.svg" alt="...">
-						<img class="footer-payment" src="./assets/img/payment/maestro.svg" alt="...">
-						<img class="footer-payment" src="./assets/img/payment/klarna.svg" alt="...">
-
-					</div>
-				</div>
-			</div>
-		</div>
-	</footer>
-
-	<!-- JAVASCRIPT -->
-	<!-- Map (replace the API key to enable) -->
-	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCnKt8_N4-FKOnhI_pSaDL7g_g-XI1-R9E"></script>
-
-	<!-- Vendor JS -->
-	<script src="./assets/js/vendor.bundle.js"></script>
-
-	<!-- Theme JS -->
-	<script src="./assets/js/theme.bundle.js"></script>
-
-</body>
-</html>

@@ -90,7 +90,7 @@ public class QnaController {
 		}
 		return "qna/index";
 	}
-	
+
 	@PostMapping("/qna/update.do")
 	public String update(Model model, HttpSession session, QnaVO qnaVO) {
 		MemberVO loginMember = (MemberVO) session.getAttribute("login");
@@ -104,7 +104,7 @@ public class QnaController {
 		return "qna/index";
 	}
 
-//	@GetMapping("/qna/write2.do")
-//	public void write2() {
-//	}
+	@GetMapping("/qna/write2.do")
+	public void write2() {
+	}
 }

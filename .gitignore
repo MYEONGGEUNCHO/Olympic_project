@@ -1,3 +1,11 @@
+# https://git-scm.com/docs/gitignore
+# Front-end : npm, bootstrap 관련
+.DS_Store
+debug.log
+dist/
+node_modules/
+
+
 # Compiled class file
 *.class
 
