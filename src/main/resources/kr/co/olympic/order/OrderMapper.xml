@@ -1,32 +1,82 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="kr.co.olympic.member.MemberMapper">
-	<insert id="regist"
-		parameterType="kr.co.olympic.member.MemberVO">
-		INSERT INTO MEMBER (
-		email, pwd, name,
-		gender, birthday, hp,
-		zipcode, addr1, addr2,
-		regdate, state
-		)
-		VALUES (
-		#{email}, MD5(#{pwd}), #{name},
-		#{gender}, #{birthday}, #{hp},
-		#{zipcode}, #{addr1}, #{addr2},
-		NOW(), #{state}
-		)
-		<selectKey order="AFTER" keyProperty="no" resultType="int">
-			SELECT
-			LAST_INSERT_ID()
-		</selectKey>
-	</insert>
-	<select id="emailCheck" parameterType="String" resultType="int">
-		SELECT COUNT(*) FROM member WHERE email=#{email}
-	</select>
+<mapper namespace="kr.co.olympic.order.OrderMapper">
+    <!-- 결제 버튼을 눌렀을 때 주문 정보를 ready 상태로 DB에 삽입 -->
+    <insert id="insertOrder" parameterType="kr.co.olympic.order.OrderVO">
+        INSERT INTO `order` (
+            order_no, buy_date, state, member_no,
+            item_no, game_id, coupon_no, imp_uid,
+            real_price, original_price, point
+        )
+        VALUES (
+            #{order_no}, NOW(), 'ready', #{member_no}, 
+            #{item_no}, #{game_id}, #{coupon_no}, #{imp_uid},
+            #{real_price}, #{original_price}, #{point}
+        );
+    </insert>
+    
+    <!-- 매개변수로 받은 OrderVO의 order_no에 해당하는 데이터를 찾아서 전달받은 imp_uid를 삽입  -->
+    <insert id="insertUid" parameterType="kr.co.olympic.order.OrderVO">
+        UPDATE `order`
+        SET imp_uid = #{imp_uid}
+        WHERE order_no = #{order_no};
+    </insert>
+    
+    <!-- 새로운 메서드 추가: imp_uid로 주문 정보 가져오기 -->
+    <select id="getOrderByImpUid" parameterType="String" resultType="kr.co.olympic.order.OrderVO">
+        SELECT *
+        FROM `order`
+        WHERE imp_uid = #{imp_uid};
+    </select>
 
-	<select id="login" parameterType="kr.co.olympic.member.MemberVO"
-		resultType="kr.co.olympic.member.MemberVO">
-		SELECT * FROM member WHERE email=#{email} AND pwd = MD5(#{pwd})
-	</select>
+    <!-- 기존 주문 데이터의 상태를 paid로 업데이트 -->
+    <update id="updateOrderStateToPaid" parameterType="kr.co.olympic.order.OrderVO">
+        UPDATE `order`
+        SET state = 'paid'
+        WHERE order_no = #{order_no};
+    </update>
 
+    <!-- 주문 정보를 ID로 조회 -->
+    <select id="getOrderById" parameterType="String" resultType="kr.co.olympic.order.OrderVO">
+        SELECT *
+        FROM `order`
+        WHERE order_no = #{order_no}
+    </select>
+
+    <!-- 특정 회원의 모든 주문 정보 조회 -->
+    <select id="getOrdersByMember" parameterType="kr.co.olympic.member.MemberVO" resultType="kr.co.olympic.order.OrderVO">
+        SELECT *
+        FROM `order`
+        WHERE member_no = #{member_no}
+    </select>
+
+    <!-- 주문 정보 업데이트 (일반 업데이트) -->
+    <update id="updateOrder" parameterType="kr.co.olympic.order.OrderVO">
+        UPDATE `order`
+        SET buy_date = #{buy_date}, state = #{state}, imp_uid = #{imp_uid},
+            real_price = #{real_price}, original_price = #{original_price}, point = #{point}
+        WHERE order_no = #{order_no};
+    </update>
+
+    <!-- 주문 정보 삭제 -->
+    <delete id="deleteOrder" parameterType="String">
+        DELETE FROM `order`
+        WHERE order_no = #{order_no};
+    </delete>
+    
+    <!-- 페이징 처리된 최신순 주문 내역 조회 -->
+    <select id="getOrdersByMemberPaged" parameterType="map" resultType="kr.co.olympic.order.OrderVO">
+        SELECT *
+        FROM `order`
+        WHERE member_no = #{member.member_no}
+        ORDER BY buy_date DESC
+        LIMIT #{limit} OFFSET #{offset}
+    </select>
+    
+    <!-- 특정 회원의 전체 주문 개수 조회 -->
+    <select id="getTotalOrdersByMember" parameterType="kr.co.olympic.member.MemberVO" resultType="int">
+        SELECT COUNT(*)
+        FROM `order`
+        WHERE member_no = #{member_no}
+    </select>
 </mapper>
