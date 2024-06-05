@@ -45,6 +45,7 @@
 		ON q.member_no = m.member_no
 		<include refid="searchQna" />
 		ORDER BY qna_no DESC
+		LIMIT #{startIdx}, 10
 	</select>
 	<!-- 개수 조회 -->
 	<select id="count" parameterType="Integer" resultType="Integer">

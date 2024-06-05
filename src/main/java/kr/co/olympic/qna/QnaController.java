@@ -44,6 +44,7 @@ public class QnaController {
 		if (type != null) {
 			map.put("type", type);
 		}
+		map.put("startIdx", 1);
 		model.addAttribute("qna", service.list(map));
 		// 오늘 날짜 작성된 게시글은 시간만 표시해주기 위한 날짜 전송
 		Date date = new Date();
