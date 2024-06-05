@@ -1,7 +1,6 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!doctype html>
-<html lang="ko"> 
+<html lang="ko">
 
 <body>
 	<!-- 	공통 모달 - 헤더 장바구니 등 클릭 시 나오는 사이드 창 -->
@@ -27,10 +26,8 @@
 							<div class="row">
 								<div class="col-12">
 									<div class="form-group">
-										<label class="visually-hidden" for="loginEmail"> Email
-											Address * </label> <input class="form-control form-control-sm"
-											id="loginEmail" name="email" type="email"
-											placeholder="Email Address *" required>
+										<label class="visually-hidden" for="loginEmail"> Email Address * </label>
+										<input class="form-control form-control-sm" id="loginEmail" name="email" type="email" placeholder="Email Address *" required>
 									</div>
 
 								</div>
@@ -38,10 +35,8 @@
 
 									<!-- Password -->
 									<div class="form-group">
-										<label class="visually-hidden" for="loginPassword">
-											Password * </label> <input class="form-control form-control-sm"
-											id="loginPassword" name="pwd" type="password"
-											placeholder="Password *" required>
+										<label class="visually-hidden" for="loginPassword"> Password * </label>
+										<input class="form-control form-control-sm" id="loginPassword" name="pwd" type="password" placeholder="Password *" required>
 									</div>
 
 								</div>
@@ -50,9 +45,8 @@
 									<!-- Remember -->
 									<div class="form-group">
 										<div class="form-check">
-											<input class="form-check-input" id="loginRemember"
-												type="checkbox"> <label class="form-check-label"
-												for="loginRemember"> 아이디 저장 </label>
+											<input class="form-check-input" id="loginRemember" type="checkbox">
+											<label class="form-check-label" for="loginRemember"> 아이디 저장 </label>
 										</div>
 									</div>
 
@@ -61,18 +55,16 @@
 
 									<!-- Link -->
 									<div class="form-group">
-										<a class="fs-sm text-reset" data-bs-toggle="modal"
-											href="/olympic/member/find.do">비밀번호 찾기</a> <a> | </a> <a
-											class="fs-sm text-reset" data-bs-toggle="modal"
-											href="/olympic/member/regist.do">회원가입</a>
+										<a class="fs-sm text-reset" href="/olympic/member/find.do">비밀번호 찾기</a>
+										|
+										<a class="fs-sm text-reset" href="/olympic/member/regist.do">회원가입</a>
 									</div>
 
 								</div>
 								<div class="col-12">
 
 									<!-- Button -->
-									<button class="btn btn-sm btn-dark" type="submit">
-										Login</button>
+									<button class="btn btn-sm btn-dark" type="submit">Login</button>
 
 								</div>
 							</div>
@@ -82,7 +74,7 @@
 				</div>
 	</section>
 
-	
+
 	<%-- 	<%@include file="../contactus.jsp"%> --%>
 	<!-- 	이 부분에 내용 작성하여 사용 -->
 	<!-- 푸터  -->
