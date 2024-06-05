@@ -12,7 +12,7 @@ public interface MemberService {
 	MemberVO login(MemberVO vo);
 	MemberVO checkEmail(MemberVO vo);
 	int findPwd(MemberVO vo);
-	int pwdCheck(String pwd);
+	int pwdCheck(MemberVO vo);
 	MemberVO detail(MemberVO vo);
 	int update(MemberVO vo);
 	int delete(MemberVO vo);

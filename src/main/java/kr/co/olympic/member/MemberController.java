@@ -1,45 +1,44 @@
 package kr.co.olympic.member;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.stereotype.Repository;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-@Controller
+
 //@RestController
+@Controller
 public class MemberController {
 	@Autowired
 	private MemberService service;
 	
 	
 	@GetMapping("/member/login.do")
-	public void login() {
-		
+	public String login() {
+		return "member/login";
 	}
 	//@ResponseBody
 	@PostMapping("/member/login.do")
-	public String login(Model model, @RequestBody MemberVO vo, HttpSession sess) {
+	public String login(Model model, @ModelAttribute MemberVO vo, HttpSession sess) {
 		MemberVO login = service.login(vo);
 		if (login == null) {
 			model.addAttribute("msg", "이메일 비밀번호를 확인하세요.");
 			model.addAttribute("url", "/member/login.do");
-			return "/member/login.jsp";
+			return "/member/login";
 		} else {
 			sess.setAttribute("login", login);
-			return "redirect:/member/index.jsp";
+			return "/home";
 		}
 	}
+	
 	@GetMapping("/member/logout.do")
 	public String logout(HttpSession sess, Model model) {
 		sess.invalidate();
@@ -48,17 +47,24 @@ public class MemberController {
 		return "common/alert";
 	}
 	
+	
 	//@ResponseBody
 	@PostMapping("/member/regist.do")
-	public String regist(Model model,@RequestBody MemberVO vo) {
+	public String regist(Model model, @ModelAttribute MemberVO vo) {
 		int regist = service.regist(vo);
 		if(regist > 0 ) {
-			return "/member/회원가입 완료 페이지";
+			return "/member/complete";
 		}
 		else{
-			return "alert 창 띄우기";
+			model.addAttribute("error", "회원가입에 실패했습니다.");
+			return "member/regist";
 		}
 	}
+	@GetMapping("/member/regist.do")
+	public String regist() {
+		return "member/regist";
+	}
+	//이메일 중복체크
 	@ResponseBody
 	@GetMapping("/member/emailCheck.do")
 	public int emailCheck(@RequestParam String email) {
@@ -67,7 +73,7 @@ public class MemberController {
 	
 	//@ResponseBody
 	@PostMapping("/member/update.do")
-	public String update(@RequestBody MemberVO vo, Model model) {
+	public String update(@ModelAttribute MemberVO vo, Model model) {
 		int r = service.update(vo);
 		String msg = "";
 		String url = "edit.do";
@@ -140,11 +146,11 @@ public class MemberController {
 	
 	
 	@PostMapping("/member/pwdCheck.do")
-	public String pwdCheck(HttpSession sess, String pwd, Model model) {
+	public String pwdCheck(HttpSession sess, MemberVO vo, Model model) {
 		MemberVO mv = (MemberVO)sess.getAttribute("login");
-		String checkpwd = mv.getPwd();
-		//세션값이랑 받은 입력 값 비교
-		if(pwd.equals(checkpwd)) {
+		int r = service.pwdCheck(mv);
+
+		if(r > 0) {
 			return "회원 정보 수정 페이지";
 		}
 		else {
@@ -160,25 +166,38 @@ public class MemberController {
 	//어떻게 MemberVO를 파라미터로 보내고 받을 것이냐 생각
 	//@ResponseBody
 	@PostMapping("/member/checkEmail.do")
-	public String checkEmail(@RequestBody MemberVO vo, RedirectAttributes redirect) {
+	public String checkEmail(@ModelAttribute MemberVO vo, RedirectAttributes redirect, Model model) {
 		MemberVO email = service.checkEmail(vo);
 		System.out.println(email);
+		
 		if (email == null) {
-			return "It is incorrect name and email. plz check again";
+			System.out.println("이메일 확인 필요");
+			String msg = "유효하지 않은 이름 또는 이메일 입니다.";
+			String url= "/member/find.do";
+			model.addAttribute("msg", msg);
+			model.addAttribute("url", url);
+			return "common/alert";
 		} else {
+//			model.addAttribute("checkEmail", email);
 			redirect.addFlashAttribute("checkEmail", email);
-			return "redirect:/member/findPwd";
+			return "redirect:/member/findPwd.do";
 //			return "It is correct!";
 		}
 	}
+	
+	@GetMapping("/member/find.do")
+	public String find() {
+		return "member/findpwd";
+	}
+	
 	//@ResponseBody
-	@GetMapping("/member/findPwd.do")
+	@RequestMapping("/member/findPwd.do")
 	public String findPwd(@ModelAttribute("checkEmail") MemberVO vo, Model model) {
-		
+		System.out.println(vo);
 		int r = service.findPwd(vo);
 		System.out.println(r);
 		if(r > 0) {
-//			return "생년월일로 비밀번호 초기화 페이지";
+//			return "생년월일로 비밀번호 초기화 모달";
 			return "reset password page";
 		}
 		else {

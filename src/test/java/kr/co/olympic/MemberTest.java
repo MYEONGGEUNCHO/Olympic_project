@@ -23,16 +23,16 @@ public class MemberTest {
 	@Test
 	public void regist() {
 		MemberVO vo = new MemberVO();
-		vo.setEmail("test12@gmail.com");
-		vo.setPwd("test1234");
-		vo.setName("test12");
+		vo.setEmail("admin@gmail.com");
+		vo.setPwd("admin1234");
+		vo.setName("admin");
 		mapper.regist(vo);
 	}
 
 	@Test
 	public void login() {
 		MemberVO vo = new MemberVO();
-		vo.setEmail("test12@gmail.com");
+		vo.setEmail("test13@gmail.com");
 		vo.setPwd("test1234");
 		log.info(mapper.login(vo));
 	}
@@ -53,8 +53,11 @@ public class MemberTest {
 	
 	@Test
 	public void pwdCheck() {
-		String pwd = "20010102";
-		System.out.println(mapper.pwdCheck(pwd));
+		MemberVO vo = new MemberVO();
+		vo.setEmail("test2@gmail.com");
+		vo.setPwd("test1234");
+		vo.setBirthday("2001-10-10");
+		System.out.println(mapper.pwdCheck(vo));
 	}
 	
 	@Test

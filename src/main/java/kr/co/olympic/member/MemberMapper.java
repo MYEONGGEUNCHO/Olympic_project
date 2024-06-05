@@ -18,7 +18,7 @@ public interface MemberMapper {
 	//비밀번호 찾기
 	int findPwd(MemberVO vo);
 	//비밀번호 확인
-	int pwdCheck(String pwd);
+	int pwdCheck(MemberVO vo);
 	// 회원정보 조회
 	MemberVO detail(MemberVO vo);
 	// 회원정보 수정
