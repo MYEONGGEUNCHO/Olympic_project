@@ -63,7 +63,7 @@ public class QnaController {
 
 		String formattedDate = dateFormat.format(date);
 
-		model.addAttribute("serverTime", formattedDate);
+		model.addAttribute("serverTime", formattedDate); 
 
 		return "qna/write";
 	}
@@ -112,6 +112,21 @@ public class QnaController {
 		return ResponseEntity.ok("삭제가 완료되었습니다.");
 	}
 
+	@GetMapping("/qna/update.do")
+	public String update(Model model, HttpSession session, Locale locale, @RequestParam(value="qna_no") Integer qna_no) {
+//		QnaVO qna = service.detail(qna_no);
+		model.addAttribute("qna",service.detail(qna_no));	
+		
+		Date date = new Date();
+		DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.FULL, locale);
+
+		String formattedDate = dateFormat.format(date);
+
+		model.addAttribute("serverTime", formattedDate); 
+		
+		return "qna/update";
+	}
+	
 	@PostMapping("/qna/update.do")
 	@ResponseBody
 	public String update(Model model, HttpSession session, @RequestBody QnaVO qnaVO) {

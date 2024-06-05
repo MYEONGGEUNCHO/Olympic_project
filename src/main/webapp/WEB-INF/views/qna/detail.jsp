@@ -9,47 +9,28 @@
 <script>
 	$(function() {
 		$("#modify").click(function() {
-			$.ajax({
-				type: "POST",
-				url: "/olympic/qna/update.do",
-				headers : {
-					"Content-Type" : "application/json",
-				},
-				data : JSON.stringify({ 
-					qna_no: "${qna.qna_no}",
-					member_no: "${qna.member_no}",
-					}),
-				success: function() {
-					alert('삭제가 완료되었습니다.');
-					location.href = "/olympic/qna/index.do";
-				},
-				error : function(xhr, status, error) {
-					console.error("Error:", status);
-					// 에러 시 수행할 동작
-		            alert('글 삭제 중 오류가 발생했습니다: ' + xhr.responseText);
-				}
-			});
+			location.href = "/olympic/qna/update.do?qna_no=${param.qna_no}";
 		});
+		
 		$("#delete").click(function() {
-// 			console.log("${qna}");
 			$.ajax({
-				type: "POST",
-				url: "/olympic/qna/delete.do",
+				type : "POST",
+				url : "/olympic/qna/delete.do",
 				headers : {
 					"Content-Type" : "application/json",
 				},
-				data : JSON.stringify({ 
-					qna_no: "${qna.qna_no}",
-					member_no: "${qna.member_no}",
-					}),
-				success: function() {
+				data : JSON.stringify({
+					qna_no : "${qna.qna_no}",
+					member_no : "${qna.member_no}",
+				}),
+				success : function() {
 					alert('삭제가 완료되었습니다.');
 					location.href = "/olympic/qna/index.do";
 				},
 				error : function(xhr, status, error) {
-					console.error("Error:", status);
+					console.error("Error:", error);
 					// 에러 시 수행할 동작
-		            alert('글 삭제 중 오류가 발생했습니다: ' + xhr.responseText);
+					alert('글 삭제 중 오류가 발생했습니다: ' + xhr.responseText);
 				}
 			});
 		});

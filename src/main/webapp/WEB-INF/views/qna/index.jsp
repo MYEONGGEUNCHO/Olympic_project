@@ -82,7 +82,6 @@ td {
 								</c:choose>
 
 							</td>
-							<%-- 							<td class="text-truncate">${item.content}</td> --%>
 							<td>${item.readcnt}</td>
 							<c:if test="${empty item.reply }">
 								<td>대기중</td>

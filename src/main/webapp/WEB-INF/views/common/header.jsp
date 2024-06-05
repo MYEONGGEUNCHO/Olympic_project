@@ -12,6 +12,8 @@
 
 <!-- Theme CSS -->
 <link rel="stylesheet" href="../dist/assets/css/theme.bundle.css" />
+<script src="../js/jquery-3.7.1.min.js"></script>
+
 <!-- Title -->
 <title>올림픽 판매하기</title>
 </head>
