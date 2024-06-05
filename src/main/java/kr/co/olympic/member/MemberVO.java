@@ -11,7 +11,7 @@ import lombok.Data;
 public class MemberVO {
 	
 	//회원 목록
-	private String member_no;
+	private String member_no;  //UUID로 생성
 	private String email;
 	private String pwd;
 	private String name;
@@ -30,5 +30,9 @@ public class MemberVO {
 	public MemberVO() {
 	        this.member_no = UUID.randomUUID().toString();
 	}
+	
+	public void setBirthday(String birthday) {
+        this.birthday = birthday;
+    }
 
 }

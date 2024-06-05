@@ -40,8 +40,8 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
-	public int pwdCheck(String pwd) {
-		return mapper.pwdCheck(pwd) == 0 ? 0 : 1;
+	public int pwdCheck(MemberVO vo) {
+		return mapper.pwdCheck(vo) == 0 ? 0 : 1;
 	}
 
 	@Override

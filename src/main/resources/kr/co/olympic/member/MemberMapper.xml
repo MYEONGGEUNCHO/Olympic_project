@@ -32,7 +32,7 @@
 	
 	<!-- 이름 이메일 유효성 검사 -->
 	<select id="checkEmail" parameterType="kr.co.olympic.member.MemberVO" resultType="kr.co.olympic.member.MemberVO">
-		SELECT * FROM member WHERE name=#{name} AND email = #{email}
+		SELECT * FROM member WHERE name=#{name} AND email = #{email} AND state != 3;
 	</select>
 	
 	<!-- 비밀번호 찾기(초기화) -->
@@ -41,8 +41,8 @@
 		WHERE email = #{email}
 	</update>
 	
-	<!-- 비밀번호 확인(필요한가...?) -->
-	<select id="pwdCheck" parameterType="String" resultType="int">
+	<!-- 비밀번호 확인 -->
+	<select id="pwdCheck" parameterType="kr.co.olympic.member.MemberVO" resultType="int">
 		SELECT COUNT(*) FROM member WHERE email = #{email} AND pwd = MD5(#{pwd})
 	</select>
 	
