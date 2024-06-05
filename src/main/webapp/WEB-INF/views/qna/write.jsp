@@ -49,9 +49,10 @@
 				content : inner_html
 			}),
 			success : function(response) {
-				console.log("Response:", response);
+				// 				console.log("Response:", response);
 				// 성공 시 수행할 동작
 				alert('글이 성공적으로 작성되었습니다.');
+				location.href = "/olympic/qna/index.do";
 			},
 			error : function(xhr, status, error) {
 				console.error("Error:", error);
@@ -76,7 +77,6 @@
 		<div class="container">
 			<div class="row">
 				<div class="col-12">
-
 					<!-- Heading -->
 					<h3 class="mb-10 text-center">문의사항 작성</h3>
 

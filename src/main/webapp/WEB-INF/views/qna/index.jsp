@@ -1,8 +1,24 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <!doctype html>
 <html lang="ko">
+<head>
+<style>
+th {
+	text-align: center !important;
+}
+
+td {
+	text-align: center;
+}
+
+#qna_title {
+	text-algin: left !important;
+}
+</style>
+</head>
 <body>
 	<!-- 	공통 모달 - 헤더 장바구니 등 클릭 시 나오는 사이드 창 -->
 	<%@include file="../common/modals.jsp"%>
@@ -15,7 +31,6 @@
 		<div class="container">
 			<div class="row">
 				<div class="col-12">
-
 					<!-- Heading -->
 					<h3 class="mb-10 text-center">QNA</h3>
 
@@ -23,34 +38,58 @@
 			</div>
 			<div class="row justify-content-center">
 				<table border="1">
+					<caption style="display: none;">게시판 목록</caption>
+					<colgroup>
+						<col width="80px" />
+						<col width="80px" />
+						<col width="*" />
+						<col width="100px" />
+						<col width="200px" />
+						<col width="100px" />
+						<col width="100px" />
+					</colgroup>
 					<thead>
 						<tr>
-							<th>qna_no</th>
-							<th>regdate</th>
-							<th>type</th>
-							<th>title</th>
-							<th>content</th>
-							<th>readcnt</th>
-							<th>reply</th>
-							<th>member_no</th>
-							<th>attached</th>
-							<th>game_id</th>
+							<th>번호</th>
+							<th>분류</th>
+							<th>제목</th>
+							<th>작성자</th>
+							<th>작성일자</th>
+							<th>조회수</th>
+							<th>답변 상태</th>
 						</tr>
 					</thead>
 					<c:forEach var="item" items="${qna}">
 						<tr>
 							<td>${item.qna_no}</td>
-							<td>${item.regdate}</td>
 							<td>${item.type}</td>
-							<td>
-								<a href="/qna/detail.do?qna_no=${item.qna_no }">${item.title}</a>
+							<td id="qna_title">
+								<a href="${pageContext.request.contextPath}/qna/detail.do?qna_no=${item.qna_no }">${item.title}</a>
 							</td>
-							<td>${item.content}</td>
+							<!-- 							member_no를 통해 조회 필요 -->
+							<td>${item.name}</td>
+							<td class="small">
+
+								<%-- 서버 시간과 아이템의 등록 날짜를 비교 --%>
+								<c:set var="itemDateStr" value="${fn:substring(item.regdate, 0, 10)}" />
+								<c:choose>
+									<c:when test="${itemDateStr == serverTime}">
+										<fmt:formatDate value="${item.regdate}" pattern="HH:mm" />
+									</c:when>
+									<c:otherwise>
+										<fmt:formatDate value="${item.regdate}" pattern="MM.dd(EE) HH:mm" />
+									</c:otherwise>
+								</c:choose>
+
+							</td>
+							<%-- 							<td class="text-truncate">${item.content}</td> --%>
 							<td>${item.readcnt}</td>
-							<td>${item.reply}</td>
-							<td>${item.member_no}</td>
-							<td>${item.attached}</td>
-							<td>${item.game_id}</td>
+							<c:if test="${empty item.reply }">
+								<td>대기중</td>
+							</c:if>
+							<c:if test="${!empty item.reply }">
+								<td>답변 완료</td>
+							</c:if>
 						</tr>
 					</c:forEach>
 

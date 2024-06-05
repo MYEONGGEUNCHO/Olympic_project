@@ -40,7 +40,9 @@
 	<!-- 리스트 조회 -->
 	<select id="list" parameterType="map"
 		resultType="kr.co.olympic.qna.QnaVO">
-		SELECT * FROM qna
+		SELECT * FROM qna q
+		LEFT JOIN (SELECT name, member_no FROM member) m
+		ON q.member_no = m.member_no
 		<include refid="searchQna" />
 		ORDER BY qna_no DESC
 	</select>
