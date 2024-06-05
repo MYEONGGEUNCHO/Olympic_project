@@ -5,8 +5,37 @@
 <head>
 <meta charset="UTF-8">
 <title>QNA 상세 페이지 테스트</title>
+<script src="../js/jquery-3.7.1.min.js"></script>
 <script>
+	$(function() {
+		$("#modify").click(function() {
+			location.href = "/olympic/qna/update.do?qna_no=${param.qna_no}";
+		});
+		
+		$("#delete").click(function() {
+			$.ajax({
+				type : "POST",
+				url : "/olympic/qna/delete.do",
+				headers : {
+					"Content-Type" : "application/json",
+				},
+				data : JSON.stringify({
+					qna_no : "${qna.qna_no}",
+					member_no : "${qna.member_no}",
+				}),
+				success : function() {
+					alert('삭제가 완료되었습니다.');
+					location.href = "/olympic/qna/index.do";
+				},
+				error : function(xhr, status, error) {
+					console.error("Error:", error);
+					// 에러 시 수행할 동작
+					alert('글 삭제 중 오류가 발생했습니다: ' + xhr.responseText);
+				}
+			});
+		});
 
+	});
 </script>
 
 </head>
@@ -14,7 +43,7 @@
 <body>
 	<div>
 		<h1>${qna.title }</h1>
-		<p>조회수 : ${qna.readcnt } </p>
+		<p>조회수 : ${qna.readcnt }</p>
 		<table border="1">
 			<thead>
 				<tr>
@@ -28,26 +57,21 @@
 					<th>game_id</th>
 				</tr>
 			</thead>
-				<tr>
-					<td>${qna.qna_no}</td>
-					<td>${qna.regdate}</td>
-					<td>${qna.type}</td>
-					<td>${qna.content}</td>
-					<td>${qna.reply}</td>
-					<td>${qna.member_no}</td>
-					<td>${qna.attached}</td>
-					<td>${qna.game_id}</td>
-				</tr>
+			<tr>
+				<td>${qna.qna_no}</td>
+				<td>${qna.regdate}</td>
+				<td>${qna.type}</td>
+				<td>${qna.content}</td>
+				<td>${qna.reply}</td>
+				<td>${qna.member_no}</td>
+				<td>${qna.attached}</td>
+				<td>${qna.game_id}</td>
+			</tr>
 
 		</table>
-		
-		<a href="/qna/update.do">
-		수정하기
-		</a>
-		<a href="/qna/delete.do">
-		삭제하기
-		</a>
-		
+		<!-- 		TODO:: post요청 보내고 받아야함 -->
+		<button type="button" id="modify">수정하기</button>
+		<button type="button" id="delete">삭제하기</button>
 	</div>
 </body>
 </html>

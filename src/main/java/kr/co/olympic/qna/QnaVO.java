@@ -21,7 +21,7 @@ public class QnaVO {
 //	private GameVO game_id;
 	// member_no로 조회한 해당 qna를 작성한 member의 VO객체
 	private String member_no;
-
+	private String name;
 	// 첨부파일 리스트
 	private List<AttachedVO> attached;
 	

@@ -13,7 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 @Service
-public class QnaAServiceImpl implements QnaService {
+public class QnaServiceImpl implements QnaService {
 
 	@Autowired
 	private QnaMapper mapper;

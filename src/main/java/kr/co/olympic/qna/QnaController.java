@@ -1,12 +1,18 @@
 package kr.co.olympic.qna;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,7 +29,7 @@ public class QnaController {
 	private QnaService service;
 
 	@GetMapping("/qna/index.do")
-	public String index(Model model, QnaVO vo, HttpSession sess,
+	public String index(Model model, QnaVO vo, Locale locale, HttpSession sess,
 			@RequestParam(value = "game_id", required = false) Integer game_id,
 			@RequestParam(value = "member_no", required = false) Integer member_no,
 			@RequestParam(value = "type", required = false) Integer type) {
@@ -38,14 +44,27 @@ public class QnaController {
 		if (type != null) {
 			map.put("type", type);
 		}
-
 		model.addAttribute("qna", service.list(map));
-		System.out.println(map.toString());
+		// 오늘 날짜 작성된 게시글은 시간만 표시해주기 위한 날짜 전송
+		Date date = new Date();
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", locale);
+		String formattedDate = dateFormat.format(date);
+		model.addAttribute("serverTime", formattedDate);
+
+//		System.out.println(map.toString());
 		return "qna/index";
 	}
 
 	@GetMapping("/qna/write.do")
-	public String write() {
+	public String write(Model model, Locale locale) {
+//		System.out.println("####write get 요청 들어옴");
+		Date date = new Date();
+		DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.FULL, locale);
+
+		String formattedDate = dateFormat.format(date);
+
+		model.addAttribute("serverTime", formattedDate); 
+
 		return "qna/write";
 	}
 
@@ -61,10 +80,10 @@ public class QnaController {
 			loginMember.setName("테스트");
 		}
 //		qnaVO.setMember_no(loginMember.getMember_no());
-
+//		System.out.println("########write post 요청 들어왔습니다.");
 		service.write(vo, request); // 파일 업로드가 없으므로 null 전달
 
-		return "redirect: qna/write";
+		return "redirect: qna/index";
 	}
 
 	@GetMapping("/qna/detail.do")
@@ -74,25 +93,43 @@ public class QnaController {
 	}
 
 	@PostMapping("/qna/delete.do")
-	public String delete(Model model, HttpSession session, QnaVO qnaVO) {
+	@ResponseBody
+	public ResponseEntity<String> delete(@RequestBody QnaVO qnaVO, HttpSession session) {
 		MemberVO loginMember = (MemberVO) session.getAttribute("login");
 		if (loginMember == null) {
 			loginMember = new MemberVO();
-			loginMember.setMember_no("abcdefg"); // 테스트용 데이터
-			loginMember.setName("테스트");
+			loginMember.setMember_no("3333"); // 테스트용 데이터
 		}
 		if (loginMember.getMember_no().equals(qnaVO.getMember_no())) {
 			service.delete(qnaVO);
 		} else {
-			model.addAttribute("msg", "본인이 작성한 게시글만 삭제가 가능합니다.");
-			model.addAttribute("url", "/qna/index.do");
-			return "common/alert.do";
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("실패");
+
+//			model.addAttribute("msg", "본인이 작성한 게시글만 삭제가 가능합니다.");
+//			model.addAttribute("url", "/qna/index.do");
+//			return "common/alert.do";
 		}
-		return "qna/index";
+		return ResponseEntity.ok("삭제가 완료되었습니다.");
 	}
 
+	@GetMapping("/qna/update.do")
+	public String update(Model model, HttpSession session, Locale locale, @RequestParam(value="qna_no") Integer qna_no) {
+//		QnaVO qna = service.detail(qna_no);
+		model.addAttribute("qna",service.detail(qna_no));	
+		
+		Date date = new Date();
+		DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.FULL, locale);
+
+		String formattedDate = dateFormat.format(date);
+
+		model.addAttribute("serverTime", formattedDate); 
+		
+		return "qna/update";
+	}
+	
 	@PostMapping("/qna/update.do")
-	public String update(Model model, HttpSession session, QnaVO qnaVO) {
+	@ResponseBody
+	public String update(Model model, HttpSession session, @RequestBody QnaVO qnaVO) {
 		MemberVO loginMember = (MemberVO) session.getAttribute("login");
 		if (loginMember.getMember_no().equals(qnaVO.getMember_no())) {
 			service.update(qnaVO);
@@ -104,7 +141,4 @@ public class QnaController {
 		return "qna/index";
 	}
 
-	@GetMapping("/qna/write2.do")
-	public void write2() {
-	}
 }

@@ -12,6 +12,8 @@
 
 <!-- Theme CSS -->
 <link rel="stylesheet" href="../dist/assets/css/theme.bundle.css" />
+<script src="../js/jquery-3.7.1.min.js"></script>
+
 <!-- Title -->
 <title>올림픽 판매하기</title>
 </head>
@@ -247,7 +249,7 @@
 													<div class="card">
 
 														<!-- Image -->
-														<img class="card-img" src="./assets/img/products/product-110.jpg" alt="...">
+														<img class="card-img" src="../dist/assets/img/products/product-110.jpg" alt="...">
 
 														<!-- Overlay -->
 														<div class="card-img-overlay bg-dark-0 bg-hover align-items-center">
