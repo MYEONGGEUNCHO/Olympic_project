@@ -31,7 +31,7 @@ public class MemberController {
 		MemberVO login = service.login(vo);
 		if (login == null) {
 			model.addAttribute("msg", "이메일 비밀번호를 확인하세요.");
-			model.addAttribute("url", "/member/login.do");
+			model.addAttribute("url", "/common/alert.do");
 			return "/member/login";
 		} else {
 			sess.setAttribute("login", login);
@@ -47,6 +47,10 @@ public class MemberController {
 		return "common/alert";
 	}
 	
+	@GetMapping("/member/complete")
+	public String complete() {
+		return "member/complete";
+	}
 	
 	//@ResponseBody
 	@PostMapping("/member/regist.do")

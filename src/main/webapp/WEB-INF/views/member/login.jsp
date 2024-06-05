@@ -72,10 +72,9 @@
 
 					</div>
 				</div>
+			</div>
+		</div>
 	</section>
-
-
-	<%-- 	<%@include file="../contactus.jsp"%> --%>
 	<!-- 	이 부분에 내용 작성하여 사용 -->
 	<!-- 푸터  -->
 	<%@include file="../common/footer.jsp"%>
