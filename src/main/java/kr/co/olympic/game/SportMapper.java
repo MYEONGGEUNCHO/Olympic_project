@@ -1,5 +1,7 @@
 package kr.co.olympic.game;
 
+import java.util.List;
+
 import org.apache.ibatis.annotations.Mapper;
 
 @Mapper
@@ -8,7 +10,11 @@ public interface SportMapper {
 	// 종목 생성
 	int createSport(SportVO sport);
 	// 종목 리스트
-	// 종목 수정
-	// 종목 삭제
+	List<SportVO> listSport();
 	// 종목 상세조회
+	SportVO detailSport(SportVO sport);
+	// 종목 수정
+	int updateSport(SportVO sport);
+	// 종목 삭제
+	int deleteSport(SportVO sport);
 }

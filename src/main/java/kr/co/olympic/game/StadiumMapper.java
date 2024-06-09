@@ -9,7 +9,9 @@ public interface StadiumMapper {
 	// 경기장 생성
 	int createStadium(StadiumVO stadium);
 	// 경기장 리스트
-	List<StadiumVO> listStadium(StadiumVO stadium);
+	List<StadiumVO> listStadium();
+	// 상세조회
+	StadiumVO detailStadium(StadiumVO stadium);
 	// 경기장 수정
 	int updateStadium(StadiumVO stadium);
 	// 경기장 삭제

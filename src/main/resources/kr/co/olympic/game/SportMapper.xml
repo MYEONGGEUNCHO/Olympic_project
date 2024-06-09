@@ -15,11 +15,28 @@
 			, #{sport_history}
 		)		
 	</insert>
-	
 	<!-- 종목 리스트-->
-	<!-- 종목 수정 -->
-	<!-- 종목 삭제 -->
+	<select id="listSport" resultType="kr.co.olympic.game.SportVO">
+        SELECT * FROM sport
+    </select>
 	<!-- 종목 상세조회 -->
-	
+	<select id="detailSport" parameterType="kr.co.olympic.game.SportVO" resultType="kr.co.olympic.game.SportVO">
+        SELECT * FROM sport WHERE sport_code = #{sport_code}
+    </select>
+	<!-- 종목 수정 -->
+	<update id="updateSport" parameterType="kr.co.olympic.game.SportVO">
+        UPDATE sport SET
+            sport_name = #{sport_name},
+            title_image = #{title_image},
+            link = #{link},
+            sport_info = #{sport_info},
+            sport_rule = #{sport_rule},
+            sport_history = #{sport_history}
+        WHERE sport_code = #{sport_code}
+    </update>
+	<!-- 종목 삭제 -->
+	<delete id="deleteSport" parameterType="kr.co.olympic.game.SportVO">
+        DELETE FROM sport WHERE sport_code = #{sport_code}
+    </delete>
 
 </mapper>
