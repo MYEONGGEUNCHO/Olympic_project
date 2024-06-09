@@ -75,7 +75,11 @@ document.addEventListener("DOMContentLoaded", function() {
                         headers: {
                             'Content-Type': 'application/json'
                         },
-                        body: JSON.stringify({ order_no: savedOrder.order_no, imp_uid: rsp.imp_uid })
+                        body: JSON.stringify({ 
+                        	order_no: savedOrder.order_no, 
+                        	imp_uid: rsp.imp_uid, 
+                            paymentData: paymentData 
+                        })
                     }).then(response => {
                         if (response.ok) {
                             alert('결제가 완료되었습니다.');
