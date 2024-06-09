@@ -23,26 +23,7 @@ import lombok.extern.log4j.Log4j;
 @WebAppConfiguration
 public class FavoriteTest {
 	@Autowired
-    private GameMapper gameMapper;
-    
-    // 테스트를 위한 회원과 게임 ID
-    private MemberVO member;
-    private GameVO game1;
-    private GameVO game2;
-
-    // 테스트 전에 실행할 설정
-    @Before
-    public void setUp() {
-        // 테스트를 위한 초기화 작업
-        member = new MemberVO();
-        member.setMember_no("test_member");
-
-        game1 = new GameVO();
-        game1.setGame_id(1);
-
-        game2 = new GameVO();
-        game2.setGame_id(2);
-    }
+    private GameMapper mapper;
 
     // 선호하는 게임 추가 테스트
 //    @Test

@@ -17,7 +17,7 @@
         WHERE sport_name = #{sport_name}
     </select>
 	<!-- 경기 생성 -->
-	<insert id="createGame" parameterType="java.util.HashMap">
+	<insert id="createGame" parameterType="kr.co.olympic.game.GameVO">
         INSERT INTO game (
             sport_name, country1_name, country2_name, tournament,
             country, country1_flag, country2_flag, stadium_name,
@@ -72,11 +72,11 @@
     </insert>
 	<!-- 경기 댓글 리스트 -->
 	<select id="listComment" parameterType="kr.co.olympic.game.GameVO" resultType="kr.co.olympic.game.CommentVO">
-        SELECT c.*
+        SELECT c.*, g.*
         FROM comment c
-        INNER JOIN comment c 
-        ON c.comment_no = c.comment_no
-        WHERE gc.game_id = #{game_id}
+        INNER JOIN game g 
+        ON c.game_id = g.game_id
+        WHERE c.comment_no = #{comment_no}
     </select>
 	<!-- 경기 관심 등록 -->
 	<insert id="createFavorite" parameterType="java.util.HashMap">

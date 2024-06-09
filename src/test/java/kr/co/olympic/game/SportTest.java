@@ -26,8 +26,8 @@ public class SportTest {
 	@Test
 	public void createSport() {
 		SportVO vo = new SportVO();
-		vo.setSport_code("test1");
-		vo.setSport_name("test1");
+		vo.setSport_code("test2");
+		vo.setSport_name("test2");
 		vo.setTitle_image(null);
 		vo.setLink(null);
 		vo.setSport_info(null);
