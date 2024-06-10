@@ -89,8 +89,6 @@ public class MemberServiceImpl implements MemberService {
 		message.setSubject("[olympic] 회원가입을 위한 이메일 인증코드 입니다"); // 이메일 제목
 
 		String msgg = "";
-		// msgg += "<img src=../resources/static/image/emailheader.jpg />"; // header
-		// image
 		msgg += "<h1>안녕하세요</h1>";
 		msgg += "<h1>올림픽 티켓 구매 사이트에 방문해 주셔서 감사합니다.</h1>";
 		msgg += "<br>";
@@ -102,16 +100,13 @@ public class MemberServiceImpl implements MemberService {
 		msgg += "<div style='font-size:130%'>";
 		msgg += "<strong>" + ePw + "</strong></div><br/>"; // 메일에 인증번호 ePw 넣기
 		msgg += "</div>";
-		// msgg += "<img src=../resources/static/image/emailfooter.jpg />"; // footer
-		// image
-
 		message.setText(msgg, "utf-8", "html"); // 메일 내용, charset타입, subtype
 		// 보내는 사람의 이메일 주소, 보내는 사람 이름
 		message.setFrom(new InternetAddress("shdsearlybird@naver.com", "Olympic_Admin"));
 
 		// 출력 확인
-		System.out.println("********creatMessage 함수에서 생성된 msgg 메시지********" + msgg);
-		System.out.println("********creatMessage 함수에서 생성된 리턴 메시지********" + message);
+		//System.out.println("********creatMessage 함수에서 생성된 msgg 메시지********" + msgg);
+		//System.out.println("********creatMessage 함수에서 생성된 리턴 메시지********" + message);
 
 		return message;
 	}
