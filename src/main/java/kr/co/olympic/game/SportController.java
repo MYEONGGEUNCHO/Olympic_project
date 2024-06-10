@@ -1,9 +1,8 @@
 package kr.co.olympic.game;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -21,7 +20,8 @@ public class SportController {
     }
 
     @GetMapping("index.do")
-    public String listSport() {
+    public String listSport(Model model, SportVO vo) {
+    	model.addAttribute("map", service.listSport(vo));
         return "/admin/game/sport/index";
     }
 

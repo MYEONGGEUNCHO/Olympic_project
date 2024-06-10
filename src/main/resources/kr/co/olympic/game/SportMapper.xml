@@ -38,5 +38,21 @@
 	<delete id="deleteSport" parameterType="kr.co.olympic.game.SportVO">
         DELETE FROM sport WHERE sport_code = #{sport_code}
     </delete>
-
+    <sql id="searchSql">
+		<where>
+			<if test="searchWord != null and searchWord != ''">
+				<if test="searchType == 'all'">
+					title LIKE '%${searchWord}%' OR content LIKE '%${searchWord}%'
+				</if>
+				<if test="searchType != 'all'">
+					${searchType} LIKE '%${searchWord}%'
+				</if>
+			</if>
+		</where>
+	</sql>
+	<!-- 종목 수 -->
+	<select id="count" parameterType="kr.co.olympic.game.SportVO" resultType="int">
+		SELECT COUNT(*) FROM sport
+		<include refid="searchSql"/>
+	</select>
 </mapper>
