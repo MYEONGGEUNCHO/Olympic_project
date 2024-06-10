@@ -26,5 +26,6 @@ public class QnaVO {
 	// 첨부파일 리스트
 	private List<AttachedVO> attached;
 	private QnaSearchDTO search;
+	private int searchCount;
 
 }

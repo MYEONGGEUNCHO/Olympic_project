@@ -12,11 +12,11 @@ public interface QnaService {
 	// 문의글 작성
 	int write(QnaVO vo, HttpServletRequest request);
 
-	// 목록 조회 - 페이징 처리
+	// 목록 조회
 	List<QnaVO> list(QnaSearchDTO search);
 
 	// 개수 체크
-//	int count(QnaVO qna);
+	int count(QnaSearchDTO search);
 
 	// 답변 작성
 	int reply(QnaVO vo);

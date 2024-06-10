@@ -51,14 +51,13 @@ public class QnaServiceImpl implements QnaService {
 	}
 
 	@Override
-	public List<QnaVO> list(QnaSearchDTO search) {
-		// 페이지네이션 용도
+	@Transactional
+	public List<QnaVO> list(QnaSearchDTO dto) {
+		// 페이지네이션 처리
 		Map<String, Object> pages = new HashMap<>();
-		int count = mapper.count(search);
-		int totalPage = count / 10;
-		if (count % 10 > 0)
-			totalPage++;
-		int endPage = (int) (Math.ceil((Integer) qna.getPage() / 10.0) * 10);
+		int count = mapper.count(dto);
+		int totalPage = (int) Math.ceil(count / 10.0);
+		int endPage = (int) (Math.ceil(dto.getPage() / 10.0) * 10);
 		int startPage = endPage - 9;
 		if (endPage > totalPage)
 			endPage = totalPage;
@@ -70,16 +69,15 @@ public class QnaServiceImpl implements QnaService {
 		pages.put("startPage", startPage);
 		pages.put("isPrev", isPrev);
 		pages.put("isNext", isNext);
-		qna.setPages(pages);
+		dto.setPages(pages);
 		// 모든 처리 후 qna 조회 결과 리턴
-		return mapper.list(qna);
+		return mapper.list(dto);
 	}
 
-//	@Override
-//	public int count(QnaVO vo) {
-//		// TODO Auto-generated method stub
-//		return 0;
-//	}
+	@Override
+	public int count(QnaSearchDTO dto) {
+		return mapper.count(dto);
+	}
 
 	@Override
 	public int reply(QnaVO vo) {

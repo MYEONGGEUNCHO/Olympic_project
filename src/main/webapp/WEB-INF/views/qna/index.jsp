@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
@@ -39,22 +38,13 @@ td {
 	<form method="get" class="d-flex">
 		<!-- 검색 타입 선택 -->
 		<select name="type" class="form-select form-select-xs">
-			<option value="4"
-				<c:if test="${search['type'] == 4}">selected</c:if>>전체
-				문의</option>
-			<option value="0"
-				<c:if test="${search['type'] == 0}">selected</c:if>>게임
-				문의</option>
-			<option value="1"
-				<c:if test="${search['type'] == 1}">selected</c:if>>일반
-				문의</option>
-			<option value="2"
-				<c:if test="${search['type'] == 2}">selected</c:if>>티켓
-				문의</option>
-			<option value="3"
-				<c:if test="${search['type'] == 3}">selected</c:if>>결제
-				문의</option>
+			<option value="all" <c:if test="${search.type == 'all'}">selected</c:if>>전체 문의</option>
+			<option value="0" <c:if test="${search.type == '0'}">selected</c:if>>게임 문의</option>
+			<option value="1" <c:if test="${search.type == '1'}">selected</c:if>>일반 문의</option>
+			<option value="2" <c:if test="${search.type == '2'}">selected</c:if>>티켓 문의</option>
+			<option value="3" <c:if test="${search.type == '3'}">selected</c:if>>결제 문의</option>
 		</select>
+
 		<!-- 	검색 창 -->
 		<div class="input-group input-group-merge">
 			<input class="form-control" type="search" placeholder="Search">
@@ -102,29 +92,34 @@ td {
 					<c:forEach var="item" items="${qna}">
 						<tr class="lh-lg bg-light border border-top border-secondary">
 							<td>${item.qna_no}</td>
-							<td><c:if test="${item.type == 0}"> 
+							<td>
+								<c:if test="${item.type == 0}"> 
 							경기 문의
-							</c:if> <c:if test="${item.type == 1}"> 
+							</c:if>
+								<c:if test="${item.type == 1}"> 
 							일반 문의
-							</c:if> <c:if test="${item.type == 2}"> 
+							</c:if>
+								<c:if test="${item.type == 2}"> 
 							결제 문의
-							</c:if> <c:if test="${item.type == 3}"> 
+							</c:if>
+								<c:if test="${item.type == 3}"> 
 							티켓 문의
-							</c:if></td>
-							<td class="text-break" id="qna_title"><a
-								href="${pageContext.request.contextPath}/qna/detail.do?qna_no=${item.qna_no }">${item.title}</a>
+							</c:if>
+							</td>
+							<td class="text-break" id="qna_title">
+								<a href="${pageContext.request.contextPath}/qna/detail.do?qna_no=${item.qna_no }">${item.title}</a>
 							</td>
 							<!-- member_no를 통해 조회 -->
 							<td class="text-break">${item.name}</td>
 							<td class="small">
-								<%-- 서버 시간과 아이템의 등록 날짜를 비교 --%> <c:set var="itemDateStr"
-									value="${fn:substring(item.regdate, 0, 10)}" /> <c:choose>
+								<%-- 서버 시간과 아이템의 등록 날짜를 비교 --%>
+								<c:set var="itemDateStr" value="${fn:substring(item.regdate, 0, 10)}" />
+								<c:choose>
 									<c:when test="${itemDateStr == serverTime}">
 										<fmt:formatDate value="${item.regdate}" pattern="HH:mm" />
 									</c:when>
 									<c:otherwise>
-										<fmt:formatDate value="${item.regdate}"
-											pattern="MM.dd(EE) HH:mm" />
+										<fmt:formatDate value="${item.regdate}" pattern="MM.dd(EE) HH:mm" />
 									</c:otherwise>
 								</c:choose>
 
@@ -144,28 +139,33 @@ td {
 			<div class="d-flex justify-content-end m-2">
 				<a class="btn btn-sm btn-dark" href="write.do">작성하기</a>
 			</div>
-			<!-- 			TODO: 페이지네이션 구현해야함 -->
 			<!-- Pagination -->
-			<nav
-				class="pt-3 d-flex justify-content-center justify-content-md-center">
+			<nav class="pt-3 d-flex justify-content-center justify-content-md-center">
 				<ul class="pagination pagination-sm text-gray-400">
-					<li class="page-item"><a class="page-link page-link-arrow"
-						href="#"> <i class="fa fa-caret-left"></i>
-					</a></li>
-					<li class="page-item active"><a class="page-link" href="#">1</a>
-					</li>
-					<li class="page-item"><a class="page-link" href="#">2</a></li>
-					<li class="page-item"><a class="page-link" href="#">3</a></li>
-					<li class="page-item"><a class="page-link" href="#">4</a></li>
-					<li class="page-item"><a class="page-link" href="#">5</a></li>
-					<li class="page-item"><a class="page-link" href="#">6</a></li>
-					<li class="page-item"><a class="page-link page-link-arrow"
-						href="#"> <i class="fa fa-caret-right"></i>
-					</a></li>
+					<c:if test="${search.pages.isPrev}">
+						<li class="page-item">
+							<a class="page-link page-link-arrow" href="?page=${search.pages.startPage - 1}">
+								<i class="fa fa-caret-left"></i>
+							</a>
+						</li>
+					</c:if>
+
+					<c:forEach var="i" begin="${search.pages.startPage}" end="${search.pages.endPage}">
+						<li class="page-item <c:if test='${i == search.page}'>active</c:if>">
+							<a class="page-link" href="?page=${i}">${i}</a>
+						</li>
+					</c:forEach>
+
+					<c:if test="${search.pages.isNext}">
+						<li class="page-item">
+							<a class="page-link page-link-arrow" href="?page=${search.pages.endPage + 1}">
+								<i class="fa fa-caret-right"></i>
+							</a>
+						</li>
+					</c:if>
 				</ul>
-
-
 			</nav>
+
 
 		</div>
 	</section>

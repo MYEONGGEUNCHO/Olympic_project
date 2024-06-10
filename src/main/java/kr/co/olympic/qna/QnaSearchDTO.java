@@ -29,4 +29,7 @@ public class QnaSearchDTO {
 	public int getStartIdx() {
 		return (this.page - 1) * 10;
 	}
+	public void setStartIdx(int startIdx) {
+		this.startIdx = startIdx;
+	}
 }
