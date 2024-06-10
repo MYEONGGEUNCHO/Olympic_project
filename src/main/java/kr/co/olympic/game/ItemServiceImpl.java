@@ -7,36 +7,32 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class ItemServiceImpl implements ItemService {
-
-    private final ItemMapper itemMapper;
-
-    @Autowired
-    public ItemServiceImpl(ItemMapper itemMapper) {
-        this.itemMapper = itemMapper;
-    }
+	
+	@Autowired
+	private ItemMapper mapper;
 
     @Override
     public int createItem(ItemVO item) {
-        return itemMapper.createItem(item);
+        return mapper.createItem(item);
     }
 
     @Override
     public List<ItemVO> listItem() {
-        return itemMapper.listItem();
+        return mapper.listItem();
     }
 
     @Override
     public ItemVO detailItem(ItemVO item) {
-        return itemMapper.detailItem(item);
+        return mapper.detailItem(item);
     }
 
     @Override
     public int updateItem(ItemVO item) {
-        return itemMapper.updateItem(item);
+        return mapper.updateItem(item);
     }
 
     @Override
     public int deleteItem(ItemVO item) {
-        return itemMapper.deleteItem(item);
+        return mapper.deleteItem(item);
     }
 }

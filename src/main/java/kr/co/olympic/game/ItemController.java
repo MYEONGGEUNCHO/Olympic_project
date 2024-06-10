@@ -3,43 +3,40 @@ package kr.co.olympic.game;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 
-@RestController
-@RequestMapping("/item")
+@Controller
+@RequestMapping("/game/item")
 public class ItemController {
-	
 	@Autowired
-    ItemService itemService;
+	private ItemService service;
 
-    @PostMapping("/create")
-    public int createItem(@RequestBody ItemVO item) {
-        return itemService.createItem(item);
+    @PostMapping("create.do")
+    public String createItem(@RequestBody ItemVO item) {
+        return "/admin/game/item/create";
     }
 
-    @GetMapping("/list")
-    public List<ItemVO> listItem() {
-        return itemService.listItem();
+    @GetMapping("index.do")
+    public String listItem() {
+        return "/admin/game/item/index";
     }
 
-    @PostMapping("/detail")
-    public ItemVO detailItem(@RequestBody ItemVO item) {
-        return itemService.detailItem(item);
+    @GetMapping("detail.do")
+    public String detailItem(@RequestBody ItemVO item) {
+        return "/admin/game/item/detail";
     }
 
-    @PutMapping("/update")
-    public int updateItem(@RequestBody ItemVO item) {
-        return itemService.updateItem(item);
+    @PostMapping("update.do")
+    public String updateItem(@RequestBody ItemVO item) {
+        return "/admin/game/item/detail";
     }
 
-    @DeleteMapping("/delete")
-    public int deleteItem(@RequestBody ItemVO item) {
-        return itemService.deleteItem(item);
+    @PostMapping("delete.do")
+    public String deleteItem(@RequestBody ItemVO item) {
+        return "/admin/game/item/index";
     }
 }

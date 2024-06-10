@@ -1,45 +1,42 @@
 package kr.co.olympic.game;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 
-@RestController
-@RequestMapping("/stadium")
+@Controller
+@RequestMapping("/game/stadium")
 public class StadiumController {
-	
 	@Autowired
-    StadiumService stadiumService;
+    private StadiumService service;
 
-    @PostMapping("/create")
-    public int createStadium(@RequestBody StadiumVO stadium) {
-        return stadiumService.createStadium(stadium);
+    @PostMapping("create.do")
+    public String createStadium(@RequestBody StadiumVO stadium) {
+        return "admin/game/stadium/create";
     }
 
-    @GetMapping("/list")
-    public List<StadiumVO> listStadium() {
-        return stadiumService.listStadium();
+    @GetMapping("index.do")
+    public String listStadium(Model model, StadiumVO vo) {
+    	model.addAttribute("map", service.listStadium(vo));
+        return "admin/game/stadium/index";
     }
 
-    @PostMapping("/detail")
-    public StadiumVO detailStadium(@RequestBody StadiumVO stadium) {
-        return stadiumService.detailStadium(stadium);
+    @GetMapping("detail.do")
+    public String detailStadium(@RequestBody StadiumVO stadium) {
+        return "admin/game/stadium/detail";
     }
 
-    @PutMapping("/update")
-    public int updateStadium(@RequestBody StadiumVO stadium) {
-        return stadiumService.updateStadium(stadium);
+    @PostMapping("update.do")
+    public String updateStadium(@RequestBody StadiumVO stadium) {
+        return "admin/game/stadium/detail";
     }
 
-    @DeleteMapping("/delete")
-    public int deleteStadium(@RequestBody StadiumVO stadium) {
-        return stadiumService.deleteStadium(stadium);
+    @PostMapping("delete.do")
+    public String deleteStadium(@RequestBody StadiumVO stadium) {
+        return "admin/game/stadium/index";
     }
 }

@@ -16,10 +16,10 @@ public class GameVO {
 	private String country1_flag;
 	private String country2_flag;
 	private String stadium_name;
-	private Timestamp paris_time;
-	private Timestamp paris_date;
-	private Timestamp korea_time;
-	private Timestamp korea_date;
+	private String paris_date;
+	private String paris_time;
+	private String korea_date;
+	private String korea_time;
 	private String sport_code;
 	private int stadium_no;
 	

@@ -46,7 +46,7 @@ public class StadiumTest {
 	@Test
 	public void listStadium() {
 		StadiumVO vo = new StadiumVO();
-		List<StadiumVO> list = mapper.listStadium();
+		List<StadiumVO> list = mapper.listStadium(vo);
 		assertNotNull(list);
 		assertFalse(list.isEmpty());
 		list.forEach(stadium -> log.info("Stadium in list: " + stadium));

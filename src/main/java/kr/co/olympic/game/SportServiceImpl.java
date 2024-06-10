@@ -9,30 +9,30 @@ import org.springframework.stereotype.Service;
 public class SportServiceImpl implements SportService {
 	
 	@Autowired
-    SportMapper sportMapper;
+    private SportMapper mapper;
 
     @Override
     public int createSport(SportVO sport) {
-        return sportMapper.createSport(sport);
+        return mapper.createSport(sport);
     }
 
     @Override
     public List<SportVO> listSport() {
-        return sportMapper.listSport();
+        return mapper.listSport();
     }
 
     @Override
     public SportVO detailSport(SportVO sport) {
-        return sportMapper.detailSport(sport);
+        return mapper.detailSport(sport);
     }
 
     @Override
     public int updateSport(SportVO sport) {
-        return sportMapper.updateSport(sport);
+        return mapper.updateSport(sport);
     }
 
     @Override
     public int deleteSport(SportVO sport) {
-        return sportMapper.deleteSport(sport);
+        return mapper.deleteSport(sport);
     }
 }

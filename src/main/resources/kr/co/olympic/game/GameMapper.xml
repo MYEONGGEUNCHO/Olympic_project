@@ -7,7 +7,7 @@
         SELECT * FROM game
     </select>
 	<!-- 경기 날짜별 리스트-->
-	<select id="listBydate" parameterType="kr.co.olympic.game.GameVO">
+	<select id="listByDate" parameterType="kr.co.olympic.game.GameVO">
         SELECT * FROM game
         WHERE korea_date = #{korea_date}
     </select>
@@ -19,15 +19,15 @@
 	<!-- 경기 생성 -->
 	<insert id="createGame" parameterType="kr.co.olympic.game.GameVO">
         INSERT INTO game (
-            sport_name, country1_name, country2_name, tournament,
-            country, country1_flag, country2_flag, stadium_name,
-            paris_time, paris_date, korea_time, korea_date,
-            sport_code, stadium_no
+            sport_name, country1_name, country2_name, tournament
+            , country, country1_flag, country2_flag, stadium_name
+            , paris_date, paris_time, korea_time, korea_date
+            , sport_code, stadium_no
         ) VALUES (
-            #{sport_name}, #{country1_name}, #{country2_name}, #{tournament},
-            #{country}, #{country1_flag}, #{country2_flag}, #{stadium_name},
-            #{paris_time}, #{paris_date}, #{korea_time}, #{korea_date},
-            #{sport_code}, #{stadium_no}
+            #{sport_name}, #{country1_name}, #{country2_name}, #{tournament}
+            , #{country}, #{country1_flag}, #{country2_flag}, #{stadium_name}
+            , #{paris_date}, #{paris_time}, #{korea_time}, #{korea_date}
+            , #{sport_code}, #{stadium_no}
         )
         <selectKey keyProperty="game_id" order="AFTER" resultType="int">
             SELECT LAST_INSERT_ID()

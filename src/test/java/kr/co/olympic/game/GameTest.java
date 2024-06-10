@@ -39,7 +39,8 @@ public class GameTest {
     public void listByDate() {
     	GameVO vo = new GameVO();
     	
-        vo.setKorea_date(Timestamp.valueOf("2024-06-09")); // 조회할 한국 날짜
+//        vo.setKorea_date(Timestamp.valueOf("2024-06-09")); // 조회할 한국 날짜
+    	vo.setKorea_date("2024-06-10");
 
         List<GameVO> list = mapper.listByDate(vo);
         assertNotNull(list);
@@ -69,7 +70,7 @@ public class GameTest {
     	Timestamp time = new Timestamp(System.currentTimeMillis());    	
     	
 //    	vo.setGame_id(1);
-    	vo.setSport_name("양궁");
+    	vo.setSport_name("골프");
     	vo.setCountry1_name(null);
     	vo.setCountry2_name(null);
     	vo.setTournament(null);
@@ -77,11 +78,11 @@ public class GameTest {
     	vo.setCountry1_flag(null);
     	vo.setCountry2_flag(null);
     	vo.setStadium_name(null);
-    	vo.setParis_date(time);
-    	vo.setParis_time(time);
-    	vo.setKorea_date(time);
-    	vo.setKorea_time(time);
-    	vo.setSport_code("arc");
+    	vo.setParis_date("2024-06-10");
+    	vo.setParis_time("10:30");
+    	vo.setKorea_date("2024-06-10");
+    	vo.setKorea_time("15:30");
+    	vo.setSport_code("GLF");
     	vo.setStadium_no(1);
     	
     	mapper.createGame(vo);
@@ -91,7 +92,7 @@ public class GameTest {
     @Test
     public void detailGame() {
     	GameVO vo = new GameVO();
-    	vo.setGame_id(1);
+    	vo.setGame_id(3);
     	GameVO result = mapper.detailGame(vo);
     	assertNotNull(result);
         log.info("Game read: " + result);
@@ -101,7 +102,7 @@ public class GameTest {
     @Test
     public void updateGame() {
         GameVO vo = new GameVO();
-        vo.setGame_id(1);
+        vo.setGame_id(3);
         vo.setSport_name("수정된 스포츠명");
         vo.setCountry1_name(null);
         vo.setCountry2_name(null);
@@ -126,7 +127,7 @@ public class GameTest {
     @Test
     public void deleteGame() {
         GameVO vo = new GameVO();
-        vo.setGame_id(1);
+        vo.setGame_id(3);
 
         int result = mapper.deleteGame(vo);
         assertTrue(result == 1); // 삭제 성공 여부 확인
