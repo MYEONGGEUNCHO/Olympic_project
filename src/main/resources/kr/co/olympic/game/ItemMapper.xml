@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.co.olympic.game.ItemMapper">
+	
+	<!-- #상품관련 -->
+	<!-- 상품 생성 -->
+	<insert id="createItem" parameterType="kr.co.olympic.game.ItemVO">
+        INSERT INTO item (
+            a_seat_sold, b_seat_sold, c_seat_sold, d_seat_sold,
+            vip_seat_sold, state, is_korean, a_seat_price,
+            b_seat_price, c_seat_price, d_seat_price, vip_seat_price,
+            game_id
+        ) VALUES (
+            #{a_seat_sold}, #{b_seat_sold}, #{c_seat_sold}, #{d_seat_sold},
+            #{vip_seat_sold}, #{state}, #{is_korean}, #{a_seat_price},
+            #{b_seat_price}, #{c_seat_price}, #{d_seat_price}, #{vip_seat_price},
+            #{game_id}
+        )
+        <selectKey keyProperty="item_no" order="AFTER" resultType="int">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+    </insert>
+	<!-- 상품 리스트-->
+	<select id="listItem" resultType="kr.co.olympic.game.ItemVO">
+        SELECT * FROM item
+    </select>
+	<!-- 상품 상세조회 -->
+	<select id="detailItem" parameterType="kr.co.olympic.game.ItemVO" resultType="kr.co.olympic.game.ItemVO">
+        SELECT * FROM item WHERE item_no = #{item_no}
+    </select>
+	<!-- 상품 수정 -->
+	<update id="updateItem" parameterType="kr.co.olympic.game.ItemVO">
+        UPDATE item SET
+            a_seat_sold = #{a_seat_sold},
+            b_seat_sold = #{b_seat_sold},
+            c_seat_sold = #{c_seat_sold},
+            d_seat_sold = #{d_seat_sold},
+            vip_seat_sold = #{vip_seat_sold},
+            state = #{state},
+            is_korean = #{is_korean},
+            a_seat_price = #{a_seat_price},
+            b_seat_price = #{b_seat_price},
+            c_seat_price = #{c_seat_price},
+            d_seat_price = #{d_seat_price},
+            vip_seat_price = #{vip_seat_price},
+            game_id = #{game_id}
+        WHERE item_no = #{item_no}
+    </update>
+	<!-- 상품 삭제 -->
+	<delete id="deleteItem" parameterType="kr.co.olympic.game.ItemVO">
+        DELETE FROM item WHERE item_no = #{item_no}
+    </delete>
+
+</mapper>
