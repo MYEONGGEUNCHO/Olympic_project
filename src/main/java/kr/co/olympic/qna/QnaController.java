@@ -28,45 +28,24 @@ public class QnaController {
 	@Autowired
 	private QnaService service;
 
-//	@GetMapping("/qna/index.do")
-//	public String index(Model model, QnaVO vo, Locale locale, HttpSession sess,
-//			@RequestParam(value = "game_id", required = false) Integer game_id,
-//			@RequestParam(value = "member_no", required = false) Integer member_no,
-//			@RequestParam(value = "type", required = false) Integer type) {
-//		Map<String, Integer> search = new HashMap<>();
-//		// 검색용
-//		if (game_id != null) {
-//			search.put("game_id", game_id);
-//		}
-//		if (member_no != null) {
-//			search.put("member_no", member_no);
-//		}
-//		if (type != null) {
-//			search.put("type", type);
-//		} else {
-//			search.put("type", 4);
-//		}
-//		model.addAttribute("qna", service.list(vo.getSearch()));
-//		model.addAttribute("search", search);
-//		// 오늘 날짜 작성된 게시글은 시간만 표시해주기 위한 날짜 전송
-//		model.addAttribute("serverTime", service.serverTime(locale));
-//		return "qna/index";
-//	}
-    @GetMapping("/qna/index.do")
-    public String index(Model model, QnaSearchDTO dto, Locale locale, HttpSession session) {
-        List<QnaVO> qnaList = service.list(dto);
-        model.addAttribute("qna", qnaList);
-        model.addAttribute("search", dto);
-        model.addAttribute("serverTime", service.serverTime(locale));
-        return "qna/index";
-    }
-    @PostMapping("/qna/search.do")
-    @ResponseBody
-    public ResponseEntity<List<QnaVO>> search(@RequestBody QnaSearchDTO dto) {
-        List<QnaVO> searchResults = service.list(dto);
-        return new ResponseEntity<>(searchResults, HttpStatus.OK);
-    }
+	@GetMapping("/qna/index.do")
+	public String index(Model model, QnaSearchDTO dto, Locale locale, HttpSession session,
+			@RequestParam(value = "page", required = false) Integer page) {
+		if (page != null)
+			dto.setPage(page);
+		List<QnaVO> qnaList = service.list(dto);
+		model.addAttribute("qna", qnaList);
+		model.addAttribute("search", dto);
+		model.addAttribute("serverTime", service.serverTime(locale));
+		return "qna/index";
+	}
 
+	@PostMapping("/qna/search.do")
+	@ResponseBody
+	public ResponseEntity<List<QnaVO>> search(@RequestBody QnaSearchDTO dto) {
+		List<QnaVO> searchResults = service.list(dto);
+		return new ResponseEntity<>(searchResults, HttpStatus.OK);
+	}
 
 	@GetMapping("/qna/write.do")
 	public String write(Model model, Locale locale) {
