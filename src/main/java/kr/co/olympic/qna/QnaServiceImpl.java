@@ -1,8 +1,10 @@
 package kr.co.olympic.qna;
 
-import java.io.File;
-import java.util.ArrayList;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -10,13 +12,20 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.multipart.MultipartFile;
 
 @Service
 public class QnaServiceImpl implements QnaService {
 
 	@Autowired
 	private QnaMapper mapper;
+
+	@Override
+	public String serverTime(Locale locale) {
+		Date date = new Date();
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", locale);
+		String formattedDate = dateFormat.format(date);
+		return formattedDate;
+	}
 
 	@Override
 	public int write(QnaVO vo, HttpServletRequest request) {
@@ -42,17 +51,32 @@ public class QnaServiceImpl implements QnaService {
 	}
 
 	@Override
-	public List<QnaVO> list(Map<String, Integer> map) {
-		List<QnaVO> list = mapper.list(map);
-//		list.
-//		System.out.println(list.toString());
-		return list;
+	@Transactional
+	public List<QnaVO> list(QnaSearchDTO dto) {
+		// 페이지네이션 처리
+		Map<String, Object> pages = new HashMap<>();
+		int count = mapper.count(dto);
+		int totalPage = (int) Math.ceil(count / 10.0);
+		int endPage = (int) (Math.ceil(dto.getPage() / 10.0) * 10);
+		int startPage = endPage - 9;
+		if (endPage > totalPage)
+			endPage = totalPage;
+		boolean isPrev = startPage > 1;
+		boolean isNext = endPage < totalPage;
+		pages.put("count", count);
+		pages.put("totalPage", totalPage);
+		pages.put("endPage", endPage);
+		pages.put("startPage", startPage);
+		pages.put("isPrev", isPrev);
+		pages.put("isNext", isNext);
+		dto.setPages(pages);
+		// 모든 처리 후 qna 조회 결과 리턴
+		return mapper.list(dto);
 	}
 
 	@Override
-	public int count(Map<String, Integer> map) {
-		// TODO Auto-generated method stub
-		return 0;
+	public int count(QnaSearchDTO dto) {
+		return mapper.count(dto);
 	}
 
 	@Override

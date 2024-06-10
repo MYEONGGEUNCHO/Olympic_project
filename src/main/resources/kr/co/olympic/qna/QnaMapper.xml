@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="kr.co.olympic.qna.QnaMapper">
+
+	<select id="test">
+		SELECT * FROM qna
+	</select>
 	<!-- 문의글 작성 -->
 	<insert id="write" parameterType="kr.co.olympic.qna.QnaVO">
 		INSERT INTO qna (
@@ -17,39 +21,60 @@
 			LAST_INSERT_ID()
 		</selectKey>
 	</insert>
-	<!-- 리스트 조회 경우의 수(기본 정렬은 번호 내림차순) 1. 전체 조회 2. 경기 문의 조회 3. 일반, 결제, 티켓 문의 
-		조회 4. 작성자에 따른 문의 조회 5. -->
-	<!-- TODO: 조건 확인해야함 -->
-	<sql id="searchQna">
-		<where>
-			<if test="game_id != null">
-				AND game_id = #{game_id}
+	<!-- 공통 조건을 위한 SQL 정의 -->
+	<sql id="commonConditions">
+		<if test="search_words != null and search_words != ''">
+			AND (
+			<if test="search_type == 'all'">
+				q.title LIKE CONCAT('%', #{search_words}, '%')
+				OR
+				q.content LIKE CONCAT('%', #{search_words}, '%')
 			</if>
-			<if test="game_id == null">
-				AND game_id IS NULL
-				OR game_id = 0
+			<if test="search_type == 'title'">
+				q.title LIKE CONCAT('%', #{search_words}, '%')
 			</if>
-			<if test="member_no != null">
-				AND member_no = #{member_no}
+			<if test="search_type == 'content'">
+				q.content LIKE CONCAT('%', #{search_words}, '%')
 			</if>
-			<if test="type != null">
-				AND type = #{type}
+			)
+		</if>
+		<if test="type != null">
+			<if test="type == 'all'">
+				AND q.type IN (1, 2, 3)
 			</if>
-		</where>
+			<if test="type != 'all'">
+				AND q.type = #{type}
+			</if>
+		</if>
+		<if test="game_id != null and game_id != ''">
+			AND q.game_id = #{game_id}
+		</if>
+		<if test="member_no != null and member_no != ''">
+			AND q.member_no = #{member_no}
+		</if>
 	</sql>
-	<!-- 리스트 조회 -->
-	<select id="list" parameterType="map"
+
+	<!-- qna 전체 리스트 조회 -->
+	<select id="list" parameterType="kr.co.olympic.qna.QnaSearchDTO"
 		resultType="kr.co.olympic.qna.QnaVO">
 		SELECT * FROM qna q
-		LEFT JOIN (SELECT name, member_no FROM member) m
-		ON q.member_no = m.member_no
-		<include refid="searchQna" />
-		ORDER BY qna_no DESC
+		LEFT JOIN (SELECT name, member_no FROM member) m ON
+		q.member_no =
+		m.member_no
+		<where>
+		1=1
+			<include refid="commonConditions" />
+		</where>
+		ORDER BY q.qna_no DESC
+		LIMIT #{startIdx}, 10
 	</select>
 	<!-- 개수 조회 -->
-	<select id="count" parameterType="Integer" resultType="Integer">
-		SELECT COUNT(*) FROM qna
-		<include refid="searchQna" />
+	<select id="count"
+		parameterType="kr.co.olympic.qna.QnaSearchDTO" resultType="Integer">
+		SELECT COUNT(*) FROM qna q
+		<where>
+			<include refid="commonConditions" />
+		</where>
 	</select>
 
 	<!-- 상세 페이지 조회 -->
@@ -59,9 +84,11 @@
 		WHERE qna_no = #{qna_no}
 	</select>
 	<!-- 조회한 페이지 readcnt 증가 -->
-	<update id="updateReadCnt" parameterType="kr.co.olympic.qna.QnaVO">
+	<update id="updateReadCnt"
+		parameterType="kr.co.olympic.qna.QnaVO">
 		UPDATE qna SET readcnt
-		= readcnt+1 WHERE qna_no = #{qna_no}
+		= readcnt+1 WHERE qna_no =
+		#{qna_no}
 	</update>
 	<!-- 답변 작성 -->
 	<update id="reply" parameterType="kr.co.olympic.qna.QnaVO">
@@ -73,11 +100,13 @@
 	<!-- 게시글 수정 -->
 	<update id="update" parameterType="kr.co.olympic.qna.QnaVO">
 		UPDATE qna SET
-		update=NOW(), title=#{title}, content=#{content}
+		update=NOW(),
+		title=#{title}, content=#{content}
 		WHERE qna_no=#{qna_no}
 	</update>
-<!-- 	게시글 삭제 (첨부파일은 별도 mapper) -->
+	<!-- 게시글 삭제 (첨부파일은 별도 mapper) -->
 	<delete id="delete" parameterType="int">
-		DELETE FROM qna WHERE qna_no=#{qna_no}
+		DELETE FROM qna WHERE
+		qna_no=#{qna_no}
 	</delete>
 </mapper>

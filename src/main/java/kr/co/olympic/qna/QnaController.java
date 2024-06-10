@@ -1,9 +1,9 @@
 package kr.co.olympic.qna;
 
 import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
@@ -28,43 +28,50 @@ public class QnaController {
 	@Autowired
 	private QnaService service;
 
-	@GetMapping("/qna/index.do")
-	public String index(Model model, QnaVO vo, Locale locale, HttpSession sess,
-			@RequestParam(value = "game_id", required = false) Integer game_id,
-			@RequestParam(value = "member_no", required = false) Integer member_no,
-			@RequestParam(value = "type", required = false) Integer type) {
-		MemberVO login = (MemberVO) sess.getAttribute("login");
-		Map<String, Integer> map = new HashMap<>();
-		if (game_id != null) {
-			map.put("game_id", game_id);
-		}
-		if (member_no != null) {
-			map.put("member_no", member_no);
-		}
-		if (type != null) {
-			map.put("type", type);
-		}
-		model.addAttribute("qna", service.list(map));
-		// 오늘 날짜 작성된 게시글은 시간만 표시해주기 위한 날짜 전송
-		Date date = new Date();
-		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", locale);
-		String formattedDate = dateFormat.format(date);
-		model.addAttribute("serverTime", formattedDate);
+//	@GetMapping("/qna/index.do")
+//	public String index(Model model, QnaVO vo, Locale locale, HttpSession sess,
+//			@RequestParam(value = "game_id", required = false) Integer game_id,
+//			@RequestParam(value = "member_no", required = false) Integer member_no,
+//			@RequestParam(value = "type", required = false) Integer type) {
+//		Map<String, Integer> search = new HashMap<>();
+//		// 검색용
+//		if (game_id != null) {
+//			search.put("game_id", game_id);
+//		}
+//		if (member_no != null) {
+//			search.put("member_no", member_no);
+//		}
+//		if (type != null) {
+//			search.put("type", type);
+//		} else {
+//			search.put("type", 4);
+//		}
+//		model.addAttribute("qna", service.list(vo.getSearch()));
+//		model.addAttribute("search", search);
+//		// 오늘 날짜 작성된 게시글은 시간만 표시해주기 위한 날짜 전송
+//		model.addAttribute("serverTime", service.serverTime(locale));
+//		return "qna/index";
+//	}
+    @GetMapping("/qna/index.do")
+    public String index(Model model, QnaSearchDTO dto, Locale locale, HttpSession session) {
+        List<QnaVO> qnaList = service.list(dto);
+        model.addAttribute("qna", qnaList);
+        model.addAttribute("search", dto);
+        model.addAttribute("serverTime", service.serverTime(locale));
+        return "qna/index";
+    }
+    @PostMapping("/qna/search.do")
+    @ResponseBody
+    public ResponseEntity<List<QnaVO>> search(@RequestBody QnaSearchDTO dto) {
+        List<QnaVO> searchResults = service.list(dto);
+        return new ResponseEntity<>(searchResults, HttpStatus.OK);
+    }
 
-//		System.out.println(map.toString());
-		return "qna/index";
-	}
 
 	@GetMapping("/qna/write.do")
 	public String write(Model model, Locale locale) {
 //		System.out.println("####write get 요청 들어옴");
-		Date date = new Date();
-		DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.FULL, locale);
-
-		String formattedDate = dateFormat.format(date);
-
-		model.addAttribute("serverTime", formattedDate); 
-
+		model.addAttribute("serverTime", service.serverTime(locale));
 		return "qna/write";
 	}
 
@@ -113,20 +120,21 @@ public class QnaController {
 	}
 
 	@GetMapping("/qna/update.do")
-	public String update(Model model, HttpSession session, Locale locale, @RequestParam(value="qna_no") Integer qna_no) {
+	public String update(Model model, HttpSession session, Locale locale,
+			@RequestParam(value = "qna_no") Integer qna_no) {
 //		QnaVO qna = service.detail(qna_no);
-		model.addAttribute("qna",service.detail(qna_no));	
-		
+		model.addAttribute("qna", service.detail(qna_no));
+
 		Date date = new Date();
 		DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.FULL, locale);
 
 		String formattedDate = dateFormat.format(date);
 
-		model.addAttribute("serverTime", formattedDate); 
-		
+		model.addAttribute("serverTime", formattedDate);
+
 		return "qna/update";
 	}
-	
+
 	@PostMapping("/qna/update.do")
 	@ResponseBody
 	public String update(Model model, HttpSession session, @RequestBody QnaVO qnaVO) {
