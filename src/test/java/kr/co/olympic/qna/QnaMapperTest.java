@@ -21,6 +21,10 @@ public class QnaMapperTest {
 	@Autowired
 	private QnaMapper qnaMapper;
 
+	@Test
+	public void test() {
+		System.out.println(qnaMapper.test());
+	}
 	
 	@Test
 	public void write() {
@@ -41,8 +45,9 @@ public class QnaMapperTest {
 		map.put("game_id", null);
 		map.put("member_no", null);
 		map.put("type", null);
-
-		List<QnaVO> result = qnaMapper.list(map);
+		QnaVO vo = new QnaVO();
+		vo.setSearch(map);
+		List<QnaVO> result = qnaMapper.list(vo);
 
 		log.debug(result);
 	}

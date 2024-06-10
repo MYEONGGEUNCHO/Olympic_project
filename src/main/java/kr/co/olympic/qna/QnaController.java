@@ -33,39 +33,37 @@ public class QnaController {
 			@RequestParam(value = "game_id", required = false) Integer game_id,
 			@RequestParam(value = "member_no", required = false) Integer member_no,
 			@RequestParam(value = "type", required = false) Integer type) {
-		MemberVO login = (MemberVO) sess.getAttribute("login");
-		Map<String, Integer> map = new HashMap<>();
+		Map<String, Integer> search = new HashMap<>();
+		// 검색용
 		if (game_id != null) {
-			map.put("game_id", game_id);
+			search.put("game_id", game_id);
 		}
 		if (member_no != null) {
-			map.put("member_no", member_no);
+			search.put("member_no", member_no);
 		}
 		if (type != null) {
-			map.put("type", type);
+			search.put("type", type);
+		} else {
+			search.put("type", 4);
 		}
-		map.put("startIdx", 1);
-		model.addAttribute("qna", service.list(map));
+		model.addAttribute("qna", service.list(vo));
+		model.addAttribute("search", search);
 		// 오늘 날짜 작성된 게시글은 시간만 표시해주기 위한 날짜 전송
-		Date date = new Date();
-		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", locale);
-		String formattedDate = dateFormat.format(date);
-		model.addAttribute("serverTime", formattedDate);
-
-//		System.out.println(map.toString());
+		model.addAttribute("serverTime", service.serverTime(locale));
 		return "qna/index";
+	}
+	
+	@PostMapping("/qna/search.do")
+	@ResponseBody
+	public void search(@RequestBody QnaVO vo) {
+		service.list(vo.getSearch());
+		
 	}
 
 	@GetMapping("/qna/write.do")
 	public String write(Model model, Locale locale) {
 //		System.out.println("####write get 요청 들어옴");
-		Date date = new Date();
-		DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.FULL, locale);
-
-		String formattedDate = dateFormat.format(date);
-
-		model.addAttribute("serverTime", formattedDate); 
-
+		model.addAttribute("serverTime", service.serverTime(locale));
 		return "qna/write";
 	}
 
@@ -114,20 +112,21 @@ public class QnaController {
 	}
 
 	@GetMapping("/qna/update.do")
-	public String update(Model model, HttpSession session, Locale locale, @RequestParam(value="qna_no") Integer qna_no) {
+	public String update(Model model, HttpSession session, Locale locale,
+			@RequestParam(value = "qna_no") Integer qna_no) {
 //		QnaVO qna = service.detail(qna_no);
-		model.addAttribute("qna",service.detail(qna_no));	
-		
+		model.addAttribute("qna", service.detail(qna_no));
+
 		Date date = new Date();
 		DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.FULL, locale);
 
 		String formattedDate = dateFormat.format(date);
 
-		model.addAttribute("serverTime", formattedDate); 
-		
+		model.addAttribute("serverTime", formattedDate);
+
 		return "qna/update";
 	}
-	
+
 	@PostMapping("/qna/update.do")
 	@ResponseBody
 	public String update(Model model, HttpSession session, @RequestBody QnaVO qnaVO) {

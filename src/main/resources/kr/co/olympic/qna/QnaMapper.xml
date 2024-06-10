@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="kr.co.olympic.qna.QnaMapper">
+
+	<select id="test">
+		SELECT * FROM qna
+	</select>
 	<!-- 문의글 작성 -->
 	<insert id="write" parameterType="kr.co.olympic.qna.QnaVO">
 		INSERT INTO qna (
@@ -22,33 +26,35 @@
 	<!-- TODO: 조건 확인해야함 -->
 	<sql id="searchQna">
 		<where>
-			<if test="game_id != null">
+			<if test="type == 0">
 				AND game_id = #{game_id}
 			</if>
-			<if test="game_id == null">
-				AND game_id IS NULL
-				OR game_id = 0
+			<if test="type != 0">
+				<if test="search.type == 'all'">
+					AND type IN (1, 2, 3)
+				</if>
+				<if test="type != 4">
+					AND type = #{type}
+				</if>
 			</if>
 			<if test="member_no != null">
-				AND member_no = #{member_no}
-			</if>
-			<if test="type != null">
-				AND type = #{type}
+				AND q.member_no = #{member_no}
 			</if>
 		</where>
 	</sql>
 	<!-- 리스트 조회 -->
-	<select id="list" parameterType="map"
+	<select id="list" parameterType="kr.co.olympic.qna.QnaSearchDTO"
 		resultType="kr.co.olympic.qna.QnaVO">
 		SELECT * FROM qna q
 		LEFT JOIN (SELECT name, member_no FROM member) m
-		ON q.member_no = m.member_no
+		ON
+		q.member_no = m.member_no
 		<include refid="searchQna" />
 		ORDER BY qna_no DESC
-		LIMIT #{startIdx}, 10
+		LIMIT #{pages.startIdx}, 10
 	</select>
 	<!-- 개수 조회 -->
-	<select id="count" parameterType="Integer" resultType="Integer">
+	<select id="count" parameterType="kr.co.olympic.qna.QnaSearchDTO" resultType="Integer">
 		SELECT COUNT(*) FROM qna
 		<include refid="searchQna" />
 	</select>
@@ -60,9 +66,11 @@
 		WHERE qna_no = #{qna_no}
 	</select>
 	<!-- 조회한 페이지 readcnt 증가 -->
-	<update id="updateReadCnt" parameterType="kr.co.olympic.qna.QnaVO">
+	<update id="updateReadCnt"
+		parameterType="kr.co.olympic.qna.QnaVO">
 		UPDATE qna SET readcnt
-		= readcnt+1 WHERE qna_no = #{qna_no}
+		= readcnt+1 WHERE qna_no =
+		#{qna_no}
 	</update>
 	<!-- 답변 작성 -->
 	<update id="reply" parameterType="kr.co.olympic.qna.QnaVO">
@@ -74,11 +82,13 @@
 	<!-- 게시글 수정 -->
 	<update id="update" parameterType="kr.co.olympic.qna.QnaVO">
 		UPDATE qna SET
-		update=NOW(), title=#{title}, content=#{content}
+		update=NOW(),
+		title=#{title}, content=#{content}
 		WHERE qna_no=#{qna_no}
 	</update>
-<!-- 	게시글 삭제 (첨부파일은 별도 mapper) -->
+	<!-- 게시글 삭제 (첨부파일은 별도 mapper) -->
 	<delete id="delete" parameterType="int">
-		DELETE FROM qna WHERE qna_no=#{qna_no}
+		DELETE FROM qna WHERE
+		qna_no=#{qna_no}
 	</delete>
 </mapper>
