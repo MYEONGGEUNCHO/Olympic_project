@@ -92,7 +92,7 @@
 					<div class="form-group">
 						<c:if test="${!empty param.game_id}">
 							<input type="radio" id="game" name="type" value=0 checked>
-							<label for="game">게임 문의</label>
+							<label for="game">경기 문의</label>
 						</c:if>
 						<c:if test="${empty param.game_id}">
 							<input type="radio" id="common" name="type" value=1 checked>

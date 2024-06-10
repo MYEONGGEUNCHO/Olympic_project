@@ -36,7 +36,7 @@ public class QnaMapperTest {
 		qnaMapper.write(vo);
 	}
 	
-	// type 0: 게임, 1: 일반, 2: 결제, 3: 티켓 문의
+	// type 0: 경기, 1: 일반, 2: 결제, 3: 티켓 문의
 	// game_id :
 	// member_no : 있으면 무조건 해당하는 유저
 	@Test
