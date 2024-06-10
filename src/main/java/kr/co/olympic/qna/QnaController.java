@@ -64,9 +64,9 @@ public class QnaController {
     @ResponseBody
     public ResponseEntity<List<QnaVO>> search(@RequestBody QnaSearchDTO dto) {
         List<QnaVO> searchResults = service.list(dto);
-//        System.out.println(searchResults.toString());
         return new ResponseEntity<>(searchResults, HttpStatus.OK);
     }
+
 
 	@GetMapping("/qna/write.do")
 	public String write(Model model, Locale locale) {
