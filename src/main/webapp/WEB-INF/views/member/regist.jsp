@@ -14,7 +14,7 @@ $(document).ready(function() {
 
 	    if (email === '') {
 	        alert('이메일을 입력해주세요.');
-	        $("#email").focus();
+	        $('#email').focus();
 	        return;
 	    }
 	 	// 타이머 초기화
@@ -113,10 +113,47 @@ $(document).ready(function() {
 	        }
 	    });
 	});
-    
+	
+	//전체 동의
+	$('#chk_all').click(function() {
+        if ($(this).prop('checked')) {
+            $('input[name=agree]').prop('checked', true);
+        } else {
+            $('input[name=agree]').prop("checked", false);
+        }
+    });
+	
+	 $('input[name=agree]').change(function() {
+	        var allAgreed = true;
+	        $('input[name=agree]').each(function() {
+	            if (!$(this).prop('checked')) {
+	                allAgreed = false;
+	                return false; // 루프 종료
+	            }
+	        });
+
+	        $('#chk_all').prop('checked', allAgreed);
+	    });
+
+    // 모달 열기
+    $('.view-agreement').click(function(e) {
+        e.preventDefault();
+        var target = $(this).data('target');
+        $(target).show();
+    });
+
+    // 모달 닫기
+    $('.modal .close').click(function() {
+        $(this).closest('.modal').hide();
+    });
+
+    // 모달 영역 외 클릭 시 닫기
+    $(window).click(function(event) {
+        if ($(event.target).hasClass('modal')) {
+            $('.modal').hide();
+        }
+    });
 });
-
-
 
 
 function goSave(){
@@ -157,8 +194,17 @@ function goSave(){
 			$("#birth").focus();
 			return;
 		}
+		if(!$("#chk_all").is(':checked')){
+			alert('약관에 모두 동의해주세요');
+			$("#agree1").focus();
+			return;
+		}
+		
+		
 		$("#frm").submit();
 }
+
+
 </script>
 <body>
 	<!-- 	공통 모달 - 헤더 장바구니 등 클릭 시 나오는 사이드 창 -->
@@ -169,17 +215,17 @@ function goSave(){
 	<%@include file="../common/breadcrumb.jsp"%>
 	<!-- 	메인 컨텐트 CONTENT 태그 찾아서 그 부분만 사용하면됨-->
 	<!-- 	이 부분에 내용 작성하여 사용 -->
-	<section class="pt-7 pb-12">
+	<section class="pt-7 pb-6">
 		<div class="container">
 			<div class="row justify-content-center">
-	 <div class="col-12 col-md-6">
+	 			<div class="col-12 col-md-6">
 
-            <!-- Card -->
-            <div class="card card-lg">
-              <div class="card-body">
+		            <!-- Card -->
+		            <div class="card card-lg">
+		              <div class="card-body pt-1">
 
                 <!-- Heading -->
-                <h6 class="mb-7">회원가입</h6>
+                <h6 class="mb-5">Create account</h6>
 
                 <!-- Form -->
                 <form name="frm" id="frm" action="/olympic/member/regist.do" method="post">
@@ -252,8 +298,30 @@ function goSave(){
                     </div>
                     
                     <div class="col-12 col-md-auto">
+                     <div id="register_agree">
+			        	<div class="fs-6 mb-2">
+	                        Terms & Conditions
+	                    </div>
+			            		<div id="fregister_chkall" class="mb-3">
+				                	<input class="form-check-input mt-0" type="checkbox" name="chk_all" value="1" id="chk_all">
+				                	<label for="chk_all">회원가입 약관에 모두 동의합니다</label>
+			            		</div>
+				            	<section id="fregister_term">
+				                	<div class="fs-sm">
+				                    	<input class="form-check-input mt-0" type="checkbox" name="agree" value="1" id="agree1">
+				                    	<label for="agree1">이용약관 동의 <span>(필수)</span></label>
+				                    <a href="#" class="view-agreement fs-sb text-decoration-underline" data-target="#modal-agree1">자세히 보기</a>
+	                				</div>
+	            				</section>
+            				<section>
+				            	<div class="fregister_agree2 checks2">
+				                    <input class="form-check-input mt-0" type="checkbox" name="agree" value="1" id="agree2">
+				                    <label for="agree2">개인정보 수집 및 이용 동의 <span>(필수)</span></label>
+				                    <a href="#" class="view-agreement fs-sb text-decoration-underline" data-target="#modal-agree2">자세히 보기</a>
+				                </div>
+				           </section>
                       <!-- Link -->
-                      <div class="form-group fs-sm text-muted">
+                      <div class="form-group fs-sm text-muted pt-3">
                         By registering your details, you agree with our Terms & Conditions,
                         and Privacy and Cookie Policy.
                       </div>
@@ -271,10 +339,9 @@ function goSave(){
                   </div>
                 </form>
 
-              </div>
-            </div>
-
-          </div>
+              			</div>
+            		</div>
+          		</div>
           	</div>
 		</div>
 	</section>
@@ -283,4 +350,56 @@ function goSave(){
 	<!-- 푸터  -->
 	<%@include file="../common/footer.jsp"%>
 </body>
+<style>
+    /* Modal styling */
+    .modal {
+        display: none;
+        position: fixed;
+        z-index: 1;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background-color: rgba(0, 0, 0, 0.4);
+    }
+
+    .modal-content {
+        background-color: #fefefe;
+        margin: 10% auto;
+        padding: 20px;
+        border: 1px sulid #888;
+        width: 50%;
+        border-radius: 10px;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    }
+
+    .close {
+        color: #aaa;
+        float: right;
+        font-size: 28px;
+        font-weight: buld;
+    }
+
+    .close:hover,
+    .close:focus {
+        color: black;
+        text-decoration: none;
+        cursor: pointer;
+    }
+
+    .modal-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 1px sulid #e5e5e5;
+        padding-bottom: 10px;
+    }
+
+    .modal-body {
+        margin-top: 10px;
+        max-height: 400px;
+        overflow-y: auto;
+    }
+</style>
 </html>

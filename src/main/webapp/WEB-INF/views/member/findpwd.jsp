@@ -1,26 +1,33 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!doctype html>
 <html lang="ko">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
- <script>
-    $(document).ready(function() {
-        $('#checkbtn').click(function(){
-            if ($('#findName').val() === '') {
-                alert('이름을 입력해주세요.');
-                $('#findName').focus();
-                return;
-            }
-            if ($('#findEmail').val() === '') {
-                alert('이메일을 입력해주세요.');
-                $('#findEmail').focus();
-                return;
-            }
-        });
-    });
-    </script>
+<script>
+$(function() {
+    var reset = ${reset != null ? reset : 'false'};
+    if (reset === true) {
+        $("#modalpwdreset").modal("show");
+    }
+})
+
+function goCheck(){
+	if ($('#findName').val() === '') {
+        alert('이름을 입력해주세요.');
+        $('#findName').focus();
+        return;
+    }
+    if ($('#findEmail').val() === '') {
+        alert('이메일을 입력해주세요.');
+        $('#findEmail').focus();
+        return;
+    }
+    $("#passwordResetForm").submit();
+};
+</script>
+
 <body>
 	<!-- 	공통 모달 - 헤더 장바구니 등 클릭 시 나오는 사이드 창 -->
 	<%@include file="../common/modals.jsp"%>
@@ -65,16 +72,18 @@
 											
 								<div class="col-12 ">
 									<!-- Button -->
-									<button class="btn btn-sm btn-dark" id="checkbtn" type="submit">
+									<button class="btn btn-sm btn-dark" id="checkbtn" type="button" onclick="goCheck()">
 										확인</button>
 
 								</div>
 							</div>
 						</form>
-
+						</div>
 					</div>
 				</div>
+				</div>
 	</section>
+	
 <%-- 	<%@include file="../contactus.jsp"%> --%>
 	<!-- 	이 부분에 내용 작성하여 사용 -->
 	<!-- 푸터  -->
