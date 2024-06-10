@@ -55,8 +55,14 @@
 	<update id="update" parameterType="kr.co.olympic.member.MemberVO">
 		UPDATE member SET
 			<if test="pwd != ''">
-			pwd = MD5(#{pwd})
+			pwd = MD5(#{pwd}),
 			</if>
+			<if test="name != ''">
+		        name = #{name},
+		    </if>
+		    <if test="phone != ''">
+		        phone = #{phone}
+		    </if>
 		WHERE member_no = #{member_no}
 	</update>
 	
