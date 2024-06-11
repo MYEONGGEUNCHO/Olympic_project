@@ -16,7 +16,7 @@
 				<div class="col-12 col-lg-5">
 
 					<!-- Image -->
-					<img class="img-fluid" src="../dist/assets/img/covers/cover-25.jpg" alt="...">
+					<img class="img-fluid" src="/olympic/dist/assets/img/covers/cover-25.jpg" alt="...">
 
 				</div>
 				<div class="col-12 col-lg-7 d-flex flex-column px-md-8">
@@ -88,7 +88,7 @@
 			</button>
 
 			<!-- Body -->
-			<div class="modal-body mt-2 me-2 ms-2 py-10 bg-cover text-center text-white" style="background-image: url(../dist/assets/img/covers/cover-26.jpg);">
+			<div class="modal-body mt-2 me-2 ms-2 py-10 bg-cover text-center text-white" style="background-image: url(/olympic/dist/assets/img/covers/cover-26.jpg);">
 
 				<!-- Heading -->
 				<h4>Subscribe to Newsletter and get 15% Discount</h4>
@@ -201,7 +201,7 @@
 					<div class="col-12 col-lg-6 col-xl-5 py-4 py-xl-0 px-xl-0">
 
 						<!-- Image -->
-						<img class="img-fluid" src="../dist/assets/img/products/product-7.jpg" alt="...">
+						<img class="img-fluid" src="/olympic/dist/assets/img/products/product-7.jpg" alt="...">
 
 						<!-- Button -->
 						<a class="btn btn-sm w-100 btn-primary" href="./product.html">
@@ -232,10 +232,10 @@
 								<!-- Radio -->
 								<div class="mb-8 ms-n1">
 									<div class="form-check form-check-inline form-check-img">
-										<input type="radio" class="form-check-input" id="modalProductColorOne" name="modalProductColor" data-toggle="form-caption" data-target="#modalProductColorCaption" value="White" style="background-image: url(../dist/assets/img/products/product-7.jpg);" checked>
+										<input type="radio" class="form-check-input" id="modalProductColorOne" name="modalProductColor" data-toggle="form-caption" data-target="#modalProductColorCaption" value="White" style="background-image: url(/olympic/dist/assets/img/products/product-7.jpg);" checked>
 									</div>
 									<div class="form-check form-check-inline form-check-img">
-										<input type="radio" class="form-check-input" id="modalProductColorTwo" name="modalProductColor" data-toggle="form-caption" data-target="#modalProductColorCaption" value="Black" style="background-image: url(../dist/assets/img/products/product-49.jpg);">
+										<input type="radio" class="form-check-input" id="modalProductColorTwo" name="modalProductColor" data-toggle="form-caption" data-target="#modalProductColorCaption" value="Black" style="background-image: url(/olympic/dist/assets/img/products/product-49.jpg);">
 									</div>
 								</div>
 
@@ -397,7 +397,7 @@
 			<div class="col-4 col-md-3">
 
 				<!-- Image -->
-				<img class="img-fluid" src="../dist/assets/img/products/product-5.jpg" alt="...">
+				<img class="img-fluid" src="/olympic/dist/assets/img/products/product-5.jpg" alt="...">
 
 			</div>
 			<div class="col position-static">
@@ -415,7 +415,7 @@
 			<div class="col-4 col-md-3">
 
 				<!-- Image -->
-				<img class="img-fluid" src="../dist/assets/img/products/product-6.jpg" alt="...">
+				<img class="img-fluid" src="/olympic/dist/assets/img/products/product-6.jpg" alt="...">
 
 			</div>
 			<div class="col position-static">
@@ -433,7 +433,7 @@
 			<div class="col-4 col-md-3">
 
 				<!-- Image -->
-				<img class="img-fluid" src="../dist/assets/img/products/product-7.jpg" alt="...">
+				<img class="img-fluid" src="/olympic/dist/assets/img/products/product-7.jpg" alt="...">
 
 			</div>
 			<div class="col position-static">
@@ -451,7 +451,7 @@
 			<div class="col-4 col-md-3">
 
 				<!-- Image -->
-				<img class="img-fluid" src="../dist/assets/img/products/product-8.jpg" alt="...">
+				<img class="img-fluid" src="/olympic/dist/assets/img/products/product-8.jpg" alt="...">
 
 			</div>
 			<div class="col position-static">
@@ -469,7 +469,7 @@
 			<div class="col-4 col-md-3">
 
 				<!-- Image -->
-				<img class="img-fluid" src="../dist/assets/img/products/product-9.jpg" alt="...">
+				<img class="img-fluid" src="/olympic/dist/assets/img/products/product-9.jpg" alt="...">
 
 			</div>
 			<div class="col position-static">
@@ -786,7 +786,7 @@
 
 						<!-- Image -->
 						<a href="./product.html">
-							<img class="img-fluid mb-7 mb-md-0" src="../dist/assets/img/products/product-6.jpg" alt="...">
+							<img class="img-fluid mb-7 mb-md-0" src="/olympic/dist/assets/img/products/product-6.jpg" alt="...">
 						</a>
 
 					</div>
