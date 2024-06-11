@@ -29,22 +29,21 @@ public class QnaController {
 	private QnaService service;
 
 	@GetMapping("/qna/index.do")
-	public String index(Model model, QnaSearchDTO dto, Locale locale, HttpSession session,
-			@RequestParam(value = "page", required = false) Integer page) {
-		if (page != null)
-			dto.setPage(page);
+	public String index(Model model, QnaSearchDTO dto, Locale locale, HttpSession session) {
 		List<QnaVO> qnaList = service.list(dto);
-		model.addAttribute("qna", qnaList);
-		model.addAttribute("search", dto);
+//		model.addAttribute("qna", qnaList);
+//		model.addAttribute("search", dto);
 		model.addAttribute("serverTime", service.serverTime(locale));
 		return "qna/index";
 	}
 
 	@PostMapping("/qna/search.do")
 	@ResponseBody
-	public ResponseEntity<List<QnaVO>> search(@RequestBody QnaSearchDTO dto) {
-		List<QnaVO> searchResults = service.list(dto);
-		return new ResponseEntity<>(searchResults, HttpStatus.OK);
+	public ResponseEntity<Map<String, Object>> search(@RequestBody QnaSearchDTO dto) {
+		Map<String, Object> map = new HashMap<>();
+		map.put("searchResults", service.list(dto));
+		map.put("searchConditions", dto);
+		return new ResponseEntity<>(map, HttpStatus.OK);
 	}
 
 	@GetMapping("/qna/write.do")
