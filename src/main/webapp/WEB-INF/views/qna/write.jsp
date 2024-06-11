@@ -61,7 +61,9 @@
 			data : JSON.stringify({
 				type : $("input[name='type']:checked").val(),
 				title : $("#title").val(),
-				content : inner_html
+				content : inner_html,
+				member_no : '${login.member_no}'
+				
 			}),
 			success : function(response) {
 				// 				console.log("Response:", response);
