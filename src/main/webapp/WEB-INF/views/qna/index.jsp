@@ -323,9 +323,11 @@ td {
 				<!-- ajax로 값이 들어갈 부분 -->
 			</ul>
 		</nav>
-		<div class="d-flex justify-content-end m-2">
-			<a class="btn btn-sm btn-dark" href="write.do">작성하기</a>
-		</div>
+		<c:if test="${!empty login}">
+			<div class="d-flex justify-content-end m-2">
+				<a class="btn btn-sm btn-dark" href="write.do">작성하기</a>
+			</div>
+		</c:if>
 	</section>
 	<!-- 푸터  -->
 	<%@include file="../common/footer.jsp"%>
