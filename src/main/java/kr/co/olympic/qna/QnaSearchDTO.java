@@ -8,7 +8,7 @@ import lombok.Data;
 public class QnaSearchDTO {
 	private String game_id; // 특정 경기에 대해서만 조회하는 경우
 	private String member_no; // 특정 멤버가 작성한 게시글 조회하는 경우
-	private String type; // 0 : 게임, 1 : 일반, 2 : 결제, 3 : 티켓, all (1,2,3)
+	private String type; // 0 : 경기, 1 : 일반, 2 : 결제, 3 : 티켓, all (1,2,3)
 	private String search_words; // 검색어가 있는 경우
 	private String search_type; // title, content 검색
 	private int startIdx; // limit으로 제한 걸어줄 시작 인덱스 값

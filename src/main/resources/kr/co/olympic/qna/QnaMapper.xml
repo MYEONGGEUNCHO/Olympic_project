@@ -80,7 +80,9 @@
 	<!-- 상세 페이지 조회 -->
 	<select id="detail" parameterType="kr.co.olympic.qna.QnaVO"
 		resultType="kr.co.olympic.qna.QnaVO">
-		SELECT * FROM qna
+		SELECT * FROM qna q 
+		LEFT JOIN (SELECT member_no, name FROM member) m
+		ON q.member_no = m.member_no
 		WHERE qna_no = #{qna_no}
 	</select>
 	<!-- 조회한 페이지 readcnt 증가 -->

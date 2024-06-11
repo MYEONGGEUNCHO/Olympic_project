@@ -15,9 +15,6 @@ public interface QnaMapper {
 	// 목록 조회 - 페이징 처리
 	List<QnaVO> list(QnaSearchDTO search);
 	
-	// 목록 조회 - 페이징 처리
-	List<QnaVO> search(QnaSearchDTO dto);
-
 	// 개수 체크
 	int count(QnaSearchDTO search);
 

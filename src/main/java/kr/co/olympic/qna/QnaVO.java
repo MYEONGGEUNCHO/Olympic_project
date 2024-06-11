@@ -18,6 +18,7 @@ public class QnaVO {
 	private int readcnt;
 	// HTML 태그의 내용이 담기는 답변 reply
 	private String reply;
+	private Timestamp reply_date;
 //	//TODO: game_id로 조회한 해당 qna와 연결된 game의 VO객체
 //	private GameVO game_id;
 	private int game_id;

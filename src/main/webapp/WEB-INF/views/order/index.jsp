@@ -16,7 +16,7 @@
         <p>구매자 이름: <span id="name">${member.name}</span></p>
         <p>이메일: <span id="email">${member.email}</span></p>
         <p>전화번호: <span id="phone">${member.phone}</span></p>
-        <p>게임id: <span id="game_id">${payment.game_id}</span></p>
+        <p>경기id: <span id="game_id">${payment.game_id}</span></p>
         <p>상품id: <span id="item_no">${payment.item_no}</span></p> 
         <p>상품상세: <span id="content">${payment.content}</span></p>
         <p>예매 정보 확인:</p>

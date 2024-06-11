@@ -21,11 +21,26 @@
 			previewStyle : 'vertical', // 마크다운 프리뷰 스타일 (tab || vertical)
 			language : 'ko-KR',
 			autofocus : true,
-		// 			hooks: {
-		// 				addImageBlobHook(blob, callback) {
+// 			TODO: 이미지 처리 최적화 필요함
+// 			hooks: {
+// 				addImageBlobHook(blob, callback) => {
+// 				    const formData = new FormData();
+// 		                    formData.append('file', blob);
 
-		// 				}
-		// 			}
+// 		                    $.ajax({
+// 		                        url: '/qna/upload.do',
+// 		                        type: 'POST',
+// 		                        data: formData,
+// 		                        processData: false,
+// 		                        contentType: false,
+// 		                        success: (response) => {
+// 		                            callback(response.url, 'alt text');
+// 		                        },
+// 		                        error: (jqXHR, textStatus, errorThrown) => {
+// 		                            console.error('Error uploading file:', textStatus, errorThrown);
+// 		                        }
+// 		                    });
+// 			}
 		});
 		$("#btn").click(function(e) {
 			write();
@@ -92,7 +107,7 @@
 					<div class="form-group">
 						<c:if test="${!empty param.game_id}">
 							<input type="radio" id="game" name="type" value=0 checked>
-							<label for="game">게임 문의</label>
+							<label for="game">경기 문의</label>
 						</c:if>
 						<c:if test="${empty param.game_id}">
 							<input type="radio" id="common" name="type" value=1 checked>
