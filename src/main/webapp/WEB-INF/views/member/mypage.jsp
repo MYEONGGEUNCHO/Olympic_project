@@ -3,6 +3,16 @@
 <!doctype html>
 <html lang="ko">
 <script>
+function delchk(){
+
+    if(confirm("탈퇴 하시겠습니까?")){
+        location.href = "/olympic/member/delete.do";
+        return true;
+    } else {
+        return false;
+    }
+
+}
 function goUpdate(){
 	
 	if ($("#newpwd").val() == '') {
@@ -32,8 +42,6 @@ function goUpdate(){
 	}else{
 		return;
 	}
-	
-	
 }
 </script>
 <body>
@@ -55,35 +63,7 @@ function goUpdate(){
           </div>
         </div>
         <div class="row">
-          <div class="col-12 col-md-3">
-
-            <nav class="mb-10 mb-md-0">
-              <div class="list-group list-group-sm list-group-strong list-group-flush-x">
-                <a class="list-group-item list-group-item-action dropend-toggle " href="account-orders.html">
-                  관심 목록 확인
-                </a>
-                <a class="list-group-item list-group-item-action dropend-toggle " href="account-wishlist.html">
-                  예매 내역 확인
-                </a>
-                <a class="list-group-item list-group-item-action dropend-toggle active" href="">
-                  문의 답변 확인
-                </a>
-                <a class="list-group-item list-group-item-action dropend-toggle " href="/olympic/member/pwdcheck.do">
-                  정보수정
-                </a>
-                <a class="list-group-item list-group-item-action dropend-toggle " href="/olympic/member/membership.do">
-                  멤버십
-                </a>
-                <a class="list-group-item list-group-item-action dropend-toggle " href="account-payment.html">
-                  내 쿠폰함
-                </a>
-                <a class="list-group-item list-group-item-action dropend-toggle" href="/olympic/member/logout.do">
-                  Logout
-                </a>
-              </div>
-            </nav>
-
-          </div>
+        <%@include file="../common/mypage.jsp"%>
           <div class="col-12 col-md-9 col-lg-8 offset-lg-1">
 
             <!-- Form -->
@@ -134,7 +114,7 @@ function goUpdate(){
                   </div>
 
                 </div>
-                <div class="col-12 col-md-6">
+                <div class="col-12 col-md-6 ">
 
                   <!-- Phone -->
                   <div class="form-group">
@@ -157,15 +137,14 @@ function goUpdate(){
 
                 </div>
                 <div class="col-12">
-
                   <!-- Button -->
                   <button class="btn btn-dark" type="button" onclick="goUpdate()">Save Changes</button>
-
                 </div>
+                <a class="text-end" href="#" onclick="delchk()">회원 탈퇴하기</a>
               </div>
               <input type="hidden" name="member_no" value="${login.member_no }"/>
             </form>
-
+			
           </div>
         </div>
       </div>

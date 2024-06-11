@@ -30,7 +30,7 @@ $(function() {
 	<!-- 	헤더 하단 현재 경로 노출 -->
 	<%@include file="../common/breadcrumb.jsp"%>
 	<!-- 	메인 컨텐트 CONTENT 태그 찾아서 그 부분만 사용하면됨-->
-		<section class="pt-7 pb-12">
+	<section class="pt-7 pb-12">
       <div class="container">
         <div class="row">
           <div class="col-12 text-center">
@@ -41,34 +41,7 @@ $(function() {
           </div>
         </div>
         <div class="row">
-          <div class="col-12 col-md-3">
-
-            <nav class="mb-10 mb-md-0">
-              <div class="list-group list-group-sm list-group-strong list-group-flush-x">
-                <a class="list-group-item list-group-item-action dropend-toggle " href="account-orders.html">
-                  관심 목록 확인
-                </a>
-                <a class="list-group-item list-group-item-action dropend-toggle " href="account-wishlist.html">
-                  예매 내역 확인
-                </a>
-                <a class="list-group-item list-group-item-action dropend-toggle active" href="">
-                  문의 답변 확인
-                </a>
-                <a class="list-group-item list-group-item-action dropend-toggle " href="/olympic/member/pwdcheck.do">
-                  정보수정
-                </a>
-                <a class="list-group-item list-group-item-action dropend-toggle " href="/olympic/member/membership.do">
-                  멤버십
-                </a>
-                <a class="list-group-item list-group-item-action dropend-toggle " href="account-payment.html">
-                  내 쿠폰함
-                </a>
-                <a class="list-group-item list-group-item-action dropend-toggle" href="/olympic/member/logout.do">
-                  Logout
-                </a>
-              </div>
-            </nav>
-          </div>
+          <%@include file="../common/mypage.jsp"%>
 			<div class="col-12 col-md-9 col-lg-8 offset-lg-1">
             <!-- Heading -->
             <h5 class="mt-7 mb-7">
@@ -103,7 +76,7 @@ $(function() {
               </div>
               <!-- Button -->
               <div class="d-flex justify-content-end">
-              	<a class="me-auto fs-sm text-reset" data-bs-toggle="modal" href="#modalvip">VIP 혜택 상세보기</a>
+              	<a class="me-auto fs-sm text-reset text-decoration-underline" data-bs-toggle="modal" href="#modalvip">VIP 혜택 상세보기</a>
 			    <button class="btn btn-dark col-auto" type="button" id="purchasebtn" data-bs-toggle="modal" data-bs-target="#modalbuymembership">
 			      구매하기 <i class="fe fe-arrow-right ms-2"></i>
 			    </button>

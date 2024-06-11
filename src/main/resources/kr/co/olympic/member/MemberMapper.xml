@@ -95,7 +95,18 @@
 		SELECT * FROM coupon WHERE member_no=#{member_no}
 	</select>
 	
-	
+	<insert id="insert_coupon" parameterType="kr.co.olympic.member.CouponVO">
+		INSERT INTO coupon (
+		coupon_no,
+		content, discount,
+		member_no, used
+		)
+		VALUES (
+		#{coupon_no},
+		#{content}, #{discount},
+		#{member_no}, 0
+		)
+	</insert>
 	
 	
 
