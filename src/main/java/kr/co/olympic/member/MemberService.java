@@ -1,6 +1,7 @@
 package kr.co.olympic.member;
 
 import java.io.UnsupportedEncodingException;
+import java.util.List;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
@@ -17,7 +18,8 @@ public interface MemberService {
 	int update(MemberVO vo);
 	int delete(MemberVO vo);
 	int buy_membership(MemberVO vo);
-	CouponVO coupon_list(MemberVO vo);
+	List<CouponVO> coupon_list(MemberVO vo);
+	int insert_coupon(CouponVO vo);
 	
 	// 메일 내용 작성
     MimeMessage creatMessage(String to) throws MessagingException, UnsupportedEncodingException;
