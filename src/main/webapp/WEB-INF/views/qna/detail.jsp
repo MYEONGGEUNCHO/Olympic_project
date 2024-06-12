@@ -3,10 +3,24 @@
 <!doctype html>
 <html lang="ko">
 <head>
+<script src="https://uicdn.toast.com/editor/latest/toastui-editor-viewer.js"></script>
+<link rel="stylesheet" href="https://uicdn.toast.com/editor/latest/toastui-editor-viewer.min.css" />
 
 <script src="../js/jquery-3.7.1.min.js"></script>
 <script>
     $(function() {
+	const Viewer = toastui.Editor;
+	const viewer = new Viewer({
+	    el: document.querySelector('#toast_viewer'),
+	    height: '600px',
+	    initialValue: '${qna.content}'
+	  });
+	const reply_viewer = new Viewer({
+	    el: document.querySelector('#reply_viewer'),
+	    height: '600px',
+	    initialValue: '${qna.reply}'
+	  });
+	
 	$("#modify").click(function() {
 	    location.href = "/olympic/qna/update.do?qna_no=${param.qna_no}";
 	});
@@ -121,7 +135,9 @@
 										</div>
 										<hr>
 										<!-- Text -->
-										<p class="text-gray-500">${qna.content}</p>
+										<p class="text-gray-500">
+											<div id="toast_viewer"></div>
+										</p>
 									</div>
 								</div>
 								<!-- Child review 관리자 답변 -->
@@ -156,7 +172,7 @@
 													<p class="text-gray-500">아직 답변이 작성되지 않았습니다.</p>
 												</c:if>
 												<c:if test="${!empty qna.reply}">
-													<p class="text-gray-500">${qna.reply }</p>
+													<p class="text-gray-500"><div id="reply_viewer"></div></p>
 												</c:if>
 											</div>
 										</div>
