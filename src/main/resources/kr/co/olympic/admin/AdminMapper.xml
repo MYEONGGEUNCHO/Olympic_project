@@ -13,22 +13,21 @@
 	<!-- 회원정보 수정 등급, 포인트 -->
 	<update id="updateMember" parameterType="kr.co.olympic.member.MemberVO">
 		UPDATE member SET
+		name = #{name},
 		<if test="membership != ''">
 		membership = #{membership},
 		</if>
 		<if test="point != ''">
 		point = #{point},
 		</if>
-		<if test="state != ''">
-		state = #{state},
-		</if>
-		WHERE member_no = #{member_no}
+		state = #{state}
+		WHERE email = #{email}
 		
 	</update>	
 	<!-- 비밀번호 초기화 -->
 	<update id="resetMember" parameterType="kr.co.olympic.member.MemberVO">
-		UPDATE member SET pwd = MD5(REPLACE(DATE_FORMAT(#{birthday}, '%Y-%m-%d'), '-', ''))
-		WHERE member_no = #{member_no}
+		UPDATE member SET pwd = MD5(REPLACE(DATE_FORMAT(birthday, '%Y-%m-%d'), '-', ''))
+		WHERE email = #{email}
 	</update>
 	
 	<!-- 쿠폰 생성 -->

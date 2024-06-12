@@ -53,7 +53,7 @@ public class MemberController {
 			return "/common/alert";
 		} else {
 			sess.setAttribute("login", login);
-			return "/home";
+			return "/index";
 		}
 	}
 	

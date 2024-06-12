@@ -34,5 +34,9 @@ public class MemberVO {
 	public void setBirthday(String birthday) {
         this.birthday = birthday;
     }
+	
+	// 포맷된 credate
+    private String formattedCredate;
+
 
 }
