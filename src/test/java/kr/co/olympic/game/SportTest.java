@@ -40,7 +40,8 @@ public class SportTest {
 	// 종목 리스트 조회 테스트
     @Test
     public void listSport() {
-        List<SportVO> list = mapper.listSport();
+    	SportVO vo = new SportVO();
+        List<SportVO> list = mapper.listSport(vo);
         assertNotNull(list);
         assertFalse(list.isEmpty());
         list.forEach(sport -> log.info("Sport in list: " + sport));

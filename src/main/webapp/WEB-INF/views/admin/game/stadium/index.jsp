@@ -82,7 +82,7 @@
 			</tbody>
 		</table>
 		<div>
-			<a href="/olympic/game/stadium/create.do">경기장 추가</a>
+			<a href="/olympic/admin/game/stadium/write.do">경기장 추가</a>
 		</div>
 		<div>
 			<ul>

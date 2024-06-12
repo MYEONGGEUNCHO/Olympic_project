@@ -31,13 +31,13 @@
 			<p><span><strong>총 ${map.count }개</strong>  |  ${sportVO.page }/${map.totalPage }페이지</span></p>
 			<caption>종목 목록</caption>
 			<colgroup>
-				<col width="50px" height="30px">
-				<col width="50px" height="30px">
-				<col width="50px" height="30px">
-				<col width="50px" height="30px">
-				<col width="50px" height="30px">
-				<col width="50px" height="30px">
-				<col width="50px" height="30px">
+				<col width="50px">
+				<col width="50px">
+				<col width="50px">
+				<col width="50px">
+				<col width="50px">
+				<col width="50px">
+				<col width="50px">
 			</colgroup>
 			<thead>
 				<tr>
@@ -70,7 +70,7 @@
 			</tbody>
 		</table>
 		<div>
-			<a href="/olympic/game/sport/create.do">종목 추가</a>
+			<a href="/olympic/admin/game/sport/write.do">종목 추가</a>
 		</div>
 		<div>
 			<ul>

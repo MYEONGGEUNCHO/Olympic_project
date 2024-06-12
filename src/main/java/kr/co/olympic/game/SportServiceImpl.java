@@ -59,9 +59,4 @@ public class SportServiceImpl implements SportService {
         return mapper.deleteSport(sport);
     }
 
-	@Override
-	public List<SportVO> listSport() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 }

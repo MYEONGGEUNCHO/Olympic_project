@@ -15,7 +15,8 @@ public class StadiumServiceImpl implements StadiumService {
 
     @Override
     public int createStadium(StadiumVO stadium) {
-        return mapper.createStadium(stadium);
+    	int r = mapper.createStadium(stadium);
+        return r;
     }
 
     @Override

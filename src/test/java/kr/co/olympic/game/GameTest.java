@@ -29,7 +29,8 @@ public class GameTest {
     // 경기 전체 리스트
     @Test
     public void listGame() {
-    	List<GameVO> list = mapper.listGame();
+    	GameVO vo = new GameVO();
+    	List<GameVO> list = mapper.listGame(vo);
     	assertNotNull(list);
         assertFalse(list.isEmpty());
         list.forEach(game -> log.info("Game in list: " + game));
