@@ -8,6 +8,7 @@
 <style>
 th {
 	text-align: center !important;
+	cursor: pointer;
 }
 
 table {
@@ -28,11 +29,28 @@ td {
 <script src="../js/jquery-3.7.1.min.js"></script>
 <script>
     var currentPage = 1;
-    // TODO: 페이지 정보 어딘가에 저장하고, 그 정보 받아와서 넘어가기
+    var orderInfo = "";
     $(document)
 	    .ready(
 		    function() {
 
+			// 모든 th 요소들을 선택합니다.
+            const thElements = document.querySelectorAll('th');
+            thElements.forEach(th => {
+                th.addEventListener('click', function() {
+                    // 클릭된 th 요소의 data-column 속성 값을 가져옵니다.
+                    var column = th.getAttribute('data-head');
+                    if(orderInfo == "" || orderInfo.indexOf("ASC") != -1) {
+	                    column += ' DESC, ';                	
+                    }
+                    else {
+                		column += ' ASC, ';
+                    }
+                    // 원하는 함수를 실행합니다.
+                    searchQna(1, column);
+                });
+            });
+		            
 			// 페이지 로드 시 기본 QnA 리스트 로드
 			loadQnaList();
 			// #search_words 요소에서 엔터 키를 눌렀을 때
@@ -62,10 +80,7 @@ td {
 			});
 
 			function searchQna(page, orderinfo) {
-			    var orderInfo = orderinfo;
-			    if (orderInfo == "") {
-				orderInfo = "q.qna_no";
-			    }
+			    orderInfo = orderinfo + "q.qna_no";
 			    // 	TODO: game_id는 해당 페이지 gameVO에서 받아오기
 			    // TODO: member_no는 어떻게 받아와야할까????
 			    var type = $("input[name='type']:checked").val();
@@ -95,14 +110,13 @@ td {
 				}
 			    });
 			}
-
 			function updateQnaList(data) {
 			    var search = data.searchConditions;
 			    var result = data.searchResults;
 			    var notice = data.noticeResults;
-			    console.log(search);
-			    console.log(result);
-			    console.log(notice);
+// 			    console.log(search);
+// 			    console.log(result);
+// 			    console.log(notice);
 			    var qnaList = $("#qnaList");
 			    qnaList.empty();
 			    var pagination = $("#pagination");
