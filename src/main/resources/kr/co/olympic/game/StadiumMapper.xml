@@ -68,5 +68,4 @@
 		SELECT COUNT(*) FROM stadium
 		<include refid="searchSql"/>
 	</select>
-	
 </mapper>

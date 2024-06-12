@@ -10,11 +10,13 @@ public interface SportMapper {
 	// 종목 생성
 	int createSport(SportVO sport);
 	// 종목 리스트
-	List<SportVO> listSport();
+	List<SportVO> listSport(SportVO sport);
 	// 종목 상세조회
 	SportVO detailSport(SportVO sport);
 	// 종목 수정
 	int updateSport(SportVO sport);
 	// 종목 삭제
 	int deleteSport(SportVO sport);
+	// 종목 수
+	int count(SportVO vo);
 }
