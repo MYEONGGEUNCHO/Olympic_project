@@ -51,6 +51,11 @@ public class QnaServiceImpl implements QnaService {
 	}
 
 	@Override
+	public List<QnaVO> notice() {
+		return mapper.notice();
+	}
+
+	@Override
 	@Transactional
 	public List<QnaVO> list(QnaSearchDTO dto) {
 		// 페이지네이션 처리

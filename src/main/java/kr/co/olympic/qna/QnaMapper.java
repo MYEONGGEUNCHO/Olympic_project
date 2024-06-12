@@ -12,6 +12,9 @@ public interface QnaMapper {
 	// 문의글 작성
 	int write(QnaVO vo);
 
+	// 공지사항 조회 최근 3개만
+	List<QnaVO> notice();
+	
 	// 목록 조회 - 페이징 처리
 	List<QnaVO> list(QnaSearchDTO search);
 	

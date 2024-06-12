@@ -2,15 +2,18 @@ package kr.co.olympic.qna;
 
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
 public interface QnaService {
 	// 서버 시간 전달
 	String serverTime(Locale locale);
+
 	// 문의글 작성
 	int write(QnaVO vo, HttpServletRequest request);
+
+	// 공지사항 조회
+	List<QnaVO> notice();
 
 	// 목록 조회
 	List<QnaVO> list(QnaSearchDTO search);

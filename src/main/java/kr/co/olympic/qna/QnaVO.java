@@ -28,6 +28,7 @@ public class QnaVO {
 	private List<AttachedVO> attached;
 	private QnaSearchDTO search;
 	private int searchCount;
+	private int state;
 
 	
 	

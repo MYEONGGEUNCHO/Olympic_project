@@ -41,6 +41,7 @@ public class QnaController {
 	@ResponseBody
 	public ResponseEntity<Map<String, Object>> search(@RequestBody QnaSearchDTO dto) {
 		Map<String, Object> map = new HashMap<>();
+		map.put("noticeResults", service.notice());
 		map.put("searchResults", service.list(dto));
 		map.put("searchConditions", dto);
 		return new ResponseEntity<>(map, HttpStatus.OK);

@@ -11,16 +11,17 @@
     $(function() {
 	const Viewer = toastui.Editor;
 	const viewer = new Viewer({
-	    el: document.querySelector('#toast_viewer'),
-	    height: '600px',
-	    initialValue: '${qna.content}'
-	  });
-	const reply_viewer = new Viewer({
-	    el: document.querySelector('#reply_viewer'),
-	    height: '600px',
-	    initialValue: '${qna.reply}'
-	  });
-	
+	    el : document.querySelector('#toast_viewer'),
+	    height : '600px',
+	    initialValue : '${qna.content}'
+	});
+	const reply_viewer = new Viewer(
+		{
+		    el : document.querySelector('#reply_viewer'),
+		    height : '600px',
+		    initialValue : '${empty qna.reply ? "<p>아직 답변이 작성되지 않았습니다.</p>" : qna.reply}'
+		});
+
 	$("#modify").click(function() {
 	    location.href = "/olympic/qna/update.do?qna_no=${param.qna_no}";
 	});
@@ -43,7 +44,7 @@
 		error : function(xhr, status, error) {
 		    console.error("Error:", error);
 		    // 에러 시 수행할 동작
-		    alert('글 삭제 중 오류가 발생했습니다: ' + xhr.responseText);
+		    alert('글 삭제 중 오류가 발생했습니다: ');
 		}
 	    });
 	});
@@ -107,7 +108,7 @@
 										<div class="row mb-4">
 											<div class="col-12">
 												<span class="fs-xs text-muted d-flex justify-content-end">조회수 : ${qna.readcnt }</span>
-												<div class="fx-xs text-bold">${qna.name}님</div>
+												<div class="fx-xs text-bold">${empty qna.name ? '알 수 없음' : qna.name}님</div>
 												<!-- Time -->
 												<span class="fs-xs text-muted">
 													<time datetime="${qna.regdate}">${qna.regdate}</time>
@@ -136,48 +137,54 @@
 										<hr>
 										<!-- Text -->
 										<p class="text-gray-500">
-											<div id="toast_viewer"></div>
+										<div id="toast_viewer"></div>
 										</p>
 									</div>
 								</div>
-								<!-- Child review 관리자 답변 -->
-								<div class="review review-child">
-									<div class="review-body">
-										<div class="row">
-											<div class="col-12 col-md-auto">
-												<!-- Avatar -->
-												<div class="avatar avatar-xxl mb-6 mb-md-0">
-													<span class="avatar-title rounded-circle">
-														<i class="fa fa-user"></i>
-													</span>
-												</div>
-											</div>
-											<div class="col-12 col-md">
-												<!-- Header -->
-												<div class="row mb-4">
-													<div class="col-12">
-														<div class="fx-xs text-bold">관리자 답변</div>
-														<!-- Time -->
-														<span class="fs-xs text-muted d-flex justify-content-between">
-															<c:if test="${!empty qna.reply}">
-																<time datetime="${qna.reply_date}">${qna.reply_date}</time>
-															</c:if>
-
+								<c:if test="${qna.state == 0 }">
+									<!-- Child review 관리자 답변 -->
+									<div class="review review-child">
+										<div class="review-body">
+											<div class="row">
+												<div class="col-12 col-md-auto">
+													<!-- Avatar -->
+													<div class="avatar avatar-xxl mb-6 mb-md-0">
+														<span class="avatar-title rounded-circle">
+															<i class="fa fa-user"></i>
 														</span>
 													</div>
 												</div>
-												<hr>
-												<!-- Text -->
-												<c:if test="${empty qna.reply}">
-													<p class="text-gray-500">아직 답변이 작성되지 않았습니다.</p>
-												</c:if>
-												<c:if test="${!empty qna.reply}">
-													<p class="text-gray-500"><div id="reply_viewer"></div></p>
-												</c:if>
+												<div class="col-12 col-md">
+													<!-- Header -->
+													<div class="row mb-4">
+														<div class="col-12">
+															<div class="fx-xs text-bold">관리자 답변</div>
+															<!-- Time -->
+															<span class="fs-xs text-muted d-flex justify-content-between">
+																<c:if test="${!empty qna.reply}">
+																	<time datetime="${qna.reply_date}">${qna.reply_date}</time>
+																</c:if>
+
+															</span>
+														</div>
+													</div>
+													<hr>
+													<!-- Text -->
+													<c:if test="${empty qna.reply}">
+														<p class="text-gray-500">아직 답변이 작성되지 않았습니다.</p>
+													</c:if>
+													<c:if test="${!empty qna.reply}">
+														<div id="reply_viewer">
+															<span>
+																<!--reply viewer 불러올 부분 -->
+															</span>
+														</div>
+													</c:if>
+												</div>
 											</div>
 										</div>
 									</div>
-								</div>
+								</c:if>
 								<!-- Child review END -->
 							</div>
 						</div>
