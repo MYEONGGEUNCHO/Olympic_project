@@ -1,6 +1,7 @@
 package kr.co.olympic.member;
 
 import java.io.UnsupportedEncodingException;
+import java.util.List;
 import java.util.Random;
 
 import javax.mail.MessagingException;
@@ -65,8 +66,13 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
-	public CouponVO coupon_list(MemberVO vo) {
+	public List<CouponVO> coupon_list(MemberVO vo) {
 		return mapper.coupon_list(vo);
+	}
+	
+	@Override
+	public int insert_coupon(CouponVO vo) {
+		return mapper.insert_coupon(vo);
 	}
 
 	@Override

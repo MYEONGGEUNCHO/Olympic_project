@@ -39,13 +39,13 @@ function goCheck(){
             <!-- Nav -->
             <nav class="mb-10 mb-md-0">
               <div class="list-group list-group-sm list-group-strong list-group-flush-x">
-                <a class="list-group-item list-group-item-action dropend-toggle " href="account-orders.html">
+                <a class="list-group-item list-group-item-action dropend-toggle " href="/olympic/member/favorite.do">
                   관심 목록 확인
                 </a>
-                <a class="list-group-item list-group-item-action dropend-toggle " href="account-wishlist.html">
+                <a class="list-group-item list-group-item-action dropend-toggle " href="/olympic/member/order.do">
                   예매 내역 확인
                 </a>
-                <a class="list-group-item list-group-item-action dropend-toggle active" href="">
+                <a class="list-group-item list-group-item-action dropend-toggle " href="/olympic/member/qna.do">
                   문의 답변 확인
                 </a>
                 <a class="list-group-item list-group-item-action dropend-toggle " href="/olympic/member/pwdcheck.do">
@@ -54,7 +54,7 @@ function goCheck(){
                 <a class="list-group-item list-group-item-action dropend-toggle " href="/olympic/member/membership.do">
                   멤버십
                 </a>
-                <a class="list-group-item list-group-item-action dropend-toggle " href="account-payment.html">
+                <a class="list-group-item list-group-item-action dropend-toggle " href="/olympic/member/coupon.do">
                   내 쿠폰함
                 </a>
                 <a class="list-group-item list-group-item-action dropend-toggle" href="/olympic/member/logout.do">
@@ -80,7 +80,7 @@ function goCheck(){
 			                <label class="visually-hidden" for="modalPasswordResetEmail">
 			                  Password
 			                </label>
-			                <input class="form-control form-control-sm" id="password" type="password" name="pwd" placeholder="Email Address *" required>
+			                <input class="form-control form-control-sm" id="password" type="password" name="pwd" placeholder="Password *" required>
 			              	<input type="hidden" name="email" value="${login.email }">
 			              </div>
 			    
