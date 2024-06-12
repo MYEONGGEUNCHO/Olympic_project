@@ -33,7 +33,7 @@ public class ItemTest {
         vo.setD_seat_sold(400);
         vo.setVip_seat_sold(50);
         vo.setState(true);
-        vo.set_korean(true);
+        vo.setKorean_advancement(true);
         vo.setA_seat_price(1000);
         vo.setB_seat_price(2000);
         vo.setC_seat_price(3000);
@@ -49,7 +49,8 @@ public class ItemTest {
     // 상품 리스트 조회 테스트
     @Test
     public void listItem() {
-        List<ItemVO> list = mapper.listItem();
+    	ItemVO vo = new ItemVO();
+        List<ItemVO> list = mapper.listItem(vo);
         assertNotNull(list);
         assertFalse(list.isEmpty());
         list.forEach(item -> log.info("Item in list: " + item));
@@ -76,7 +77,7 @@ public class ItemTest {
         vo.setD_seat_sold(450);
         vo.setVip_seat_sold(55);
         vo.setState(false);
-        vo.set_korean(false);
+        vo.setKorean_advancement(false);
         vo.setA_seat_price(1100);
         vo.setB_seat_price(2200);
         vo.setC_seat_price(3300);
