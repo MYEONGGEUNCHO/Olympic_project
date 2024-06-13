@@ -62,7 +62,7 @@ $(function() {
 				type: $("input[name='type']:checked").val(),
 				title: $("#title").val(),
 				content: inner_html,
-				member_no: '${login.member_no}'
+				member_no: $("input[name='writer']").val()
 			}),
 			success: function(response) {
 				alert('글이 성공적으로 작성되었습니다.');
