@@ -97,20 +97,23 @@
         ON c.game_id = g.game_id
         WHERE c.comment_no = #{comment_no}
     </select>
-	<!-- 경기 관심 등록 -->
-	<insert id="createFavorite" parameterType="java.util.HashMap">
-        INSERT INTO favorite_game (member_no, game_id)
-        VALUES (#{member_no}, #{game_id})
+	<!-- 관심 경기 등록 -->
+	<insert id="createFavorite" parameterType="map">
+        INSERT INTO favorite_game (
+        	member_no, game_id
+        ) VALUES (
+        	#{member_no}, #{game_id}
+        )
     </insert>
 	
 	<!-- 관심 경기 조회 -->
 	<select id="listFavorite" parameterType="kr.co.olympic.member.MemberVO" 
-		resultType="kr.co.olympic.game.GameVO">
-        SELECT g.*
-        FROM game g
-        INNER JOIN favorite_game fg 
-        ON g.game_id = fg.game_id
-        WHERE fg.member_no = #{member_no}
+			resultType="map">
+		SELECT * 
+		FROM olympic.favorite_game as f
+		LEFT JOIN olympic.game as g
+		ON f.game_id = g.game_id
+		WHERE member_no = #{member_no};
     </select>
 	
 	<!-- 경기 관심 삭제 -->

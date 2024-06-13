@@ -28,6 +28,7 @@ public class SportTest {
 		SportVO vo = new SportVO();
 		vo.setSport_code("test2");
 		vo.setSport_name("test2");
+		vo.setSport_pictogram("test2");
 		vo.setTitle_image(null);
 		vo.setLink(null);
 		vo.setSport_info(null);

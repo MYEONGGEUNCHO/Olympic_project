@@ -13,6 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
+import kr.co.olympic.game.GameVO;
+
 @Service
 public class MemberServiceImpl implements MemberService {
 
@@ -153,5 +155,10 @@ public class MemberServiceImpl implements MemberService {
 
         return ePw; // 메일로 사용자에게 보낸 인증코드를 서버로 반환! 인증코드 일치여부를 확인하기 위함
     }
+
+	@Override
+	public List<GameVO> listFavorite(MemberVO vo) {
+		return mapper.listFavorite(vo);
+	}
 
 }
