@@ -1,17 +1,23 @@
 package kr.co.olympic.qna;
 
+import java.io.File;
+import java.io.IOException;
+import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 @Service
 public class QnaServiceImpl implements QnaService {
@@ -28,26 +34,15 @@ public class QnaServiceImpl implements QnaService {
 	}
 
 	@Override
-	public int write(QnaVO vo, HttpServletRequest request) {
-//		if (!file.isEmpty() && file != null) {
-//			// 파일명
-//			String org = file.getOriginalFilename();
-//			String ext = org.substring(org.lastIndexOf("."));
-//			String real = System.currentTimeMillis()+ext;
-//			// 파일저장
-//			String path = request.getRealPath("/upload/board/")+real;
-//			try {
-//				file.transferTo(new File(path));
-//			} catch (Exception e) {}
-//			AttachedVO fileVO = new AttachedVO();
-//			List<AttachedVO> list = new ArrayList<>();
-//			fileVO.setOriginal(org);
-//			fileVO.setReal(real);
-//			list.add(fileVO);
-//			vo.setAttached(list);
-//		}
-		int r = mapper.write(vo);
-		return r;
+	public int write(QnaVO vo) {
+		if ("".equals(vo.getTitle()) || vo.getTitle() == null) {
+			return 0;
+		}
+		if ("".equals(vo.getContent()) || vo.getContent() == null) {
+			return 0;
+		}
+		// 게시글 정보 DB 저장
+		return mapper.write(vo);
 	}
 
 	@Override

@@ -4,6 +4,7 @@ import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import lombok.Data;
 
@@ -24,17 +25,9 @@ public class QnaVO {
 	private int game_id;
 	private String member_no;
 	private String name;
-	// 첨부파일 리스트
-	private List<AttachedVO> attached;
 	private QnaSearchDTO search;
 	private int searchCount;
 	private int state;
-
-	
-	
-//	public QnaVO() {
-//		GameVO gameVO = gameMapper.detailGame(this.game_id);
-//	}
 //	public int getGame_id() {
 //		return game_id.getGame_id();
 //	}

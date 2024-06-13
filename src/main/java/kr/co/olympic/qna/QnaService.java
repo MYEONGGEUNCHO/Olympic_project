@@ -5,13 +5,15 @@ import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.web.multipart.MultipartFile;
+
 public interface QnaService {
 	// 서버 시간 전달
 	String serverTime(Locale locale);
 
 	// 문의글 작성
-	int write(QnaVO vo, HttpServletRequest request);
-
+	int write(QnaVO vo);
+	
 	// 공지사항 조회
 	List<QnaVO> notice();
 
@@ -38,4 +40,5 @@ public interface QnaService {
 
 	// 게시글 삭제
 	void delete(QnaVO vo);
+	
 }

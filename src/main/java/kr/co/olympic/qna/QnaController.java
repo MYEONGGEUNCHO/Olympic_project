@@ -1,6 +1,7 @@
 package kr.co.olympic.qna;
 
 import java.text.DateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -56,7 +57,7 @@ public class QnaController {
 
 	@PostMapping("/qna/write.do")
 	@ResponseBody
-	public String write(@RequestBody QnaVO vo, HttpSession session, HttpServletRequest request) {
+	public String write(@RequestBody QnaVO vo, Model model, HttpSession session, HttpServletRequest request) {
 		// 세션에서 로그인 정보를 가져올 수 있다면 사용
 		MemberVO loginMember = (MemberVO) session.getAttribute("login");
 		if (loginMember == null) {
@@ -65,11 +66,13 @@ public class QnaController {
 			loginMember.setMember_no("testuuid"); // 테스트용 데이터
 			loginMember.setName("테스트");
 		}
-//		qnaVO.setMember_no(loginMember.getMember_no());
-//		System.out.println("########write post 요청 들어왔습니다.");
-		service.write(vo, request); // 파일 업로드가 없으므로 null 전달
 
+		if(service.write(vo) != 1) {
+			model.addAttribute("msg", "문의사항 작성에 실패했습니다.");
+			return "common/alert";
+		}
 		return "redirect: qna/index";
+
 	}
 
 	@GetMapping("/qna/detail.do")
@@ -123,7 +126,7 @@ public class QnaController {
 		} else {
 			model.addAttribute("msg", "본인이 작성한 게시글만 수정이 가능합니다.");
 			model.addAttribute("url", "/qna/index.do");
-			return "common/alert.do";
+			return "common/alert";
 		}
 		return "qna/index";
 	}
