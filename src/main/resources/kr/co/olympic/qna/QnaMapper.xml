@@ -2,9 +2,6 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="kr.co.olympic.qna.QnaMapper">
 
-	<select id="test">
-		SELECT * FROM qna
-	</select>
 	<!-- 문의글 작성 -->
 	<insert id="write" parameterType="kr.co.olympic.qna.QnaVO">
 		INSERT INTO qna (
@@ -53,7 +50,14 @@
 			AND q.member_no = #{member_no}
 		</if>
 	</sql>
-
+	<!-- 공지사항 조회 -->
+	<select id="notice" resultType="kr.co.olympic.qna.QnaVO">
+		SELECT * FROM qna
+		where state = 1
+		ORDER BY qna_no DESC
+		LIMIT
+		0, 3
+	</select>
 	<!-- qna 전체 리스트 조회 -->
 	<select id="list" parameterType="kr.co.olympic.qna.QnaSearchDTO"
 		resultType="kr.co.olympic.qna.QnaVO">
@@ -62,10 +66,10 @@
 		q.member_no =
 		m.member_no
 		<where>
-		1=1
+			state=0
 			<include refid="commonConditions" />
 		</where>
-		ORDER BY q.qna_no DESC
+		ORDER BY ${orderinfo} DESC
 		LIMIT #{startIdx}, 10
 	</select>
 	<!-- 개수 조회 -->
@@ -80,9 +84,11 @@
 	<!-- 상세 페이지 조회 -->
 	<select id="detail" parameterType="kr.co.olympic.qna.QnaVO"
 		resultType="kr.co.olympic.qna.QnaVO">
-		SELECT * FROM qna q 
-		LEFT JOIN (SELECT member_no, name FROM member) m
-		ON q.member_no = m.member_no
+		SELECT * FROM qna q
+		LEFT JOIN (SELECT member_no, name FROM
+		member) m
+		ON q.member_no =
+		m.member_no
 		WHERE qna_no = #{qna_no}
 	</select>
 	<!-- 조회한 페이지 readcnt 증가 -->

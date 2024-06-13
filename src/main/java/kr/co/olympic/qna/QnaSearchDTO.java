@@ -13,6 +13,7 @@ public class QnaSearchDTO {
 	private String search_type; // title, content 검색
 	private int startIdx; // limit으로 제한 걸어줄 시작 인덱스 값
 	private int page; // 현재 페이지
+	private String orderinfo;
 	/*
 	 * 페이지네이션 관련 정보 count : totalPage : endPage : 끝 페이지 startPage : 시작 페이지 isPrev :
 	 * 이전 페이지 존재 여부 isNext : 다음 페이지 존재 여부
@@ -24,6 +25,7 @@ public class QnaSearchDTO {
 		this.game_id = null;
 		this.member_no = null;
 		this.type = "all";
+		this.orderinfo = "q.qna_no";
 	}
 
 	public int getStartIdx() {
