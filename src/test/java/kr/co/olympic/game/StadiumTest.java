@@ -57,6 +57,7 @@ public class StadiumTest {
     public void detailStadium() {
         StadiumVO vo = new StadiumVO();
         vo.setStadium_no(1); // Assuming ID 1 exists for testing
+        System.out.println(vo.toString());
         StadiumVO result = mapper.detailStadium(vo);
         assertNotNull(result);
         log.info("Stadium read: " + result);

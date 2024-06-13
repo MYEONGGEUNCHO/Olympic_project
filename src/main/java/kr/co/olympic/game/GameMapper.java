@@ -31,9 +31,9 @@ public interface GameMapper {
 	//경기 댓글 리스트
 	List<CommentVO> listComment(CommentVO comment);
 	// 관심 경기 등록
-	int createFavorite(MemberVO member, GameVO game);
+	int createFavorite(Map<String, Object> map);
 	// 관심 경기 조회
 	List<GameVO> listFavorite(MemberVO member);
 	// 관심 경기 삭제
-	int deleteFavorite(MemberVO member, GameVO game);
+	int deleteFavorite(Map<String, Object> map);
 }

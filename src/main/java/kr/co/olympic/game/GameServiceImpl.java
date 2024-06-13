@@ -71,7 +71,6 @@ public class GameServiceImpl implements GameService {
 
 	@Override
 	public int createComment(Map<String, Object> map) {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 

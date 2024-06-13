@@ -108,6 +108,18 @@
 		)
 	</insert>
 	
-	
+	<!-- 관심 경기 조회 -->
+	<select id="listFavorite" parameterType="kr.co.olympic.member.MemberVO" 
+			resultType="map">
+		SELECT a.*, b.sport_pictogram
+		FROM (
+			SELECT f.member_no, g.*
+		    FROM favorite_game as f
+			LEFT JOIN game as g
+			on f.game_id = g.game_id) as a
+		LEFT JOIN sport as b
+		on a.sport_code = b.sport_code
+		WHERE member_no = #{member_no};
+    </select>
 
 </mapper>
