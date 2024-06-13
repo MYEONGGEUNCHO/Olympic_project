@@ -8,6 +8,7 @@
 <style>
 th {
 	text-align: center !important;
+	cursor: pointer;
 }
 
 table {
@@ -28,40 +29,58 @@ td {
 <script src="../js/jquery-3.7.1.min.js"></script>
 <script>
     var currentPage = 1;
-    // TODO: 페이지 정보 어딘가에 저장하고, 그 정보 받아와서 넘어가기
+    var orderInfo = "";
     $(document)
 	    .ready(
 		    function() {
 
+			// 모든 th 요소들을 선택합니다.
+            const thElements = document.querySelectorAll('th');
+            thElements.forEach(th => {
+                th.addEventListener('click', function() {
+                    // 클릭된 th 요소의 data-column 속성 값을 가져옵니다.
+                    var column = th.getAttribute('data-head');
+                    if(orderInfo == "" || orderInfo.indexOf("ASC") != -1) {
+	                    column += ' DESC, ';                	
+                    }
+                    else {
+                		column += ' ASC, ';
+                    }
+                    // 원하는 함수를 실행합니다.
+                    searchQna(1, column);
+                });
+            });
+		            
 			// 페이지 로드 시 기본 QnA 리스트 로드
 			loadQnaList();
 			// #search_words 요소에서 엔터 키를 눌렀을 때
 			$('#search_words').keypress(function(event) {
 			    event.preventDefault();
 			    if (event.which == 13) { // 13은 엔터 키의 키 코드입니다.
-				searchQna(1);
+				searchQna(1, "");
 			    }
 			});
 
 			// #search_words 요소의 값이 변경되었을 때
 			$('#search_words').on('input', function() {
-			    searchQna(1);
+			    searchQna(1, "");
 			});
 			$("#searchBtn").click(function() {
-			    searchQna(1);
+			    searchQna(1, "");
 			});
 			$("input[name='type']").change(function() {
 			    //     	console.log($(this).val());
-			    searchQna(1);
+			    searchQna(1, "");
 			})
 			// 페이지 링크 클릭 시 searchQna 함수 호출
 			$(document).on('click', '.page-link', function(event) {
 			    event.preventDefault(); // 기본 동작(링크 이동)을 막습니다.
 			    currentPage = $(this).data('page');
-			    searchQna(currentPage);
+			    searchQna(currentPage, "");
 			});
 
-			function searchQna(page) {
+			function searchQna(page, orderinfo) {
+			    orderInfo = orderinfo + "q.qna_no";
 			    // 	TODO: game_id는 해당 페이지 gameVO에서 받아오기
 			    // TODO: member_no는 어떻게 받아와야할까????
 			    var type = $("input[name='type']:checked").val();
@@ -73,7 +92,8 @@ td {
 				search_type : searchType,
 				search_words : searchWords,
 				page : page,
-				type : type
+				type : type,
+				orderinfo : orderInfo
 			    };
 
 			    $.ajax({
@@ -90,12 +110,13 @@ td {
 				}
 			    });
 			}
-
 			function updateQnaList(data) {
 			    var search = data.searchConditions;
 			    var result = data.searchResults;
-			    console.log(search);
-			    console.log(result);
+			    var notice = data.noticeResults;
+// 			    console.log(search);
+// 			    console.log(result);
+// 			    console.log(notice);
 			    var qnaList = $("#qnaList");
 			    qnaList.empty();
 			    var pagination = $("#pagination");
@@ -124,6 +145,49 @@ td {
 						    + (search.pages.endPage + 1)
 						    + ')"><i class="fa fa-caret-right"></i></a></li>');
 				}
+				$
+					.each(
+						notice,
+						function(index, item) {
+						    var itemDate = new Date(
+							    item.regdate);
+						    var now = new Date();
+						    var itemDateStr = itemDate
+							    .toISOString()
+							    .substring(0, 10);
+						    var nowDateStr = now
+							    .toISOString()
+							    .substring(0, 10);
+						    var formattedDate = itemDateStr === nowDateStr ? itemDate
+							    .toTimeString()
+							    .substring(0, 5)
+							    : itemDate
+								    .toLocaleDateString();
+
+						    var row = '<tr class="lh-lg bg-light border border-top fw-bold">';
+						    row += '<td>'
+							    + item.qna_no
+							    + '</td>';
+						    row += '<td>🚨</td>';
+						    row += '<td class="text-break" id="qna_title">';
+						    row += '<a href="/olympic/qna/detail.do?qna_no='
+							    + item.qna_no
+							    + '">';
+						    row += item.title;
+						    row += '</a></td>';
+						    row += '<td class="text-break">'
+							    + item.name
+							    + '</td>';
+						    row += '<td class="small">'
+							    + formattedDate
+							    + '</td>';
+						    row += '<td>'
+							    + item.readcnt
+							    + '</td>';
+						    row += '<td></td></tr>';
+						    qnaList.append(row);
+
+						})
 				$
 					.each(
 						result,
@@ -162,7 +226,7 @@ td {
 							    : itemDate
 								    .toLocaleDateString();
 
-						    var row = '<tr class="lh-lg bg-light border border-top border-secondary">';
+						    var row = '<tr class="lh-lg bg-light border border-top">';
 						    row += '<td>' + item.qna_no
 							    + '</td>';
 						    row += '<td>' + typeText
@@ -299,13 +363,13 @@ td {
 					</colgroup>
 					<thead class="lh-lg bg-dark text-white">
 						<tr>
-							<th>번호</th>
-							<th>분류</th>
-							<th>제목</th>
-							<th>작성자</th>
-							<th>작성일자</th>
-							<th>조회수</th>
-							<th>답변 상태</th>
+							<th data-head="q.qna_no">번호</th>
+							<th data-head="type">분류</th>
+							<th data-head="title">제목</th>
+							<th data-head="m.name">작성자</th>
+							<th data-head="regdate">작성일자</th>
+							<th data-head="readcnt">조회수</th>
+							<th data-head="reply">답변 상태</th>
 						</tr>
 					</thead>
 					<tbody id="qnaList">
