@@ -40,27 +40,8 @@
 									</div>
 
 								</div>
-								<div class="col-12 col-md">
-
-									<!-- Remember -->
-									<div class="form-group">
-										<div class="form-check">
-											<input class="form-check-input" id="loginRemember" type="checkbox">
-											<label class="form-check-label" for="loginRemember"> 아이디 저장 </label>
-										</div>
-									</div>
-
-								</div>
-								<div class="col-12 col-md-auto">
-
-									<!-- Link -->
-									<div class="form-group">
-										<a class="fs-sm text-reset" href="/olympic/member/find.do">비밀번호 찾기</a>
-										|
-										<a class="fs-sm text-reset" href="/olympic/member/regist.do">회원가입</a>
-									</div>
-
-								</div>
+								
+								
 								<div class="col-12">
 
 									<!-- Button -->

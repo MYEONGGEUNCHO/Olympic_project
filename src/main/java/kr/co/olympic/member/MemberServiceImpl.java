@@ -96,7 +96,7 @@ public class MemberServiceImpl implements MemberService {
 
 		String msgg = "";
 		msgg += "<h1>안녕하세요</h1>";
-		msgg += "<h1>올림픽 티켓 구매 사이트에 방문해 주셔서 감사합니다.</h1>";
+		msgg += "<h1>Olypic 사이트에 방문해 주셔서 감사합니다.</h1>";
 		msgg += "<br>";
 		msgg += "<p>아래 인증코드를 회원가입 페이지에 입력해주세요</p>";
 		msgg += "<br>";
@@ -142,7 +142,7 @@ public class MemberServiceImpl implements MemberService {
 
         MimeMessage message = creatMessage(to); // "to" 로 메일 발송
 
-        System.out.println("********생성된 메시지******** => " + message);
+//        System.out.println("********생성된 메시지******** => " + message);
 
         try { // 예외처리
             emailSender.send(message);

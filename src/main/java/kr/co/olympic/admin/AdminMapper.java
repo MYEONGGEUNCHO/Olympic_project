@@ -15,5 +15,5 @@ public interface AdminMapper {
 	List<MemberVO> memberList();
 	int resetMember(MemberVO vo);
 	int couponAdmin(CouponVO vo);
-	
+	MemberVO detailMember(String member_no);
 }

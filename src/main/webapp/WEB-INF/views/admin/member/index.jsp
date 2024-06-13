@@ -14,9 +14,9 @@
 <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
 <script>
+
  $(document).ready(function() {
      $(".editBtn").click(function() {
-     	console.log(1);
          // Edit button 클릭 시 모달을 보이도록 함
          var row = $(this).closest("tr");
          var email = row.find("#email").text();
@@ -34,7 +34,18 @@
          $("#editModal").modal('show');
      });
      
-     $("#resetPwdBtn").click(function() {
+     $(".issueCouponBtn").click(function() {
+         var row = $(this).closest("tr");
+         var memberNo = row.find("#member_no").text();
+         var email = row.find("#email").text();
+         
+         $("#couponMemberNo").val(memberNo);
+         $("#couponEmail").val(email);
+         
+         $("#couponModal").modal('show');
+     });
+     
+     $(".resetPwdBtn").click(function() {
          // 회원 이메일 값 가져오기
          var email = $("#editEmail").val();
   
@@ -55,6 +66,18 @@
              
          });
      });
+  // DataTables 초기화
+/*      $('#dataTable').DataTable({
+         "columns": [
+             { "data": "email" },
+             { "data": "name" },
+             { "data": "point" },
+             { "data": "membership" },
+             { "data": "formattedCredate" },
+             { "data": "state" },
+             { "data": "edit" }
+         ]
+     }); */
  });
 </script>
 </head>
@@ -88,12 +111,13 @@
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
-                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                <table class="table table-bordered text-center" id="dataTable" width="100%" cellspacing="0">
                                     <thead>
                                         <tr>
+                                        	<th style="display:none;">no</th>
                                             <th>Email</th>
                                             <th>Name</th>
-                                            <th>point</th>
+                                            <th>Point</th>
                                             <th>Membership</th>
                                             <th>CreateDate</th>
                                             <th>State</th>
@@ -102,9 +126,10 @@
                                     </thead>
                                     <tfoot>
                                         <tr>
+                                        	<th style="display:none;">no</th>
                                             <th>Email</th>
                                             <th>Name</th>
-                                            <th>point</th>
+                                            <th>Point</th>
                                             <th>Membership</th>
                                             <th>CreateDate</th>
                                             <th>State</th>
@@ -114,7 +139,8 @@
                                     <tbody id="memlist">
                                     <c:forEach var="member" items="${memberList }">
                                         <tr>
-                                        	<td id="email">${member.email}</td>
+                                        	<td id="member_no" style="display:none;">${member.member_no}</td>
+                                        	<td id="email"><a href="/olympic/admin/detail.do?member_no=${member.member_no }">${member.email}</a></td>
 					                        <td id="name">${member.name}</td>
 					                        <td id="point">${member.point}</td>
 					                        <td id="membership">${member.membership}</td>
@@ -128,7 +154,10 @@
 										            <c:otherwise>알 수 없음</c:otherwise>
 										        </c:choose>
                                         	</td>
-                                        	<td><button type="button" class="editBtn">수정</button> &ensp; <button>쿠폰지급</button></td>
+                                        	<td>
+                                        	<button type="button" class="editBtn btn btn-info">수정</button>&ensp; 
+											<button type="button" class="issueCouponBtn btn btn-warning">쿠폰지급</button>
+                                        	</td>
                                         </tr>
                                     </c:forEach>
                                     </tbody>
