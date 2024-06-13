@@ -1,5 +1,7 @@
 package kr.co.olympic.member;
 
+import java.util.List;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +22,22 @@ public class MemberController {
 	@Autowired
 	private MemberService service;
 	
+	//테스트용 지워야함
+	@GetMapping("/member/favorite.do")
+	public String favorite() {
+		return "member/favorite";
+	}
+	
+	//테스트용 지워야함
+	@GetMapping("/member/order.do")
+	public String order() {
+		return "member/order";
+	}
+	//테스트용 지워야함
+	@GetMapping("/member/qna.do")
+	public String qna() {
+		return "member/qna";
+	}
 	
 	@GetMapping("/member/login.do")
 	public String login() {
@@ -31,11 +49,11 @@ public class MemberController {
 		MemberVO login = service.login(vo);
 		if (login == null) {
 			model.addAttribute("msg", "이메일 비밀번호를 확인하세요.");
-			model.addAttribute("url", "/common/alert.do");
-			return "/member/login";
+			model.addAttribute("url", "/olympic/member/login.do");
+			return "/common/alert";
 		} else {
 			sess.setAttribute("login", login);
-			return "/home";
+			return "/index";
 		}
 	}
 	
@@ -43,13 +61,14 @@ public class MemberController {
 	public String logout(HttpSession sess, Model model) {
 		sess.invalidate();
 		model.addAttribute("msg", "로그아웃되었습니다.");
-		model.addAttribute("url", "/index.do");
-		return "common/alert";
+		model.addAttribute("url", "/olympic/member/login.do");
+		return "/common/alert";
 	}
 	
-	@GetMapping("/member/complete")
+	//나중에 지울 예정
+	@GetMapping("/member/pwdcheck.do")
 	public String complete() {
-		return "member/complete";
+		return "member/pwdcheck";
 	}
 	
 	//@ResponseBody
@@ -64,6 +83,7 @@ public class MemberController {
 			return "member/regist";
 		}
 	}
+	
 	@GetMapping("/member/regist.do")
 	public String regist() {
 		return "member/regist";
@@ -77,29 +97,39 @@ public class MemberController {
 	
 	//@ResponseBody
 	@PostMapping("/member/update.do")
-	public String update(@ModelAttribute MemberVO vo, Model model) {
+	public String update(@ModelAttribute MemberVO vo, Model model, HttpSession sess) {
+		MemberVO uv = (MemberVO)sess.getAttribute("login");
 		int r = service.update(vo);
 		String msg = "";
-		String url = "edit.do";
+		String url = "/olympic/member/edit.do";
 		
 		if (r > 0) {
+			uv.setName(vo.getName());
+	        uv.setPhone(vo.getPhone());
+	        uv.setPwd(vo.getPwd());
+	        sess.setAttribute("login", uv);
 			msg = "정상적으로 수정되었습니다.";
 		} else {
 			msg = "수정 오류";
 		}
 		model.addAttribute("msg",msg);
 		model.addAttribute("url",url);
-		return "alert창 띄우기";
+		return "/common/alert";
+	}
+	
+	@GetMapping("/member/membership.do")
+	public String membership(HttpSession sess, Model model) {
+		return "member/membership";
 	}
 	
 	@GetMapping("/member/edit.do")
 	public String edit(HttpSession sess, Model model) {
 		MemberVO uv = (MemberVO)sess.getAttribute("login");
 		model.addAttribute("vo", service.detail(uv));
-		return "member/index";
+		return "member/mypage";
 	}
 	
-	@PostMapping("/member/delete.do")
+	@GetMapping("/member/delete.do")
 	public String delete(HttpSession sess, Model model) {
 		MemberVO mv = (MemberVO)sess.getAttribute("login");
 		int r = service.delete(mv);
@@ -107,62 +137,80 @@ public class MemberController {
 		String url= "";
 		if( r > 0) { //삭제한 행의 개수 반환
 			msg = "회원탈퇴가 처리되었습니다.";
-			url= "메인 페이지";
+			url= "/olympic/member/login.do";
+			sess.invalidate();
 			
 			model.addAttribute("url", url);
 			model.addAttribute("msg", msg);
-			return "alert창 띄우기";
+			return "/common/alert";
 		}
 		else {
 			sess.invalidate();
-			return "메인페이지로 이동";
+			return "/member/login";
 		}
 	}
-	@GetMapping("/member/membership.do")
+	@GetMapping("/member/purchase.do")
 	public String buyMembership(HttpSession sess, Model model) {
 		MemberVO mv = (MemberVO)sess.getAttribute("login");
 		int r = service.buy_membership(mv);
 		
 		String msg = "";
-		String url= "마이페이지- 멤버십 페이지";
+		String url= "/olympic/member/membership.do";
 		model.addAttribute("url", url);
-		if(r > 0) { //삭제한 행의 개수 반환
+		
+		if(r > 0) { 
 			msg = "구매가 완료되었습니다.";
 			
-			model.addAttribute("msg", msg);
-//			model.addAttribute("url", url);
+			//구매가 완료되면 쿠폰 생성해서 지급
+			for(int i =0; i < 2; i++) {
+				CouponVO cv = new CouponVO();   
+				cv.setCoupon_no(service.createKey());  //쿠폰번호
+//				System.out.println(cv.getCoupon_no());
+				cv.setContent("VIP 멤버십");
+				cv.setDiscount(10);
+				cv.setMember_no(mv.getMember_no());
+				service.insert_coupon(cv);
+			}
 			
-			return "alert창 띄우기";
-		}
-		else {
-			msg = "구매 오류";
+			mv.setMembership("VIP");
+			mv.setPoint(mv.getPoint()-10000);
+			
+			sess.setAttribute("login", mv);
 			model.addAttribute("msg", msg);
-			return "alert창 띄우기";
+			
+			return "/common/alert";
+		}
+		
+		else {
+			msg = "구매 오류. 다시 시도해 주세요";
+			model.addAttribute("msg", msg);
+			return "/common/alert";
 		}
 	}
 	
 	@GetMapping("/member/coupon.do")
 	public String couponList(HttpSession sess, Model model) {
 		MemberVO mv = (MemberVO)sess.getAttribute("login");
-		model.addAttribute("vo", service.coupon_list(mv));
-		return "쿠폰 리스트 페이지";
+		List<CouponVO> couponlist = service.coupon_list(mv);
+		model.addAttribute("coupon", couponlist);
+		model.addAttribute("couponCount", couponlist.size()); //보유 쿠폰 개수
+		return "/member/coupon";
 	}
 	
 	
 	@PostMapping("/member/pwdCheck.do")
 	public String pwdCheck(HttpSession sess, MemberVO vo, Model model) {
-		MemberVO mv = (MemberVO)sess.getAttribute("login");
-		int r = service.pwdCheck(mv);
-
+		//MemberVO mv = (MemberVO)sess.getAttribute("login");
+		int r = service.pwdCheck(vo);
 		if(r > 0) {
-			return "회원 정보 수정 페이지";
+			return "redirect: /olympic/member/edit.do";
 		}
 		else {
 			String msg = "비밀번호가 일치하지 않습니다.";
-			String url= "마이페이지- 멤버십 페이지";
+			String url= "/olympic/member/pwdcheck.do";
 			model.addAttribute("msg", msg);
 			model.addAttribute("url", url);
-			return "alert창 띄우기";
+			return "/common/alert";
 		}
 	}
 	
@@ -177,10 +225,10 @@ public class MemberController {
 		if (email == null) {
 			System.out.println("이메일 확인 필요");
 			String msg = "유효하지 않은 이름 또는 이메일 입니다.";
-			String url= "/member/find.do";
+			String url= "/olympic/member/find.do";
 			model.addAttribute("msg", msg);
 			model.addAttribute("url", url);
-			return "common/alert";
+			return "/common/alert";
 		} else {
 //			model.addAttribute("checkEmail", email);
 			redirect.addFlashAttribute("checkEmail", email);
@@ -201,11 +249,18 @@ public class MemberController {
 		int r = service.findPwd(vo);
 		System.out.println(r);
 		if(r > 0) {
+			model.addAttribute("reset", true);
+	        return "/member/findpwd";
 //			return "생년월일로 비밀번호 초기화 모달";
-			return "reset password page";
+			//return "/member/resetpwd";
 		}
 		else {
-			return "alert창";
+			
+			String msg = "다시 시도해 주세요.";
+			String url= "/olympic/member/find.do";
+			model.addAttribute("msg", msg);
+			model.addAttribute("url", url);
+			return "/common/alert";
 		}
 	}
 	

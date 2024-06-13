@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 	<!-- FOOTER -->
-	<footer class="bg-dark bg-cover " style="background-image: url(../dist/assets//img/patterns/pattern-2.svg)">
+	<footer class="bg-dark bg-cover " style="background-image: url(/olympic/dist/assets//img/patterns/pattern-2.svg)">
 		<div class="py-12 border-bottom border-gray-700">
 			<div class="container">
 				
@@ -140,12 +140,12 @@
 					<div class="col-auto">
 
 						<!-- Payment methods -->
-						<img class="footer-payment" src="../dist/assets/img/payment/mastercard.svg" alt="...">
-						<img class="footer-payment" src="../dist/assets/img/payment/visa.svg" alt="...">
-						<img class="footer-payment" src="../dist/assets/img/payment/amex.svg" alt="...">
-						<img class="footer-payment" src="../dist/assets/img/payment/paypal.svg" alt="...">
-						<img class="footer-payment" src="../dist/assets/img/payment/maestro.svg" alt="...">
-						<img class="footer-payment" src="../dist/assets/img/payment/klarna.svg" alt="...">
+						<img class="footer-payment" src="/olympic/dist/assets/img/payment/mastercard.svg" alt="...">
+						<img class="footer-payment" src="/olympic/dist/assets/img/payment/visa.svg" alt="...">
+						<img class="footer-payment" src="/olympic/dist/assets/img/payment/amex.svg" alt="...">
+						<img class="footer-payment" src="/olympic/dist/assets/img/payment/paypal.svg" alt="...">
+						<img class="footer-payment" src="/olympic/dist/assets/img/payment/maestro.svg" alt="...">
+						<img class="footer-payment" src="/olympic/dist/assets/img/payment/klarna.svg" alt="...">
 
 					</div>
 				</div>
@@ -158,7 +158,7 @@
 <!-- 	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCnKt8_N4-FKOnhI_pSaDL7g_g-XI1-R9E"></script> -->
 
 	<!-- Vendor JS -->
-	<script src="../dist/assets/js/vendor.bundle.js"></script>
+	<script src="/olympic/dist/assets/js/vendor.bundle.js"></script>
 
 	<!-- Theme JS -->
-	<script src="../dist/assets/js/theme.bundle.js"></script>
+	<script src="/olympic/dist/assets/js/theme.bundle.js"></script>

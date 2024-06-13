@@ -1,5 +1,7 @@
 package kr.co.olympic.qna;
 
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.log;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -21,7 +23,11 @@ public class QnaMapperTest {
 	@Autowired
 	private QnaMapper qnaMapper;
 
-	
+	@Test
+	public void test() {
+		System.out.println(qnaMapper.test());
+	}
+
 	@Test
 	public void write() {
 		QnaVO vo = new QnaVO();
@@ -31,8 +37,8 @@ public class QnaMapperTest {
 		vo.setMember_no("3333");
 		qnaMapper.write(vo);
 	}
-	
-	// type 0: 게임, 1: 일반, 2: 결제, 3: 티켓 문의
+
+	// type 0: 경기, 1: 일반, 2: 결제, 3: 티켓 문의
 	// game_id :
 	// member_no : 있으면 무조건 해당하는 유저
 	@Test
@@ -41,38 +47,41 @@ public class QnaMapperTest {
 		map.put("game_id", null);
 		map.put("member_no", null);
 		map.put("type", null);
+		QnaVO vo = new QnaVO();
+//		vo.setSearch(map);
+//		List<QnaVO> result = qnaMapper.list(vo);
 
-		List<QnaVO> result = qnaMapper.list(map);
-
-		log.debug(result);
+//		log.debug(result);
 	}
+
+	@Test
+	void notice() {
+		List<QnaVO> list = qnaMapper.notice();
+		log.debug(list);
+	}
+
 	@Test
 	public void count() {
-		Map<String, Integer> map = new HashMap<>();
-		map.put("game_id", null);
-		map.put("member_no", null);
-		map.put("type", null);
-
-		int result = qnaMapper.count(map);
-
-		log.debug(result);	
+		QnaSearchDTO dto = new QnaSearchDTO();
+		int result = qnaMapper.count(dto);
+		log.debug(result);
 	}
+
 	@Test
 	public void detail() {
 		QnaVO vo = qnaMapper.detail(12);
 		updateReadCnt();
 		log.debug(vo);
 	}
-	
+
 	@Test
 	public void updateReadCnt() {
 		qnaMapper.updateReadCnt(12);
 	}
-	
+
 	/*
-	 * 실제로는 로그인한 유저의 memberVO를 받아오고
-	 * 해당 memberVO의 state를 체크해서 3인 경우에만 답변 작성
-	 * */
+	 * 실제로는 로그인한 유저의 memberVO를 받아오고 해당 memberVO의 state를 체크해서 3인 경우에만 답변 작성
+	 */
 //	@Test
 //	public void reply() {
 //		MemberVO user = new MemberVO();

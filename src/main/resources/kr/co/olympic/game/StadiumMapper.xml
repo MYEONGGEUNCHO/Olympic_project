@@ -22,10 +22,50 @@
 			SELECT LAST_INSERT_ID()
 		</selectKey>
 	</insert>
-	<!-- 경기장 종목별 리스트-->
-	<!-- -->
+	<!-- 경기장 리스트-->
+	<select id="listStadium" parameterType="kr.co.olympic.game.StadiumVO" 
+		resultType="kr.co.olympic.game.StadiumVO">
+		SELECT * FROM stadium
+	</select>
 	<!-- 경기장 상세조회 -->
+	<select id="detailStadium" parameterType="kr.co.olympic.game.StadiumVO" resultType="kr.co.olympic.game.StadiumVO">
+		SELECT * FROM stadium WHERE stadium_no = #{stadium_no}
+	</select>
 	<!-- 경기장 수정 -->
+	<update id="updateStadium" parameterType="kr.co.olympic.game.StadiumVO">
+		UPDATE stadium SET
+			stadium_name = #{stadium_name},
+			stadium_img_url = #{stadium_img_url},
+			stadium_url = #{stadium_url},
+			stadium_en_name = #{stadium_en_name},
+			stadium_position = #{stadium_position},
+			a_seat_quantity = #{a_seat_quantity},
+			b_seat_quantity = #{b_seat_quantity},
+			c_seat_quantity = #{c_seat_quantity},
+			d_seat_quantity = #{d_seat_quantity},
+			vip_seat_quantity = #{vip_seat_quantity}
+		WHERE stadium_no = #{stadium_no}
+	</update>
 	<!-- 경기장 삭제 -->
-
+	<delete id="deleteStadium" parameterType="kr.co.olympic.game.StadiumVO">
+		DELETE FROM stadium WHERE stadium_no = #{stadium_no}
+	</delete>
+	
+	<sql id="searchSql">
+		<where>
+			<if test="searchWord != null and searchWord != ''">
+				<if test="searchType == 'all'">
+					title LIKE '%${searchWord}%' OR content LIKE '%${searchWord}%'
+				</if>
+				<if test="searchType != 'all'">
+					${searchType} LIKE '%${searchWord}%'
+				</if>
+			</if>
+		</where>
+	</sql>
+	<!-- 경기장 수 -->
+	<select id="count" parameterType="kr.co.olympic.game.StadiumVO" resultType="int">
+		SELECT COUNT(*) FROM stadium
+		<include refid="searchSql"/>
+	</select>
 </mapper>

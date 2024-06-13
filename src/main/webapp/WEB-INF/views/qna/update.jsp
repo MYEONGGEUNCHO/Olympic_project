@@ -97,7 +97,7 @@
 					<div class="form-group">
 						<c:if test="${qna.type == '0'}">
 							<input type="radio" id="game" name="type" value=0 checked disabled>
-							<label for="game">게임 문의</label>
+							<label for="game">경기 문의</label>
 						</c:if>
 						<c:if test="${qna.type == '1'}">
 							<input type="radio" id="common" name="type" value=1 checked disabled>

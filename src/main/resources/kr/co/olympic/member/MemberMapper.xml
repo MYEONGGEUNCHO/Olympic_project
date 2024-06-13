@@ -55,8 +55,14 @@
 	<update id="update" parameterType="kr.co.olympic.member.MemberVO">
 		UPDATE member SET
 			<if test="pwd != ''">
-			pwd = MD5(#{pwd})
+			pwd = MD5(#{pwd}),
 			</if>
+			<if test="name != ''">
+		        name = #{name},
+		    </if>
+		    <if test="phone != ''">
+		        phone = #{phone}
+		    </if>
 		WHERE member_no = #{member_no}
 	</update>
 	
@@ -89,8 +95,31 @@
 		SELECT * FROM coupon WHERE member_no=#{member_no}
 	</select>
 	
+	<insert id="insert_coupon" parameterType="kr.co.olympic.member.CouponVO">
+		INSERT INTO coupon (
+		coupon_no,
+		content, discount,
+		member_no, used
+		)
+		VALUES (
+		#{coupon_no},
+		#{content}, #{discount},
+		#{member_no}, 0
+		)
+	</insert>
 	
-	
-	
+	<!-- 관심 경기 조회 -->
+	<select id="listFavorite" parameterType="kr.co.olympic.member.MemberVO" 
+			resultType="map">
+		SELECT a.*, b.sport_pictogram
+		FROM (
+			SELECT f.member_no, g.*
+		    FROM favorite_game as f
+			LEFT JOIN game as g
+			on f.game_id = g.game_id) as a
+		LEFT JOIN sport as b
+		on a.sport_code = b.sport_code
+		WHERE member_no = #{member_no};
+    </select>
 
 </mapper>
