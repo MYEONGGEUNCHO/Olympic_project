@@ -14,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import kr.co.olympic.member.CouponVO;
 import kr.co.olympic.member.MemberService;
 import kr.co.olympic.member.MemberVO;
 @Service
@@ -42,27 +43,23 @@ public class OrderServiceImpl implements OrderService {
 
 	@Override
 	public OrderVO insert(OrderVO vo) {
-		System.out.println("OrderServieImpl 의 insert 메서드");
 		mapper.insertOrder(vo);
 		return mapper.getOrderById(vo.getOrder_no());
 	}
 	
 	@Override
 	public OrderVO insertUid(OrderVO vo) {
-		System.out.println("OrderServieImpl 의 insertUid 메서드");
 		mapper.insertUid(vo);
 		return mapper.getOrderById(vo.getOrder_no());
 	}
 	
 	@Override
 	public OrderVO getOrderByImpUid(String imp_uid) {
-		System.out.println("OrderServieImpl 의 getOrderByImpUid 메서드");
 		return mapper.getOrderByImpUid(imp_uid);
 	}
 	
 	@Override
 	public OrderVO getOrderByOrderNo(String order_no) {
-		System.out.println("OrderServieImpl 의 getOrderByOrderNo 메서드");
 		return mapper.getOrderById(order_no);
 	}
 
@@ -76,6 +73,16 @@ public class OrderServiceImpl implements OrderService {
 	public int delete(OrderVO no) {
 		// TODO Auto-generated method stub
 		return 0;
+	}
+	
+	@Override
+	public void insertPoint(PointVO pointVO) {
+		mapper.insertPoint(pointVO);
+	}
+	
+	@Override
+	public void setCouponUsed(String coupon_no) {
+		mapper.setCouponUsed(coupon_no);
 	}
 	
 	@Override
@@ -100,14 +107,23 @@ public class OrderServiceImpl implements OrderService {
 		return mapper.getCouponDiscount(coupon_no);
 	}
 	
+	@Override
+	public int getTotalAvailablePoints(String member_no) {
+		return mapper.getTotalAvailablePoints(member_no);
+	}
+	
 	
 	
 	@Override
     public PaymentVO preparePaymentVO(MemberVO member, PaymentVO paymentVO) {
-        //paymentVO.setMemberService(memberService);
-        paymentVO.setCoupon_list(memberService.coupon_list(member));
+		paymentVO.setCoupon_list(getPossibleCouponList(member));
         return paymentVO;
     }
+	
+	@Override
+	public List<CouponVO> getPossibleCouponList(MemberVO vo){
+		return mapper.getPossibleCouponList(vo);
+	}
 	
 	
 	@Override
@@ -177,11 +193,9 @@ public class OrderServiceImpl implements OrderService {
             ticket.setGame_id(payment.getGame_id());
             ticketList.add(createTicket(ticket));
         }
-        System.out.println("orderNo로 조회한 티켓들:");
-        getTicketsByOrderNo(order.getOrder_no()).forEach(System.out::println);
+        //getTicketsByOrderNo(order.getOrder_no()).forEach(System.out::println);
 
-        System.out.println("memberNo로 조회한 티켓들:");
-        getTicketsByMemberNo(member.getMember_no()).forEach(System.out::println);
+        //getTicketsByMemberNo(member.getMember_no()).forEach(System.out::println);
         return ticketList;
     }
 	
@@ -241,7 +255,6 @@ public class OrderServiceImpl implements OrderService {
             orderVO.setOrder_no((String) responseBody.get("merchant_uid"));
             orderVO.setReal_price((Integer) responseBody.get("amount"));
             orderVO.setMember_email((String) responseBody.get("buyer_email"));
-            //orderVO.setMember_no((String) responseBody.get("buyer_email"));
             return orderVO;
         } else {
             throw new RuntimeException("포트원 결제정보 조회 실패");

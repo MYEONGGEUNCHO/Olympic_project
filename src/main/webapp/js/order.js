@@ -14,12 +14,12 @@ document.addEventListener("DOMContentLoaded", function() {
         selectedCouponNo = selectedCoupon.value; // 선택된 쿠폰 번호 저장
         const discount = parseInt(selectedCoupon.getAttribute('data-discount')) || 0;
         const discountedPrice = originalTotalPrice - (originalTotalPrice*(discount/100));
-        totalPriceElement.innerText = discountedPrice + '원';
+        totalPriceElement.innerText = discountedPrice;
         hiddenTotalPriceElement.value = discountedPrice;
     });
 
     removeCouponButton.addEventListener('click', () => {
-        totalPriceElement.innerText = originalTotalPrice + '원';
+        totalPriceElement.innerText = originalTotalPrice;
         hiddenTotalPriceElement.value = originalTotalPrice;
         couponSelect.selectedIndex = 0;
         selectedCouponNo = ''; // 쿠폰 번호 초기화
@@ -81,7 +81,7 @@ document.addEventListener("DOMContentLoaded", function() {
             const paymentData = responseData.payment;
             const memberData = responseData.member;
 
-            // 결제 요청
+            // 포트원으 결제 요청
             IMP.request_pay({
                 pg: 'kakaopay', // PG사
                 pay_method: 'card', // 결제 수단

@@ -105,4 +105,54 @@
         FROM coupon
         WHERE coupon_no = #{coupon_no};
     </select>
+    
+    <!-- coupon_no로 쿠폰조회해서 상태를 used로 변경하기  -->
+    <select id="setCouponUsed" parameterType="String">
+        UPDATE coupon
+        SET used = 1,
+        	use_date = NOW()
+        WHERE coupon_no = #{coupon_no};
+    </select>
+    
+    <!-- 쿠폰 확인-->
+	<select id="getPossibleCouponList" resultType="kr.co.olympic.member.CouponVO" parameterType="kr.co.olympic.member.MemberVO">
+		SELECT * FROM coupon WHERE member_no=#{member_no} AND used = 0
+	</select>
+    
+    <!-- 포인트 정보를 DB에 삽입 -->
+    <insert id="insertPoint" parameterType="kr.co.olympic.order.PointVO">
+        INSERT INTO point (
+            content, member_no, point, date, is_use
+        )
+        VALUES (
+            #{content}, #{member_no}, #{point}, NOW(), #{isUse}
+        );
+    </insert>
+
+    <!-- 특정 회원의 포인트 정보를 조회 -->
+    <select id="getPointsByMemberNo" parameterType="String" resultType="kr.co.olympic.order.PointVO">
+        SELECT *
+        FROM point
+        WHERE member_no = #{member_no};
+    </select>
+    
+     <!-- 특정 회원의 사용 가능한 포인트 합산 조회 -->
+    <select id="getTotalAvailablePoints" parameterType="String" resultType="int">
+        SELECT SUM(point)
+        FROM point
+        WHERE member_no = #{member_no} AND is_use = 0;
+    </select>
+
+    <!-- 포인트 정보 업데이트 -->
+    <update id="updatePoint" parameterType="kr.co.olympic.order.PointVO">
+        UPDATE point
+        SET content = #{content}, point = #{point}, date = #{date}, is_use = #{isUse}
+        WHERE point_no = #{point_no};
+    </update>
+
+    <!-- 포인트 정보 삭제 -->
+    <delete id="deletePoint" parameterType="int">
+        DELETE FROM point
+        WHERE point_no = #{point_no};
+    </delete>
 </mapper>

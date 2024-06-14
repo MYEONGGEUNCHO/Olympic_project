@@ -3,6 +3,7 @@ package kr.co.olympic.order;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
+import kr.co.olympic.member.CouponVO;
 import kr.co.olympic.member.MemberVO;
 
 import org.apache.ibatis.annotations.Mapper;
@@ -28,4 +29,14 @@ public interface OrderMapper {
     List<TicketVO> getTicketsByMemberNo(String member_no);
     
     int getCouponDiscount(String coupon_no);
+    
+    //유효한 쿠폰 확인
+  	List<CouponVO> getPossibleCouponList(MemberVO vo);
+    
+    void insertPoint(PointVO pointVO);
+    PointVO getPointsByMemberNo(MemberVO member);
+    
+    void setCouponUsed(String coupon_no);
+    
+    int getTotalAvailablePoints(String member_no);
 }

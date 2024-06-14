@@ -32,12 +32,42 @@ public class OrderController {
 	private MemberService memberService;
 	
 	@GetMapping("/order/order.do")
-	public String login() {
+	public String login(HttpSession session, Model model) {
+		// 세션에서 MemberVO 객체 가져오기
+	    MemberVO member = (MemberVO)session.getAttribute("login");
+
+	    // 테스트용 임시값 설정
+	    if (member == null) {
+	        member = new MemberVO();
+	        member.setMember_no("f57c671f-cf5a-4e20-a03a-8b895d625bb4");
+	        member.setName("test20");
+	        member.setEmail("test@test.com");
+	        member.setPhone("010-1234-4321");
+	        session.setAttribute("member", member);
+	    }
+
+	    // 모델에 MemberVO 객체 추가
+	    model.addAttribute("login", member);
 		return "/order/index";
 	}
 	
 	@GetMapping("/order/test_temp.do")
-	public String start_test() {
+	public String start_test(HttpSession session, Model model) {
+		// 세션에서 MemberVO 객체 가져오기
+	    MemberVO member = (MemberVO)session.getAttribute("login");
+
+	    // 테스트용 임시값 설정
+	    if (member == null) {
+	        member = new MemberVO();
+	        member.setMember_no("f57c671f-cf5a-4e20-a03a-8b895d625bb4");
+	        member.setName("test20");
+	        member.setEmail("test@test.com");
+	        member.setPhone("010-1234-4321");
+	        session.setAttribute("member", member);
+	    }
+
+	    // 모델에 MemberVO 객체 추가
+	    model.addAttribute("login", member);
 		return "/order/test_temp";
 	}
 	
@@ -53,8 +83,8 @@ public class OrderController {
 	
 	@PostMapping("/order/initOrder")
 	public String initOrder(@ModelAttribute PaymentVO paymentVO, HttpSession session, RedirectAttributes redirectAttributes) {
-	    // 세션에서 MemberVO 객체 가져오기
-	    MemberVO member = (MemberVO) session.getAttribute("member");
+		// 세션에서 MemberVO 객체 가져오기
+	    MemberVO member = (MemberVO)session.getAttribute("login");
 
 	    // 테스트용 임시값 설정
 	    if (member == null) {
@@ -66,17 +96,14 @@ public class OrderController {
 	        session.setAttribute("member", member);
 	    }
 	    
-	    PaymentVO tempPay = orderService.preparePaymentVO(member, paymentVO);
-	    
-	    //PaymentVO tempPay = paymentVO;
-	    tempPay.setTotal_price(tempPay.calculateTotalPrice());
-	    //tempPay.updateCouponList(member); // 경기 상세 -> 결제 창으로 가기전에 데이터들 정제하는 과정에서 세션.회원의 쿠폰 리스트를 paymentVO에 탑재 
-	    System.out.println(tempPay.toString());
-	    
 	    // 회원 여부 검증
 	    if (member == null) {
 	        return "redirect:/login";
 	    }
+	    
+	    // 사용자의 보유 쿠폰 리스트를 가져와서 PaymentVO에 설정하기 , 총 가격 계산해서 필드에 set 
+	    PaymentVO tempPay = orderService.preparePaymentVO(member, paymentVO);
+	    tempPay.setTotal_price(tempPay.calculateTotalPrice());
 
 	    // 리다이렉트 속성에 데이터 추가
 	    redirectAttributes.addFlashAttribute("member", member);
@@ -87,12 +114,13 @@ public class OrderController {
 	    return "redirect:/order/order.do";
 	}
 	
+	//결제 화면에서 결제 요청시 최초 동작하는 컨트롤러  
 	@PostMapping("/order/insertPay")
     public ResponseEntity<Map<String, Object>> createOrderByPaymentVO(@RequestBody PaymentVO paymentVO,HttpSession session) {
 		// 세션에서 MemberVO 객체 가져오기
-	    MemberVO member = (MemberVO) session.getAttribute("member");
+	    MemberVO member = (MemberVO)session.getAttribute("login");
 
-	 // 테스트용 임시값 설정
+	    // 테스트용 임시값 설정
 	    if (member == null) {
 	        member = new MemberVO();
 	        member.setMember_no("f57c671f-cf5a-4e20-a03a-8b895d625bb4");
@@ -101,6 +129,7 @@ public class OrderController {
 	        member.setPhone("010-1234-4321");
 	        session.setAttribute("member", member);
 	    }
+	    
 	    // 이때 최초로 주문건 생성(UUID 생성시점)
 		OrderVO orderVO = new OrderVO();
 		orderVO.setMember_no(member.getMember_no());
@@ -115,6 +144,7 @@ public class OrderController {
 		// 생성한 주문건을 DB에 저장 
 		OrderVO insertedOrder = orderService.insert(orderVO);
 		
+		// 다시 order.js 파일의 비동기 함수로 res를 주기 위해 map에 정보 담기 
 		Map<String, Object> responseMap = new HashMap<>();
 	    responseMap.put("order", insertedOrder);
 	    responseMap.put("payment", paymentVO);
@@ -127,7 +157,7 @@ public class OrderController {
 	        return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
 	    }
     }
-	
+	// order.js에서 포트원으로 결제요청 후 rsp로 imp_uid를 받아온뒤 다시 컨트롤러로 결제 유효성 검사 요청
 	@PostMapping("/order/auth")
     public ResponseEntity<String> validatePayment(@RequestBody Map<String, Object> data, HttpSession session) {
         // 포트원으로부터 받은 imp_uid, DB에 저장할때 사용한 order_no를 가져온다. 
@@ -154,9 +184,9 @@ public class OrderController {
 	    paymentData.setTotal_price((Integer) paymentDataMap.get("total_price"));
 	    
 	    // 세션에서 MemberVO 객체 가져오기
-	    MemberVO member = (MemberVO) session.getAttribute("member");
+	    MemberVO member = (MemberVO)session.getAttribute("login");
 
-	 // 테스트용 임시값 설정
+	    // 테스트용 임시값 설정
 	    if (member == null) {
 	        member = new MemberVO();
 	        member.setMember_no("f57c671f-cf5a-4e20-a03a-8b895d625bb4");
@@ -165,8 +195,6 @@ public class OrderController {
 	        member.setPhone("010-1234-4321");
 	        session.setAttribute("member", member);
 	    }
-	    //System.out.println("paymentData : "+paymentData.toString());
-	    //System.out.println("멤버 데이터 : "+member.toString());
 	    
         //currentOrder은 order_no과 상관없이 포트원으로 부터 결제요청에 대한 응답으로 받은 imp_uid로 주문객체를 찾는다. 
         //현 상황 : 서버DB(imp_uid가 없는 즉, 결제 버튼을 누르기 직전의 주문 객체를 가지고 있다.)
@@ -198,9 +226,16 @@ public class OrderController {
             ticketDataMap.put("payment", paymentData);
             List<TicketVO> ticketList = orderService.insertTicket(ticketDataMap);
             
-            // TODO 3 : totalPrice의 1% 만큼 현재 회원의 point 컬럼에 증가시켜주기 
+            // TODO 3 : totalPrice의 1% 만큼 포인트객체 생성해서 DB에 저장하
+            PointVO pointVO = new PointVO();
+            pointVO.setContent(paymentData.getContent()+"적립 1%");
+            pointVO.setMember_no(member.getMember_no());
+            pointVO.setPoint(currentOrder.getPoint());
+            pointVO.setUse(false); //false 가 적립건, true는 사용건 
+            orderService.insertPoint(pointVO);
             
             // TODO 4 : 사용한 쿠폰을 쿠폰DB에서 coupon_no로 찾아서 상태를 used로 변경해주기 
+            orderService.setCouponUsed(currentOrder.getCoupon_no());
             
             return new ResponseEntity<>("결제 유효성 검사 완료", HttpStatus.OK);
         } else {
