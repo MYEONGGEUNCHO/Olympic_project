@@ -58,8 +58,12 @@ function deleteGame(button) {
 
 		    <div class="col-12">
 		    <!-- 반복문 시작 자리 -->
-		    
-            <!-- List group -->
+		    <c:choose>
+		    	<c:when test="${empty favorite}">
+		    		<div>찜한 경기가 없습니다.</div>
+		    	</c:when>
+		    	<c:otherwise>
+		    	<!-- List group -->
             <ul class="list-group list-group-lg list-group-flush-x mb-6">
             <c:forEach var="favorite" items="${favorite}">
               <li class="list-group-item py-2">
@@ -113,6 +117,8 @@ function deleteGame(button) {
               </li>
               </c:forEach>
             </ul>
+		    	</c:otherwise>
+            </c:choose>
 			  </div>
             </div>
            </div>     
