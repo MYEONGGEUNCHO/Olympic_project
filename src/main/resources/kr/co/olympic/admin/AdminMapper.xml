@@ -43,5 +43,8 @@
 		#{member_no}, 0
 		)
 	</insert>
-	
+	<!-- 회원 상세 정보 조회 -->
+	<select id="detailMember" parameterType="String" resultType="kr.co.olympic.member.MemberVO">
+		SELECT * FROM member WHERE member_no=#{member_no}
+	</select>
 </mapper>

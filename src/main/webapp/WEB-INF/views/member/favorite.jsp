@@ -2,6 +2,35 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!doctype html>
 <html lang="ko">
+<script src="../js/jquery-3.7.1.min.js"></script>
+<script>
+function deleteGame(button) {
+    var $this = $(button); 
+    var gameId = $this.data('game-id'); // 버튼에서 game_id 가져오기
+
+    $.ajax({
+        url: "/olympic/member/deletefavorite.do", 
+        type: "POST",
+        contentType: "application/json",
+        data: JSON.stringify({
+            game_id: gameId
+        }),
+        success: function(res) {
+            if(res > 0) {
+                $this.closest('.list-group-item').remove();
+            } else {
+                alert('다시 시도하세요');
+                return;
+            }
+        },
+        error: function() {
+            alert('서버 오류');
+        }
+    });
+}
+
+
+</script>
 <body>
 	<!-- 	공통 모달 - 헤더 장바구니 등 클릭 시 나오는 사이드 창 -->
 	<%@include file="../common/modals.jsp"%>
@@ -29,76 +58,60 @@
 
 		    <div class="col-12">
 		    <!-- 반복문 시작 자리 -->
+		    
             <!-- List group -->
             <ul class="list-group list-group-lg list-group-flush-x mb-6">
+            <c:forEach var="favorite" items="${favorite}">
               <li class="list-group-item py-2">
                 <div class="row align-items-center">
                   <div class="col-2 d-flex justify-content-center align-items-center" >
-
-                      <img style="width: 70px;" src="/olympic/img/olympic.png" alt="..." class="img-fluid">
-                    
-
+                      <img style="width: 160px;" src="${favorite.sport_pictogram }" alt="..." >
                   </div>
-                  <div class="col mt-2">
+                  
+                  <div class="col my-1">
 
                     <!-- Title -->
                     <div class="d-flex mb-4 fw-bold">
-                      <a class="text-body" href="product.html">펜싱 에페 32강전</a> <span class="ms-auto">펜싱스타디움</span>
+                      <a class="text-body" href="product.html">${favorite.sport_name } &nbsp; ${favorite.tournament }</a> <span class="ms-auto">${favorite.stadium_name}</span>
                     </div>
 
                     <!-- Text -->
-                    <p class="mb-1 fs-sm text-muted">
-                      경기 일자: <br>
-                      출전 선수:
-                    </p>
-
+                    <div class="row">
+	                    <div class="col-9 fs-sm text-muted m-0">
+	                      경기 일자: ${favorite.korea_date } &ensp; 시간: ${favorite.korea_time }<br>
+	                      출전 나라:
+	                      <c:choose>
+						    <c:when test="${empty favorite.country1_name}">
+						        미정
+						    </c:when>
+						    <c:otherwise>
+						        ${favorite.country1_name}
+						    </c:otherwise>
+						</c:choose> 
+						vs 
+						<c:choose>
+						    <c:when test="${empty favorite.country2_name}">
+						        미정
+						    </c:when>
+						    <c:otherwise>
+						        ${favorite.country2_name}
+						    </c:otherwise>
+						</c:choose> 
+	                    </div>
+	                    <div class="col-3 d-flex align-items-center">
+	                      <!-- Remove -->
+	                      <button type="button" id="deleteBtn" data-game-id="${favorite.game_id}" data-member-no="${login.member_no}" class=" btn btn-link fs-s text-gray-400 ms-auto p-0" onClick="deleteGame(this);">
+	                        <i class="fa-solid fa-heart" style="color: #fd938b;"></i> Remove
+	                      </button>
+	                    </div>
+						</div>
                     <!--Footer -->
-                    <div class="d-flex align-items-center">
-                      <!-- Remove -->
-                      <a class="fs-xs text-gray-400 ms-auto" href="#!">
-                        <i class="fe fe-x"></i> Remove
-                      </a>
-
-                    </div>
-
+                    
                   </div>
+                  
                 </div>
               </li>
-              <li class="list-group-item">
-                <div class="row align-items-center">
-                  <div class="col-3">
-
-                    <!-- Image -->
-                    <a href="product.html">
-                      <img src="assets/img/products/product-10.jpg" alt="..." class="img-fluid">
-                    </a>
-
-                  </div>
-                  <div class="col">
-
-                    <!-- Title -->
-                    <div class="d-flex mb-2 fw-bold">
-                      <a class="text-body" href="product.html">Suede cross body Bag</a> <span class="ms-auto">$49.00</span>
-                    </div>
-
-                    <!-- Text -->
-                    <p class="mb-7 fs-sm text-muted">
-                      Color: Brown
-                    </p>
-
-                    <!--Footer -->
-                    <div class="d-flex align-items-center">
-
-                      <!-- Remove -->
-                      <a class="fs-xs text-gray-400 ms-auto" href="#!">
-                        <i class="fe fe-x"></i> Remove
-                      </a>
-
-                    </div>
-
-                  </div>
-                </div>
-              </li>
+              </c:forEach>
             </ul>
 			  </div>
             </div>

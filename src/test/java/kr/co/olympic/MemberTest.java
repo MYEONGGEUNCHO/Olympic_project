@@ -102,4 +102,5 @@ public class MemberTest {
     	
     	mapper.listFavorite(vo);
     }
+    
 }

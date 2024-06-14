@@ -12,7 +12,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
+import kr.co.olympic.member.CouponVO;
+import kr.co.olympic.member.MemberService;
 import kr.co.olympic.member.MemberVO;
 
 @Controller
@@ -20,6 +23,8 @@ public class AdminController {
 
 	@Autowired
 	private AdminService service;
+	@Autowired
+	private MemberService memservice;
 	
 	@GetMapping("/admin/login.do")
 	public String adlogin() {
@@ -60,7 +65,7 @@ public class AdminController {
 		}
 		else {
 			model.addAttribute("msg","수정오류");
-			model.addAttribute("url","/admin/index.do");
+			model.addAttribute("url","/olympic/admin/index.do");
 			return "/common/alert";
 		}
 		
@@ -69,6 +74,27 @@ public class AdminController {
 	public ResponseEntity<Integer> resetPwd(MemberVO vo) {
 		int r = service.resetMember(vo);
 		return ResponseEntity.ok(r);
-		
+	}
+	
+	@GetMapping("/admin/issueCoupon.do")
+	public String issueCoupon(CouponVO vo, Model model) {
+		vo.setCoupon_no(memservice.createKey());
+		int r = service.couponAdmin(vo);
+		model.addAttribute("url","/olympic/admin/index.do");
+		if(r>0) {
+			model.addAttribute("msg","쿠폰이 지급되었습니다.");
+			return "/common/alert";
+		}
+		else {
+			model.addAttribute("msg","수정오류");
+			return "/common/alert";
+		}
+	}
+	
+	@GetMapping("/admin/detail.do")
+	public String detailMember(@RequestParam("member_no") String memberNo, Model model) {
+		MemberVO detail = service.detailMember(memberNo);
+		model.addAttribute("detail", detail);
+		return "/admin/member/detail";
 	}
 }

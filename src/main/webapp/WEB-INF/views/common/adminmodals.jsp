@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<!-- Bootstrap Modal -->
+<!-- 관리자 수정 모달 -->
 <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -37,10 +37,45 @@
                         </select>
                     </div>
                 </div>
-                <div class="modal-footer">
-                	<button type="button" class="btn btn-danger" id="resetPwdBtn">비밀번호 초기화</button>
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
+                <div class="modal-footer d-flex">
+                	<button type="button" class="btn btn-danger ms-auto" id="resetPwdBtn" style="margin-right: auto;">비밀번호 초기화</button>
                     <button type="submit" class="btn btn-primary">저장</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- 관리자 쿠폰 발행 모달 -->
+<div class="modal fade" id="couponModal" tabindex="-1" role="dialog" aria-labelledby="couponModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="couponModalLabel">쿠폰 발행</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form method="get" action="/olympic/admin/issueCoupon.do">
+                <div class="modal-body">
+                    <input type="hidden" id="couponMemberNo" name="member_no">
+                    <div class="form-group">
+                        <label for="couponEmail">이메일</label>
+                        <input type="text" class="form-control" id="couponEmail" name="email" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="couponContent">내용</label>
+                        <input type="text" class="form-control" id="couponContent" name="content">
+                    </div>
+                    <div class="form-group">
+                        <label for="couponDiscount">할인 비율</label>
+                        <input type="number" class="form-control" id="couponDiscount" name="discount">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">발행</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
                 </div>
             </form>
         </div>

@@ -33,6 +33,11 @@ public class AdminServiceImpl implements AdminService {
 	public int couponAdmin(CouponVO vo) {
 		return mapper.couponAdmin(vo);
 	}
+	@Override
+	public MemberVO detailMember(String member_no) {
+		return mapper.detailMember(member_no);
+	}
+	
 	
 
 }
