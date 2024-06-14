@@ -59,7 +59,7 @@ $(document).ready(function() {
                                 <c:choose>
                                     <c:when test="${empty qna}">
                                         <tr>
-                                            <td colspan="4">문의 내역이 없습니다.</td>
+                                            <td colspan="4" onclick='event.cancelBubble=true;'>문의 내역이 없습니다.</td>
                                         </tr>
                                     </c:when>
                                     <c:otherwise>
@@ -71,7 +71,8 @@ $(document).ready(function() {
 												    : qnaItem.type == 1 ? '일반'
 												    : qnaItem.type == 2 ? '결제'
 												    : qnaItem.type == 3 ? '티켓'
-												    : '기타'}
+												    : '기타'
+												    }
 												</td>
                                                 <td class="py-4">${qnaItem.title}</td>
                                                 <td class="py-4"><fmt:formatDate value="${qnaItem.regdate}" pattern="yyyy-MM-dd"/></td>
