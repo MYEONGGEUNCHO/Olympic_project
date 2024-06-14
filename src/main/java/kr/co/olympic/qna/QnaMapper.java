@@ -32,7 +32,7 @@ public interface QnaMapper {
 	int updateReadCnt(Integer qna_no);
 
 	// 문의글 수정
-	QnaVO update(QnaVO vo);
+	int update(QnaVO vo);
 
 	// 문의글 삭제
 	void delete(QnaVO vo);
