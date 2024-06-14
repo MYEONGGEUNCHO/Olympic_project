@@ -73,8 +73,7 @@ public class QnaServiceImpl implements QnaService {
 
 	@Override
 	public int reply(QnaVO vo) {
-		// TODO Auto-generated method stub
-		return 0;
+		return mapper.reply(vo);
 	}
 
 	@Override

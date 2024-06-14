@@ -115,6 +115,10 @@ public class QnaController {
 			model.addAttribute("msg", "로그인 정보가 없습니다.");
 			return "common/alert";
 		}
+		if (loginMember.getState() == 3) {
+			service.reply(qnaVO);
+			return "";
+		}
 		if (loginMember.getMember_no().equals(qnaVO.getMember_no())) {
 			result = service.update(qnaVO);
 			if (result == 0) {
@@ -125,6 +129,25 @@ public class QnaController {
 			model.addAttribute("msg", "본인이 작성한 게시글만 수정이 가능합니다.");
 			model.addAttribute("url", "/qna/index.do");
 			return "common/alert";
+		}
+		return "qna/index";
+	}
+
+	@PostMapping("/qna/reply.do")
+	@ResponseBody
+	public String reply(Model model, HttpSession session, @RequestBody QnaVO qnaVO) {
+		int result = 0;
+		MemberVO loginMember = (MemberVO) session.getAttribute("login");
+		if (loginMember == null) {
+			model.addAttribute("msg", "로그인 정보가 없습니다.");
+			return "common/alert";
+		}
+		if (loginMember.getState() == 3) {
+			result = service.reply(qnaVO);
+			if (result == 0) {
+				model.addAttribute("msg", "답변 작성에 실패했습니다.");
+				return "common/alert";
+			}
 		}
 		return "qna/index";
 	}

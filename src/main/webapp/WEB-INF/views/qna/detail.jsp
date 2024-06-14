@@ -10,6 +10,7 @@
 
 <script src="../js/jquery-3.7.1.min.js"></script>
 <script>
+
 function reply_open() {
     if($("#reply_content").css("display") == "none") {
 		$("#reply_open").text("답변 창 닫기");
@@ -38,7 +39,7 @@ function reply_open() {
 	    viewer: true
 	});
 	 </c:if>
-	 <c:if test="${empty qna.reply && login.state==3}"> 
+	 <c:if test="${empty qna.reply && login.state==3 && qna.state == 0}"> 
 		const editor = new toastui.Editor({
 		el: document.querySelector('#reply_editor'),
 		height: '500px',
@@ -71,33 +72,59 @@ function reply_open() {
 	});
 	</c:if>
 
-	 
-	 $("#modify").on('click', function() {
-		location.href = "/olympic/qna/update.do?qna_no=${param.qna_no}";
-	 });
+		 
+		 $("#modify").on('click', function() {
+			location.href = "/olympic/qna/update.do?qna_no=${param.qna_no}";
+		 });
 
 	    $("#delete").click(function() {
-		$.ajax({
-		    type : "POST",
-		    url : "/olympic/qna/delete.do",
-		    headers : {
-			"Content-Type" : "application/json"
-		    },
-		    data : JSON.stringify({
-			qna_no : "${qna.qna_no}",
-			member_no : "${qna.member_no}"
-		    }),
-		    success : function() {
-			alert('삭제가 완료되었습니다.');
-			location.href = "/olympic/qna/index.do";
-		    },
-		    error : function(xhr, status, error) {
-			console.error("Error:", error);
-			// 에러 시 수행할 동작
-			alert('글 삭제 중 오류가 발생했습니다.');
-		    }
-		});
+			var delete_confirm = confirm("정말로 삭제하시겠습니까?");
+			if(delete_confirm) {
+			    $.ajax({
+				    type : "POST",
+				    url : "/olympic/qna/delete.do",
+				    headers : {
+					"Content-Type" : "application/json"
+				    },
+				    data : JSON.stringify({
+					qna_no : "${qna.qna_no}",
+					member_no : "${qna.member_no}"
+				    }),
+				    success : function() {
+					alert('삭제가 완료되었습니다.');
+					location.href = "/olympic/qna/index.do";
+				    },
+				    error : function(xhr, status, error) {
+					console.error("Error:", error);
+					// 에러 시 수행할 동작
+					alert('글 삭제 중 오류가 발생했습니다.');
+				    }
+				});
+			}
 	    });
+	    $("#reply_write").click(function() {
+			const inner_html = editor.getHTML();
+			$.ajax({
+				type: 'POST',
+				url: '/olympic/qna/reply.do',
+				headers: {
+					"Content-Type": "application/json"
+				},
+				data: JSON.stringify({
+					qna_no: "${qna.qna_no}",
+					reply: inner_html,
+				}),
+				success: function(response) {
+					alert('답변이 작성되었습니다.');
+					location.reload(true);
+				},
+				error: function(xhr, status, error) {
+					console.error("Error:", error);
+					alert('글 작성 중 오류가 발생했습니다.');
+					location.reload(true);
+				}
+			});
+	    })
     });
 </script>
 
@@ -118,23 +145,23 @@ function reply_open() {
 					<!-- Heading -->
 					<h4 class="mb-10 text-center">문의 내용 확인</h4>
 					<!-- TODO:: post요청 보내고 받아야함 -->
-					<c:if test="${empty qna.reply && !empty login}">
+					<c:if test="${empty qna.reply && !empty login && login.state == 1 && qna.member_no == login.member_no}">
 						<div class="btn-group d-flex justify-content-end" role="group" aria-label="Buttons">
-							<button type="button" id="modify" class="btn-circle btn-sm m-1 btn-outline-secondary">
+							<button type="button" id="modify" class="btn-circle btn-sm m-1 btn-outline-secondary" title="수정하기">
 								<i class="fa-regular fa-pen-to-square"></i>
 							</button>
-							<button type="button" id="delete" class="btn-circle btn-sm m-1 btn-outline-secondary">
+							<button type="button" id="delete" class="btn-circle btn-sm m-1 btn-outline-secondary" title="삭제하기">
 								<i class="fa-regular fa-trash-can"></i>
 							</button>
 						</div>
 					</c:if>
-					<c:if test="${login.state == 3 }">
+					<c:if test="${login.state == 3 && qna.member_no == login.member_no }">
 						<div class="btn-group d-flex justify-content-end" role="group" aria-label="Buttons">
-							<button type="button" id="delete" class="btn-circle btn-sm mb-1 btn-outline-secondary">
-								<i class="fa-regular fa-trash-can"></i>
+							<button type="button" id="modify" class="btn-circle btn-sm m-1 btn-outline-secondary" title="수정하기">
+								<i class="fa-regular fa-pen-to-square"></i>
 							</button>
-							<button type="button" id="reply" class="btn-circle btn-sm mb-1 btn-outline-secondary">
-								<i class="fa-regular fa-comment-dots"></i>
+							<button type="button" id="delete" class="btn-circle btn-sm m-1 btn-outline-secondary" title="삭제하기">
+								<i class="fa-regular fa-trash-can"></i>
 							</button>
 						</div>
 					</c:if>
@@ -160,16 +187,16 @@ function reply_open() {
 												<div class="fx-xs text-bold">${empty qna.name ? '알 수 없음' : qna.name}님</div>
 												<!-- Time -->
 												<c:if test="${empty qna.update_date}">
-													<span class="fs-xs text-muted">
-														<time datetime="${qna.regdate}">
-															<fmt:formatDate value="${qna.regdate}" pattern="yyyy-MM-dd HH시 mm분" />
-														</time>
-													</span>
+													<p id="date" class="fs-xs text-muted">
+														작성일자 :
+														<fmt:formatDate value="${qna.regdate}" pattern="yyyy-MM-dd HH시 mm분" />
+													</p>
 												</c:if>
 												<c:if test="${!empty qna.update_date}">
-													<span class="fs-xs text-muted">
-														<time datetime="${qna.update_date}">수정일자: ${qna.update_date}</time>
-													</span>
+													<p id="date" class="fs-xs text-muted">
+														수정일자 :
+														<fmt:formatDate value="${qna.update_date}" pattern="yyyy-MM-dd HH시 mm분" />
+													</p>
 												</c:if>
 											</div>
 										</div>
@@ -220,9 +247,10 @@ function reply_open() {
 															<!-- Time -->
 															<span class="fs-xs text-muted d-flex justify-content-between">
 																<c:if test="${!empty qna.reply}">
-																	<time datetime="${qna.reply_date}">
+																	<p id="date" class="fs-xs text-muted">
+																		답변일자 :
 																		<fmt:formatDate value="${qna.reply_date}" pattern="yyyy-MM-dd HH시 mm분" />
-																	</time>
+																	</p>
 																</c:if>
 
 															</span>
