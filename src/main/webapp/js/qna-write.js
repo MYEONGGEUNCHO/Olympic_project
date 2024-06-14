@@ -50,27 +50,56 @@ $(function() {
 	});
 
 	function write() {
+		let member_state = $("input[name='writer_state']").val();
 		const inner_html = editor.getHTML();
-		$.ajax({
-			type: 'POST',
-			url: '/olympic/qna/write.do',
-			headers: {
-				"Content-Type": "application/json"
-			},
-			data: JSON.stringify({
-				type: $("input[name='type']:checked").val(),
-				title: $("#title").val(),
-				content: inner_html,
-				member_no: $("input[name='writer']").val()
-			}),
-			success: function(response) {
-				alert('글이 성공적으로 작성되었습니다.');
-				location.href = "/olympic/qna/index.do";
-			},
-			error: function(xhr, status, error) {
-				console.error("Error:", error);
-				alert('글 작성 중 오류가 발생했습니다.');
-			}
-		});
+		//공지 게시물 등록
+		if (member_state == 3) {
+			$.ajax({
+				type: 'POST',
+				url: '/olympic/qna/write.do',
+				headers: {
+					"Content-Type": "application/json"
+				},
+				data: JSON.stringify({
+					type: $("input[name='type']:checked").val(),
+					title: $("#title").val(),
+					content: inner_html,
+					member_no: $("input[name='writer']").val(),
+					state: 1
+				}),
+				success: function(response) {
+					alert('공지사항이 성공적으로 작성되었습니다.');
+					location.href = "/olympic/qna/index.do";
+				},
+				error: function(xhr, status, error) {
+					console.error("Error:", error);
+					alert('공지사항 작성 중 오류가 발생했습니다.');
+				}
+			});
+		}
+		else {
+			//일반 게시물 등록
+			$.ajax({
+				type: 'POST',
+				url: '/olympic/qna/write.do',
+				headers: {
+					"Content-Type": "application/json"
+				},
+				data: JSON.stringify({
+					type: $("input[name='type']:checked").val(),
+					title: $("#title").val(),
+					content: inner_html,
+					member_no: $("input[name='writer']").val()
+				}),
+				success: function(response) {
+					alert('글이 성공적으로 작성되었습니다.');
+					location.href = "/olympic/qna/index.do";
+				},
+				error: function(xhr, status, error) {
+					console.error("Error:", error);
+					alert('글 작성 중 오류가 발생했습니다.');
+				}
+			});
+		}
 	}
 });

@@ -86,7 +86,7 @@ td {
 			<div class="row">
 				<div class="col-12">
 					<!-- Heading -->
-					<h3 class="mb-10 text-center">QNA</h3>
+					<h3 class="mb-10 text-center">문의사항</h3>
 				</div>
 			</div>
 
@@ -170,14 +170,14 @@ td {
 				<!-- ajax로 값이 들어갈 부분 -->
 			</ul>
 		</nav>
-		<c:if test="${!empty login}">
+		<c:if test="${!empty login && login.state == 0}">
 			<div class="d-flex justify-content-end m-2">
 				<a class="btn btn-sm btn-dark" href="write.do">작성하기</a>
 			</div>
 		</c:if>
 		<c:if test="${login.state == 3}">
 			<div class="d-flex justify-content-end m-2">
-				<a class="btn btn-sm btn-dark" href="write.do">공지사항 작성하기</a>
+				<a class="btn btn-sm btn-dark" href="write.do">공지사항 등록</a>
 			</div>
 		</c:if>
 	</section>

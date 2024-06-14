@@ -50,7 +50,6 @@ public class QnaController {
 
 	@GetMapping("/qna/write.do")
 	public String write(Model model, Locale locale) {
-//		System.out.println("####write get 요청 들어옴");
 		model.addAttribute("serverTime", service.serverTime(locale));
 		return "qna/write";
 	}

@@ -27,7 +27,12 @@
 			<div class="row">
 				<div class="col-12">
 					<!-- Heading -->
-					<h3 class="mb-10 text-center">문의사항 수정</h3>
+					<c:if test="${qna.state == 0 || empty qna.state}">
+						<h3 class="mb-10 text-center">문의사항 수정</h3>
+					</c:if>
+					<c:if test="${qna.state == 1 && login.state == 3}">
+						<h3 class="mb-10 text-center">공지사항 수정</h3>
+					</c:if>
 
 				</div>
 			</div>
