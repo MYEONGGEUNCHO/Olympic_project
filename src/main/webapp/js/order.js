@@ -1,6 +1,29 @@
 document.addEventListener("DOMContentLoaded", function() {
 	IMP.init(IMP_KEY);
     const button = document.getElementById('payButton');
+    const couponSelect = document.getElementById('coupon_select');
+    const applyCouponButton = document.getElementById('apply_coupon');
+    const removeCouponButton = document.getElementById('remove_coupon');
+    const totalPriceElement = document.getElementById('total_price');
+    const hiddenTotalPriceElement = document.getElementById('hidden_total_price');
+    let originalTotalPrice = parseInt(hiddenTotalPriceElement.value);
+    let selectedCouponNo = ''; // 쿠폰 번호 저장 변수
+    
+    applyCouponButton.addEventListener('click', () => {
+        const selectedCoupon = couponSelect.options[couponSelect.selectedIndex];
+        selectedCouponNo = selectedCoupon.value; // 선택된 쿠폰 번호 저장
+        const discount = parseInt(selectedCoupon.getAttribute('data-discount')) || 0;
+        const discountedPrice = originalTotalPrice - (originalTotalPrice*(discount/100));
+        totalPriceElement.innerText = discountedPrice + '원';
+        hiddenTotalPriceElement.value = discountedPrice;
+    });
+
+    removeCouponButton.addEventListener('click', () => {
+        totalPriceElement.innerText = originalTotalPrice + '원';
+        hiddenTotalPriceElement.value = originalTotalPrice;
+        couponSelect.selectedIndex = 0;
+        selectedCouponNo = ''; // 쿠폰 번호 초기화
+    });
 
     const onClickPay = async () => {
          // 히든 필드에서 값을 가져옴
@@ -17,7 +40,7 @@ document.addEventListener("DOMContentLoaded", function() {
         const d_seat_sold = document.getElementById('hidden_d_seat_sold').value;
         const vip_seat_price = document.getElementById('hidden_vip_seat_price').value;
         const vip_seat_sold = document.getElementById('hidden_vip_seat_sold').value;
-        const total_price = document.getElementById('hidden_total_price').value;
+        const total_price = hiddenTotalPriceElement.value;
         const game_id = document.getElementById('hidden_game_id').value;
         const item_no = document.getElementById('hidden_item_no').value;
         const content = document.getElementById('hidden_content').value;
@@ -39,7 +62,8 @@ document.addEventListener("DOMContentLoaded", function() {
             total_price: total_price,
             game_id: game_id,
             item_no: item_no,
-            content: content
+            content: content,
+            coupon_no: selectedCouponNo // 선택된 쿠폰 번호 추가
         };
 
         // 백엔드 서버로 paymentVO 전송 -> 서버에서는 해당 정보로 주문객체 만들어서 저장하고 반환 

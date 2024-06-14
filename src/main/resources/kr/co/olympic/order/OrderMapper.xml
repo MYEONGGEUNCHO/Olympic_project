@@ -6,12 +6,12 @@
         INSERT INTO `order` (
             order_no, buy_date, state, member_no,
             item_no, game_id, coupon_no, imp_uid,
-            real_price, original_price, point
+            real_price, original_price, point, member_email
         )
         VALUES (
             #{order_no}, NOW(), 'ready', #{member_no}, 
             #{item_no}, #{game_id}, #{coupon_no}, #{imp_uid},
-            #{real_price}, #{original_price}, #{point}
+            #{real_price}, #{original_price}, #{point}, #{member_email}
         );
     </insert>
     
@@ -97,5 +97,12 @@
     <!-- member_no로 티켓 조회 -->
     <select id="getTicketsByMemberNo" parameterType="String" resultType="kr.co.olympic.order.TicketVO">
         SELECT * FROM ticket WHERE member_no = #{member_no};
+    </select>
+    
+    <!-- coupon_no로 쿠폰의 할인 금액 조회 -->
+    <select id="getCouponDiscount" parameterType="String" resultType="int">
+        SELECT discount
+        FROM coupon
+        WHERE coupon_no = #{coupon_no};
     </select>
 </mapper>

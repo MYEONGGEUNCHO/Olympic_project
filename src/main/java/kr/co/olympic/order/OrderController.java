@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import kr.co.olympic.member.MemberService;
 import kr.co.olympic.member.MemberVO;
 
 
@@ -26,6 +27,9 @@ public class OrderController {
 	
 	@Autowired
 	private OrderService orderService;
+	
+	@Autowired
+	private MemberService memberService;
 	
 	@GetMapping("/order/order.do")
 	public String login() {
@@ -42,6 +46,11 @@ public class OrderController {
 		return "/order/finish";
 	}
 	
+	@GetMapping("/order/getCouponDiscount.do")
+	public int getCouponDiscount(String coupon_no) {
+		return orderService.getCouponDiscount(coupon_no);
+	}
+	
 	@PostMapping("/order/initOrder")
 	public String initOrder(@ModelAttribute PaymentVO paymentVO, HttpSession session, RedirectAttributes redirectAttributes) {
 	    // 세션에서 MemberVO 객체 가져오기
@@ -50,15 +59,19 @@ public class OrderController {
 	    // 테스트용 임시값 설정
 	    if (member == null) {
 	        member = new MemberVO();
-	        member.setMember_no("1");
-	        member.setName("홍길동");
+	        member.setMember_no("f57c671f-cf5a-4e20-a03a-8b895d625bb4");
+	        member.setName("test20");
 	        member.setEmail("test@test.com");
 	        member.setPhone("010-1234-4321");
 	        session.setAttribute("member", member);
 	    }
 	    
-	    PaymentVO tempPay = paymentVO;
+	    PaymentVO tempPay = orderService.preparePaymentVO(member, paymentVO);
+	    
+	    //PaymentVO tempPay = paymentVO;
 	    tempPay.setTotal_price(tempPay.calculateTotalPrice());
+	    //tempPay.updateCouponList(member); // 경기 상세 -> 결제 창으로 가기전에 데이터들 정제하는 과정에서 세션.회원의 쿠폰 리스트를 paymentVO에 탑재 
+	    System.out.println(tempPay.toString());
 	    
 	    // 회원 여부 검증
 	    if (member == null) {
@@ -79,24 +92,25 @@ public class OrderController {
 		// 세션에서 MemberVO 객체 가져오기
 	    MemberVO member = (MemberVO) session.getAttribute("member");
 
-	    // 테스트용 임시값 설정
+	 // 테스트용 임시값 설정
 	    if (member == null) {
 	        member = new MemberVO();
-	        member.setMember_no("1");
-	        member.setName("홍길동");
+	        member.setMember_no("f57c671f-cf5a-4e20-a03a-8b895d625bb4");
+	        member.setName("test20");
 	        member.setEmail("test@test.com");
 	        member.setPhone("010-1234-4321");
 	        session.setAttribute("member", member);
 	    }
 	    // 이때 최초로 주문건 생성(UUID 생성시점)
 		OrderVO orderVO = new OrderVO();
-		orderVO.setMember_no(member.getEmail());
+		orderVO.setMember_no(member.getMember_no());
+		orderVO.setMember_email(member.getEmail());
 		orderVO.setItem_no(paymentVO.getItem_no());
 		orderVO.setGame_id(paymentVO.getGame_id());
-		orderVO.setCoupon_no(10);
-		orderVO.setOriginal_price(paymentVO.getTotal_price());
+		orderVO.setCoupon_no(paymentVO.getCoupon_no());
+		orderVO.setOriginal_price(paymentVO.calculateTotalPrice());
 		orderVO.setReal_price(paymentVO.getTotal_price());
-		orderVO.setPoint(100);
+		orderVO.setPoint((paymentVO.getTotal_price()/100));
 		
 		// 생성한 주문건을 DB에 저장 
 		OrderVO insertedOrder = orderService.insert(orderVO);
@@ -142,11 +156,11 @@ public class OrderController {
 	    // 세션에서 MemberVO 객체 가져오기
 	    MemberVO member = (MemberVO) session.getAttribute("member");
 
-	    // 테스트용 임시값 설정
+	 // 테스트용 임시값 설정
 	    if (member == null) {
 	        member = new MemberVO();
-	        member.setMember_no("1");
-	        member.setName("홍길동");
+	        member.setMember_no("f57c671f-cf5a-4e20-a03a-8b895d625bb4");
+	        member.setName("test20");
 	        member.setEmail("test@test.com");
 	        member.setPhone("010-1234-4321");
 	        session.setAttribute("member", member);

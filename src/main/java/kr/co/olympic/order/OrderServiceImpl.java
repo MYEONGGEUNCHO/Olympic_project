@@ -14,12 +14,17 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import kr.co.olympic.member.MemberService;
 import kr.co.olympic.member.MemberVO;
 @Service
 public class OrderServiceImpl implements OrderService {
 	
 	@Autowired
 	private OrderMapper mapper;
+	
+	@Autowired
+    private MemberService memberService;
+	
 	
 	@Value("${order.api.key}")
     private String imp_key;
@@ -90,7 +95,19 @@ public class OrderServiceImpl implements OrderService {
 		mapper.insertTicket(ticketVO);
         return ticketVO;
     }
+	@Override
+	public int getCouponDiscount(String coupon_no) {
+		return mapper.getCouponDiscount(coupon_no);
+	}
 	
+	
+	
+	@Override
+    public PaymentVO preparePaymentVO(MemberVO member, PaymentVO paymentVO) {
+        //paymentVO.setMemberService(memberService);
+        paymentVO.setCoupon_list(memberService.coupon_list(member));
+        return paymentVO;
+    }
 	
 	
 	@Override
@@ -223,7 +240,8 @@ public class OrderServiceImpl implements OrderService {
             orderVO.setImp_uid((String) responseBody.get("imp_uid"));
             orderVO.setOrder_no((String) responseBody.get("merchant_uid"));
             orderVO.setReal_price((Integer) responseBody.get("amount"));
-            orderVO.setMember_no((String) responseBody.get("buyer_email"));
+            orderVO.setMember_email((String) responseBody.get("buyer_email"));
+            //orderVO.setMember_no((String) responseBody.get("buyer_email"));
             return orderVO;
         } else {
             throw new RuntimeException("포트원 결제정보 조회 실패");
@@ -247,7 +265,7 @@ public class OrderServiceImpl implements OrderService {
             // 유효성 검사
             return paidOrder.getReal_price() == myOrder.getReal_price() &&
             		paidOrder.getOrder_no().equals(myOrder.getOrder_no()) &&
-            		paidOrder.getMember_no().equals(myOrder.getMember_no());
+            		paidOrder.getMember_email().equals(myOrder.getMember_email());
         }
        
     }

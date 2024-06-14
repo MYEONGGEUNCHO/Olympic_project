@@ -33,7 +33,7 @@ public class OrderTest {
         order.setMember_no("1");
         order.setItem_no(1);
         order.setGame_id(1);
-        order.setCoupon_no(1);
+        order.setCoupon_no("1");
         order.setImp_uid("imp_1234567890");
         order.setReal_price(10000);
         order.setOriginal_price(15000);

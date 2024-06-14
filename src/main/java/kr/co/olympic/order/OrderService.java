@@ -3,6 +3,8 @@ package kr.co.olympic.order;
 import java.util.List;
 import java.util.Map;
 
+import kr.co.olympic.member.MemberVO;
+
 public interface OrderService {
 	OrderVO insert(OrderVO vo);
 	OrderVO insertUid(OrderVO vo);
@@ -16,4 +18,6 @@ public interface OrderService {
     TicketVO createTicket(TicketVO ticketVO);
     List<TicketVO> getTicketsByOrderNo(String order_no);
     List<TicketVO> getTicketsByMemberNo(String member_no);
+    int getCouponDiscount(String coupon_no);
+    PaymentVO preparePaymentVO(MemberVO member, PaymentVO paymentVO);
 }

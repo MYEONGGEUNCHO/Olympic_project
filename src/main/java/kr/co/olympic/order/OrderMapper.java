@@ -26,4 +26,6 @@ public interface OrderMapper {
     int getTotalOrdersByMember(@Param("member") MemberVO member);
     List<TicketVO> getTicketsByOrderNo(String order_no);
     List<TicketVO> getTicketsByMemberNo(String member_no);
+    
+    int getCouponDiscount(String coupon_no);
 }
