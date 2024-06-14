@@ -8,7 +8,9 @@ import kr.co.olympic.member.MemberVO;
 public interface GameService {
 	//#경기관련
 	//경기 전체 리스트
-	Map<String, Object> listGame(GameVO vo);
+	Map<String, Object> listGame(GameVO game);
+	//경기 검색 리스트
+	List<GameVO> searchGame(GameVO game);
 	//경기 날짜별 리스트
 	List<GameVO> listByDate(GameVO game);
 	//경기 종목별 리스트
