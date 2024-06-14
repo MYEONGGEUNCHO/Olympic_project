@@ -21,6 +21,13 @@
 <script src="../js/jquery-3.7.1.min.js"></script>
 <script>
     console.log('${game}');
+    $(function() {
+		var seat_info = `<div class="form-check form-check-inline form-check-size mb-2">
+			<input type="radio" class="form-check-input" name="sizeRadio" id="sizeRadioOne" value="기본석" data-toggle="form-caption" data-target="#sizeCaption">
+			<label class="form-check-label" for="sizeRadioOne">6</label>
+		</div>`;
+		$("#seat_choice").append(seat_info);
+    })
 </script>
 </head>
 <body>
@@ -1267,142 +1274,29 @@
 						</div>
 						<div class="col-12 col-md-6 ps-lg-10">
 
-							<!-- Header -->
-							<div class="row mb-1">
-								<div class="col">
-
-									<!-- Preheading -->
-									<a class="text-muted" href="shop.html">Sneakers</a>
-
-								</div>
-								<div class="col-auto">
-
-									<!-- Rating -->
-									<div class="rating fs-xs text-dark" data-value="4">
-										<div class="rating-item">
-											<i class="fas fa-star"></i>
-										</div>
-										<div class="rating-item">
-											<i class="fas fa-star"></i>
-										</div>
-										<div class="rating-item">
-											<i class="fas fa-star"></i>
-										</div>
-										<div class="rating-item">
-											<i class="fas fa-star"></i>
-										</div>
-										<div class="rating-item">
-											<i class="fas fa-star"></i>
-										</div>
-									</div>
-
-									<a class="fs-sm text-reset ms-2" href="#reviews"> Reviews (6) </a>
-
-								</div>
-							</div>
-
 							<!-- Heading -->
-							<h3 class="mb-2">Leather Sneakers</h3>
-
-							<!-- Price -->
-							<div class="mb-7">
-								<span class="fs-lg fw-bold text-gray-350 text-decoration-line-through">$115.00</span>
-								<span class="ms-1 fs-5 fw-bolder text-primary">$85.00</span>
-								<span class="fs-sm ms-1">(In Stock)</span>
-							</div>
-
+							<h3 class="mb-2">${game.sport_name }</h3>
 							<!-- Form -->
 							<form>
 								<div class="form-group">
 
 									<!-- Label -->
 									<p class="mb-5">
-										Color: <strong id="colorCaption">White</strong>
+										좌석 선택: <strong><span id="sizeCaption">
+												<!-- TODO: 선택좌석 불러와야함 -->
+											</span> US</strong>
 									</p>
-
-									<!-- Radio -->
-									<div class="mb-8 ms-n1">
-										<div class="form-check form-check-inline form-check-img">
-											<input type="radio" class="form-check-input" id="imgRadioOne" name="imgRadio" data-toggle="form-caption" data-target="#colorCaption" value="White" style="background-image: url(assets/img/products/product-7.jpg);" checked>
-										</div>
-										<div class="form-check form-check-inline form-check-img">
-											<input type="radio" class="form-check-input" id="imgRadioTwo" name="imgRadio" data-toggle="form-caption" data-target="#colorCaption" value="Black" style="background-image: url(assets/img/products/product-49.jpg);">
-										</div>
+									<!-- TODO: 구글 지도 불러올곳 -->
+									<!-- Map -->
+									<div>
+										<div id="sprot_location">${sport.stadium.stadium_name}</div>
+										<div style="width: 300px; height: 300px; background: black;">..</div>
 									</div>
 
-								</div>
-								<div class="form-group">
-
-									<!-- Label -->
-									<p class="mb-5">
-										Size: <strong><span id="sizeCaption">7.5</span> US</strong>
-									</p>
-
 									<!-- Radio -->
-									<div class="mb-2">
-										<div class="form-check form-check-inline form-check-size mb-2">
-											<input type="radio" class="form-check-input" name="sizeRadio" id="sizeRadioOne" value="6" data-toggle="form-caption" data-target="#sizeCaption">
-											<label class="form-check-label" for="sizeRadioOne">6</label>
-										</div>
-										<div class="form-check form-check-inline form-check-size mb-2">
-											<input type="radio" class="form-check-input" name="sizeRadio" id="sizeRadioTwo" value="6.5" data-toggle="form-caption" data-target="#sizeCaption" disabled>
-											<label class="form-check-label" for="sizeRadioTwo">6.5</label>
-										</div>
-										<div class="form-check form-check-inline form-check-size mb-2">
-											<input type="radio" class="form-check-input" name="sizeRadio" id="sizeRadioThree" value="7" data-toggle="form-caption" data-target="#sizeCaption">
-											<label class="form-check-label" for="sizeRadioThree">7</label>
-										</div>
-										<div class="form-check form-check-inline form-check-size mb-2">
-											<input type="radio" class="form-check-input" name="sizeRadio" id="sizeRadioFour" value="7.5" data-toggle="form-caption" data-target="#sizeCaption" checked>
-											<label class="form-check-label" for="sizeRadioFour">7.5</label>
-										</div>
-										<div class="form-check form-check-inline form-check-size mb-2">
-											<input type="radio" class="form-check-input" name="sizeRadio" id="sizeRadioFive" value="8" data-toggle="form-caption" data-target="#sizeCaption">
-											<label class="form-check-label" for="sizeRadioFive">8</label>
-										</div>
-										<div class="form-check form-check-inline form-check-size mb-2">
-											<input type="radio" class="form-check-input" name="sizeRadio" id="sizeRadioSix" value="8.5" data-toggle="form-caption" data-target="#sizeCaption">
-											<label class="form-check-label" for="sizeRadioSix">8.5</label>
-										</div>
-										<div class="form-check form-check-inline form-check-size mb-2">
-											<input type="radio" class="form-check-input" name="sizeRadio" id="sizeRadioSeven" value="9" data-toggle="form-caption" data-target="#sizeCaption" disabled>
-											<label class="form-check-label" for="sizeRadioSeven">9</label>
-										</div>
-										<div class="form-check form-check-inline form-check-size mb-2">
-											<input type="radio" class="form-check-input" name="sizeRadio" id="sizeRadioEight" value="9.5" data-toggle="form-caption" data-target="#sizeCaption" disabled>
-											<label class="form-check-label" for="sizeRadioEight">9.5</label>
-										</div>
-										<div class="form-check form-check-inline form-check-size mb-2">
-											<input type="radio" class="form-check-input" name="sizeRadio" id="sizeRadioNine" value="10" data-toggle="form-caption" data-target="#sizeCaption">
-											<label class="form-check-label" for="sizeRadioNine">10</label>
-										</div>
-										<div class="form-check form-check-inline form-check-size mb-2">
-											<input type="radio" class="form-check-input" name="sizeRadio" id="sizeRadioTen" value="10.5" data-toggle="form-caption" data-target="#sizeCaption">
-											<label class="form-check-label" for="sizeRadioTen">10.5</label>
-										</div>
-										<div class="form-check form-check-inline form-check-size mb-2">
-											<input type="radio" class="form-check-input" name="sizeRadio" id="sizeRadioEleven" value="11" data-toggle="form-caption" data-target="#sizeCaption">
-											<label class="form-check-label" for="sizeRadioEleven">11</label>
-										</div>
-										<div class="form-check form-check-inline form-check-size mb-2">
-											<input type="radio" class="form-check-input" name="sizeRadio" id="sizeRadioTwelve" value="12" data-toggle="form-caption" data-target="#sizeCaption">
-											<label class="form-check-label" for="sizeRadioTwelve">12</label>
-										</div>
-										<div class="form-check form-check-inline form-check-size mb-2">
-											<input type="radio" class="form-check-input" name="sizeRadio" id="sizeRadioThirteen" value="13" data-toggle="form-caption" data-target="#sizeCaption">
-											<label class="form-check-label" for="sizeRadioThirteen">13</label>
-										</div>
-										<div class="form-check form-check-inline form-check-size mb-2">
-											<input type="radio" class="form-check-input" name="sizeRadio" id="sizeRadioFourteen" value="14" data-toggle="form-caption" data-target="#sizeCaption">
-											<label class="form-check-label" for="sizeRadioFourteen">14</label>
-										</div>
+									<div class="mb-2" id="seat_choice">
+										<!-- TODO: 좌석 정보 들어가야함 -->
 									</div>
-
-									<!-- Size chart -->
-									<p class="mb-8">
-										<img src="/olympic/dist/assets/img/icons/icon-ruler.svg" alt="..." class="img-fluid">
-										<a class="text-reset text-decoration-underline ms-3" data-bs-toggle="modal" href="#modalSizeChart">Size chart</a>
-									</p>
 
 									<div class="row gx-5 mb-7">
 										<div class="col-12 col-lg-auto">
