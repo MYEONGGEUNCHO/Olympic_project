@@ -95,7 +95,7 @@
     </select>
     
     <!-- member_no로 티켓 조회 -->
-    <select id="getTicketsByMemberNo" parameterType="String" resultType="kr.co.olympic.order.TicketVO">
+    <select id="getTicketsByMemberNo" parameterType="kr.co.olympic.member.MemberVO" resultType="kr.co.olympic.order.TicketVO">
         SELECT * FROM ticket WHERE member_no = #{member_no};
     </select>
     
@@ -114,9 +114,14 @@
         WHERE coupon_no = #{coupon_no};
     </select>
     
-    <!-- 쿠폰 확인-->
+    <!--유효한 쿠폰 확인-->
 	<select id="getPossibleCouponList" resultType="kr.co.olympic.member.CouponVO" parameterType="kr.co.olympic.member.MemberVO">
 		SELECT * FROM coupon WHERE member_no=#{member_no} AND used = 0
+	</select>
+	
+	<!-- 모든 쿠폰 확인-->
+	<select id="getAllCouponList" resultType="kr.co.olympic.member.CouponVO" parameterType="kr.co.olympic.member.MemberVO">
+		SELECT * FROM coupon WHERE member_no=#{member_no}
 	</select>
     
     <!-- 포인트 정보를 DB에 삽입 -->
@@ -130,14 +135,14 @@
     </insert>
 
     <!-- 특정 회원의 포인트 정보를 조회 -->
-    <select id="getPointsByMemberNo" parameterType="String" resultType="kr.co.olympic.order.PointVO">
+    <select id="getPointsByMemberNo" parameterType="kr.co.olympic.member.MemberVO" resultType="kr.co.olympic.order.PointVO">
         SELECT *
         FROM point
         WHERE member_no = #{member_no};
     </select>
     
      <!-- 특정 회원의 사용 가능한 포인트 합산 조회 -->
-    <select id="getTotalAvailablePoints" parameterType="String" resultType="int">
+    <select id="getTotalAvailablePoints" parameterType="kr.co.olympic.member.MemberVO" resultType="int">
         SELECT SUM(point)
         FROM point
         WHERE member_no = #{member_no} AND is_use = 0;

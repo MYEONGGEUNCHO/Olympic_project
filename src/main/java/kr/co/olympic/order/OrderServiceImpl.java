@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
@@ -54,15 +55,15 @@ public class OrderServiceImpl implements OrderService {
 	}
 	
 	@Override
+	public OrderVO getOrderByOrderNo(String order_no) {
+		return mapper.getOrderById(order_no);
+	}
+	
+	@Override
 	public OrderVO getOrderByImpUid(String imp_uid) {
 		return mapper.getOrderByImpUid(imp_uid);
 	}
 	
-	@Override
-	public OrderVO getOrderByOrderNo(String order_no) {
-		return mapper.getOrderById(order_no);
-	}
-
 	@Override
 	public int update(OrderVO vo) {
 		// TODO Auto-generated method stub
@@ -76,55 +77,27 @@ public class OrderServiceImpl implements OrderService {
 	}
 	
 	@Override
-	public void insertPoint(PointVO pointVO) {
-		mapper.insertPoint(pointVO);
+	public void updateOrderStateToPaid(OrderVO order) {
+		mapper.updateOrderStateToPaid(order);
+	}
+	
+
+	@Override
+	public int getTotalOrdersByMember(MemberVO member) {
+		return mapper.getTotalOrdersByMember(member);
+	}
+
+	
+	@Override
+	public List<OrderVO> getOrdersByMember(MemberVO vo){
+		return mapper.getOrdersByMember(vo);
 	}
 	
 	@Override
-	public void setCouponUsed(String coupon_no) {
-		mapper.setCouponUsed(coupon_no);
+	public List<OrderVO> getOrdersByMemberPaged(@Param("member") MemberVO member, 
+			@Param("offset") int offset, @Param("limit") int limit){
+		return mapper.getOrdersByMemberPaged(member, offset, limit);
 	}
-	
-	@Override
-    public List<TicketVO> getTicketsByMemberNo(String member_no) {
-        return mapper.getTicketsByMemberNo(member_no);
-    }
-	
-	@Override
-    public List<TicketVO> getTicketsByOrderNo(String order_no) {
-        return mapper.getTicketsByOrderNo(order_no);
-    }
-	
-	
-	
-	@Override
-    public TicketVO createTicket(TicketVO ticketVO) {
-		mapper.insertTicket(ticketVO);
-        return ticketVO;
-    }
-	@Override
-	public int getCouponDiscount(String coupon_no) {
-		return mapper.getCouponDiscount(coupon_no);
-	}
-	
-	@Override
-	public int getTotalAvailablePoints(String member_no) {
-		return mapper.getTotalAvailablePoints(member_no);
-	}
-	
-	
-	
-	@Override
-    public PaymentVO preparePaymentVO(MemberVO member, PaymentVO paymentVO) {
-		paymentVO.setCoupon_list(getPossibleCouponList(member));
-        return paymentVO;
-    }
-	
-	@Override
-	public List<CouponVO> getPossibleCouponList(MemberVO vo){
-		return mapper.getPossibleCouponList(vo);
-	}
-	
 	
 	@Override
     public List<TicketVO> insertTicket(Map<String, Object> ticketDataMap) {
@@ -198,6 +171,67 @@ public class OrderServiceImpl implements OrderService {
         //getTicketsByMemberNo(member.getMember_no()).forEach(System.out::println);
         return ticketList;
     }
+	
+	
+	@Override
+    public TicketVO createTicket(TicketVO ticketVO) {
+		mapper.insertTicket(ticketVO);
+        return ticketVO;
+    }
+	
+	@Override
+    public List<TicketVO> getTicketsByOrderNo(String order_no) {
+        return mapper.getTicketsByOrderNo(order_no);
+    }
+	
+	@Override
+    public List<TicketVO> getTicketsByMemberNo(MemberVO vo) {
+        return mapper.getTicketsByMemberNo(vo);
+    }
+	
+
+	@Override
+	public int getCouponDiscount(String coupon_no) {
+		return mapper.getCouponDiscount(coupon_no);
+	}
+	
+	@Override
+	public List<CouponVO> getPossibleCouponList(MemberVO vo){
+		return mapper.getPossibleCouponList(vo);
+	}
+	
+
+	@Override
+	public List<CouponVO> getAllCouponList(MemberVO vo){
+		return mapper.getAllCouponList(vo);
+	}
+	
+	@Override
+	public void setCouponUsed(String coupon_no) {
+		mapper.setCouponUsed(coupon_no);
+	}
+	
+	
+	@Override
+    public PaymentVO preparePaymentVO(MemberVO member, PaymentVO paymentVO) {
+		paymentVO.setCoupon_list(getPossibleCouponList(member));
+        return paymentVO;
+    }
+	
+	@Override
+	public void insertPoint(PointVO pointVO) {
+		mapper.insertPoint(pointVO);
+	}
+	
+	@Override
+	public List<PointVO> getPointsByMemberNo(MemberVO member){
+		return mapper.getPointsByMemberNo(member);
+	}
+	
+	@Override
+	public int getTotalAvailablePoints(MemberVO member) {
+		return mapper.getTotalAvailablePoints(member);
+	}
 	
 	public String getAccessToken() {
         if (imp_key == null || imp_secret == null) {

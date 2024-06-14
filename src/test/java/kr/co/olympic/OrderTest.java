@@ -64,7 +64,7 @@ public class OrderTest {
     	MemberVO member = new MemberVO();
         member.setMember_no("f57c671f-cf5a-4e20-a03a-8b895d625bb4");
 
-        int temp = mapper.getTotalAvailablePoints(member.getMember_no());
+        int temp = mapper.getTotalAvailablePoints(member);
         System.out.println(temp);
     }
 

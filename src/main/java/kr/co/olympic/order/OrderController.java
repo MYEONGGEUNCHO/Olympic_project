@@ -237,6 +237,9 @@ public class OrderController {
             // TODO 4 : 사용한 쿠폰을 쿠폰DB에서 coupon_no로 찾아서 상태를 used로 변경해주기 
             orderService.setCouponUsed(currentOrder.getCoupon_no());
             
+            // TODO 5 : 결제 상태 paid로 DB 업데이트하기 
+            orderService.updateOrderStateToPaid(currentOrder);
+            
             return new ResponseEntity<>("결제 유효성 검사 완료", HttpStatus.OK);
         } else {
             return new ResponseEntity<>("결제 유효성 검사 실패", HttpStatus.BAD_REQUEST);
