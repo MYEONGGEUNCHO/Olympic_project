@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<!doctype html>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<!DOCTYPE html>
 <html lang="ko">
 <head>
 <script src="../js/jquery-3.7.1.min.js"></script>
@@ -25,19 +26,25 @@
 			<div class="row">
 				<div class="col-12">
 					<!-- Heading -->
-					<h3 class="mb-10 text-center">문의사항 작성</h3>
-
-				</div>
+					<c:if test="${login.state == 0}">
+						<h3 class="mb-10 text-center">문의사항 작성</h3>
+					</c:if>
+					<c:if test="${qna.state == 1 || login.state == 3}">
+						<h3 class="mb-10 text-center">공지사항 작성</h3>
+					</c:if>				</div>
 			</div>
 			<div class="row justify-content-center">
-
 				<div class="col-12 col-md-8">
 					<!-- 수정 안되는 부분-->
-					<p id="date">작성일자 : ${serverTime}</p>
+					<p id="date">
+						작성일자 :
+						<fmt:formatDate value="${serverTime}" pattern="yyyy-MM-dd HH시 mm분" />
+					</p>
 					<p id="writer">작성자 : ${login.name}</p>
 					<!-- 분류 -->
 					<div class="form-group">
-					<input type="hidden" name="writer" value="${login.member_no}">
+						<input type="hidden" name="writer" value="${login.member_no}">
+						<input type="hidden" name="writer_state" value="${login.state}">
 						<c:if test="${!empty param.game_id}">
 							<input type="radio" id="game" name="type" value=0 checked>
 							<label for="game">경기 문의</label>
@@ -51,17 +58,14 @@
 							<label for="ticket">티켓 문의</label>
 						</c:if>
 					</div>
-
 					<!-- 제목 -->
 					<div class="form-group">
 						<input class="form-control form-control-sm" name="title" id="title" type="text" placeholder="제목" required>
 					</div>
-
 					<!-- 내용 -->
 					<div class="form-group mb-7" id="editor"></div>
-
 					<!-- Button -->
-					<button type="button" class="btn btn-dark" id="btn">입력하기</button>
+					<button type="button" class="btn btn-dark" id="btn">작성하기</button>
 				</div>
 			</div>
 		</div>

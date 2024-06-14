@@ -27,7 +27,10 @@ public class QnaVO {
 	private String name;
 	private QnaSearchDTO search;
 	private int searchCount;
+	//0: 일반 게시글, 1: 공지 게시글, 2: 삭제 게시글
 	private int state;
+	//수정 일자
+	private Timestamp update_date;
 //	public int getGame_id() {
 //		return game_id.getGame_id();
 //	}
