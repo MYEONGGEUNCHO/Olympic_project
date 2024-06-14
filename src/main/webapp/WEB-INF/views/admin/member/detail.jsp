@@ -6,14 +6,19 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+
 <style>
-    .info-item {
+	#info-container{
+		margin-top: 20px;
+	}
+	
+    #info-item {
         display: flex;
         justify-content: space-between;
-        margin-bottom: 5px; /* 각 항목 사이에 간격 추가 */
+        margin-bottom: 5px; 
     }
 
-    .info-label {
+    #info-label {
         font-weight: bold;
         margin-right: 10px;
     }
@@ -45,38 +50,40 @@
                 <div class="row p-4">
                     <!-- 회원 정보 -->
                     <div class="col-md-3 card shadow mb-4">
-                        <div class="card-header py-3">
+                        <div class="card-header">
                             <h6 class="m-0 font-weight-bold text-primary">회원 정보</h6>
                         </div>
                         <div class="card-body">
-						    <div class="avatar avatar-xxl mb-3 text-center">
+						    <div class="avatar avatar-xxl my-5 text-center">
 						        <span class="avatar-title rounded-circle">
-						            <i class="fa fa-user"></i>
+						            <i class="fa fa-user" style="font-size: 70px;" ></i>
 						        </span>
 						    </div>
-						    <div class="info-item">
-						        <span class="info-label">회원 이름:</span>
-						        <span>${detail.name}</span>
-						    </div>
-						    <div class="info-item">
-						        <span class="info-label">회원 이메일:</span>
-						        <span>${detail.email}</span>
-						    </div>
-						    <div class="info-item">
-						        <span class="info-label">회원 생년월일:</span>
-						        <span>${detail.birthday}</span>
-						    </div>
-						    <div class="info-item">
-						        <span class="info-label">연락처:</span>
-						        <span>${detail.phone}</span>
-						    </div>
-						    <div class="info-item">
-						        <span class="info-label">등급:</span>
-						        <span>${detail.membership}</span>
-						    </div>
-						    <div class="info-item">
-						        <span class="info-label">포인트:</span>
-						        <span>${detail.point}</span>
+						    <div id="info-container">
+							    <div id="info-item">
+							        <span id="info-label">이름:</span>
+							        <span>${detail.name}</span>
+							    </div>
+							    <div id="info-item">
+							        <span id="info-label">이메일:</span>
+							        <span>${detail.email}</span>
+							    </div>
+							    <div id="info-item">
+							        <span id="info-label">생년월일:</span>
+							        <span>${detail.birthday}</span>
+							    </div>
+							    <div id="info-item">
+							        <span id="info-label">연락처:</span>
+							        <span>${detail.phone}</span>
+							    </div>
+							    <div id="info-item">
+							        <span id="info-label">등급:</span>
+							        <span>${detail.membership}</span>
+							    </div>
+							    <div id="info-item">
+							        <span id="info-label">포인트:</span>
+							        <span>${detail.point}</span>
+							    </div>
 						    </div>
 						</div>
                     </div>
@@ -90,18 +97,49 @@
                                     <h6 class="m-0 font-weight-bold text-primary">예매 내역</h6>
                                 </div>
                                 <div class="card-body">
-                                    <div class="avatar avatar-xxl mb-3">
-                                        <span class="avatar-title rounded-circle">
-                                            <i class="fa fa-user"></i>
-                                        </span>
-                                    </div>
-                                    <p>회원 이름: ${detail.name}</p>
-                                    <p>회원 이메일: ${detail.email}</p>
-                                    <p>회원 생년월일: ${detail.birthday}</p>
-                                    <p>연락처: ${detail.phone}</p>
-                                    <p>등급: ${detail.membership}</p>
-                                    <p>포인트: ${detail.point}</p>
-                                </div>
+		                            <div class="table-responsive">
+		                                <table class="table table-bordered text-center" id="dataTable" width="100%" cellspacing="0">
+			                                <colgroup>
+										    	<col width="12%" />
+										    	<col width="10%" />
+										    	<col width="10%" />
+										        <col width="10%" />
+										        <col width="10%" />
+										        <col width="10%" />
+										        <col width="10%" />
+										        <col width="12%" />
+										        <col width="10%" />
+										    </colgroup>
+		                                    <thead class="fs-3">
+		                                        <tr>
+		                                            <th>예매번호</th>
+		                                            <th>종목</th>
+		                                            <th>이름</th>
+		                                            <th>좌석등급</th>
+		                                            <th>구매가격</th>
+		                                            <th>주문일자</th>
+		                                            <th>경기날짜</th>
+		                                            <th>edit</th>
+		                                        </tr>
+		                                    </thead>
+		                                    
+		                                    <tbody id="memlist">
+		                                        <tr>
+							                        <td>예시1</td>
+							                        <td>예시1</td>
+							                        <td>예시1</td>
+							                        <td>예시1</td>
+							                        <td>예시1</td>
+							                        <td>예시1</td>
+							                        <td>예시1</td>
+		                                        	<td>
+		                                        	<button type="button" class="editBtn btn btn-danger">취소</button>&ensp; 
+		                                        	</td>
+		                                        </tr>
+		                                    </tbody>
+		                                </table>
+		                            </div>
+	                        	</div>
                             </div>
 
                             <!-- 문의 내역 -->
@@ -110,13 +148,39 @@
                                     <h6 class="m-0 font-weight-bold text-primary">문의 내역</h6>
                                 </div>
                                 <div class="card-body">
-                                    <div class="avatar avatar-xxl mb-3">
-                                        <span class="avatar-title rounded-circle">
-                                            <i class="fa fa-user"></i>
-                                        </span>
-                                    </div>
-                                    <p>회원 이름: ${detail.name}</p>
-                                </div>
+		                            <div class="table-responsive">
+		                                <table class="table table-bordered text-center" id="dataTable" width="100%" cellspacing="0">
+			                                <!-- <colgroup>
+										    	<col width="12%" />
+										    	<col width="10%" />
+										    	<col width="10%" />
+										        <col width="10%" />
+										        <col width="10%" />
+										    </colgroup> -->
+		                                    <thead class="fs-3">
+		                                        <tr>
+		                                            <th>제목</th>
+		                                            <th>작성자</th>
+		                                            <th>작성일</th>
+		                                            <th>답변상태</th>
+		                                            <th>edit</th>
+		                                        </tr>
+		                                    </thead>
+		                                    
+		                                    <tbody id="memlist">
+		                                        <tr>
+							                        <td>예시1</td>
+							                        <td>예시1</td>
+							                        <td>예시1</td>
+							                        <td>예시1</td>
+		                                        	<td>
+		                                        	<button type="button" class="editBtn btn btn-danger">취소</button>&ensp; 
+		                                        	</td>
+		                                        </tr>
+		                                    </tbody>
+		                                </table>
+		                            </div>
+	                        	</div>
                             </div>
                         </div>
                     </div>

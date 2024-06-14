@@ -81,7 +81,7 @@ public class GameServiceImpl implements GameService {
 
 	@Override
 	public int createFavorite(Map<String, Object> map) {
-		return 0;
+		return mapper.createFavorite(map);
 	}
 
 	@Override
@@ -91,6 +91,6 @@ public class GameServiceImpl implements GameService {
 
 	@Override
 	public int deleteFavorite(Map<String, Object> map) {
-		return 0;
+		return mapper.deleteFavorite(map);
 	}
 }

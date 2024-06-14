@@ -23,7 +23,7 @@ public class GameVO {
 	private String sport_code;
 	private int stadium_no;
 	
-	
+	private String sport_pictogram;
 	private List<PlayerVO> play_game;
 	private List<CommentVO> comment;
 	

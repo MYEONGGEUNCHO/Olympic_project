@@ -117,7 +117,7 @@
     </select>
 	
 	<!-- 경기 관심 삭제 -->
-	<delete id="deleteFavorite" parameterType="java.util.HashMap">
+	<delete id="deleteFavorite" parameterType="map">
         DELETE FROM favorite_game
         WHERE member_no = #{member_no} AND game_id = #{game_id}
     </delete>
