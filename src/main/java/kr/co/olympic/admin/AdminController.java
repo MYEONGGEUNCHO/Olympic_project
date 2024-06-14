@@ -17,6 +17,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import kr.co.olympic.member.CouponVO;
 import kr.co.olympic.member.MemberService;
 import kr.co.olympic.member.MemberVO;
+import kr.co.olympic.qna.QnaSearchDTO;
+import kr.co.olympic.qna.QnaService;
+import kr.co.olympic.qna.QnaVO;
 
 @Controller
 public class AdminController {
@@ -25,6 +28,8 @@ public class AdminController {
 	private AdminService service;
 	@Autowired
 	private MemberService memservice;
+	@Autowired
+	private QnaService qnaservice;
 	
 	@GetMapping("/admin/login.do")
 	public String adlogin() {
@@ -94,7 +99,11 @@ public class AdminController {
 	@GetMapping("/admin/detail.do")
 	public String detailMember(@RequestParam("member_no") String memberNo, Model model) {
 		MemberVO detail = service.detailMember(memberNo);
+		QnaSearchDTO dto = new QnaSearchDTO();
+		dto.setMember_no(memberNo);
 		model.addAttribute("detail", detail);
+		List<QnaVO> qna = qnaservice.list(dto);
+		model.addAttribute("qna", qna);
 		return "/admin/member/detail";
 	}
 }

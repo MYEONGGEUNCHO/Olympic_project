@@ -34,32 +34,26 @@ $(function() {
       <div class="container">
         <div class="row">
           <div class="col-12 text-center">
-
             <!-- Heading -->
             <h3 class="mb-10">Membership</h3>
-
           </div>
         </div>
         <div class="row">
-          <%@include file="../common/mypage.jsp"%>
+        	<%@include file="../common/mypage.jsp"%>
 			<div class="col-12 col-md-9 col-lg-8 offset-lg-1">
             <!-- Heading -->
             <h5 class="mt-7 mb-7">
               회원님의 멤버십은 <span class="fs-1 fw-semibold"> ${login.membership } </span> 입니다.
             </h5>
             <h6 class="mb-7">보유 포인트: <strong>${login.point }</strong> point</h6>
-             <form>
-
+            <form>
               <!-- Card -->
               <div class="form-group card card-sm border">
                 <div class="card-body">
-
                   <!-- Radio -->
                   <div class="form-check custom-radio">
-
                     <!-- Input -->
                     <input class="form-check-input collapsed" id="checkoutPaymentCard" name="payment" type="radio" checked>
-
                     <!-- Label -->
                     <label class="form-check-label d-flex justify-content-between w-100 align-items-center text-body text-nowrap" for="checkoutPaymentCard">
 					    <div class="mb-0">
@@ -69,11 +63,9 @@ $(function() {
 					    <span class="ms-auto fs-3">10000 point</span>
 					    <img style="width: 50px;" class="ms-auto" src="/olympic/img/vip.png" alt="...">
 					</label>
-
-                  </div>
-
-                </div>
-              </div>
+	               </div>
+	            </div>
+	          </div>
               <!-- Button -->
               <div class="d-flex justify-content-end">
               	<a class="me-auto fs-sm text-reset text-decoration-underline" data-bs-toggle="modal" href="#modalvip">VIP 혜택 상세보기</a>
@@ -81,10 +73,8 @@ $(function() {
 			      구매하기 <i class="fe fe-arrow-right ms-2"></i>
 			    </button>
 			  </div>
-
             </form>  
-            </div>
-                 
+           </div>
         </div>
       </div>
     </section>
