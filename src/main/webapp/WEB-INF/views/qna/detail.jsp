@@ -1,54 +1,103 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!doctype html>
 <html lang="ko">
 <head>
-<script src="https://uicdn.toast.com/editor/latest/toastui-editor-viewer.js"></script>
-<link rel="stylesheet" href="https://uicdn.toast.com/editor/latest/toastui-editor-viewer.min.css" />
+<script src="https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js"></script>
+<!-- Editor's Style -->
+<link rel="stylesheet" href="https://uicdn.toast.com/editor/latest/toastui-editor.min.css" />
 
 <script src="../js/jquery-3.7.1.min.js"></script>
 <script>
+function reply_open() {
+    if($("#reply_content").css("display") == "none") {
+		$("#reply_open").text("답변 창 닫기");
+    }
+    else {	
+		$("#reply_open").text("답변 창 열기");
+    }
+    $("#reply_content").slideToggle();
+}
+
+
     $(function() {
-	const Viewer = toastui.Editor;
+	const Viewer = toastui.Editor.factory;
 	const viewer = new Viewer({
 	    el : document.querySelector('#toast_viewer'),
 	    height : '600px',
-	    initialValue : '${qna.content}'
+	    initialValue : '${qna.content}',
+	    viewer: true
 	});
-	const reply_viewer = new Viewer(
-		{
-		    el : document.querySelector('#reply_viewer'),
-		    height : '600px',
-		    initialValue : '${empty qna.reply ? "<p>아직 답변이 작성되지 않았습니다.</p>" : qna.reply}'
-		});
-
-	$("#modify").click(function() {
-	    location.href = "/olympic/qna/update.do?qna_no=${param.qna_no}";
+	<c:if test="${!empty qna.reply}">
+	const reply = '${qna.reply}';
+	const reply_viewer = new Viewer({
+	    el : document.querySelector('#reply_viewer'),
+	    height : '600px',
+	    initialValue : reply,
+	    viewer: true
 	});
-
-	$("#delete").click(function() {
-	    $.ajax({
-		type : "POST",
-		url : "/olympic/qna/delete.do",
-		headers : {
-		    "Content-Type" : "application/json",
-		},
-		data : JSON.stringify({
-		    qna_no : "${qna.qna_no}",
-		    member_no : "${qna.member_no}",
-		}),
-		success : function() {
-		    alert('삭제가 완료되었습니다.');
-		    location.href = "/olympic/qna/index.do";
-		},
-		error : function(xhr, status, error) {
-		    console.error("Error:", error);
-		    // 에러 시 수행할 동작
-		    alert('글 삭제 중 오류가 발생했습니다: ');
+	 </c:if>
+	 <c:if test="${empty qna.reply && login.state==3}"> 
+		const editor = new toastui.Editor({
+		el: document.querySelector('#reply_editor'),
+		height: '500px',
+		initialEditType: 'wysiwyg',
+		initialValue: '답변을 입력해 주세요.',
+		previewStyle: 'vertical',
+		language: 'ko-KR',
+		autofocus: true,
+		hooks: {
+			//blob 정보를 AttachedVO에 맞춰서 JSON 형태로 전달한 후
+			//해당 file의 경로를 돌려받기.
+			async addImageBlobHook(blob, callback) {
+				try {
+					const formData = new FormData();
+					formData.append('file', blob);
+					const response = await fetch('/olympic/qna/upload.do', {
+						method: 'POST',
+						body: formData,
+					});
+					const filename = await response.text();
+					const jsonObj = JSON.parse(filename);
+					const forsaveName = jsonObj.forsave_name;
+					const imageUrl = '/olympic/qna/download.do?filename=' + forsaveName;
+					callback(imageUrl, '대체 텍스트');
+				} catch (error) {
+					console.log("업로드 실패 : ", error);
+				}
+			}
 		}
-	    });
 	});
+	</c:if>
 
+	 
+	 $("#modify").on('click', function() {
+		location.href = "/olympic/qna/update.do?qna_no=${param.qna_no}";
+	 });
+
+	    $("#delete").click(function() {
+		$.ajax({
+		    type : "POST",
+		    url : "/olympic/qna/delete.do",
+		    headers : {
+			"Content-Type" : "application/json"
+		    },
+		    data : JSON.stringify({
+			qna_no : "${qna.qna_no}",
+			member_no : "${qna.member_no}"
+		    }),
+		    success : function() {
+			alert('삭제가 완료되었습니다.');
+			location.href = "/olympic/qna/index.do";
+		    },
+		    error : function(xhr, status, error) {
+			console.error("Error:", error);
+			// 에러 시 수행할 동작
+			alert('글 삭제 중 오류가 발생했습니다.');
+		    }
+		});
+	    });
     });
 </script>
 
@@ -110,9 +159,18 @@
 												<span class="fs-xs text-muted d-flex justify-content-end">조회수 : ${qna.readcnt }</span>
 												<div class="fx-xs text-bold">${empty qna.name ? '알 수 없음' : qna.name}님</div>
 												<!-- Time -->
-												<span class="fs-xs text-muted">
-													<time datetime="${qna.regdate}">${qna.regdate}</time>
-												</span>
+												<c:if test="${empty qna.update_date}">
+													<span class="fs-xs text-muted">
+														<time datetime="${qna.regdate}">
+															<fmt:formatDate value="${qna.regdate}" pattern="yyyy-MM-dd HH시 mm분" />
+														</time>
+													</span>
+												</c:if>
+												<c:if test="${!empty qna.update_date}">
+													<span class="fs-xs text-muted">
+														<time datetime="${qna.update_date}">수정일자: ${qna.update_date}</time>
+													</span>
+												</c:if>
 											</div>
 										</div>
 
@@ -162,7 +220,9 @@
 															<!-- Time -->
 															<span class="fs-xs text-muted d-flex justify-content-between">
 																<c:if test="${!empty qna.reply}">
-																	<time datetime="${qna.reply_date}">${qna.reply_date}</time>
+																	<time datetime="${qna.reply_date}">
+																		<fmt:formatDate value="${qna.reply_date}" pattern="yyyy-MM-dd HH시 mm분" />
+																	</time>
 																</c:if>
 
 															</span>
@@ -172,12 +232,17 @@
 													<!-- Text -->
 													<c:if test="${empty qna.reply}">
 														<p class="text-gray-500">아직 답변이 작성되지 않았습니다.</p>
+														<c:if test="${login.state == 3 }">
+															<a id="reply_open" href="javascript:;" onclick="reply_open()">답변 창 열기</a>
+															<div id="reply_content" style="display: none;">
+																<div id="reply_editor"></div>
+																<button type="button" id="reply_write">등록하기</button>
+															</div>
+														</c:if>
 													</c:if>
 													<c:if test="${!empty qna.reply}">
 														<div id="reply_viewer">
-															<span>
-																<!--reply viewer 불러올 부분 -->
-															</span>
+															<!--reply viewer 불러올 부분 -->
 														</div>
 													</c:if>
 												</div>

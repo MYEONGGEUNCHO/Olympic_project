@@ -61,13 +61,11 @@ public class QnaController {
 		// 세션에서 로그인 정보를 가져올 수 있다면 사용
 		MemberVO loginMember = (MemberVO) session.getAttribute("login");
 		if (loginMember == null) {
-			loginMember = new MemberVO();
-
-			loginMember.setMember_no("testuuid"); // 테스트용 데이터
-			loginMember.setName("테스트");
+			model.addAttribute("msg", "로그인 정보가 없습니다.");
+			return "common/alert";
 		}
 
-		if(service.write(vo) != 1) {
+		if (service.write(vo) != 1) {
 			model.addAttribute("msg", "문의사항 작성에 실패했습니다.");
 			return "common/alert";
 		}
@@ -104,25 +102,26 @@ public class QnaController {
 	@GetMapping("/qna/update.do")
 	public String update(Model model, HttpSession session, Locale locale,
 			@RequestParam(value = "qna_no") Integer qna_no) {
-//		QnaVO qna = service.detail(qna_no);
 		model.addAttribute("qna", service.detail(qna_no));
-
-		Date date = new Date();
-		DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.FULL, locale);
-
-		String formattedDate = dateFormat.format(date);
-
-		model.addAttribute("serverTime", formattedDate);
-
+		model.addAttribute("serverTime", service.serverTime(locale));
 		return "qna/update";
 	}
 
 	@PostMapping("/qna/update.do")
 	@ResponseBody
 	public String update(Model model, HttpSession session, @RequestBody QnaVO qnaVO) {
+		int result = 0;
 		MemberVO loginMember = (MemberVO) session.getAttribute("login");
+		if (loginMember == null) {
+			model.addAttribute("msg", "로그인 정보가 없습니다.");
+			return "common/alert";
+		}
 		if (loginMember.getMember_no().equals(qnaVO.getMember_no())) {
-			service.update(qnaVO);
+			result = service.update(qnaVO);
+			if (result == 0) {
+				model.addAttribute("msg", "게시글 수정에 실패했습니다.");
+				return "common/alert";
+			}
 		} else {
 			model.addAttribute("msg", "본인이 작성한 게시글만 수정이 가능합니다.");
 			model.addAttribute("url", "/qna/index.do");

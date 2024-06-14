@@ -1,3 +1,4 @@
+
 let editor;
 var files;
 $(function() {
@@ -5,7 +6,6 @@ $(function() {
 		el: document.querySelector('#editor'),
 		height: '500px',
 		initialEditType: 'wysiwyg',
-		initialValue: '내용을 입력해 주세요.',
 		previewStyle: 'vertical',
 		language: 'ko-KR',
 		autofocus: true,
@@ -33,16 +33,16 @@ $(function() {
 	});
 
 	$("#btn").click(function(e) {
-		if ($("input[name='writer']").val() == "") {
+		if($("input[name='writer']").val() == "") {
 			alert('로그인 후 사용하세요.');
 			location.href = "index.do";
 			return;
 		}
-		if ($("#title").val() == "" || $("#title").val() == null) {
+		if($("#title").val() == "" || $("#title").val() == null) {
 			alert("제목을 입력해주세요.");
 			return;
 		}
-		if (editor.getMarkdown() == "") {
+		if(editor.getMarkdown() == "") {
 			alert("내용을 입력해주세요.");
 			return;
 		}
@@ -53,12 +53,12 @@ $(function() {
 		const inner_html = editor.getHTML();
 		$.ajax({
 			type: 'POST',
-			url: '/olympic/qna/write.do',
+			url: '/olympic/qna/update.do',
 			headers: {
 				"Content-Type": "application/json"
 			},
 			data: JSON.stringify({
-				type: $("input[name='type']:checked").val(),
+				qna_no: $("input[name='qna_no']").val(),
 				title: $("#title").val(),
 				content: inner_html,
 				member_no: $("input[name='writer']").val()

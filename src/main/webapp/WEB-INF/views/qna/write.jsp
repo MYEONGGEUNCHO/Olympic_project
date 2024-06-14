@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<!doctype html>
+<!DOCTYPE html>
 <html lang="ko">
 <head>
 <script src="../js/jquery-3.7.1.min.js"></script>
@@ -26,11 +26,9 @@
 				<div class="col-12">
 					<!-- Heading -->
 					<h3 class="mb-10 text-center">문의사항 작성</h3>
-
 				</div>
 			</div>
 			<div class="row justify-content-center">
-
 				<div class="col-12 col-md-8">
 					<!-- 수정 안되는 부분-->
 					<p id="date">작성일자 : ${serverTime}</p>
@@ -51,17 +49,14 @@
 							<label for="ticket">티켓 문의</label>
 						</c:if>
 					</div>
-
 					<!-- 제목 -->
 					<div class="form-group">
 						<input class="form-control form-control-sm" name="title" id="title" type="text" placeholder="제목" required>
 					</div>
-
 					<!-- 내용 -->
 					<div class="form-group mb-7" id="editor"></div>
-
 					<!-- Button -->
-					<button type="button" class="btn btn-dark" id="btn">입력하기</button>
+					<button type="button" class="btn btn-dark" id="btn">작성하기</button>
 				</div>
 			</div>
 		</div>

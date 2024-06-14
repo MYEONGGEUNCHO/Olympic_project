@@ -1,23 +1,15 @@
 package kr.co.olympic.qna;
 
-import java.io.File;
-import java.io.IOException;
-import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
+import java.text.DateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.UUID;
-
-import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.multipart.MultipartFile;
 
 @Service
 public class QnaServiceImpl implements QnaService {
@@ -26,11 +18,11 @@ public class QnaServiceImpl implements QnaService {
 	private QnaMapper mapper;
 
 	@Override
-	public String serverTime(Locale locale) {
+	public Date serverTime(Locale locale) {
 		Date date = new Date();
-		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", locale);
-		String formattedDate = dateFormat.format(date);
-		return formattedDate;
+//		DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG, locale);
+//		String formattedDate = dateFormat.format(date);
+		return date;
 	}
 
 	@Override
@@ -104,15 +96,20 @@ public class QnaServiceImpl implements QnaService {
 
 	// 게시글 수정
 	@Override
-	public QnaVO update(QnaVO vo) {
-//		TODO:: 파일 수정여부 체크해서 파일 add/delete 트랜잭션 묶어야함 
+	public int update(QnaVO vo) {
+		if ("".equals(vo.getTitle()) || vo.getTitle() == null) {
+			return 0;
+		}
+		if ("".equals(vo.getContent()) || vo.getContent() == null) {
+			return 0;
+		}
+		// 게시글 정보 DB 저장
 		return mapper.update(vo);
 	}
 
 	// 게시글 삭제
 	@Override
 	public void delete(QnaVO vo) {
-		// TODO:: Attached에서 첨부파일 삭제 메소드 불러와야함
 		mapper.delete(vo);
 	}
 

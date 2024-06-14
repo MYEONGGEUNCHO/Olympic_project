@@ -1,15 +1,12 @@
 package kr.co.olympic.qna;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-import javax.servlet.http.HttpServletRequest;
-
-import org.springframework.web.multipart.MultipartFile;
-
 public interface QnaService {
 	// 서버 시간 전달
-	String serverTime(Locale locale);
+	Date serverTime(Locale locale);
 
 	// 문의글 작성
 	int write(QnaVO vo);
@@ -36,7 +33,7 @@ public interface QnaService {
 	int updateReadCnt(Integer qna_no);
 
 	// 게시글 수정
-	QnaVO update(QnaVO vo);
+	int update(QnaVO vo);
 
 	// 게시글 삭제
 	void delete(QnaVO vo);
