@@ -33,7 +33,7 @@
 		<div>
 			<input type="date" name="search_date" id="search_date" min="2024-07-26" max="2024-08-11"
 				value="2024-07-26">
-			<select name="search_sport" id="search_sport" size="5">
+			<select name="search_sport" id="search_sport" >
 				<option value="all" selected>전체종목</option>
 				<option value="양궁">양궁</option>
 				<option value="육상">육상</option>

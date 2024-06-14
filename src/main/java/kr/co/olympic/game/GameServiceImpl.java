@@ -46,6 +46,11 @@ public class GameServiceImpl implements GameService {
 		map.put("isNext", isNext);
 		return map;
 	}
+	
+	@Override
+	public List<GameVO> searchGame(GameVO game) {
+		return mapper.searchGame(game);
+	}
 
 	@Override
 	public List<GameVO> listByDate(GameVO game) {

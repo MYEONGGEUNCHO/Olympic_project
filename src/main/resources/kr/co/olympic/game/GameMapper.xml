@@ -119,8 +119,9 @@
 	<!-- 경기 댓글 리스트 -->
 	<select id="listComment" parameterType="kr.co.olympic.game.GameVO" 
 		resultType="kr.co.olympic.game.CommentVO">
-        SELECT * 
-		FROM comment
+        SELECT * FROM comment c
+        LEFT JOIN (SELECT member_no, name FROM member) m
+        ON m.member_no = c.member_no
         WHERE game_id = #{game_id}
     </select>
 	<!-- 관심 경기 등록 -->
