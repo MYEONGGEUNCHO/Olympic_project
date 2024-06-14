@@ -20,7 +20,6 @@ public class GameServiceImpl implements GameService {
         int totalPage = count / 10;
         if (count % 10 > 0) totalPage++;
         List<GameVO> list = mapper.listGame(param); // 목록
-        
         Map<String, Object> map = new HashMap<>();
         map.put("count", count);
         map.put("totalPage", totalPage);
@@ -56,7 +55,7 @@ public class GameServiceImpl implements GameService {
 
 	@Override
 	public GameVO detailGame(GameVO game) {
-		return null;
+		return mapper.detailGame(game);
 	}
 
 	@Override
@@ -71,12 +70,13 @@ public class GameServiceImpl implements GameService {
 
 	@Override
 	public int createComment(Map<String, Object> map) {
+		
 		return 0;
 	}
 
 	@Override
-	public int listComment(Map<String, Object> map) {
-		return 0;
+	public List<CommentVO> listComment(GameVO game) {
+		return mapper.listComment(game);
 	}
 
 	@Override

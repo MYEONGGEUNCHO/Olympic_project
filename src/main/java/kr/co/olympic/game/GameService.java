@@ -24,7 +24,7 @@ public interface GameService {
 	//경기 댓글 등록
 	int createComment(Map<String, Object> map);
 	//경기 댓글 리스트
-	int listComment(Map<String, Object> map);
+	List<CommentVO> listComment(GameVO game);
 	// 관심 경기 등록
 	int createFavorite(Map<String, Object> map);
 	// 관심 경기 조회

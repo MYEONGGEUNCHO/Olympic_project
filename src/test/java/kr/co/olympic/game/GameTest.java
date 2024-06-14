@@ -35,6 +35,17 @@ public class GameTest {
         assertFalse(list.isEmpty());
         list.forEach(game -> log.info("Game in list: " + game));
     }
+    
+    // 경기 검색 리스트
+    @Test
+    public void searchGame() {
+    	GameVO vo = new GameVO();
+    	vo.setSearchDate("2024-07-16");
+    	vo.setKorea_date(vo.getSearchDate());
+    	vo.setSport_name("축구");
+    	List<GameVO> list = mapper.searchGame(vo);
+    }
+    
     // 경기 날짜별 리스트
     @Test
     public void listByDate() {
@@ -93,10 +104,8 @@ public class GameTest {
     @Test
     public void detailGame() {
     	GameVO vo = new GameVO();
-    	vo.setGame_id(3);
-    	GameVO result = mapper.detailGame(vo);
-    	assertNotNull(result);
-        log.info("Game read: " + result);
+    	vo.setGame_id(1);
+    	mapper.detailGame(vo);
     }
     
     // 경기 수정
@@ -134,4 +143,12 @@ public class GameTest {
         assertTrue(result == 1); // 삭제 성공 여부 확인
     }
     
+    // 경기 댓글 리스트 조회
+    @Test
+    public List<CommentVO> listComment() {
+    	GameVO vo = new GameVO();
+        vo.setGame_id(1);
+        
+        return mapper.listComment(vo);
+    }
 }

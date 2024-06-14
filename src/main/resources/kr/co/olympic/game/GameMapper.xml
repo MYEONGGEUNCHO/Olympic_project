@@ -1,20 +1,44 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="kr.co.olympic.game.GameMapper">
-	<!-- #경기관련 -->
+	
 	<!-- 전체 리스트  -->
 	<select id="listGame" parameterType="kr.co.olympic.game.GameVO"
 		resultType="kr.co.olympic.game.GameVO">
-        SELECT * FROM game
+        SELECT *
+		FROM game
+		ORDER BY game_id;
     </select>
+    <!-- #경기관련 -->
+	<sql id="searchGame">
+		<where>
+			<if test="search_sport == 'all'">
+				korea_date = ${korea_date }		
+			</if>
+			<if test="search_sport != 'all'">
+				korea_date = ${korea_date } and sport_name = ${sport_name }
+			</if>
+		</where>
+	</sql>
+    <!-- 검색 리스트  -->
+	<select id="searchGame" parameterType="kr.co.olympic.game.GameVO"
+		resultType="kr.co.olympic.game.GameVO">
+        SELECT *
+		FROM game
+		<include refid="searchGame"></include>
+		ORDER BY game_id;
+    </select>
+    
 	<!-- 경기 날짜별 리스트-->
 	<select id="listByDate" parameterType="kr.co.olympic.game.GameVO">
-        SELECT * FROM game
+        SELECT *
+		FROM game
         WHERE korea_date = #{korea_date}
     </select>
 	<!-- 경기 종목별 리스트-->
 	<select id="listByGame" parameterType="kr.co.olympic.game.GameVO">
-        SELECT * FROM game
+        SELECT *
+		FROM game
         WHERE sport_name = #{sport_name}
     </select>
 	<!-- 경기 생성 -->
@@ -58,8 +82,11 @@
         DELETE FROM game WHERE game_id = #{game_id}
     </delete>
 	<!-- 경기장 상세조회 -->
-	<select id="detailGame" parameterType="int" resultType="kr.co.olympic.game.GameVO">
-        SELECT * FROM game WHERE game_id = #{game_id}
+	<select id="detailGame" parameterType="kr.co.olympic.game.GameVO" 
+		resultType="kr.co.olympic.game.GameVO">
+        SELECT *
+		FROM game
+		WHERE game_id = #{game_id}
     </select>
     
     <sql id="searchSql">
@@ -82,7 +109,7 @@
     
 	<!-- #경기부가기능 -->
 	<!-- 경기 댓글 생성 -->
-	<insert id="createComment" parameterType="java.util.HashMap">
+	<insert id="createComment" parameterType="map">
         INSERT INTO comment (regdate, content, game_id, member_no) 
         VALUES (#{regdate}, #{content}, #{game_id}, #{member_no})
         <selectKey keyProperty="game_id" order="AFTER" resultType="int">
@@ -90,12 +117,11 @@
         </selectKey>
     </insert>
 	<!-- 경기 댓글 리스트 -->
-	<select id="listComment" parameterType="kr.co.olympic.game.GameVO" resultType="kr.co.olympic.game.CommentVO">
-        SELECT c.*, g.*
-        FROM comment c
-        INNER JOIN game g 
-        ON c.game_id = g.game_id
-        WHERE c.comment_no = #{comment_no}
+	<select id="listComment" parameterType="kr.co.olympic.game.GameVO" 
+		resultType="kr.co.olympic.game.CommentVO">
+        SELECT * 
+		FROM comment
+        WHERE game_id = #{game_id}
     </select>
 	<!-- 관심 경기 등록 -->
 	<insert id="createFavorite" parameterType="map">
