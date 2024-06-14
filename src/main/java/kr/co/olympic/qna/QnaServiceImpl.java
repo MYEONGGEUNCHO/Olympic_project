@@ -1,13 +1,11 @@
 package kr.co.olympic.qna;
 
-import java.text.SimpleDateFormat;
+import java.text.DateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,34 +18,28 @@ public class QnaServiceImpl implements QnaService {
 	private QnaMapper mapper;
 
 	@Override
-	public String serverTime(Locale locale) {
+	public Date serverTime(Locale locale) {
 		Date date = new Date();
-		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", locale);
-		String formattedDate = dateFormat.format(date);
-		return formattedDate;
+//		DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG, locale);
+//		String formattedDate = dateFormat.format(date);
+		return date;
 	}
 
 	@Override
-	public int write(QnaVO vo, HttpServletRequest request) {
-//		if (!file.isEmpty() && file != null) {
-//			// 파일명
-//			String org = file.getOriginalFilename();
-//			String ext = org.substring(org.lastIndexOf("."));
-//			String real = System.currentTimeMillis()+ext;
-//			// 파일저장
-//			String path = request.getRealPath("/upload/board/")+real;
-//			try {
-//				file.transferTo(new File(path));
-//			} catch (Exception e) {}
-//			AttachedVO fileVO = new AttachedVO();
-//			List<AttachedVO> list = new ArrayList<>();
-//			fileVO.setOriginal(org);
-//			fileVO.setReal(real);
-//			list.add(fileVO);
-//			vo.setAttached(list);
-//		}
-		int r = mapper.write(vo);
-		return r;
+	public int write(QnaVO vo) {
+		if ("".equals(vo.getTitle()) || vo.getTitle() == null) {
+			return 0;
+		}
+		if ("".equals(vo.getContent()) || vo.getContent() == null) {
+			return 0;
+		}
+		// 게시글 정보 DB 저장
+		return mapper.write(vo);
+	}
+
+	@Override
+	public List<QnaVO> notice() {
+		return mapper.notice();
 	}
 
 	@Override
@@ -81,8 +73,7 @@ public class QnaServiceImpl implements QnaService {
 
 	@Override
 	public int reply(QnaVO vo) {
-		// TODO Auto-generated method stub
-		return 0;
+		return mapper.reply(vo);
 	}
 
 	@Override
@@ -104,15 +95,20 @@ public class QnaServiceImpl implements QnaService {
 
 	// 게시글 수정
 	@Override
-	public QnaVO update(QnaVO vo) {
-//		TODO:: 파일 수정여부 체크해서 파일 add/delete 트랜잭션 묶어야함 
+	public int update(QnaVO vo) {
+		if ("".equals(vo.getTitle()) || vo.getTitle() == null) {
+			return 0;
+		}
+		if ("".equals(vo.getContent()) || vo.getContent() == null) {
+			return 0;
+		}
+		// 게시글 정보 DB 저장
 		return mapper.update(vo);
 	}
 
 	// 게시글 삭제
 	@Override
 	public void delete(QnaVO vo) {
-		// TODO:: Attached에서 첨부파일 삭제 메소드 불러와야함
 		mapper.delete(vo);
 	}
 

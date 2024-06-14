@@ -1,6 +1,8 @@
 package kr.co.olympic.order;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +13,8 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+
+import kr.co.olympic.member.MemberVO;
 @Service
 public class OrderServiceImpl implements OrderService {
 	
@@ -68,6 +72,101 @@ public class OrderServiceImpl implements OrderService {
 		// TODO Auto-generated method stub
 		return 0;
 	}
+	
+	@Override
+    public List<TicketVO> getTicketsByMemberNo(String member_no) {
+        return mapper.getTicketsByMemberNo(member_no);
+    }
+	
+	@Override
+    public List<TicketVO> getTicketsByOrderNo(String order_no) {
+        return mapper.getTicketsByOrderNo(order_no);
+    }
+	
+	
+	
+	@Override
+    public TicketVO createTicket(TicketVO ticketVO) {
+		mapper.insertTicket(ticketVO);
+        return ticketVO;
+    }
+	
+	
+	
+	@Override
+    public List<TicketVO> insertTicket(Map<String, Object> ticketDataMap) {
+        OrderVO order = (OrderVO) ticketDataMap.get("order");
+        MemberVO member = (MemberVO) ticketDataMap.get("member");
+        PaymentVO payment = (PaymentVO) ticketDataMap.get("payment");
+
+        List<TicketVO> ticketList = new ArrayList<>();
+
+        // A석 티켓 생성
+        for (int i = 0; i < payment.getA_seat_sold(); i++) {
+            TicketVO ticket = new TicketVO();
+            ticket.setPrice(payment.getA_seat_price());
+            ticket.setMember_no(member.getMember_no());
+            ticket.setOrder_no(order.getOrder_no());
+            ticket.setSeat_info("a_seat");
+            ticket.setItem_no(payment.getItem_no());
+            ticket.setGame_id(payment.getGame_id());
+            ticketList.add(createTicket(ticket));
+        }
+
+        // B석 티켓 생성
+        for (int i = 0; i < payment.getB_seat_sold(); i++) {
+            TicketVO ticket = new TicketVO();
+            ticket.setPrice(payment.getB_seat_price());
+            ticket.setMember_no(member.getMember_no());
+            ticket.setOrder_no(order.getOrder_no());
+            ticket.setSeat_info("b_seat");
+            ticket.setItem_no(payment.getItem_no());
+            ticket.setGame_id(payment.getGame_id());
+            ticketList.add(createTicket(ticket));
+        }
+
+        // C석 티켓 생성
+        for (int i = 0; i < payment.getC_seat_sold(); i++) {
+            TicketVO ticket = new TicketVO();
+            ticket.setPrice(payment.getC_seat_price());
+            ticket.setMember_no(member.getMember_no());
+            ticket.setOrder_no(order.getOrder_no());
+            ticket.setSeat_info("c_seat");
+            ticket.setItem_no(payment.getItem_no());
+            ticket.setGame_id(payment.getGame_id());
+            ticketList.add(createTicket(ticket));
+        }
+
+        // D석 티켓 생성
+        for (int i = 0; i < payment.getD_seat_sold(); i++) {
+            TicketVO ticket = new TicketVO();
+            ticket.setPrice(payment.getD_seat_price());
+            ticket.setMember_no(member.getMember_no());
+            ticket.setOrder_no(order.getOrder_no());
+            ticket.setSeat_info("d_seat");
+            ticket.setItem_no(payment.getItem_no());
+            ticket.setGame_id(payment.getGame_id());
+            ticketList.add(createTicket(ticket));
+        }
+
+        // VIP석 티켓 생성
+        for (int i = 0; i < payment.getVip_seat_sold(); i++) {
+            TicketVO ticket = new TicketVO();
+            ticket.setPrice(payment.getVip_seat_price());
+            ticket.setMember_no(member.getMember_no());
+            ticket.setOrder_no(order.getOrder_no());
+            ticket.setSeat_info("vip_seat");
+            ticket.setItem_no(payment.getItem_no());
+            ticket.setGame_id(payment.getGame_id());
+            ticketList.add(createTicket(ticket));
+        }
+        System.out.println("orderNo로 조회한 티켓들:");
+        getTicketsByOrderNo(order.getOrder_no()).forEach(System.out::println);
+
+        System.out.println("memberNo로 조회한 티켓들:");
+        getTicketsByMemberNo(member.getMember_no()).forEach(System.out::println);
+        return ticketList;
+    }
 	
 	public String getAccessToken() {
         if (imp_key == null || imp_secret == null) {

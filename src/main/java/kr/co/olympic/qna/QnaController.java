@@ -1,6 +1,7 @@
 package kr.co.olympic.qna;
 
 import java.text.DateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -28,69 +29,47 @@ public class QnaController {
 	@Autowired
 	private QnaService service;
 
-//	@GetMapping("/qna/index.do")
-//	public String index(Model model, QnaVO vo, Locale locale, HttpSession sess,
-//			@RequestParam(value = "game_id", required = false) Integer game_id,
-//			@RequestParam(value = "member_no", required = false) Integer member_no,
-//			@RequestParam(value = "type", required = false) Integer type) {
-//		Map<String, Integer> search = new HashMap<>();
-//		// 검색용
-//		if (game_id != null) {
-//			search.put("game_id", game_id);
-//		}
-//		if (member_no != null) {
-//			search.put("member_no", member_no);
-//		}
-//		if (type != null) {
-//			search.put("type", type);
-//		} else {
-//			search.put("type", 4);
-//		}
-//		model.addAttribute("qna", service.list(vo.getSearch()));
-//		model.addAttribute("search", search);
-//		// 오늘 날짜 작성된 게시글은 시간만 표시해주기 위한 날짜 전송
-//		model.addAttribute("serverTime", service.serverTime(locale));
-//		return "qna/index";
-//	}
-    @GetMapping("/qna/index.do")
-    public String index(Model model, QnaSearchDTO dto, Locale locale, HttpSession session) {
-        List<QnaVO> qnaList = service.list(dto);
-        model.addAttribute("qna", qnaList);
-        model.addAttribute("search", dto);
-        model.addAttribute("serverTime", service.serverTime(locale));
-        return "qna/index";
-    }
-    @PostMapping("/qna/search.do")
-    @ResponseBody
-    public ResponseEntity<List<QnaVO>> search(@RequestBody QnaSearchDTO dto) {
-        List<QnaVO> searchResults = service.list(dto);
-        return new ResponseEntity<>(searchResults, HttpStatus.OK);
-    }
+	@GetMapping("/qna/index.do")
+	public String index(Model model, QnaSearchDTO dto, Locale locale, HttpSession session) {
+		List<QnaVO> qnaList = service.list(dto);
+//		model.addAttribute("qna", qnaList);
+//		model.addAttribute("search", dto);
+		model.addAttribute("serverTime", service.serverTime(locale));
+		return "qna/index";
+	}
 
+	@PostMapping("/qna/search.do")
+	@ResponseBody
+	public ResponseEntity<Map<String, Object>> search(@RequestBody QnaSearchDTO dto) {
+		Map<String, Object> map = new HashMap<>();
+		map.put("noticeResults", service.notice());
+		map.put("searchResults", service.list(dto));
+		map.put("searchConditions", dto);
+		return new ResponseEntity<>(map, HttpStatus.OK);
+	}
 
 	@GetMapping("/qna/write.do")
 	public String write(Model model, Locale locale) {
-//		System.out.println("####write get 요청 들어옴");
 		model.addAttribute("serverTime", service.serverTime(locale));
 		return "qna/write";
 	}
 
 	@PostMapping("/qna/write.do")
 	@ResponseBody
-	public String write(@RequestBody QnaVO vo, HttpSession session, HttpServletRequest request) {
+	public String write(@RequestBody QnaVO vo, Model model, HttpSession session, HttpServletRequest request) {
 		// 세션에서 로그인 정보를 가져올 수 있다면 사용
 		MemberVO loginMember = (MemberVO) session.getAttribute("login");
 		if (loginMember == null) {
-			loginMember = new MemberVO();
-
-			loginMember.setMember_no("testuuid"); // 테스트용 데이터
-			loginMember.setName("테스트");
+			model.addAttribute("msg", "로그인 정보가 없습니다.");
+			return "common/alert";
 		}
-//		qnaVO.setMember_no(loginMember.getMember_no());
-//		System.out.println("########write post 요청 들어왔습니다.");
-		service.write(vo, request); // 파일 업로드가 없으므로 null 전달
 
+		if (service.write(vo) != 1) {
+			model.addAttribute("msg", "문의사항 작성에 실패했습니다.");
+			return "common/alert";
+		}
 		return "redirect: qna/index";
+
 	}
 
 	@GetMapping("/qna/detail.do")
@@ -122,29 +101,53 @@ public class QnaController {
 	@GetMapping("/qna/update.do")
 	public String update(Model model, HttpSession session, Locale locale,
 			@RequestParam(value = "qna_no") Integer qna_no) {
-//		QnaVO qna = service.detail(qna_no);
 		model.addAttribute("qna", service.detail(qna_no));
-
-		Date date = new Date();
-		DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.FULL, locale);
-
-		String formattedDate = dateFormat.format(date);
-
-		model.addAttribute("serverTime", formattedDate);
-
+		model.addAttribute("serverTime", service.serverTime(locale));
 		return "qna/update";
 	}
 
 	@PostMapping("/qna/update.do")
 	@ResponseBody
 	public String update(Model model, HttpSession session, @RequestBody QnaVO qnaVO) {
+		int result = 0;
 		MemberVO loginMember = (MemberVO) session.getAttribute("login");
+		if (loginMember == null) {
+			model.addAttribute("msg", "로그인 정보가 없습니다.");
+			return "common/alert";
+		}
+		if (loginMember.getState() == 3) {
+			service.reply(qnaVO);
+			return "";
+		}
 		if (loginMember.getMember_no().equals(qnaVO.getMember_no())) {
-			service.update(qnaVO);
+			result = service.update(qnaVO);
+			if (result == 0) {
+				model.addAttribute("msg", "게시글 수정에 실패했습니다.");
+				return "common/alert";
+			}
 		} else {
 			model.addAttribute("msg", "본인이 작성한 게시글만 수정이 가능합니다.");
 			model.addAttribute("url", "/qna/index.do");
-			return "common/alert.do";
+			return "common/alert";
+		}
+		return "qna/index";
+	}
+
+	@PostMapping("/qna/reply.do")
+	@ResponseBody
+	public String reply(Model model, HttpSession session, @RequestBody QnaVO qnaVO) {
+		int result = 0;
+		MemberVO loginMember = (MemberVO) session.getAttribute("login");
+		if (loginMember == null) {
+			model.addAttribute("msg", "로그인 정보가 없습니다.");
+			return "common/alert";
+		}
+		if (loginMember.getState() == 3) {
+			result = service.reply(qnaVO);
+			if (result == 0) {
+				model.addAttribute("msg", "답변 작성에 실패했습니다.");
+				return "common/alert";
+			}
 		}
 		return "qna/index";
 	}

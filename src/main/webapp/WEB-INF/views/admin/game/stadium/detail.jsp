@@ -4,9 +4,12 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>경기장 상세</title>
 </head>
 <body>
-
+	<h3>경기장 상세</h3>
+	<div>
+	
+	</div>
 </body>
 </html>

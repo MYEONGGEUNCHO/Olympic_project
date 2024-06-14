@@ -9,12 +9,14 @@
 var check = false;  //이메일 본인인증 확인 변수
 var intervalId = null; // 타이머를 관리할 변수
 $(document).ready(function() {
+	$('#registerEmail').focus();
+	
 	$('#emailCheck').click(function() {
 	    var email = $('#registerEmail').val().trim();
 
 	    if (email === '') {
 	        alert('이메일을 입력해주세요.');
-	        $('#email').focus();
+	        $('#registerEmail').focus();
 	        return;
 	    }
 	 	// 타이머 초기화
@@ -199,8 +201,6 @@ function goSave(){
 			$("#agree1").focus();
 			return;
 		}
-		
-		
 		$("#frm").submit();
 }
 
@@ -219,126 +219,99 @@ function goSave(){
 		<div class="container">
 			<div class="row justify-content-center">
 	 			<div class="col-12 col-md-6">
-
 		            <!-- Card -->
 		            <div class="card card-lg">
 		              <div class="card-body pt-1">
 
-                <!-- Heading -->
-                <h6 class="mb-5">Create account</h6>
+		                <!-- Heading -->
+		                <h6 class="mb-5">Create account</h6>
 
-                <!-- Form -->
-                <form name="frm" id="frm" action="/olympic/member/regist.do" method="post">
-                  <div class="row">
-                    <div class="col-12 row" id="formAuth">
-                      <!-- Email -->
-                      <div class="form-group col-md-8">
-                        <label class="visually-hidden" for="registerEmail">
-                          Email
-                        </label>
-                        <input class="form-control form-control-sm" name="email" id="registerEmail" type="email" placeholder="Email *" required>
+                		<!-- Form -->
+                		<form name="frm" id="frm" action="/olympic/member/regist.do" method="post">
+                  		<div class="row">
+                   			<div class="col-12 row" id="formAuth">
+                     	 	<!-- Email -->
+                      			<div class="form-group col-md-8">
+                        			<label class="visually-hidden" for="registerEmail">Email</label>
+                        			<input class="form-control form-control-sm" name="email" id="registerEmail" type="email" placeholder="Email *" required>
              
-                      </div>
-                      <div class = "col-6 col-md-2">
-                      	<button class="btn btn-sm btn-dark" id="emailCheck">
-                        인증 코드 전송
-                      	</button>
-                      </div>
-                    </div>
+                      			</div>
+                      			<div class = "col-6 col-md-2">
+                      				<button class="btn btn-sm btn-dark" id="emailCheck">인증 코드 전송</button>
+                      			</div>
+                    		</div>
                     
-              
-                    <div class="col-12 col-md-6">
-                      <!-- Password -->
-                      <div class="form-group">
-                        <label class="visually-hidden" for="registerPassword">
-                          Password *
-                        </label>
-                        <input class="form-control form-control-sm" name="pwd" id="pw" type="password" placeholder="Password *" required>
-                      </div>
-                    </div>
+                    		<div class="col-12 col-md-6">
+                      			<!-- Password -->
+                      			<div class="form-group">
+                        			<label class="visually-hidden" for="registerPassword">Password *</label>
+                        			<input class="form-control form-control-sm" name="pwd" id="pw" type="password" placeholder="Password *" required>
+                      			</div>
+                    		</div>
                     
-                    <div class="col-12 col-md-6">
-                      <!-- Password -->
-                      <div class="form-group">
-                        <label class="visually-hidden" for="registerPasswordConfirm">
-                          Confirm Password *
-                        </label>
-                        <input class="form-control form-control-sm" name="pw_check" id="pw_check" type="password" placeholder="Confrm Password *" required>
-                      </div>
-                    </div>
+                    		<div class="col-12 col-md-6">
+                      		<!-- Confirm Password -->
+                      			<div class="form-group">
+                        			<label class="visually-hidden" for="registerPasswordConfirm">Confirm Password *</label>
+                        			<input class="form-control form-control-sm" name="pw_check" id="pw_check" type="password" placeholder="Confrm Password *" required>
+                      			</div>
+                    		</div>
                     
-                    <div class="col-12">
-                      <!-- Email -->
-                      <div class="form-group">
-                        <label class="visually-hidden" for="registerLastName">
-                          이름
-                        </label>
-                        <input class="form-control form-control-sm" name="name" id="registerLastName" type="text" placeholder="Name *" required maxlength='6'>
-                      </div>
-                    </div>
+                    		<div class="col-12">
+                      			<div class="form-group mb-4">
+                        			<label class="visually-hidden" for="registerLastName">이름</label>
+                        			<input class="form-control form-control-sm" name="name" id="registerLastName" type="text" placeholder="Name *" required maxlength='6'>
+                      			</div>
+                    		</div>
                     
-                    <div class="col-12">
-                      <!-- Email -->
-                      <div class="form-group">
-                        <label class="visually-hidden" for="registerFirstName">
-                          Birthday
-                        </label>
-                        <input class="form-control form-control-sm" name="birthday" id="birth" type="date" value="2024-07-24" placeholder="Birthday * 2024-07-24" required>
-                      </div>
-                    </div>
+                    		<div class="col-12">
+                      			<div class="form-group text-muted">
+                      				&emsp;Birthday *
+                        			<label class="visually-hidden" for="registerBirthday">Birthday</label>
+                        			<input class="form-control form-control-sm" name="birthday" id="birth" type="date" value="2024-07-24" placeholder="Birthday * 2024-07-26" required>
+                      			</div>
+                    		</div>
                     
-                    <div class="col-12">
-                      <!-- Email -->
-                      <div class="form-group">
-                        <label class="visually-hidden" for="registerFirstName">
-                          phone
-                        </label>
-                        <input class="form-control form-control-sm" name="phone" id="phone" type="tel" placeholder="Phone *"  pattern="[0-9]{3}-[0-9]{4}-[0-9]{4}" required>
-                      </div>
-                    </div>
+                    		<div class="col-12">
+                      			<div class="form-group">
+                        			<label class="visually-hidden" for="registerPhone">phone</label>
+                        			<input class="form-control form-control-sm" name="phone" id="phone" type="tel" placeholder="Phone *"  pattern="[0-9]{3}-[0-9]{4}-[0-9]{4}" required>
+                      			</div>
+                    		</div>
                     
-                    <div class="col-12 col-md-auto">
-                     <div id="register_agree">
-			        	<div class="fs-6 mb-2">
-	                        Terms & Conditions
-	                    </div>
-			            		<div id="fregister_chkall" class="mb-3">
-				                	<input class="form-check-input mt-0" type="checkbox" name="chk_all" value="1" id="chk_all">
-				                	<label for="chk_all">회원가입 약관에 모두 동의합니다</label>
-			            		</div>
-				            	<section id="fregister_term">
-				                	<div class="fs-sm">
-				                    	<input class="form-check-input mt-0" type="checkbox" name="agree" value="1" id="agree1">
-				                    	<label for="agree1">이용약관 동의 <span>(필수)</span></label>
-				                    <a href="#" class="view-agreement fs-sb text-decoration-underline" data-target="#modal-agree1">자세히 보기</a>
-	                				</div>
-	            				</section>
-            				<section>
-				            	<div class="fregister_agree2 checks2">
-				                    <input class="form-check-input mt-0" type="checkbox" name="agree" value="1" id="agree2">
-				                    <label for="agree2">개인정보 수집 및 이용 동의 <span>(필수)</span></label>
-				                    <a href="#" class="view-agreement fs-sb text-decoration-underline" data-target="#modal-agree2">자세히 보기</a>
-				                </div>
-				           </section>
-                      <!-- Link -->
-                      <div class="form-group fs-sm text-muted pt-3">
-                        By registering your details, you agree with our Terms & Conditions,
-                        and Privacy and Cookie Policy.
-                      </div>
-
-                    </div>
-                   
-                    <div class="col-12">
-
-                      <!-- Button -->
-                      <button class="btn btn-sm btn-dark" type="button" onclick="goSave()">
-                        Register
-                      </button>
-
-                    </div>
-                  </div>
-                </form>
-
+                    		<div class="col-12 col-md-auto">
+                     			<div id="register_agree">
+			        				<div class="fs-6 mb-2">Terms & Conditions</div>
+			            				<div id="fregister_chkall" class="mb-3">
+				                			<input class="form-check-input mt-0" type="checkbox" name="chk_all" value="1" id="chk_all">
+			                				<label for="chk_all">회원가입 약관에 모두 동의합니다</label>
+			            				</div>
+				            			<section id="fregister_term">
+				                			<div class="fs-sm">
+				                    			<input class="form-check-input mt-0" type="checkbox" name="agree" value="1" id="agree1">
+				                    			<label for="agree1">이용약관 동의 <span>(필수)</span></label>
+				                    			<a href="#" class="view-agreement fs-sb text-decoration-underline" data-target="#modal-agree1">자세히 보기</a>
+	                						</div>
+	            						</section>
+            							<section>
+				            				<div class="fregister_agree2 checks2">
+				                    			<input class="form-check-input mt-0" type="checkbox" name="agree" value="1" id="agree2">
+				                    			<label for="agree2">개인정보 수집 및 이용 동의 <span>(필수)</span></label>
+				                    			<a href="#" class="view-agreement fs-sb text-decoration-underline" data-target="#modal-agree2">자세히 보기</a>
+				                			</div>
+				           				</section>
+                      					<div class="form-group fs-sm text-muted pt-3">
+                        				By registering your details, you agree with our Terms & Conditions,
+                        				and Privacy and Cookie Policy.
+                      					</div>
+                    				</div>
+                    				<div class="col-12">
+                      					<!-- Button -->
+                      					<button class="btn btn-sm btn-dark" type="button" onclick="goSave()">Register</button>
+				                    </div>
+				                  </div>
+				           		</div>
+				        	</form>
               			</div>
             		</div>
           		</div>

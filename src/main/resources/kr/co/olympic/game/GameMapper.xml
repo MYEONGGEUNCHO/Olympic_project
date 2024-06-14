@@ -1,19 +1,44 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="kr.co.olympic.game.GameMapper">
-	<!-- #경기관련 -->
+	
 	<!-- 전체 리스트  -->
-	<select id="listGame" parameterType="kr.co.olympic.game.GameVO">
-        SELECT * FROM game
+	<select id="listGame" parameterType="kr.co.olympic.game.GameVO"
+		resultType="kr.co.olympic.game.GameVO">
+        SELECT *
+		FROM game
+		ORDER BY game_id;
     </select>
+    <!-- #경기관련 -->
+	<sql id="searchGame">
+		<where>
+			<if test="search_sport == 'all'">
+				korea_date = ${korea_date }		
+			</if>
+			<if test="search_sport != 'all'">
+				korea_date = ${korea_date } and sport_name = ${sport_name }
+			</if>
+		</where>
+	</sql>
+    <!-- 검색 리스트  -->
+	<select id="searchGame" parameterType="kr.co.olympic.game.GameVO"
+		resultType="kr.co.olympic.game.GameVO">
+        SELECT *
+		FROM game
+		<include refid="searchGame"></include>
+		ORDER BY game_id;
+    </select>
+    
 	<!-- 경기 날짜별 리스트-->
 	<select id="listByDate" parameterType="kr.co.olympic.game.GameVO">
-        SELECT * FROM game
+        SELECT *
+		FROM game
         WHERE korea_date = #{korea_date}
     </select>
 	<!-- 경기 종목별 리스트-->
 	<select id="listByGame" parameterType="kr.co.olympic.game.GameVO">
-        SELECT * FROM game
+        SELECT *
+		FROM game
         WHERE sport_name = #{sport_name}
     </select>
 	<!-- 경기 생성 -->
@@ -56,14 +81,35 @@
 	<delete id="deleteGame" parameterType="kr.co.olympic.game.GameVO">
         DELETE FROM game WHERE game_id = #{game_id}
     </delete>
-	<!-- 경기장 상세조회 -->
-	<select id="detailGame" parameterType="int" resultType="kr.co.olympic.game.GameVO">
-        SELECT * FROM game WHERE game_id = #{game_id}
+	<!-- 경기 조회 -->
+	<select id="detailGame" parameterType="kr.co.olympic.game.GameVO" 
+		resultType="kr.co.olympic.game.GameVO">
+        SELECT *
+		FROM game
+		WHERE game_id = #{game_id}
     </select>
+    
+    <sql id="searchSql">
+		<where>
+			<if test="searchWord != null and searchWord != ''">
+				<if test="searchType == 'all'">
+					title LIKE '%${searchWord}%' OR content LIKE '%${searchWord}%'
+				</if>
+				<if test="searchType != 'all'">
+					${searchType} LIKE '%${searchWord}%'
+				</if>
+			</if>
+		</where>
+	</sql>
+	<!-- 종목 수 -->
+	<select id="count" parameterType="kr.co.olympic.game.GameVO" resultType="int">
+		SELECT COUNT(*) FROM game
+		<include refid="searchSql"/>
+	</select>
     
 	<!-- #경기부가기능 -->
 	<!-- 경기 댓글 생성 -->
-	<insert id="createComment" parameterType="java.util.HashMap">
+	<insert id="createComment" parameterType="map">
         INSERT INTO comment (regdate, content, game_id, member_no) 
         VALUES (#{regdate}, #{content}, #{game_id}, #{member_no})
         <selectKey keyProperty="game_id" order="AFTER" resultType="int">
@@ -71,31 +117,34 @@
         </selectKey>
     </insert>
 	<!-- 경기 댓글 리스트 -->
-	<select id="listComment" parameterType="kr.co.olympic.game.GameVO" resultType="kr.co.olympic.game.CommentVO">
-        SELECT c.*, g.*
-        FROM comment c
-        INNER JOIN game g 
-        ON c.game_id = g.game_id
-        WHERE c.comment_no = #{comment_no}
+	<select id="listComment" parameterType="kr.co.olympic.game.GameVO" 
+		resultType="kr.co.olympic.game.CommentVO">
+        SELECT * FROM comment c
+        LEFT JOIN (SELECT member_no, name FROM member) m
+        ON m.member_no = c.member_no
+        WHERE game_id = #{game_id}
     </select>
-	<!-- 경기 관심 등록 -->
-	<insert id="createFavorite" parameterType="java.util.HashMap">
-        INSERT INTO favorite_game (member_no, game_id)
-        VALUES (#{member_no}, #{game_id})
+	<!-- 관심 경기 등록 -->
+	<insert id="createFavorite" parameterType="map">
+        INSERT INTO favorite_game (
+        	member_no, game_id
+        ) VALUES (
+        	#{member_no}, #{game_id}
+        )
     </insert>
 	
 	<!-- 관심 경기 조회 -->
 	<select id="listFavorite" parameterType="kr.co.olympic.member.MemberVO" 
-		resultType="kr.co.olympic.game.GameVO">
-        SELECT g.*
-        FROM game g
-        INNER JOIN favorite_game fg 
-        ON g.game_id = fg.game_id
-        WHERE fg.member_no = #{member_no}
+			resultType="map">
+		SELECT * 
+		FROM olympic.favorite_game as f
+		LEFT JOIN olympic.game as g
+		ON f.game_id = g.game_id
+		WHERE member_no = #{member_no};
     </select>
 	
 	<!-- 경기 관심 삭제 -->
-	<delete id="deleteFavorite" parameterType="java.util.HashMap">
+	<delete id="deleteFavorite" parameterType="map">
         DELETE FROM favorite_game
         WHERE member_no = #{member_no} AND game_id = #{game_id}
     </delete>

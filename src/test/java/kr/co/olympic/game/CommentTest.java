@@ -27,7 +27,7 @@ public class CommentTest {
 	private GameMapper mapper;
 	
 	@Test
-	public void commentTest() {
+	public void createComment() {
 		Map<String, Object> map = new HashMap<>();
 		map.put("regdate", new Timestamp(System.currentTimeMillis()));
         map.put("content", "This is a test comment.");
@@ -42,9 +42,9 @@ public class CommentTest {
 	
 	@Test
 	public void listComment() {
-		CommentVO vo = new CommentVO();
+		GameVO vo = new GameVO();
 		
-		vo.setComment_no(1);
+		vo.setGame_id(1);
 		
 		List<CommentVO> comments = mapper.listComment(vo);
 		assertNotNull(comments);

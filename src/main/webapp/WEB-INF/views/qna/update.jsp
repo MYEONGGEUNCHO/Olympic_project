@@ -10,59 +10,7 @@
 <!-- Editor's Style -->
 <link rel="stylesheet" href="https://uicdn.toast.com/editor/latest/toastui-editor.min.css" />
 
-<script>
-	let editor;
-	$(function() {
-
-		editor = new toastui.Editor({
-			el : document.querySelector('#editor'), // 에디터를 적용할 요소 (컨테이너)
-			height : '500px', // 에디터 영역의 높이 값 (OOOpx || auto)
-			initialEditType : 'wysiwyg', // 최초로 보여줄 에디터 타입 (markdown || wysiwyg)
-			initialValue : "", // 내용의 초기 값으로, 반드시 마크다운 문자열 형태여야 함
-			previewStyle : 'vertical', // 마크다운 프리뷰 스타일 (tab || vertical)
-			language : 'ko-KR',
-			autofocus : true,
-		// 			hooks: {
-		// 				addImageBlobHook(blob, callback) {
-
-		// 				}
-		// 			}
-		});
-		$("#btn").click(function(e) {
-			write();
-		})
-	});
-	function write() {
-		// 		$("#printdiv").html(editor.getMarkdown());		
-		// 		$("#printdiv").html(editor.getHTML());
-		// 		console.log("HTML:", editor.getHTML());
-		// 		console.log("Markdown:", editor.getMarkdown());
-		const inner_html = editor.getHTML();
-		$.ajax({
-			type : 'POST',
-			url : '/olympic/qna/write.do',
-			headers : {
-				"Content-Type" : "application/json",
-			},
-			data : JSON.stringify({
-				type : $("input[name='type']:checked").val(),
-				title : $("#title").val(),
-				content : inner_html
-			}),
-			success : function(response) {
-				// 				console.log("Response:", response);
-				// 성공 시 수행할 동작
-				alert('글이 성공적으로 작성되었습니다.');
-				location.href = "/olympic/qna/index.do";
-			},
-			error : function(xhr, status, error) {
-				console.error("Error:", error);
-				// 에러 시 수행할 동작
-				alert('글 작성 중 오류가 발생했습니다.');
-			}
-		});
-	}
-</script>
+<script src="../js/qna-update.js"></script>
 
 </head>
 <body>
@@ -79,7 +27,12 @@
 			<div class="row">
 				<div class="col-12">
 					<!-- Heading -->
-					<h3 class="mb-10 text-center">문의사항 수정</h3>
+					<c:if test="${qna.state == 0 || empty qna.state}">
+						<h3 class="mb-10 text-center">문의사항 수정</h3>
+					</c:if>
+					<c:if test="${qna.state == 1 && login.state == 3}">
+						<h3 class="mb-10 text-center">공지사항 수정</h3>
+					</c:if>
 
 				</div>
 			</div>
@@ -89,15 +42,20 @@
 					<!-- 수정 안되는 부분-->
 					<p id="date">
 						작성일자 :
-						<fmt:formatDate value="${qna.regdate}" pattern="YYYY년 MM월 dd일 E요일" />
+						<fmt:formatDate value="${qna.regdate}" pattern="yyyy-MM-dd HH시 mm분" />
 					</p>
-					<p id="date">수정일자 : ${serverTime}</p>
+					<p id="date">
+						수정일자 :
+						<fmt:formatDate value="${serverTime}" pattern="yyyy-MM-dd HH시 mm분" />
+					</p>
 					<p id="writer">작성자 : ${login.name}</p>
+					<input type="hidden" name="qna_no" value="${qna.qna_no}" />
+					<input type="hidden" name="writer" value="${login.member_no}" />
 					<!-- 분류 -->
 					<div class="form-group">
 						<c:if test="${qna.type == '0'}">
 							<input type="radio" id="game" name="type" value=0 checked disabled>
-							<label for="game">게임 문의</label>
+							<label for="game">경기 문의</label>
 						</c:if>
 						<c:if test="${qna.type == '1'}">
 							<input type="radio" id="common" name="type" value=1 checked disabled>
@@ -122,7 +80,7 @@
 					<div class="form-group mb-7" id="editor">${qna.content}</div>
 
 					<!-- Button -->
-					<button type="button" class="btn btn-dark" id="btn">입력하기</button>
+					<button type="button" class="btn btn-dark" id="btn">등록하기</button>
 				</div>
 			</div>
 		</div>

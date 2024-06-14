@@ -1,6 +1,7 @@
 package kr.co.olympic.member;
 
 import java.io.UnsupportedEncodingException;
+import java.util.List;
 import java.util.Random;
 
 import javax.mail.MessagingException;
@@ -11,6 +12,8 @@ import javax.mail.internet.MimeMessage.RecipientType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
+
+import kr.co.olympic.game.GameVO;
 
 @Service
 public class MemberServiceImpl implements MemberService {
@@ -65,8 +68,13 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
-	public CouponVO coupon_list(MemberVO vo) {
+	public List<CouponVO> coupon_list(MemberVO vo) {
 		return mapper.coupon_list(vo);
+	}
+	
+	@Override
+	public int insert_coupon(CouponVO vo) {
+		return mapper.insert_coupon(vo);
 	}
 
 	@Override
@@ -90,7 +98,7 @@ public class MemberServiceImpl implements MemberService {
 
 		String msgg = "";
 		msgg += "<h1>안녕하세요</h1>";
-		msgg += "<h1>올림픽 티켓 구매 사이트에 방문해 주셔서 감사합니다.</h1>";
+		msgg += "<h1>Olypic 사이트에 방문해 주셔서 감사합니다.</h1>";
 		msgg += "<br>";
 		msgg += "<p>아래 인증코드를 회원가입 페이지에 입력해주세요</p>";
 		msgg += "<br>";
@@ -136,7 +144,7 @@ public class MemberServiceImpl implements MemberService {
 
         MimeMessage message = creatMessage(to); // "to" 로 메일 발송
 
-        System.out.println("********생성된 메시지******** => " + message);
+//        System.out.println("********생성된 메시지******** => " + message);
 
         try { // 예외처리
             emailSender.send(message);
@@ -147,5 +155,10 @@ public class MemberServiceImpl implements MemberService {
 
         return ePw; // 메일로 사용자에게 보낸 인증코드를 서버로 반환! 인증코드 일치여부를 확인하기 위함
     }
+
+	@Override
+	public List<GameVO> listFavorite(MemberVO vo) {
+		return mapper.listFavorite(vo);
+	}
 
 }

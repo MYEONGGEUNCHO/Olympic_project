@@ -1,5 +1,7 @@
 package kr.co.olympic.member;
 
+import java.util.List;
+
 import org.apache.ibatis.annotations.Mapper;
 
 import kr.co.olympic.game.GameVO;
@@ -28,8 +30,14 @@ public interface MemberMapper {
 	//멤버십 구매
 	int buy_membership(MemberVO vo);
 	//쿠폰 확인
-	CouponVO coupon_list(MemberVO vo);
+	List<CouponVO> coupon_list(MemberVO vo);
+	//쿠폰 발급
+	int insert_coupon(CouponVO vo);
+	// 관심 경기 리스트
+	List<GameVO> listFavorite(MemberVO vo);
 	
 	//관심 목록 확인
 	//GameVO favorite_list(MemberVO vo);
+	
+
 }

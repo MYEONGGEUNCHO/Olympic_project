@@ -1,18 +1,19 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 
 <!-- Favicon -->
-<link rel="shortcut icon" href="../dist/assets/favicon/favicon.ico" type="image/x-icon" />
+<link rel="shortcut icon" href="/olympic/dist/assets/favicon/favicon.ico" type="image/x-icon" />
 
 <!-- Libs CSS -->
-<link rel="stylesheet" href="../dist/assets/css/libs.bundle.css" />
+<link rel="stylesheet" href="/olympic/dist/assets/css/libs.bundle.css" />
 
 <!-- Theme CSS -->
-<link rel="stylesheet" href="../dist/assets/css/theme.bundle.css" />
-<script src="../js/jquery-3.7.1.min.js"></script>
+<link rel="stylesheet" href="/olympic/dist/assets/css/theme.bundle.css" />
+<script src="/olympic/js/jquery-3.7.1.min.js"></script>
 
 <!-- Title -->
 <title>올림픽 판매하기</title>
@@ -89,19 +90,28 @@
 			</ul>
 
 			<!-- Nav -->
-			<ul class="navbar-nav flex-row">
-				<li class="nav-item ms-lg-n4">
-					<a class="nav-link" data-bs-toggle="offcanvas" href="#modalLoginForm">
-						<i class="fe fe-user"></i>
-					</a>
+			<ul class="navbar-nav flex-row align-items-center">
+				<li class="nav-item">
+					<c:if test="${!empty login }">
+						<div>${login.name }님 환영합니다.</div>
+					</c:if>
+					<c:if test="${empty login }">
+						<div>로그인 후 이용하세요.</div>
+					</c:if>
 				</li>
-				<li class="nav-item ms-lg-n4">
-					<a class="nav-link" href="./account-wishlist.html">
-						<span data-cart-items="2">
-							<i class="fe fe-heart"></i>
-						</span>
-					</a>
+				<li class="nav-item">
+					<c:if test="${!empty login }">
+						<a class="nav-link" href="/olympic/member/membership.do">
+							<i class="fe fe-user"></i>
+						</a>
+					</c:if>
+					<c:if test="${empty login }">
+						<a class="nav-link" href="/olympic/member/login.do">
+							<i class="fe fe-user"></i>
+						</a>
+					</c:if>
 				</li>
+
 			</ul>
 
 		</div>

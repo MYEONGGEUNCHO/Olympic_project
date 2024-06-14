@@ -1,14 +1,14 @@
 package kr.co.olympic.qna;
 
 import java.sql.Timestamp;
+import java.util.UUID;
 
 import lombok.Data;
 
 @Data
 public class AttachedVO {
-	private int file_no;
-	private String original;
-	private String real;
+	private String file_no;
+	private String original_name;
+	private String forsave_name;
 	private Timestamp upload_date;
-	private int qna_no;
 }

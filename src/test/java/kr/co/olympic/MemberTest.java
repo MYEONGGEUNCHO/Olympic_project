@@ -93,5 +93,14 @@ public class MemberTest {
 		vo.setEmail("test@gmail.com");
 		mapper.checkEmail(vo);
 	}
-	
+
+	// 관심 경기 테스트
+    @Test
+    public void listFavorite() {
+    	MemberVO vo = new MemberVO();
+    	vo.setMember_no("1");
+    	
+    	mapper.listFavorite(vo);
+    }
+    
 }

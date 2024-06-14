@@ -45,8 +45,8 @@ public class SportServiceImpl implements SportService {
     }
 
     @Override
-    public SportVO detailSport(SportVO sport) {
-        return mapper.detailSport(sport);
+    public SportVO detailSport(GameVO game) {
+        return mapper.detailSport(game);
     }
 
     @Override
@@ -59,9 +59,4 @@ public class SportServiceImpl implements SportService {
         return mapper.deleteSport(sport);
     }
 
-	@Override
-	public List<SportVO> listSport() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 }

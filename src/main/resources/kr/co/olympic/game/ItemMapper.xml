@@ -7,12 +7,12 @@
 	<insert id="createItem" parameterType="kr.co.olympic.game.ItemVO">
         INSERT INTO item (
             a_seat_sold, b_seat_sold, c_seat_sold, d_seat_sold,
-            vip_seat_sold, state, is_korean, a_seat_price,
+            vip_seat_sold, state, korean_advancement, a_seat_price,
             b_seat_price, c_seat_price, d_seat_price, vip_seat_price,
             game_id
         ) VALUES (
             #{a_seat_sold}, #{b_seat_sold}, #{c_seat_sold}, #{d_seat_sold},
-            #{vip_seat_sold}, #{state}, #{is_korean}, #{a_seat_price},
+            #{vip_seat_sold}, #{state}, #{korean_advancement}, #{a_seat_price},
             #{b_seat_price}, #{c_seat_price}, #{d_seat_price}, #{vip_seat_price},
             #{game_id}
         )
@@ -21,12 +21,13 @@
         </selectKey>
     </insert>
 	<!-- 상품 리스트-->
-	<select id="listItem" resultType="kr.co.olympic.game.ItemVO">
+	<select id="listItem" parameterType="kr.co.olympic.game.ItemVO" 
+		resultType="kr.co.olympic.game.ItemVO">
         SELECT * FROM item
     </select>
 	<!-- 상품 상세조회 -->
-	<select id="detailItem" parameterType="kr.co.olympic.game.ItemVO" resultType="kr.co.olympic.game.ItemVO">
-        SELECT * FROM item WHERE item_no = #{item_no}
+	<select id="detailItem" parameterType="kr.co.olympic.game.GameVO" resultType="kr.co.olympic.game.ItemVO">
+        SELECT * FROM item WHERE game_id = #{game_id}
     </select>
 	<!-- 상품 수정 -->
 	<update id="updateItem" parameterType="kr.co.olympic.game.ItemVO">
@@ -50,5 +51,21 @@
 	<delete id="deleteItem" parameterType="kr.co.olympic.game.ItemVO">
         DELETE FROM item WHERE item_no = #{item_no}
     </delete>
-
+	<sql id="searchSql">
+		<where>
+			<if test="searchWord != null and searchWord != ''">
+				<if test="searchType == 'all'">
+					title LIKE '%${searchWord}%' OR content LIKE '%${searchWord}%'
+				</if>
+				<if test="searchType != 'all'">
+					${searchType} LIKE '%${searchWord}%'
+				</if>
+			</if>
+		</where>
+	</sql>
+	<!-- 종목 수 -->
+	<select id="count" parameterType="kr.co.olympic.game.ItemVO" resultType="int">
+		SELECT COUNT(*) FROM item
+		<include refid="searchSql"/>
+	</select>
 </mapper>

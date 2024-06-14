@@ -6,6 +6,7 @@ import lombok.Data;
 public class SportVO {
 	private String sport_code;
 	private String sport_name;
+	private String sport_pictogram;
 	private String title_image;
 	private String link;
 	private String sport_info;

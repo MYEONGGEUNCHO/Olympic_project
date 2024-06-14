@@ -1,10 +1,50 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="kr.co.olympic.member.MemberMapper">
+<mapper namespace="kr.co.olympic.admin.AdminMapper">
 	<!-- 관리자 로그인 -->
 	<select id="loginAdmin" parameterType="kr.co.olympic.member.MemberVO"
 		resultType="kr.co.olympic.member.MemberVO">
 		SELECT * FROM member WHERE email=#{email} AND pwd = MD5(#{pwd}) AND state = 3
 	</select>
-
+	<!-- 회원 리스트 -->
+	<select id="memberList" resultType="kr.co.olympic.member.MemberVO">
+		SELECT * FROM member WHERE state != 3
+	</select>
+	<!-- 회원정보 수정 등급, 포인트 -->
+	<update id="updateMember" parameterType="kr.co.olympic.member.MemberVO">
+		UPDATE member SET
+		name = #{name},
+		<if test="membership != ''">
+		membership = #{membership},
+		</if>
+		<if test="point != ''">
+		point = #{point},
+		</if>
+		state = #{state}
+		WHERE email = #{email}
+		
+	</update>	
+	<!-- 비밀번호 초기화 -->
+	<update id="resetMember" parameterType="kr.co.olympic.member.MemberVO">
+		UPDATE member SET pwd = MD5(REPLACE(DATE_FORMAT(birthday, '%Y-%m-%d'), '-', ''))
+		WHERE email = #{email}
+	</update>
+	
+	<!-- 쿠폰 생성 -->
+	<insert id="couponAdmin" parameterType="kr.co.olympic.member.CouponVO">
+		INSERT INTO coupon (
+		coupon_no,
+		content, discount,
+		member_no, used
+		)
+		VALUES (
+		#{coupon_no},
+		#{content}, #{discount},
+		#{member_no}, 0
+		)
+	</insert>
+	<!-- 회원 상세 정보 조회 -->
+	<select id="detailMember" parameterType="String" resultType="kr.co.olympic.member.MemberVO">
+		SELECT * FROM member WHERE member_no=#{member_no}
+	</select>
 </mapper>
