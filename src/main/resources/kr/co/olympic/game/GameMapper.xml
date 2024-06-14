@@ -81,7 +81,7 @@
 	<delete id="deleteGame" parameterType="kr.co.olympic.game.GameVO">
         DELETE FROM game WHERE game_id = #{game_id}
     </delete>
-	<!-- 경기장 상세조회 -->
+	<!-- 경기 조회 -->
 	<select id="detailGame" parameterType="kr.co.olympic.game.GameVO" 
 		resultType="kr.co.olympic.game.GameVO">
         SELECT *

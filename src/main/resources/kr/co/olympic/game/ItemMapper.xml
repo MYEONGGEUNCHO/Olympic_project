@@ -26,8 +26,8 @@
         SELECT * FROM item
     </select>
 	<!-- 상품 상세조회 -->
-	<select id="detailItem" parameterType="kr.co.olympic.game.ItemVO" resultType="kr.co.olympic.game.ItemVO">
-        SELECT * FROM item WHERE item_no = #{item_no}
+	<select id="detailItem" parameterType="kr.co.olympic.game.GameVO" resultType="kr.co.olympic.game.ItemVO">
+        SELECT * FROM item WHERE game_id = #{game_id}
     </select>
 	<!-- 상품 수정 -->
 	<update id="updateItem" parameterType="kr.co.olympic.game.ItemVO">
