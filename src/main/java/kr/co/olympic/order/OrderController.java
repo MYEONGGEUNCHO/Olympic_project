@@ -1,6 +1,7 @@
 package kr.co.olympic.order;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpSession;
@@ -114,10 +115,45 @@ public class OrderController {
     }
 	
 	@PostMapping("/order/auth")
-    public ResponseEntity<String> validatePayment(@RequestBody Map<String, String> data) {
+    public ResponseEntity<String> validatePayment(@RequestBody Map<String, Object> data, HttpSession session) {
         // 포트원으로부터 받은 imp_uid, DB에 저장할때 사용한 order_no를 가져온다. 
-		String imp_uid = data.get("imp_uid");
-        String order_no = data.get("order_no");
+		String imp_uid = (String) data.get("imp_uid");
+	    String order_no = (String) data.get("order_no");
+	    
+	    // paymentData 처리
+	    Map<String, Object> paymentDataMap = (Map<String, Object>) data.get("paymentData");
+	    PaymentVO paymentData = new PaymentVO();
+	    paymentData.setGame_id((Integer) paymentDataMap.get("game_id"));
+	    paymentData.setItem_no((Integer) paymentDataMap.get("item_no"));
+	    paymentData.setContent((String) paymentDataMap.get("content"));
+	    paymentData.setA_seat_price((Integer) paymentDataMap.get("a_seat_price"));
+	    paymentData.setB_seat_price((Integer) paymentDataMap.get("b_seat_price"));
+	    paymentData.setC_seat_price((Integer) paymentDataMap.get("c_seat_price"));
+	    paymentData.setD_seat_price((Integer) paymentDataMap.get("d_seat_price"));
+	    paymentData.setVip_seat_price((Integer) paymentDataMap.get("vip_seat_price"));
+	    paymentData.setA_seat_sold((Integer) paymentDataMap.get("a_seat_sold"));
+	    paymentData.setB_seat_sold((Integer) paymentDataMap.get("b_seat_sold"));
+	    paymentData.setC_seat_sold((Integer) paymentDataMap.get("c_seat_sold"));
+	    paymentData.setD_seat_sold((Integer) paymentDataMap.get("d_seat_sold"));
+	    paymentData.setVip_seat_sold((Integer) paymentDataMap.get("vip_seat_sold"));
+	    paymentData.setCoupon_no((String) paymentDataMap.get("coupon_no"));
+	    paymentData.setTotal_price((Integer) paymentDataMap.get("total_price"));
+	    
+	    // 세션에서 MemberVO 객체 가져오기
+	    MemberVO member = (MemberVO) session.getAttribute("member");
+
+	    // 테스트용 임시값 설정
+	    if (member == null) {
+	        member = new MemberVO();
+	        member.setMember_no("1");
+	        member.setName("홍길동");
+	        member.setEmail("test@test.com");
+	        member.setPhone("010-1234-4321");
+	        session.setAttribute("member", member);
+	    }
+	    //System.out.println("paymentData : "+paymentData.toString());
+	    //System.out.println("멤버 데이터 : "+member.toString());
+	    
         //currentOrder은 order_no과 상관없이 포트원으로 부터 결제요청에 대한 응답으로 받은 imp_uid로 주문객체를 찾는다. 
         //현 상황 : 서버DB(imp_uid가 없는 즉, 결제 버튼을 누르기 직전의 주문 객체를 가지고 있다.)
         // rsp.imp_uid : 위의 서버DB에 저장된 객체를 포함해서 아임 포트로 결제 요청한 리턴 imp_uid 이다. 
@@ -139,6 +175,19 @@ public class OrderController {
         currentOrder.setOrder_no(order_no);
         boolean isValid = orderService.validatePayment(currentOrder);
         if (isValid) {
+        	
+        	//TODO 2 : 리스트<티켓> = orderService.createTicket(Map<String,Object> map);
+        	// map 에는 OrderVo currentOrder,MemberVO member,PaymentVO paymentData 이렇게 3개의 객체를 모두 담는다. 
+            Map<String, Object> ticketDataMap = new HashMap<>();
+            ticketDataMap.put("order", currentOrder);
+            ticketDataMap.put("member", member);
+            ticketDataMap.put("payment", paymentData);
+            List<TicketVO> ticketList = orderService.insertTicket(ticketDataMap);
+            
+            // TODO 3 : totalPrice의 1% 만큼 현재 회원의 point 컬럼에 증가시켜주기 
+            
+            // TODO 4 : 사용한 쿠폰을 쿠폰DB에서 coupon_no로 찾아서 상태를 used로 변경해주기 
+            
             return new ResponseEntity<>("결제 유효성 검사 완료", HttpStatus.OK);
         } else {
             return new ResponseEntity<>("결제 유효성 검사 실패", HttpStatus.BAD_REQUEST);

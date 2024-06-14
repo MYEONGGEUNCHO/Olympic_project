@@ -79,4 +79,23 @@
         FROM `order`
         WHERE member_no = #{member_no}
     </select>
+    
+    <!-- 티켓 정보 삽입 -->
+    <insert id="insertTicket" parameterType="kr.co.olympic.order.TicketVO">
+        INSERT INTO ticket (
+            ticket_no, price, member_no, order_no, cancel_state, seat_info, item_no, game_id
+        ) VALUES (
+            #{ticket_no}, #{price}, #{member_no}, #{order_no}, 'N', #{seat_info}, #{item_no}, #{game_id}
+        );
+    </insert>
+
+    <!-- order_no로 티켓 조회 -->
+    <select id="getTicketsByOrderNo" parameterType="String" resultType="kr.co.olympic.order.TicketVO">
+        SELECT * FROM ticket WHERE order_no = #{order_no};
+    </select>
+    
+    <!-- member_no로 티켓 조회 -->
+    <select id="getTicketsByMemberNo" parameterType="String" resultType="kr.co.olympic.order.TicketVO">
+        SELECT * FROM ticket WHERE member_no = #{member_no};
+    </select>
 </mapper>
