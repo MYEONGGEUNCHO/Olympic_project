@@ -13,11 +13,12 @@ public class OrderVO {
     private String member_no;
     private int item_no;
     private int game_id;
-    private int coupon_no;
+    private String coupon_no;
     private String imp_uid;
     private int real_price;
     private int original_price;
     private int point;
+    private String member_email;
     
     // Order 객체를 생성할 때 UUID를 자동으로 생성하도록 하는 생성자
     public OrderVO() {

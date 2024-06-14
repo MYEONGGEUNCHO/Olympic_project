@@ -33,7 +33,7 @@ public class OrderTest {
         order.setMember_no("1");
         order.setItem_no(1);
         order.setGame_id(1);
-        order.setCoupon_no(1);
+        order.setCoupon_no("1");
         order.setImp_uid("imp_1234567890");
         order.setReal_price(10000);
         order.setOriginal_price(15000);
@@ -57,6 +57,15 @@ public class OrderTest {
         OrderVO orderToDelete = mapper.getOrderById(orderNo);
 
         mapper.deleteOrder(orderNo);
+    }
+    
+    @Test
+    public void getMemberAvailablePoint() {
+    	MemberVO member = new MemberVO();
+        member.setMember_no("f57c671f-cf5a-4e20-a03a-8b895d625bb4");
+
+        int temp = mapper.getTotalAvailablePoints(member);
+        System.out.println(temp);
     }
 
     @Test
