@@ -33,11 +33,11 @@ public class AdminStadiumController {
     	int r = service.createStadium(vo);
     	if (r > 0) {
     		model.addAttribute("cmd", "move");
-    		model.addAttribute("msg", "정상적으로 저장되었습니다.");
+    		model.addAttribute("msg", "�젙�긽�쟻�쑝濡� ���옣�릺�뿀�뒿�땲�떎.");
     		model.addAttribute("url", "/olympic/admin/game/stadium/index.do");
     	} else {
     		model.addAttribute("cmd", "back");
-    		model.addAttribute("msg", "등록 오류");
+    		model.addAttribute("msg", "�벑濡� �삤瑜�");
     	}
         return "common/alert";
     }
@@ -46,12 +46,6 @@ public class AdminStadiumController {
     public String listStadium(Model model, StadiumVO vo) {
     	model.addAttribute("map", service.listStadium(vo));
         return "admin/game/stadium/index";
-    }
-
-    @GetMapping("detail.do")
-    public String detailStadium(Model model, StadiumVO vo) {
-    	model.addAttribute("vo", service.detailStadium(vo));
-        return "admin/game/stadium/detail";
     }
 
     @PostMapping("update.do")

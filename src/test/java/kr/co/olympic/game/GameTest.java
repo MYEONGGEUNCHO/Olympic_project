@@ -40,9 +40,8 @@ public class GameTest {
     @Test
     public void searchGame() {
     	GameVO vo = new GameVO();
-    	vo.setSearchDate("2024-07-16");
-    	vo.setKorea_date(vo.getSearchDate());
-    	vo.setSport_name("축구");
+    	vo.setSearch_date("2024-07-16");
+    	vo.setSearch_sport("축구");
     	List<GameVO> list = mapper.searchGame(vo);
     }
     

@@ -13,20 +13,36 @@
 	<sql id="searchGame">
 		<where>
 			<if test="search_sport == 'all'">
-				korea_date = ${korea_date }		
+				korea_date = ${search_date }		
 			</if>
 			<if test="search_sport != 'all'">
-				korea_date = ${korea_date } and sport_name = ${sport_name }
+				korea_date = ${search_sport } and sport_name = ${search_sport }
 			</if>
 		</where>
 	</sql>
     <!-- 검색 리스트  -->
 	<select id="searchGame" parameterType="kr.co.olympic.game.GameVO"
 		resultType="kr.co.olympic.game.GameVO">
-        SELECT *
-		FROM game
+		SELECT a.*
+			, b.sport_pictogram
+			, CASE
+				WHEN EXISTS (
+					SELECT 1 
+					FROM favorite_game fg
+					WHERE fg.game_id = a.game_id 
+				)
+				THEN 1
+				ELSE 0
+			END AS favorite
+		FROM game a
+		LEFT JOIN (
+			SELECT s.sport_pictogram, s.sport_code
+			FROM sport s) b
+		ON a.sport_code = b.sport_code
+		<!-- 
 		<include refid="searchGame"></include>
-		ORDER BY game_id;
+		 -->
+		ORDER BY game_id; 
     </select>
     
 	<!-- 경기 날짜별 리스트-->
