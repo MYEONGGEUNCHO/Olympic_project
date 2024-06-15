@@ -33,6 +33,17 @@
             <li>VIP좌석 개수: <span id="vip_seat_sold">${payment.vip_seat_sold}</span></li>
         </ul>
         <p>총 결제 금액: <span id="total_price">${payment.total_price}</span>원</p>
+        
+        <h3>쿠폰 선택</h3>
+        <select id="coupon_select">
+            <option value="">쿠폰을 선택하세요</option>
+            <c:forEach var="coupon" items="${payment.coupon_list}">
+                <option value="${coupon.coupon_no}" data-discount="${coupon.discount}">${coupon.content} (${coupon.discount}% 할인)</option>
+            </c:forEach>
+        </select>
+        <button id="apply_coupon">쿠폰 적용</button>
+        <button id="remove_coupon">쿠폰 선택 안함</button>
+        
     </div>
     <button id="payButton">결제 요청</button>
 

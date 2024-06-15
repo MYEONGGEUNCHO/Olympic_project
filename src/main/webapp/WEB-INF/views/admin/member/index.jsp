@@ -67,26 +67,18 @@
          });
      });
   // DataTables 초기화
-/*      $('#dataTable').DataTable({
-         "columns": [
-             { "data": "email" },
-             { "data": "name" },
-             { "data": "point" },
-             { "data": "membership" },
-             { "data": "formattedCredate" },
-             { "data": "state" },
-             { "data": "edit" }
-         ]
-     }); */
+     $('#dataTable').DataTable({
+         lengthMenu: [ [10, 5, 20], [10, 5, 20] ],
+     }); 
  });
 </script>
 </head>
 
 <body>
-<%@include file="../../common/adminmodals.jsp"%>
+<%@include file="/WEB-INF/views/common/adminmodals.jsp"%>
 <div id="wrapper">
 <!-- 슬라이더 바 -->
-<%@include file="../../common/adminslide.jsp"%>
+<%@include file="/WEB-INF/views/common/adminslide.jsp"%>
 
 		<!-- Content Wrapper -->
         <div id="content-wrapper" class="d-flex flex-column">
@@ -94,7 +86,7 @@
             <!-- Main Content -->
             <div id="content">
             <!-- 상단 툴바 -->
-			<%@include file="../../common/adminheader.jsp"%>
+			<%@include file="/WEB-INF/views/common/adminheader.jsp"%>
                 
 				<!-- 추가 -->
                 <!-- Begin Page Content -->

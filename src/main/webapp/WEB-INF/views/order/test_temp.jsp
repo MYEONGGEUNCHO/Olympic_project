@@ -8,6 +8,7 @@
 <body>
     <h1>경기 상세</h1>
     <form id="paymentForm" action="/olympic/order/initOrder" method="post">
+   		
         <input type="hidden" id="game_id" name="game_id" value="1">
         <input type="hidden" id="content" name="content" value="32강 남자 축구 미국 vs 중국">
         <input type="hidden" id="item_no" name="item_no" value="100">
