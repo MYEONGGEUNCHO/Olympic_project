@@ -13,7 +13,7 @@ public interface GameMapper {
 	//경기 전체 리스트
 	List<GameVO> listGame(GameVO game);
 	// 경기 검색 리스트
-	List<GameVO> searchGame(GameVO vo);
+	List<GameVO> searchGame(GameVO game);
 	//경기 날짜별 리스트
 	List<GameVO> listByDate(GameVO game);
 	//경기 종목별 리스트
@@ -21,7 +21,7 @@ public interface GameMapper {
 	//경기 생성
 	int createGame(GameVO game);
 	//경기 상세조회
-	GameVO detailGame(GameVO game);
+	GameVO detailGame(Map<String, Object> map);
 	//경기 수정
 	int updateGame(GameVO game);
 	//경기 삭제

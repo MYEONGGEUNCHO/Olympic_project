@@ -52,12 +52,30 @@ public class AdminItemController {
     }
 
     @PostMapping("update.do")
-    public String updateItem(@RequestBody ItemVO vo) {
-        return "/admin/game/item/detail";
+    public String updateItem(Model model, ItemVO vo) {
+    	int r = service.updateItem(vo);
+    	if (r > 0) {
+    		model.addAttribute("cmd", "move");
+    		model.addAttribute("msg", "정상적으로 수정되었습니다.");
+    		model.addAttribute("url", "/olympic/admin/game/item/index.do");
+    	} else {
+    		model.addAttribute("cmd", "back");
+    		model.addAttribute("msg", "등록 오류");
+    	}
+        return "common/alert";
     }
 
     @PostMapping("delete.do")
-    public String deleteItem(@RequestBody ItemVO vo) {
-        return "/admin/game/item/index";
+    public String deleteItem(Model model, ItemVO vo) {
+    	int r = service.deleteItem(vo);
+    	if (r > 0) {
+    		model.addAttribute("cmd", "move");
+    		model.addAttribute("msg", "정상적으로 삭제되었습니다.");
+    		model.addAttribute("url", "/olympic/admin/game/item/index.do");
+    	} else {
+    		model.addAttribute("cmd", "back");
+    		model.addAttribute("msg", "삭제 오류");
+    	}
+        return "common/alert";
     }
 }

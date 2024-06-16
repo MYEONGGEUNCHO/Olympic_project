@@ -51,12 +51,30 @@ public class AdminSportController {
     }
 
     @PostMapping("update.do")
-    public String updateSport(@RequestBody SportVO vo) {
-        return "/admin/game/sport/detail";
+    public String updateSport(Model model, SportVO vo) {
+    	int r = service.updateSport(vo);
+    	if (r > 0) {
+    		model.addAttribute("cmd", "move");
+    		model.addAttribute("msg", "정상적으로 수정되었습니다.");
+    		model.addAttribute("url", "/olympic/admin/game/sport/index.do");
+    	} else {
+    		model.addAttribute("cmd", "back");
+    		model.addAttribute("msg", "수정 오류");
+    	}
+        return "common/alert";
     }
 
     @PostMapping("delete.do")
-    public String deleteSport(@RequestBody SportVO vo) {
-        return "/admin/game/sport/index";
+    public String deleteSport(Model model, SportVO vo) {
+    	int r = service.deleteSport(vo);
+    	if (r > 0) {
+    		model.addAttribute("cmd", "move");
+    		model.addAttribute("msg", "정상적으로 삭제되었습니다.");
+    		model.addAttribute("url", "/olympic/admin/game/sport/index.do");
+    	} else {
+    		model.addAttribute("cmd", "back");
+    		model.addAttribute("msg", "삭제 오류");
+    	}
+        return "common/alert";
     }
 }

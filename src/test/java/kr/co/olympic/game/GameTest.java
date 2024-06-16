@@ -6,7 +6,9 @@ import static org.junit.Assert.assertTrue;
 
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -104,7 +106,9 @@ public class GameTest {
     public void detailGame() {
     	GameVO vo = new GameVO();
     	vo.setGame_id(1);
-    	mapper.detailGame(vo);
+    	Map<String, Object> map = new HashMap<String, Object>();
+    	
+    	mapper.detailGame(map);
     }
     
     // 경기 수정
