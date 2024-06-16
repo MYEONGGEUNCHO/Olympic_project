@@ -6,11 +6,11 @@ import java.util.Map;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import kr.co.olympic.member.MemberVO;
 
@@ -19,6 +19,9 @@ import kr.co.olympic.member.MemberVO;
 public class GameController {
 	@Autowired
 	private GameService gameService;
+	
+	@Value("${google_api_key}")
+	private String apikey;
 
 	@GetMapping("index.do")
 	public String listGame(Model model, HttpSession session, GameVO vo) {
@@ -37,6 +40,7 @@ public class GameController {
 		map.put("member", member);
         map.put("game", game);
         model.addAttribute("game", gameService.detailGame(map));
+        model.addAttribute("apikey", apikey);
 		return "game/detail";
 	}
 	

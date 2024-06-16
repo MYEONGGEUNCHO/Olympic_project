@@ -18,12 +18,11 @@
     font-size: 60px;
 }
 </style>
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCRW9rxPptnDhbOjNsNEbObzwJ5bTzwAS4"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=${apiKey}"></script>
 <script src="../js/jquery-3.7.1.min.js"></script>
 <script>
     var geocoder;
     var map;
-
     function initialize() {
         geocoder = new google.maps.Geocoder();
         var latlng = new google.maps.LatLng(45.7821824, 4.8739386);
@@ -37,7 +36,8 @@
 
     function codeAddress() {
         var address = '${game.stadium.stadium_position}';
-		console.log(address)
+        
+        console.log('${apikey}');
         geocoder.geocode({ 'address': address }, function(results, status) {
             if (status === 'OK') {
                 map.setCenter(results[0].geometry.location);
