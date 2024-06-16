@@ -104,10 +104,10 @@ public class GameTest {
     // 경기 상세조회
     @Test
     public void detailGame() {
-    	GameVO vo = new GameVO();
-    	vo.setGame_id(1);
+    	GameVO game = new GameVO();
+    	game.setGame_id(1);
     	Map<String, Object> map = new HashMap<String, Object>();
-    	
+    	map.put("game", game);
     	mapper.detailGame(map);
     }
     

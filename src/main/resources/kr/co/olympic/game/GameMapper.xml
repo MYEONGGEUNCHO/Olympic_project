@@ -67,7 +67,13 @@
 		 -->
 		ORDER BY game_id; 
     </select>
-    
+    <!-- 경기 조회 -->
+	<select id="detailGame" parameterType="map" 
+		resultType="kr.co.olympic.game.GameVO">
+        SELECT *
+		FROM game
+		WHERE game_id = #{game.game_id}
+    </select>
 	<!-- 경기 날짜별 리스트-->
 	<select id="listByDate" parameterType="kr.co.olympic.game.GameVO">
         SELECT *
@@ -120,13 +126,7 @@
 	<delete id="deleteGame" parameterType="kr.co.olympic.game.GameVO">
         DELETE FROM game WHERE game_id = #{game_id}
     </delete>
-	<!-- 경기 조회 -->
-	<select id="detailGame" parameterType="kr.co.olympic.game.GameVO" 
-		resultType="kr.co.olympic.game.GameVO">
-        SELECT *
-		FROM game
-		WHERE game_id = #{game_id}
-    </select>
+	
     
     <sql id="searchSql">
 		<where>

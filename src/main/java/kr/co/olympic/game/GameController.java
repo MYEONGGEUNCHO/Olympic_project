@@ -32,10 +32,9 @@ public class GameController {
 	public String detailGame(Model model, HttpSession session, GameVO game) {
 		// detail페이지에서 필요한 game, stadium, sport, item 테이블 정보 받아오기
 		MemberVO member = (MemberVO) session.getAttribute("login");
-		String member_no = member.getMember_no();
 		Map<String, Object> map = new HashMap<>();
 		// qna, comment는 ajax로 받아오기
-		map.put("member_no", member_no);
+		map.put("member", member);
         map.put("game", game);
         model.addAttribute("game", gameService.detailGame(map));
 		return "game/detail";

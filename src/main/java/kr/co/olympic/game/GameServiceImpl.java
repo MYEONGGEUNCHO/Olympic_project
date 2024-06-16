@@ -70,11 +70,10 @@ public class GameServiceImpl implements GameService {
 
 	@Override
 	public GameVO detailGame(Map<String, Object> map) {
-		GameVO game = (GameVO) map.get("game");
 		GameVO result = mapper.detailGame(map);
-		result.setItem(itemMapper.detailItem(game));
-		result.setStadium(stadiumMapper.detailStadium(game));
-		result.setSport(sportMapper.detailSport(game));
+		result.setItem(itemMapper.detailItem(result));
+		result.setStadium(stadiumMapper.detailStadium(result));
+		result.setSport(sportMapper.detailSport(result));
 		return result;
 	}
 

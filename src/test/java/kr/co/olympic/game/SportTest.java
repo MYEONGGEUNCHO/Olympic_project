@@ -52,7 +52,7 @@ public class SportTest {
     @Test
     public void detailSport() {
         GameVO vo = new GameVO();
-        vo.setSport_code("test1");
+        vo.setSport_code("ARC");
         SportVO result = mapper.detailSport(vo);
         assertNotNull(result);
         log.info("Sport read: " + result);
