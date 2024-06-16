@@ -6,7 +6,9 @@ import static org.junit.Assert.assertTrue;
 
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -40,9 +42,8 @@ public class GameTest {
     @Test
     public void searchGame() {
     	GameVO vo = new GameVO();
-    	vo.setSearchDate("2024-07-16");
-    	vo.setKorea_date(vo.getSearchDate());
-    	vo.setSport_name("축구");
+    	vo.setSearch_date("2024-07-16");
+    	vo.setSearch_sport("축구");
     	List<GameVO> list = mapper.searchGame(vo);
     }
     
@@ -103,9 +104,11 @@ public class GameTest {
     // 경기 상세조회
     @Test
     public void detailGame() {
-    	GameVO vo = new GameVO();
-    	vo.setGame_id(1);
-    	mapper.detailGame(vo);
+    	GameVO game = new GameVO();
+    	game.setGame_id(1);
+    	Map<String, Object> map = new HashMap<String, Object>();
+    	map.put("game", game);
+    	mapper.detailGame(map);
     }
     
     // 경기 수정

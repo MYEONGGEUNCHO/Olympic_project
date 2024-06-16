@@ -13,9 +13,6 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
-<script>
-
-</script>
 <style type="text/css">
     table {
         border-collapse: collapse !important;
@@ -29,9 +26,36 @@
         padding: 8px !important; /* 셀의 여백 설정 */
     }
 </style>
+<script>
+	$(document).ready(function() {
+		$(".update_btn").click(function() {
+			alert(1)
+			
+			$("#editModal").modal('show');
+		});
+		
+		$(".delete_btn").click(function() {
+			// 서버로 이메일 값 전송
+	         $.ajax({
+	             type: "POST",
+	             url: "/olympic/admin/game/sport/delete.do",
+	             data: { email: email },
+	             success: function(data) {
+	            	 if(data == 1){
+		            	 alert("");
+	            	 }else{
+	                	 alert("오류 발생.");
+	                	 return;
+	                 }
+	             }
+	         });
+		});
+	});
+</script>
 </head>
 
 <body>
+	<%@include file="/WEB-INF/views/admin/game/item/modals.jsp"%>
 	<div id="wrapper">
 	<!-- 슬라이더 바 -->
 	<%@include file="/WEB-INF/views/common/adminslide.jsp"%>
@@ -104,29 +128,32 @@
                                         </c:if>
                                         <c:forEach var="vo" items="${map.list }">
                                             <tr>
-                                                <td>${vo.item_no }</td>
-                                                <td>${vo.a_seat_sold }</td>
-                                                <td>${vo.b_seat_sold }</td>
-                                                <td>${vo.c_seat_sold }</td>
-                                                <td>${vo.d_seat_sold }</td>
-                                                <td>${vo.vip_seat_sold }</td>
-                                                <td>${vo.state }</td>
-                                                <td>${vo.korean_advancement }</td>
-                                                <td>${vo.a_seat_price }</td>
-                                                <td>${vo.b_seat_price }</td>
-                                                <td>${vo.c_seat_price }</td>
-                                                <td>${vo.d_seat_price }</td>
-                                                <td>${vo.vip_seat_price }</td>
-                                                <td>${vo.game_id }</td>
+                                                <td id="item_no">${vo.item_no }</td>
+                                                <td id="a_seat_sold">${vo.a_seat_sold }</td>
+                                                <td id="b_seat_sold">${vo.b_seat_sold }</td>
+                                                <td id="c_seat_sold">${vo.c_seat_sold }</td>
+                                                <td id="d_seat_sold">${vo.d_seat_sold }</td>
+                                                <td id="vip_seat_sold">${vo.vip_seat_sold }</td>
+                                                <td id="state">${vo.state }</td>
+                                                <td id="korean_advancement">${vo.korean_advancement }</td>
+                                                <td id="a_seat_price">${vo.a_seat_price }</td>
+                                                <td id="b_seat_price">${vo.b_seat_price }</td>
+                                                <td id="c_seat_price">${vo.c_seat_price }</td>
+                                                <td id="d_seat_price">${vo.d_seat_price }</td>
+                                                <td id="vip_seat_price">${vo.vip_seat_price }</td>
+                                                <td id="game_id">${vo.game_id }</td>
                                                 <td>
-													<input type="button" value="수정" onclick="" id="update">
-													<input type="button" value="삭제" onclick="" id="update">
+													<button type="button" class="update_btn btn btn-info">수정</button>&ensp; 
+											        <button type="button" class="delete_btn btn btn-warning">삭제</button>
 												</td>
                                             </tr>
                                             </tr>			
                                         </c:forEach>
                                     </tbody>
 								</table>
+								<div>
+                                    <a href="/olympic/admin/game/item/write.do">상품 추가</a>
+                                </div>
                             </div>
                         </div>
                     </div>

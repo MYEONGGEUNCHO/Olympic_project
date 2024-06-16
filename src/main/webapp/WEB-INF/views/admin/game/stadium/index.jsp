@@ -13,9 +13,6 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
-<script>
-
-</script>
 <style type="text/css">
     table {
         border-collapse: collapse !important;
@@ -29,9 +26,56 @@
         padding: 8px !important; /* 셀의 여백 설정 */
     }
 </style>
+<script>
+	$(document).ready(function() {
+		$(".update_btn").click(function() {
+			var row = $(this).closest("tr");
+			var stadium_name = row.find("stadium_name").text();
+			var stadium_img_url = row.find("stadium_img_url").text();
+			var stadium_url = row.find("stadium_url").text();
+			var stadium_en_name = row.find("stadium_en_name").text();
+			var stadium_position = row.find("stadium_position").text();
+			var a_seat_quantity = row.find("a_seat_quantity").text();
+			var b_seat_quantity = row.find("b_seat_quantity").text();
+			var c_seat_quantity = row.find("c_seat_quantity").text();
+			var d_seat_quantity = row.find("d_seat_quantity").text();
+			var vip_seat_quantity = row.find("vip_seat_quantity").text();
+			
+			$("#stadium_name").val(stadium_name);
+			$("#stadium_img_url").val(stadium_img_url);
+			$("#stadium_url").val(stadium_url);
+			$("#stadium_en_name").val(stadium_en_name);
+			$("#stadium_position").val(stadium_position);
+			$("#a_seat_quantity").val(a_seat_quantity);
+			$("#b_seat_quantity").val(b_seat_quantity);
+			$("#c_seat_quantity").val(c_seat_quantity);
+			$("#d_seat_quantity").val(d_seat_quantity);
+			$("#vip_seat_quantity").val(vip_seat_quantity);
+			
+			$("#editModal").modal('show');
+		});
+		
+		$(".delete_btn").click(function() {
+			// 서버로 이메일 값 전송
+	         $.ajax({
+	             type: "POST",
+	             url: "/olympic/admin/game/stadium/delete.do",
+	             data: { email: email },
+	             success: function(data) {
+	            	 if(data == 1){
+		            	 alert("해당 회원의 비밀번호를 생년월일로 초기화 하였습니다.");
+	            	 }else{
+	                	 alert("오류 발생.");
+	                	 return;
+	                 }
+	             }
+	         });
+		});
+	});
+</script>
 </head>
-
 <body>
+	<%@include file="/WEB-INF/views/admin/game/stadium/modals.jsp"%>
 	<div id="wrapper">
 	<!-- 슬라이더 바 -->
 	<%@include file="/WEB-INF/views/common/adminslide.jsp"%>
@@ -97,25 +141,28 @@
 										</c:if>
 										<c:forEach var="vo" items="${map.list }">
 											<tr>
-												<td>${vo.stadium_no }</td>
-												<td>${vo.stadium_name }</td>
-												<td>${vo.stadium_img_url }</td>
-												<td>${vo.stadium_url }</td>
-												<td>${vo.stadium_en_name }</td>
-												<td>${vo.stadium_position }</td>
-												<td>${vo.a_seat_quantity }</td>
-												<td>${vo.b_seat_quantity }</td>
-												<td>${vo.c_seat_quantity }</td>
-												<td>${vo.d_seat_quantity }</td>
-												<td>${vo.vip_seat_quantity }</td>
+												<td id="stadium_no">${vo.stadium_no }</td>
+												<td id="stadium_name">${vo.stadium_name }</td>
+												<td id="stadium_img_url">${vo.stadium_img_url }</td>
+												<td id="stadium_url">${vo.stadium_url }</td>
+												<td id="stadium_en_name">${vo.stadium_en_name }</td>
+												<td id="stadium_position">${vo.stadium_position }</td>
+												<td id="a_seat_quantity">${vo.a_seat_quantity }</td>
+												<td id="b_seat_quantity">${vo.b_seat_quantity }</td>
+												<td id="c_seat_quantity">${vo.c_seat_quantity }</td>
+												<td id="d_seat_quantity">${vo.d_seat_quantity }</td>
+												<td id="vip_seat_quantity">${vo.vip_seat_quantity }</td>
 												<td>
-													<input type="button" value="수정" onclick="" id="update">
-													<input type="button" value="삭제" onclick="" id="update">
+													<button type="button" class="update_btn btn btn-info">수정</button>&ensp; 
+											        <button type="button" class="delete_btn btn btn-warning">삭제</button>
 												</td>
 											</tr>
 										</c:forEach>
 									</tbody>
 								</table>
+								<div>
+                                    <a href="/olympic/admin/game/stadium/write.do">경기장 추가</a>
+                                </div>
                             </div>
                         </div>
                     </div>

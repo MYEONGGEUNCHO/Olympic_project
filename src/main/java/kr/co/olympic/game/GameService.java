@@ -18,7 +18,7 @@ public interface GameService {
 	//경기 생성
 	int createGame(GameVO game);
 	//경기 상세조회
-	GameVO detailGame(GameVO game);
+	GameVO detailGame(Map<String, Object> map);
 	//경기 수정
 	int updateGame(GameVO game);
 	//경기 삭제

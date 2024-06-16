@@ -49,6 +49,7 @@ public class GameServiceImpl implements GameService {
 	
 	@Override
 	public List<GameVO> searchGame(GameVO game) {
+		System.out.println(game.toString());
 		return mapper.searchGame(game);
 	}
 
@@ -68,8 +69,8 @@ public class GameServiceImpl implements GameService {
 	}
 
 	@Override
-	public GameVO detailGame(GameVO game) {
-		GameVO result = mapper.detailGame(game);
+	public GameVO detailGame(Map<String, Object> map) {
+		GameVO result = mapper.detailGame(map);
 		result.setItem(itemMapper.detailItem(result));
 		result.setStadium(stadiumMapper.detailStadium(result));
 		result.setSport(sportMapper.detailSport(result));
@@ -78,12 +79,12 @@ public class GameServiceImpl implements GameService {
 
 	@Override
 	public int updateGame(GameVO game) {
-		return 0;
+		return mapper.updateGame(game);
 	}
 
 	@Override
 	public int deleteGame(GameVO game) {
-		return 0;
+		return mapper.deleteGame(game);
 	}
 
 	@Override
