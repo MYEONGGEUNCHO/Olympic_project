@@ -18,7 +18,7 @@
     font-size: 60px;
 }
 </style>
-<script src="https://maps.googleapis.com/maps/api/js?key=${apiKey}"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=${apikey}"></script>
 <script src="../js/jquery-3.7.1.min.js"></script>
 <script>
     var geocoder;
