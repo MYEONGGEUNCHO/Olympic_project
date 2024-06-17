@@ -1,12 +1,15 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!doctype html>
 <html lang="ko">
 <head>
-<script src="https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js"></script>
+<script
+	src="https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js"></script>
 <!-- Editor's Style -->
-<link rel="stylesheet" href="https://uicdn.toast.com/editor/latest/toastui-editor.min.css" />
+<link rel="stylesheet"
+	href="https://uicdn.toast.com/editor/latest/toastui-editor.min.css" />
 
 <script src="../js/jquery-3.7.1.min.js"></script>
 <script>
@@ -144,23 +147,31 @@ function reply_open() {
 				<div class="col-12">
 					<!-- Heading -->
 					<h4 class="mb-10 text-center">문의 내용 확인</h4>
-					<!-- TODO:: post요청 보내고 받아야함 -->
-					<c:if test="${empty qna.reply && !empty login && login.state == 1 && qna.member_no == login.member_no}">
-						<div class="btn-group d-flex justify-content-end" role="group" aria-label="Buttons">
-							<button type="button" id="modify" class="btn-circle btn-sm m-1 btn-outline-secondary" title="수정하기">
+					<!-- 일반 유저일 때 -->
+					<c:if
+						test="${empty qna.reply && !empty login && login.state == 0 && qna.member_no == login.member_no}">
+						<div class="btn-group d-flex justify-content-end" role="group"
+							aria-label="Buttons">
+							<button type="button" id="modify"
+								class="btn-circle btn-sm m-1 btn-outline-secondary" title="수정하기">
 								<i class="fa-regular fa-pen-to-square"></i>
 							</button>
-							<button type="button" id="delete" class="btn-circle btn-sm m-1 btn-outline-secondary" title="삭제하기">
+							<button type="button" id="delete"
+								class="btn-circle btn-sm m-1 btn-outline-secondary" title="삭제하기">
 								<i class="fa-regular fa-trash-can"></i>
 							</button>
 						</div>
 					</c:if>
-					<c:if test="${login.state == 3 && qna.member_no == login.member_no }">
-						<div class="btn-group d-flex justify-content-end" role="group" aria-label="Buttons">
-							<button type="button" id="modify" class="btn-circle btn-sm m-1 btn-outline-secondary" title="수정하기">
+					<!-- admin일 때 -->
+					<c:if test="${!empty login && login.state == 3 }">
+						<div class="btn-group d-flex justify-content-end" role="group"
+							aria-label="Buttons">
+							<button type="button" id="modify"
+								class="btn-circle btn-sm m-1 btn-outline-secondary" title="수정하기">
 								<i class="fa-regular fa-pen-to-square"></i>
 							</button>
-							<button type="button" id="delete" class="btn-circle btn-sm m-1 btn-outline-secondary" title="삭제하기">
+							<button type="button" id="delete"
+								class="btn-circle btn-sm m-1 btn-outline-secondary" title="삭제하기">
 								<i class="fa-regular fa-trash-can"></i>
 							</button>
 						</div>
@@ -174,8 +185,8 @@ function reply_open() {
 									<div class="col-12 col-md-auto">
 										<!-- Avatar -->
 										<div class="avatar avatar-xxl mb-6 mb-md-0">
-											<span class="avatar-title rounded-circle">
-												<i class="fa fa-user"></i>
+											<span class="avatar-title rounded-circle"> <i
+												class="fa fa-user"></i>
 											</span>
 										</div>
 									</div>
@@ -183,19 +194,22 @@ function reply_open() {
 										<!-- Header -->
 										<div class="row mb-4">
 											<div class="col-12">
-												<span class="fs-xs text-muted d-flex justify-content-end">조회수 : ${qna.readcnt }</span>
+												<span class="fs-xs text-muted d-flex justify-content-end">조회수
+													: ${qna.readcnt }</span>
 												<div class="fx-xs text-bold">${empty qna.name ? '알 수 없음' : qna.name}님</div>
 												<!-- Time -->
 												<c:if test="${empty qna.update_date}">
 													<p id="date" class="fs-xs text-muted">
 														작성일자 :
-														<fmt:formatDate value="${qna.regdate}" pattern="yyyy-MM-dd HH시 mm분" />
+														<fmt:formatDate value="${qna.regdate}"
+															pattern="yyyy-MM-dd HH시 mm분" />
 													</p>
 												</c:if>
 												<c:if test="${!empty qna.update_date}">
 													<p id="date" class="fs-xs text-muted">
 														수정일자 :
-														<fmt:formatDate value="${qna.update_date}" pattern="yyyy-MM-dd HH시 mm분" />
+														<fmt:formatDate value="${qna.update_date}"
+															pattern="yyyy-MM-dd HH시 mm분" />
 													</p>
 												</c:if>
 											</div>
@@ -234,8 +248,8 @@ function reply_open() {
 												<div class="col-12 col-md-auto">
 													<!-- Avatar -->
 													<div class="avatar avatar-xxl mb-6 mb-md-0">
-														<span class="avatar-title rounded-circle">
-															<i class="fa fa-user"></i>
+														<span class="avatar-title rounded-circle"> <i
+															class="fa fa-user"></i>
 														</span>
 													</div>
 												</div>
@@ -245,11 +259,13 @@ function reply_open() {
 														<div class="col-12">
 															<div class="fx-xs text-bold">관리자 답변</div>
 															<!-- Time -->
-															<span class="fs-xs text-muted d-flex justify-content-between">
+															<span
+																class="fs-xs text-muted d-flex justify-content-between">
 																<c:if test="${!empty qna.reply}">
 																	<p id="date" class="fs-xs text-muted">
 																		답변일자 :
-																		<fmt:formatDate value="${qna.reply_date}" pattern="yyyy-MM-dd HH시 mm분" />
+																		<fmt:formatDate value="${qna.reply_date}"
+																			pattern="yyyy-MM-dd HH시 mm분" />
 																	</p>
 																</c:if>
 
@@ -261,7 +277,8 @@ function reply_open() {
 													<c:if test="${empty qna.reply}">
 														<p class="text-gray-500">아직 답변이 작성되지 않았습니다.</p>
 														<c:if test="${login.state == 3 }">
-															<a id="reply_open" href="javascript:;" onclick="reply_open()">답변 창 열기</a>
+															<a id="reply_open" href="javascript:;"
+																onclick="reply_open()">답변 창 열기</a>
 															<div id="reply_content" style="display: none;">
 																<div id="reply_editor"></div>
 																<button type="button" id="reply_write">등록하기</button>
