@@ -36,8 +36,6 @@
 
     function codeAddress() {
         var address = '${game.stadium.stadium_position}';
-        
-        console.log('${apikey}');
         geocoder.geocode({ 'address': address }, function(results, status) {
             if (status === 'OK') {
                 map.setCenter(results[0].geometry.location);
