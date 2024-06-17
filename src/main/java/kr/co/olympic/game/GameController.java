@@ -13,6 +13,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import kr.co.olympic.member.MemberVO;
 
@@ -77,6 +79,7 @@ public class GameController {
 	}
 	
 	@GetMapping("listComment.do")
+	@ResponseBody
 	public List<CommentVO> listComment(Model model, HttpSession session, GameVO game) {
 		return gameService.listComment(game);
 	}

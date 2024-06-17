@@ -27,7 +27,7 @@
 
         function loadComments() {
             $.ajax({
-                url: 'listComment',
+                url: 'listComment.do',
                 type: 'GET',
                 data: { 
                     game_id: '${game.game_id}' 
@@ -53,7 +53,7 @@
         }
 
         $.ajax({
-            url: '/olympic/game/createComment',  // 댓글 작성 요청 URL
+            url: 'createComment.do',  // 댓글 작성 요청 URL
             type: 'POST',
             contentType: 'application/json',
             data: JSON.stringify({ 
