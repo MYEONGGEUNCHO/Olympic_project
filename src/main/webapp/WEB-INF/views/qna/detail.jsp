@@ -162,7 +162,7 @@ function reply_open() {
 							</button>
 						</div>
 					</c:if>
-					<!-- admin일 때 -->
+					<!-- admin일 때 TODO:조건 확인 필요-->
 					<c:if test="${!empty login && login.state == 3 }">
 						<div class="btn-group d-flex justify-content-end" role="group"
 							aria-label="Buttons">
