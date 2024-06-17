@@ -10,63 +10,36 @@
 		ORDER BY game_id;
     </select>
     <!-- #경기관련 -->
-	<sql id="searchGame">
+	<sql id="searchDateSport">
 		<where>
-			<if test="search_sport == 'all'">
-				korea_date = ${search_date }
-			</if>
-			<if test="search_sport != 'all'">
-				korea_date = ${search_sport } and sport_name = ${search_sport }
-			</if>
+			<choose>
+				<when test="korea_date != null and korea_date != ''">
+					<if test="sport_name == 'all'">
+						korea_date = ${korea_date }
+					</if>
+					<if test="sport_name != 'all'">
+						korea_date = ${korea_date } and sport_name = ${sport_name }
+					</if>
+				</when>
+				<when test="korea_date == null">
+					<if test="sport_name == 'all'">
+						korea_date = "2024-07-16"
+					</if>
+				</when>
+			</choose>
 		</where>
 	</sql>
     <!-- 검색 리스트  -->
 	<select id="searchGame" parameterType="map"
 		resultType="kr.co.olympic.game.GameVO">
 		SELECT a.*
-			, b.sport_pictogram
-			, CASE
-				WHEN EXISTS (
-					SELECT 1 
-					FROM favorite_game fg
-					WHERE fg.game_id = game_id
-				)
-				THEN 1
-				ELSE 0
-			END AS favorite
-		FROM game a
-		LEFT JOIN (
-			SELECT s.sport_pictogram, s.sport_code
-			FROM sport s) b
-		ON a.sport_code = b.sport_code
-		<include refid="searchGame"></include>
+			, (SELECT count(*) FROM favorite_game WHERE member_no=#{member_no} and game_id = a.game_id) as favorite
+			, (SELECT sport_pictogram FROM sport WHERE sport_code = a.sport_code) sport_pictogram
+		FROM game as a
+		<include refid="searchDateSport"></include>
 		ORDER BY game_id; 
     </select>
     
-    <!-- 검색 리스트  -->
-	<select id="searchGame2" parameterType="map"
-		resultType="kr.co.olympic.game.GameVO">
-		SELECT a.*
-			, b.sport_pictogram
-			, CASE
-				WHEN EXISTS (
-					SELECT 1 
-					FROM favorite_game fg
-					WHERE fg.member_no = #{member_no }
-				)
-				THEN 1
-				ELSE 0
-			END AS favorite
-		FROM game a
-		LEFT JOIN (
-			SELECT s.sport_pictogram, s.sport_code
-			FROM sport s) b
-		ON a.sport_code = b.sport_code
-		<!-- 
-		<include refid="searchGame"></include>
-		 -->
-		ORDER BY game_id; 
-    </select>
     <!-- 경기 조회 -->
 	<select id="detailGame" parameterType="map" 
 		resultType="kr.co.olympic.game.GameVO">

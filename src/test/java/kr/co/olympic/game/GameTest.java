@@ -5,7 +5,6 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -17,6 +16,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
+import kr.co.olympic.member.MemberVO;
 import lombok.extern.log4j.Log4j;
 
 @Log4j
@@ -41,10 +41,12 @@ public class GameTest {
     // 경기 검색 리스트
     @Test
     public void searchGame() {
-    	GameVO vo = new GameVO();
-    	vo.setSearch_date("2024-07-16");
-    	vo.setSearch_sport("축구");
-    	List<GameVO> list = mapper.searchGame(vo);
+    	GameVO game = new GameVO();
+    	MemberVO member = new MemberVO();
+    	Map<String, Object> map = new HashMap<String, Object>();
+    	map.put("game", game);
+    	map.put("member", member);
+    	List<GameVO> list = mapper.searchGame(map);
     }
     
     // 경기 날짜별 리스트
@@ -144,14 +146,5 @@ public class GameTest {
 
         int result = mapper.deleteGame(vo);
         assertTrue(result == 1); // 삭제 성공 여부 확인
-    }
-    
-    // 경기 댓글 리스트 조회
-    @Test
-    public List<CommentVO> listComment() {
-    	GameVO vo = new GameVO();
-        vo.setGame_id(1);
-        
-        return mapper.listComment(vo);
     }
 }

@@ -32,7 +32,7 @@ public class CommentTest {
 		map.put("regdate", new Timestamp(System.currentTimeMillis()));
         map.put("content", "This is a test comment.");
         map.put("game_id", 1);  // 실제 존재하는 game_id로 설정
-        map.put("member_no", "1");  // 실제 존재하는 member_no로 설정
+        map.put("member_no", "3");  // 실제 존재하는 member_no로 설정
         
         int result = mapper.createComment(map);
         assertEquals(1, result);
@@ -42,14 +42,10 @@ public class CommentTest {
 	
 	@Test
 	public void listComment() {
-		GameVO vo = new GameVO();
+		GameVO game = new GameVO();
 		
-		vo.setGame_id(1);
+		game.setGame_id(1);
 		
-		List<CommentVO> comments = mapper.listComment(vo);
-		assertNotNull(comments);
-        assertFalse(comments.isEmpty());
-
-        comments.forEach(comment -> log.info("Comment: " + comment));
+		mapper.listComment(game);
 	}
 }

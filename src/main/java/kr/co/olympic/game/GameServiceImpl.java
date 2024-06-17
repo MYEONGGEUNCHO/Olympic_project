@@ -1,5 +1,6 @@
 package kr.co.olympic.game;
 
+import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -48,9 +49,8 @@ public class GameServiceImpl implements GameService {
 	}
 	
 	@Override
-	public List<GameVO> searchGame(GameVO game) {
-		System.out.println(game.toString());
-		return mapper.searchGame(game);
+	public List<GameVO> searchGame(Map<String, Object> map) {
+		return mapper.searchGame(map);
 	}
 
 	@Override
@@ -89,8 +89,8 @@ public class GameServiceImpl implements GameService {
 
 	@Override
 	public int createComment(Map<String, Object> map) {
-
-		return 0;
+		map.put("regdate", new Timestamp(System.currentTimeMillis()));
+		return mapper.createComment(map);
 	}
 
 	@Override
