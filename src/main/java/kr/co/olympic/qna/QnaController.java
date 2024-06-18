@@ -82,11 +82,7 @@ public class QnaController {
 	@ResponseBody
 	public ResponseEntity<String> delete(@RequestBody QnaVO qnaVO, HttpSession session) {
 		MemberVO loginMember = (MemberVO) session.getAttribute("login");
-		if (loginMember == null) {
-			loginMember = new MemberVO();
-			loginMember.setMember_no("3333"); // 테스트용 데이터
-		}
-		if (loginMember.getMember_no().equals(qnaVO.getMember_no())) {
+		if (loginMember.getState() == 3 || loginMember.getMember_no().equals(qnaVO.getMember_no())) {
 			service.delete(qnaVO);
 		} else {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("실패");
