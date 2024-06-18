@@ -3,28 +3,35 @@
 <!doctype html>
 <html lang="ko">
 <style>
-	::-webkit-scrollbar {
-        height: 4px;
+	 #couponlist::-webkit-scrollbar {
+        width: 4px;
     }
 
-    ::-webkit-scrollbar-thumb {
+     #couponlist::-webkit-scrollbar-thumb {
         background: rgba(136, 136, 136, 0.3);
         border-radius: 10px;
         min-height: 20px;
     }
 
-    ::-webkit-scrollbar-thumb:hover {
+     #couponlist::-webkit-scrollbar-thumb:hover {
         background: rgba(85, 85, 85, 0.3);
     }
 
-    ::-webkit-scrollbar-track {
+     #couponlist::-webkit-scrollbar-track {
         background: rgba(241, 241, 241, 0.5);
     }
     
     #couponlist {
-        max-height: 400px; 
+        max-height: 360px; 
         overflow-y: auto;  
+        
     }
+    #coupon {
+	    border-left: 5px solid red; 
+	    border-top :1px solid black;
+	    border-bottom :1px solid black;
+	    border-right :1px solid black;
+	}
 </style>
 <body>
 	<!-- 	공통 모달 - 헤더 장바구니 등 클릭 시 나오는 사이드 창 -->
@@ -44,30 +51,30 @@
        </div>
        <div class="row">
          <%@include file="../common/mypage.jsp"%>
-		<div class="col-12 col-md-9 col-lg-8 offset-lg-1">
+			<div class="col-12 col-md-9 col-lg-8 offset-lg-1">
 		    <!-- Heading -->
-		    <h5 class="ms-auto text-end me-2">
+		    <h5 class="mt-7 mb-7">
 		        보유쿠폰 <span class="fs-2 fw-semibold">${coupon.size()} </span> 장
 		    </h5>
+		    <div id="couponlist">
 		    <c:if test="${coupon.size() == 0 }" >
 		    	<div class="text-center">보유하신 쿠폰이 없습니다.</div>
 		    </c:if>
-		    <div id="couponlist">
 		    <!-- Card -->
 		    	<c:forEach var="coupon" items="${coupon}">
-		        	<div class="card card-lg bg-light mb-8">
+		        	<div class="card card-lg mb-8 me-3" id="coupon">
 		            	<div class="card-body p-5">
 		                	<div class="row">
-		                    	<div class="col-9">
+		                    	<div class="col-8 pl-3">
 		                        	<!-- Heading -->
 		                        	<h4 class="mt-2 mb-3">${coupon.content}</h4>
 		                        	<!-- Text -->
 		                        	<p class="mb-0"><strong>쿠폰 번호:</strong> ${coupon.coupon_no}</p>
 		                    	</div>
-		                    	<div class="col-3 text-end">
+		                    	<div class="col-4 text-end">
 		                        	<!-- Text -->
-		                        	<p class="mb-5">
-		                            	<span class="fw-bold fs-2">${coupon.discount} %</span>
+		                        	<p class="mb-0">
+		                            	<span class="fw-bold fs-1">${coupon.discount} %</span>
 		                        	</p>
 		                    	</div>
 		                	</div>

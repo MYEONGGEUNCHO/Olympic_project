@@ -42,7 +42,16 @@
                         <h6 class="collapse-header">Login Screens:</h6>
                         <a class="collapse-item" href="/olympic/admin/login.do">Login</a>
                         <a class="collapse-item" href="/olympic/admin/index.do">Member</a>
-                        <a class="collapse-item" href="/olympic/admin/game/index.do">Game</a>
+                        <a class="collapse-item" href="#" data-toggle="collapse" data-target="#collapseGame"
+			               aria-expanded="true" aria-controls="collapseGame">Game</a>
+			            <div id="collapseGame" class="collapse" aria-labelledby="headingGame" data-parent="#collapsePages">
+			                <div class="bg-light py-2 collapse-inner rounded">
+			                    <a class="collapse-item" href="/olympic/admin/game/index.do">Game</a>
+			                    <a class="collapse-item" href="/olympic/admin/game/stadium/index.do">Stadium</a>
+			                    <a class="collapse-item" href="/olympic/admin/game/sport/index.do">Sport</a>
+			                    <a class="collapse-item" href="/olympic/admin/game/item/index.do">Item</a>
+			                </div>
+			            </div>
                         <a class="collapse-item" href="/olympic/qna/index.do">QnA</a>
                         <a class="collapse-item" href="/olympic/member/logout.do">Logout</a>
                     </div>
