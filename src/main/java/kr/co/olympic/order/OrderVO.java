@@ -19,6 +19,9 @@ public class OrderVO {
     private int original_price;
     private int point;
     private String member_email;
+    private int is_paid;
+    private int is_canceled;
+    private int is_refunded;
     
     // Order 객체를 생성할 때 UUID를 자동으로 생성하도록 하는 생성자
     public OrderVO() {

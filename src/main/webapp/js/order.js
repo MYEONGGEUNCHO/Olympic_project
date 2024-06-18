@@ -9,6 +9,8 @@ document.addEventListener("DOMContentLoaded", function() {
     let originalTotalPrice = parseInt(hiddenTotalPriceElement.value);
     let selectedCouponNo = ''; // 쿠폰 번호 저장 변수
     
+    
+    
     applyCouponButton.addEventListener('click', () => {
         const selectedCoupon = couponSelect.options[couponSelect.selectedIndex];
         selectedCouponNo = selectedCoupon.value; // 선택된 쿠폰 번호 저장
@@ -24,8 +26,29 @@ document.addEventListener("DOMContentLoaded", function() {
         couponSelect.selectedIndex = 0;
         selectedCouponNo = ''; // 쿠폰 번호 초기화
     });
+    
+    // 10분 타이머 설정
+    const timeoutMinutes = 1;
+    const timeoutMilliseconds = timeoutMinutes * 60 * 1000;
+    const countdownElement = document.getElementById('countdown');
+    const startTime = Date.now();
+
+    let countdownInterval = setInterval(() => {
+        const remainingTime = timeoutMilliseconds - (Date.now() - startTime);
+        const minutes = Math.floor(remainingTime / (60 * 1000));
+        const seconds = Math.floor((remainingTime % (60 * 1000)) / 1000);
+        //countdownElement.innerText = `남은 시간: ${minutes}분 ${seconds}초`;
+
+        if (remainingTime <= 0) {
+            clearInterval(countdownInterval);
+            alert('결제 시간이 초과되었습니다. 다시 시도해주세요.');
+            window.location.href = '/olympic/index.do'; // 메인 페이지로 리다이렉트
+        }
+    }, 1000);
 
     const onClickPay = async () => {
+    	clearInterval(countdownInterval);
+    	
          // 히든 필드에서 값을 가져옴
         const buyer_name = document.getElementById('hidden_buyer_name').value;
         const buyer_email = document.getElementById('hidden_buyer_email').value;
@@ -43,6 +66,7 @@ document.addEventListener("DOMContentLoaded", function() {
         const total_price = hiddenTotalPriceElement.value;
         const game_id = document.getElementById('hidden_game_id').value;
         const item_no = document.getElementById('hidden_item_no').value;
+        const stadium_no = document.getElementById('hidden_stadium_no').value;
         const content = document.getElementById('hidden_content').value;
 
         const paymentVO = {
@@ -62,6 +86,7 @@ document.addEventListener("DOMContentLoaded", function() {
             total_price: total_price,
             game_id: game_id,
             item_no: item_no,
+            stadium_no: stadium_no,
             content: content,
             coupon_no: selectedCouponNo // 선택된 쿠폰 번호 추가
         };
@@ -107,7 +132,8 @@ document.addEventListener("DOMContentLoaded", function() {
                     }).then(response => {
                         if (response.ok) {
                             alert('결제가 완료되었습니다.');
-                            window.location.href = '/olympic/order/finish.do';
+                            const encodedOrderNo = encodeURIComponent(savedOrder.order_no);
+        					window.location.href = `/olympic/order/finish.do?order_no=${encodedOrderNo}`;
                         } else {
                             alert('UID 업데이트에 실패하였습니다.');
                         }

@@ -59,4 +59,19 @@ public interface OrderMapper {
     int getTotalAvailablePoints(MemberVO member);
     //주문 상세 정보 조회
     List<OrderDTO> listOrder(MemberVO vo);
+    //좌석수 증가 로직
+    void updateSeatSoldCount(PaymentVO payment);
+    //좌석수 되돌리기 
+    void releaseSeatSold(PaymentVO paymentVO);
+    
+    //진입 시간 기록 
+    void recordEntryTime(Map<String, Object> params);
+    //유효시간 지났으면 알아서 삭제 
+    void releaseUnpaidSeats();
+    //결제 안된 좌석수 되돌리기 
+    void rollbackSeatCounts(Map<String, Object> params);
+    
+    List<PaymentVO> getExpiredReservations();
+    
+    void updateReservationToConfirmed(Map<String, Object> params);
 }

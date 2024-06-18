@@ -1,4 +1,4 @@
-<%@ page contentType="text/html;charset=UTF-8" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -9,9 +9,10 @@
     <h1>경기 상세</h1>
     <form id="paymentForm" action="/olympic/order/initOrder" method="post">
    		
-        <input type="hidden" id="game_id" name="game_id" value="1">
+        <input type="hidden" id="game_id" name="game_id" value="500">
+        <input type="hidden" id="item_no" name="item_no" value="500">
+        <input type="hidden" id="stadium_no" name="stadium_no" value="16">
         <input type="hidden" id="content" name="content" value="32강 남자 축구 미국 vs 중국">
-        <input type="hidden" id="item_no" name="item_no" value="100">
 
         <label for="a_seat_price">A석 가격:</label>
         <input type="number" id="a_seat_price" name="a_seat_price" value="10000"><br>
