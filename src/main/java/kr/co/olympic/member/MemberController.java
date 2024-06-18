@@ -21,6 +21,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import kr.co.olympic.game.GameService;
 import kr.co.olympic.game.GameVO;
+import kr.co.olympic.order.OrderDTO;
+import kr.co.olympic.order.OrderService;
 import kr.co.olympic.qna.QnaSearchDTO;
 import kr.co.olympic.qna.QnaService;
 import kr.co.olympic.qna.QnaVO;
@@ -35,6 +37,17 @@ public class MemberController {
 	private GameService gameservice;
 	@Autowired
 	private QnaService qnaservice;
+	@Autowired
+	private OrderService orderservice;
+	
+	//테스트용 지워야함
+	@GetMapping("/member/order.do")
+	public String order(HttpSession sess, Model model) {
+		MemberVO vo = (MemberVO)sess.getAttribute("login");
+		List<OrderDTO> order= orderservice.listOrder(vo);
+		model.addAttribute("order", order);
+		return "member/order";
+	}
 	
 	@GetMapping("/member/favorite.do")
 	public String favorite(HttpSession sess, Model model) {
@@ -58,11 +71,6 @@ public class MemberController {
         return gameservice.deleteFavorite(map); // 삭제 성공 시 1, 실패 시 0 반환
 	}
 	
-	//테스트용 지워야함
-	@GetMapping("/member/order.do")
-	public String order() {
-		return "member/order";
-	}
 
 	@GetMapping("/member/qna.do")
 	public String qna(HttpSession sess, Model model) {

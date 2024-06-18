@@ -97,16 +97,22 @@ public class MemberServiceImpl implements MemberService {
 		message.setSubject("[olympic] 회원가입을 위한 이메일 인증코드 입니다"); // 이메일 제목
 
 		String msgg = "";
-		msgg += "<h1>안녕하세요</h1>";
-		msgg += "<h1>Olypic 사이트에 방문해 주셔서 감사합니다.</h1>";
-		msgg += "<br>";
+		msgg += "<div style='font-family: Arial, sans-serif; margin: 0; padding: 0; text-align: center; border: 1px solid black;'>";
+		msgg += "<div class='header' style='margin-top:3%;'>";
+		msgg += "<img src='https://olympics.com/images/static/b2p-images/logo_color.svg' alt='오륜기' style='width:100%; max-width:600px; height:auto; margin-bottom:5%'>";
+		msgg += "</div>";
+		msgg += "<div class='content' style='padding: 20px;'>";
+		msgg += "<h1>Olympic 사이트에 방문해 주셔서 감사합니다.</h1>";
 		msgg += "<p>아래 인증코드를 회원가입 페이지에 입력해주세요</p>";
-		msgg += "<br>";
-		msgg += "<br>";
-		msgg += "<div align='center' style='border:1px solid black'>";
-		msgg += "<h3 style='color:blue'>회원가입 인증코드 입니다</h3>";
+		msgg += "<div class='code-box'style='font-size: 130%; margin-top: 10px;'>";
+		msgg += "<h3>회원가입 인증코드 입니다</h3>";
 		msgg += "<div style='font-size:130%'>";
-		msgg += "<strong>" + ePw + "</strong></div><br/>"; // 메일에 인증번호 ePw 넣기
+		msgg += "<div><strong style='color: red;'>" + ePw + "</strong></div>"; // 메일에 인증번호 ePw 넣기
+		msgg += "</div>";
+		msgg += "</div>";
+		msgg += "<div class='footer' style='position: relative; overflow: hidden; height: 70vh; margin-top:5%;'>";
+		msgg += "<img src='https://img.olympics.com/images/image/private/t_16-9_1920/f_auto/primary/fruxzacvbdyyunj6fczo' alt='올림픽' style='width:100%;  height:auto;  opacity: 0.7;'>";
+		msgg += "</div>";
 		msgg += "</div>";
 		message.setText(msgg, "utf-8", "html"); // 메일 내용, charset타입, subtype
 		// 보내는 사람의 이메일 주소, 보내는 사람 이름
