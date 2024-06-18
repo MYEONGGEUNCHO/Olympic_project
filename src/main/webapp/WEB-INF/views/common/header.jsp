@@ -93,7 +93,7 @@
 			<ul class="navbar-nav flex-row align-items-center">
 				<li class="nav-item">
 					<c:if test="${!empty login }">
-						<div>${login.name }님 환영합니다.</div>
+						<div>${login.name }님환영합니다.</div>
 					</c:if>
 					<c:if test="${empty login }">
 						<div>로그인 후 이용하세요.</div>
@@ -101,7 +101,7 @@
 				</li>
 				<li class="nav-item">
 					<c:if test="${!empty login }">
-						<a class="nav-link" href="/olympic/member/membership.do">
+						<a class="nav-link" data-bs-toggle="modal" data-bs-target="#modalLoginForm" href="#modalLoginForm">
 							<i class="fe fe-user"></i>
 						</a>
 					</c:if>

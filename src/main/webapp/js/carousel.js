@@ -9,7 +9,6 @@ $(function() {
 		success: function(response) {
 			CAROUSEL_LENGTH = response.length - 1;
 			$.each(response, function(index, item) {
-				console.log(item);
 				$("#carousel").append(
 					'<div id="carousel-item" class="bg-cover"><img src="carousel?filename='
 					+ item + '"></div>')
@@ -39,20 +38,17 @@ $(function() {
 		}
 	};
 	let xPos;
-
 	$("#next_button").on("click", nextEvent);
 	$("#prev_button").on("click", prevEvent);
-	$("#carousel").on("dragstart", function(event) {
-		xPos = event.clientX;
-		console.log("클릭됨", xPos);
-	})
-	$("#carousel").on("dragend", function(event) {
-		console.log("클릭 뗌", event.clientX)
-		if (xPos - event.clientX > 100) {
-			nextEvent();
-		} else if (event.clientX - xPos > 100) {
+	$("#carousel-container > *").on("mousedown", function(event) {
+		xPos = event.screenX;
+	});
+	$("*").on("mouseup", function(event) {
+		if (xPos - event.screenX > 100) {
 			prevEvent();
+		} else if (event.screenX - xPos > 100) {
+			nextEvent();
 		}
-	})
+	});
 
 });

@@ -56,25 +56,38 @@
 	right: 2%;
 }
 
+#black-container {
+	width: 100%;
+	height: 100%;
+	position: absolute;
+}
+
 #prev_button>svg, #next_button>svg {
 	max-height: 70px;
 	height: 5em;
 	color: white;
-	opacity: 80%;
+	opacity: 30%;
 }
 
-#fixed-container {
+#fixed-contents {
 	position: absolute;
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	align-contents: center;
-	height: 100%;
 	width: 100%;
 	height: 100%;
+	flex-direction: column;
+	opacity: 0.7;
 }
 
+#fixed-contents>* {
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
 </style>
+
 </head>
 <!-- NAVBAR -->
 <body>
@@ -96,42 +109,41 @@
 				<i class="fa-solid fa-caret-right"></i>
 			</div>
 			<!-- 		고정되는 부분 -->
-			<div id="fixed-container" class="bg-dark opacity-70">
-				<div class="col-12 col-md-10 col-lg-8 col-xl-6 text-center text-white">
+			<div id="black-container" class="bg-dark opacity-70"></div>
+			<div id="fixed-contents" class="col-12 col-md-10 col-lg-8 col-xl-6 text-center text-white">
 
-					<!-- Heading -->
-					<h1>We are Coming Soon</h1>
+				<!-- Heading -->
+				<h1>We are Coming Soon</h1>
 
-					<!-- Text -->
-					<p class="mb-9 fs-lg">Our team have been working on somesing amazing.</p>
+				<!-- Text -->
+				<p class="mb-9 fs-lg">올림픽을 즐겨보세요.</p>
 
-					<!-- Counter -->
-					<div class="d-flex justify-content-center mb-10" data-countdown data-date="Jul 26, 2024 00:00:00">
-						<div class="text-center">
-							<div class="fs-1 fw-bolder" data-days>00</div>
-							<div class="heading-xxs">Days</div>
-						</div>
-						<div class="px-1 px-md-4">
-							<div class="fs-2 fw-bolder">:</div>
-						</div>
-						<div class="text-center">
-							<div class="fs-1 fw-bolder" data-hours>00</div>
-							<div class="heading-xxs">Hours</div>
-						</div>
-						<div class="px-1 px-md-4">
-							<div class="fs-2 fw-bolder">:</div>
-						</div>
-						<div class="text-center">
-							<div class="fs-1 fw-bolder" data-minutes>00</div>
-							<div class="heading-xxs">Minutes</div>
-						</div>
-						<div class="px-1 px-md-4">
-							<div class="fs-2 fw-bolder">:</div>
-						</div>
-						<div class="text-center">
-							<div class="fs-1 fw-bolder" data-seconds>00</div>
-							<div class="heading-xxs">Seconds</div>
-						</div>
+				<!-- Counter -->
+				<div class="d-flex justify-content-center" data-countdown data-date="Jul 26, 2024 00:00:00">
+					<div class="text-center">
+						<div class="fs-1 fw-bolder" data-days>00</div>
+						<div class="heading-xxs">Days</div>
+					</div>
+					<div class="px-1 px-md-4">
+						<div class="fs-2 fw-bolder">:</div>
+					</div>
+					<div class="text-center">
+						<div class="fs-1 fw-bolder" data-hours>00</div>
+						<div class="heading-xxs">Hours</div>
+					</div>
+					<div class="px-1 px-md-4">
+						<div class="fs-2 fw-bolder">:</div>
+					</div>
+					<div class="text-center">
+						<div class="fs-1 fw-bolder" data-minutes>00</div>
+						<div class="heading-xxs">Minutes</div>
+					</div>
+					<div class="px-1 px-md-4">
+						<div class="fs-2 fw-bolder">:</div>
+					</div>
+					<div class="text-center">
+						<div class="fs-1 fw-bolder" data-seconds>00</div>
+						<div class="heading-xxs">Seconds</div>
 					</div>
 				</div>
 			</div>
