@@ -100,14 +100,17 @@
 					</c:if>
 				</li>
 				<li class="nav-item">
-					<c:if test="${!empty login }">
-						<a class="nav-link" data-bs-toggle="modal" data-bs-target="#modalLoginForm" href="#modalLoginForm">
+					<c:if test="${empty login }">
+						<a class="nav-link" data-bs-toggle="offcanvas" href="#modalLoginForm">
 							<i class="fe fe-user"></i>
 						</a>
 					</c:if>
-					<c:if test="${empty login }">
-						<a class="nav-link" href="/olympic/member/login.do">
+					<c:if test="${!empty login }">
+						<a class="nav-link" href="/olympic/member/membership.do">
 							<i class="fe fe-user"></i>
+						</a>
+						<a class="nav-link" href="/olympic/member/logout.do">
+							<i class="fa-solid fa-arrow-right-from-bracket"></i>
 						</a>
 					</c:if>
 				</li>
