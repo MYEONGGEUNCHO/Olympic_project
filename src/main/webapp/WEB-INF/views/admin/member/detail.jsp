@@ -27,6 +27,43 @@ $(document).ready(function() {
         lengthMenu: [ [2, 5, 7], [2, 5, 7] ],
     });
     
+    $(document).on("click", ".editBtn", function() {
+		var qna_no = parseInt($(this).data('qna-no'));
+		console.log(qna_no);
+		var delete_confirm = confirm("정말로 삭제하시겠습니까?");
+		if(delete_confirm) {
+		    $.ajax({
+			    type : "POST",
+			    url : "/olympic/qna/delete.do",
+			    headers : {
+				"Content-Type" : "application/json"
+			    },
+			    data : JSON.stringify({
+				qna_no : qna_no,
+				member_no : "${detail.member_no}"
+			    }),
+			    success : function() {
+				alert('삭제가 완료되었습니다.');
+				location.href = "/olympic/qna/index.do";
+			    },
+			    error : function(xhr, status, error) {
+				console.error("Error:", error);
+				// 에러 시 수행할 동작
+				alert('글 삭제 중 오류가 발생했습니다.');
+			    }
+			});
+		}
+    });
+    
+    $("#qnalist").on("click", "tr", function() {
+    	if (!$(event.target).hasClass('editBtn')) { //삭제 버튼이 아닐 경우
+	        // 클릭한 문의 번호 가져오기
+	        var qna_no = $(this).find(".qna").data('qna-no');
+	        //상세 페이지로 이동
+	        location.href = '/olympic/qna/detail.do?qna_no=' + qna_no;
+    	}
+    });
+    
   
 });
 </script>
@@ -143,7 +180,7 @@ $(document).ready(function() {
 										    	<col width="12%" />
 										        <col width="12%" />
 										        <col width="12%" />
-										        <col width="5%" />
+										        <col width="8%" />
 										    </colgroup>
 		                                    <thead class="fs-3">
 		                                        <tr>
@@ -236,7 +273,7 @@ $(document).ready(function() {
 			                                                        <c:otherwise>미완료</c:otherwise>
 			                                                    </c:choose>
 			                                                </td>
-			                                                <td class="py-2"><button type="button" class="p-1 editBtn btn btn-danger">삭제하기</button>
+			                                                <td class="py-2" onclick='event.cancelBubble=false;'><button type="button" class="p-1 editBtn btn btn-danger" id="deleteqna" data-qna-no="${qnaItem.qna_no}">삭제하기</button>
 			                                                </td>
 			                                            </tr>
 			                                        </c:forEach>

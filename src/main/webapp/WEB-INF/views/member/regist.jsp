@@ -2,9 +2,7 @@
 
 <!doctype html>
 <html lang="ko">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
+<script src="../js/jquery-3.7.1.min.js"></script>
 <script>
 var check = false;  //이메일 본인인증 확인 변수
 var intervalId = null; // 타이머를 관리할 변수
@@ -26,7 +24,7 @@ $(document).ready(function() {
 	    }
 		
 	    var con = true;
-	    // AJAX request to check if email is duplicated
+
 	    $.ajax({
 	        url: '/olympic/member/emailCheck.do',
 	        data: { email: email },
@@ -34,6 +32,7 @@ $(document).ready(function() {
 	        success: function(res) {
 	            if (res == '1') {
 	                alert('중복된 이메일입니다.\r\n다른 이메일을 입력해 주세요');
+	                $('#registerEmail').val("");
 	                con = false;
 	                return;
 	            } else {
@@ -65,8 +64,6 @@ $(document).ready(function() {
 	               		 success: function(data){
 
 	               			 if( data != ''){
-	               				console.log(data);
-	               				alert('인증 코드가 발송되었습니다. 이메일을 확인해주세요.');
 	               				$('#checkAuth').prop('disabled', false);
 								$('#timer').show();
 					            let time = 180;
@@ -86,12 +83,14 @@ $(document).ready(function() {
 					                }, 1000);
 					            };
 					            takeTarget();
+					            alert('인증 코드가 발송되었습니다. 이메일을 확인해주세요.');
 	               				
 	               				 
 		               			 $('#checkAuth').click(function() {
 	                                 var userInputCode = $('#authCode').val().trim();
 	                                 if (userInputCode === data) {
 	                                     alert('본인 확인이 완료되었습니다.');
+	                                     $('#emailCheck').prop('disabled', true);
 	                                     $('#registerEmail').prop('readonly', true);
 	                                     //$('#checkEmail').val('1');
 	                                     clearInterval(intervalId); // 타이머 멈춤
@@ -108,7 +107,7 @@ $(document).ready(function() {
 	               		 }	               		 
 	               	 });
 	                
-	            }
+            	}
 	        }, //success
 	        error: function() {
 	            alert('서버 오류가 발생했습니다. 다시 시도해주세요.');

@@ -176,7 +176,7 @@ $(document).ready(function() {
                                 <c:choose>
                                     <c:when test="${empty qna}">
                                         <tr>
-                                            <td colspan="4" onclick='event.cancelBubble=true;'>문의 내역이 없습니다.</td>
+                                            <td colspan="5" onclick='event.cancelBubble=true;'>문의 내역이 없습니다.</td>
                                         </tr>
                                     </c:when>
                                     <c:otherwise>
