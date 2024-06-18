@@ -5,32 +5,32 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="UTF-8">
-    <title>올림픽 경기 일정</title>
-    <style>
-        #unknown_flag {
-            width: 100px;
-            height: 100px;
-            border-radius: 50%;
-            background: gray;
-            text-align: center;
-            line-height: 100px;
-            font-size: 50px;
-        }
-		#flag {
-			width: 100px;
-            height: 100px;
-            border-radius: 50%;
-            line-height: 100px;
-		}
-		#sport_pictogram {
-			width: 200px;
-            height: 100px;
-		}
-    </style>
-    <script src="/olympic/js/jquery-3.7.1.min.js"></script>
-    <script>
-   
+<meta charset="UTF-8">
+<title>올림픽 경기 일정</title>
+<style>
+    #unknown_flag {
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        background: gray;
+        text-align: center;
+        line-height: 100px;
+        font-size: 50px;
+    }
+    #flag {
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        line-height: 100px;
+    }
+    #sport_pictogram {
+        width: 200px;
+        height: 100px;
+    }
+</style>
+<script src="/olympic/js/jquery-3.7.1.min.js"></script>
+<script>
+    
 
     function redirectToDetail(game_id) {
         window.location.href = '/olympic/game/detail.do?game_id=' + game_id;
@@ -102,35 +102,45 @@
                     <td colspan="15">등록된 종목이 없습니다.</td>
                 </tr>
             </c:if>
-            <c:forEach var="vo" items="${map}">
-                <div>
-                    <img src="${vo.sport_pictogram}" alt="" id="sport_pictogram">
-                    <c:if test="${!empty vo.country1_flag}">
-                        <img src="${vo.country1_flag}" alt="" id="flag">
-                    </c:if>
-                    <c:if test="${empty vo.country1_flag}">
-                        <div id="unknown_flag">?</div>
-                    </c:if>
-                    <c:if test="${!empty vo.country2_flag}">
-                        <img src="${vo.country2_flag}" alt="" id="flag">
-                    </c:if>
-                    <c:if test="${empty vo.country2_flag}">
-                        <div id="unknown_flag">?</div>
-                    </c:if>
-                    <p>${vo.stadium_name}</p>
-                    <p>${vo.tournament}</p>
-                    <p>${vo.korea_date}</p>
-					
-					<c:if test="${vo.favorite == 0}">
-						<i id="create_favorite" class="fa-regular fa-heart" style="color: #4f4f4f;"></i>
-					</c:if>
-					<c:if test="${vo.favorite == 1}">
-						<i id="delete_favorite" class="fa-solid fa-heart" style="color: #f51919;"></i>
-					</c:if>
-					
-                    <button onclick="redirectToDetail(${vo.game_id })">경기 상세 보기</button>
-                </div>
-            </c:forEach>
+            <c:if test="${!empty map}">
+                <c:forEach var="vo" items="${map}">
+                    <div>
+                        <img src="${vo.sport_pictogram}" alt="" id="sport_pictogram">
+                        <c:if test="${!empty vo.country1_flag}">
+                            <img src="${vo.country1_flag}" alt="" id="flag">
+                        </c:if>
+                        <c:if test="${empty vo.country1_flag}">
+                            <div id="unknown_flag">?</div>
+                        </c:if>
+                        <c:if test="${!empty vo.country2_flag}">
+                            <img src="${vo.country2_flag}" alt="" id="flag">
+                        </c:if>
+                        <c:if test="${empty vo.country2_flag}">
+                            <div id="unknown_flag">?</div>
+                        </c:if>
+                        <p>${vo.stadium_name}</p>
+                        <p>${vo.tournament}</p>
+                        <p>${vo.korea_date}</p>
+                        <c:if test="${!empty member.member_no}">
+                            <c:if test="${vo.favorite == 0}">
+                                <i id="create_favorite" class="fa-regular fa-heart" style="color: #4f4f4f;"></i>
+                            </c:if>
+                            <c:if test="${vo.favorite == 1}">
+                                <i id="delete_favorite" class="fa-solid fa-heart" style="color: #f51919;"></i>
+                            </c:if>
+                        </c:if>
+                        <c:if test="${empty member.member_no}">
+                            <c:if test="${vo.favorite == 0}">
+                                <a href="${pageContext.request.contextPath}/member/login.do">
+                                    <i id="create_favorite" class="fa-regular fa-heart" style="color: #4f4f4f;"></i>
+                                </a>
+                            </c:if>
+                        </c:if>
+                        
+                        <button onclick="redirectToDetail(${vo.game_id })">경기 상세 보기</button>
+                    </div>
+                </c:forEach>
+            </c:if>
         </div>
     </section>
     <!-- 푸터  -->

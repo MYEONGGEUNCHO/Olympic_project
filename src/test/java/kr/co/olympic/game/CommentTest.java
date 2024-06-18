@@ -30,7 +30,7 @@ public class CommentTest {
 	public void createComment() {
 		Map<String, Object> map = new HashMap<>();
 		map.put("regdate", new Timestamp(System.currentTimeMillis()));
-        map.put("content", "This is a test comment.");
+        map.put("content", "이러면 되야지?");
         map.put("game_id", 1);  // 실제 존재하는 game_id로 설정
         map.put("member_no", "3");  // 실제 존재하는 member_no로 설정
         

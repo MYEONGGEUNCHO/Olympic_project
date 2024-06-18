@@ -89,14 +89,13 @@ public class GameServiceImpl implements GameService {
 
 	@Override
 	public int createComment(Map<String, Object> map) {
-		map.put("regdate", new Timestamp(System.currentTimeMillis()));
 		return mapper.createComment(map);
 	}
 
 	@Override
 	public List<CommentVO> listComment(GameVO game) {
 		return mapper.listComment(game);
-	}
+	} 
 
 	@Override
 	public int createFavorite(Map<String, Object> map) {
