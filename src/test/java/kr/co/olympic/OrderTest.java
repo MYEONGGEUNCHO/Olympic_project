@@ -30,7 +30,7 @@ public class OrderTest {
         OrderVO order = new OrderVO();
         order.setBuy_date(new Timestamp(System.currentTimeMillis()));
         order.setState("ready");
-        order.setMember_no("1");
+        order.setMember_no("f57c671f-cf5a-4e20-a03a-8b895d625bb4");
         order.setItem_no(1);
         order.setGame_id(1);
         order.setCoupon_no("1");
@@ -79,5 +79,12 @@ public class OrderTest {
 
         List<OrderVO> orders = mapper.getOrdersByMemberPaged(member, offset, size);
         orders.forEach(order -> log.info(order));
+    }
+    
+    @Test
+    public void listOrder() {
+    	MemberVO member = new MemberVO();
+    	member.setMember_no("test@test.com");
+    	//mapper.listOrder(member);
     }
 }

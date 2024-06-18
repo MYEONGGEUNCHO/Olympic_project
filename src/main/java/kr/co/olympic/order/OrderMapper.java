@@ -1,6 +1,8 @@
 package kr.co.olympic.order;
 
 import java.util.List;
+import java.util.Map;
+
 import org.apache.ibatis.annotations.Param;
 
 import kr.co.olympic.member.CouponVO;
@@ -55,4 +57,6 @@ public interface OrderMapper {
     List<PointVO> getPointsByMemberNo(MemberVO member);
     //회원객체로 잔여 포인트 확인 
     int getTotalAvailablePoints(MemberVO member);
+    //주문 상세 정보 조회
+    List<OrderDTO> listOrder(MemberVO vo);
 }

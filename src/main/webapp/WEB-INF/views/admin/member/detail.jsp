@@ -16,7 +16,7 @@ $(document).ready(function() {
         paging: true, // 페이지네이션 사용
         searching: true, // 검색 기능 사용
         ordering: true, // 정렬 기능 사용
-        lengthMenu: [ [1, 3, 5], [1, 3, 5] ],
+        lengthMenu: [ [2, 5, 7], [2, 5, 7] ],
     });
 
     // 문의 내역 테이블 초기화
@@ -24,7 +24,7 @@ $(document).ready(function() {
         paging: true,
         searching: true,
         ordering: true,
-        lengthMenu: [ [1, 3, 5], [1, 3, 5] ],
+        lengthMenu: [ [2, 5, 7], [2, 5, 7] ],
     });
     
   
@@ -138,42 +138,44 @@ $(document).ready(function() {
 		                            <div class="table-responsive">
 		                                <table class="table table-bordered text-center" id="dataTable" width="100%" cellspacing="0">
 			                                <colgroup>
+										    	<col width="25%" />
 										    	<col width="12%" />
-										    	<col width="10%" />
-										    	<col width="10%" />
-										        <col width="10%" />
-										        <col width="10%" />
-										        <col width="10%" />
-										        <col width="10%" />
+										    	<col width="12%" />
 										        <col width="12%" />
-										        <col width="10%" />
+										        <col width="12%" />
+										        <col width="5%" />
 										    </colgroup>
 		                                    <thead class="fs-3">
 		                                        <tr>
-		                                            <th>예매번호</th>
-		                                            <th>종목</th>
-		                                            <th>이름</th>
-		                                            <th>좌석등급</th>
-		                                            <th>구매가격</th>
-		                                            <th>주문일자</th>
-		                                            <th>경기날짜</th>
-		                                            <th>edit</th>
+		                                            <th>주문번호</th>
+		                                            <th>주문일</th>
+		                                            <th>경기정보</th>
+		                                            <th>경기장</th>
+		                                            <th>경기일자</th>
+		                                            <th>매수</th>
 		                                        </tr>
 		                                    </thead>
 		                                    
 		                                    <tbody id="oderlist">
-		                                        <tr>
-							                        <td>예시1</td>
-							                        <td>예시1</td>
-							                        <td>예시1</td>
-							                        <td>예시1</td>
-							                        <td>예시1</td>
-							                        <td>예시1</td>
-							                        <td>예시1</td>
-		                                        	<td>
-		                                        	<button type="button" class="editBtn btn btn-danger">취소</button>&ensp; 
-		                                        	</td>
-		                                        </tr>
+												<c:choose>
+			                                    	<c:when test="${empty qna}">
+			                                        	<tr>
+			                                            	<td colspan="6" onclick='event.cancelBubble=true;'>예매 내역이 없습니다.</td>
+			                                        	</tr>
+			                                    	</c:when>
+			                                    <c:otherwise>
+			                                        <c:forEach var="orderItem" items="${order}">
+														<tr>
+							                                <td class="py-3 px-1">${orderItem.order_no}</td>
+							                                <td class="py-3 px-1"><fmt:formatDate value="${orderItem.buy_date}" pattern="yyyy-MM-dd"/></td>
+							                                <td class="py-3 px-1">${orderItem.sport_name}<br> ${orderItem.tournament }</td>
+							                                <td class="py-3 px-1">${orderItem.stadium_name}</td>
+															<td class="py-3 px-1"><fmt:formatDate value="${orderItem.korea_date}" pattern="yyyy-MM-dd"/><br>${orderItem.korea_time}</td>
+							                                <td class="py-3 px-1">${orderItem.ticket_count }</td>
+														</tr>
+													</c:forEach>
+			                                    </c:otherwise>
+			                                </c:choose>
 		                                    </tbody>
 		                                </table>
 		                            </div>

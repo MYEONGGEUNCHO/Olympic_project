@@ -65,27 +65,27 @@ $(document).ready(function() {
 	               		 success: function(data){
 
 	               			 if( data != ''){
-	               				 console.log(data);
-	               				 alert('인증 코드가 발송되었습니다. 이메일을 확인해주세요.');
-	               				 
-	               				 $('#timer').show();
-	                                let time = 180;
-	                                const takeTarget = () => {
-	                                	intervalId = setInterval(function () {
-	                                        if (time > 0) {
-	                                            time = time - 1;
-	                                            let min = Math.floor(time / 60);
-	                                            let sec = String(time % 60).padStart(2, "0");
-	                                            $('#min').text(min);
-	                                            $('#sec').text(sec);
-	                                        } else {
-	                                            clearInterval(intervalId);
-	                                            $('#checkAuth').prop('disabled', true);
-	                                            alert('인증 시간이 만료되었습니다. 다시 시도해주세요.');
-	                                        }
-	                                    }, 1000);
-	                                };
-	                                takeTarget();
+	               				console.log(data);
+	               				alert('인증 코드가 발송되었습니다. 이메일을 확인해주세요.');
+	               				$('#checkAuth').prop('disabled', false);
+								$('#timer').show();
+					            let time = 180;
+					            const takeTarget = () => {
+					            	intervalId = setInterval(function () {
+					                    if (time > 0) {
+					                        time = time - 1;
+					                        let min = Math.floor(time / 60);
+					                        let sec = String(time % 60).padStart(2, "0");
+					                        $('#min').text(min);
+					                        $('#sec').text(sec);
+					                    } else {
+					                        clearInterval(intervalId);
+					                        $('#checkAuth').prop('disabled', true);
+					                        alert('인증 시간이 만료되었습니다. 다시 시도해주세요.');
+					                    }
+					                }, 1000);
+					            };
+					            takeTarget();
 	               				
 	               				 
 		               			 $('#checkAuth').click(function() {

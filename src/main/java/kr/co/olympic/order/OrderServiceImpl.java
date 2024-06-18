@@ -317,4 +317,9 @@ public class OrderServiceImpl implements OrderService {
        
     }
 
+	@Override
+	public List<OrderDTO> listOrder(MemberVO vo) {
+		return mapper.listOrder(vo);
+	}
+
 }
