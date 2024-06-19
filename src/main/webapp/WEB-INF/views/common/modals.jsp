@@ -1,20 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <script>
     $(document).ready(function() {
-	$("#login_button").click(function() {
-	    console.log("로그인버튼눌림");
-		$.ajax({
-		    type: 'POST',
-		    url: '/olympic/member/login.do',
-		    data: {
-				email: $('#loginEmail').val(),
-				pwd: $('#loginPassword').val()
-		    },
-		    success: function() {
-				location.href="/olympic/index.do";
-		    }
-		});	    
-	});
 	
 	//로그인 이메일 저장(쿠키 사용)
 	var key = getCookie("saveId");
@@ -137,7 +123,7 @@
 		</div>
 		<!-- Buttons -->
 		<div class="offcanvas-body">
-			<button type="button" id="login_button" class="btn w-100 btn-dark">로그인</button>
+			<button type="submit" id="login_button" class="btn w-100 btn-dark">로그인</button>
 			<div id="login_buttons">
 				<a class="btn  btn-outline-dark mt-2" href="/olympic/member/find.do">비밀번호 찾기</a>
 				<a class="btn  btn-outline-dark mt-2" href="/olympic/member/regist.do">회원가입</a>
