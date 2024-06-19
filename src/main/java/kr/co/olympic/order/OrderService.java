@@ -61,4 +61,6 @@ public interface OrderService {
 	boolean validatePayment(OrderVO vo);
 	//imp_uid 조회하기 
 	String getImpCode();
+	
+	List<OrderDTO> listOrder(MemberVO vo);
 }

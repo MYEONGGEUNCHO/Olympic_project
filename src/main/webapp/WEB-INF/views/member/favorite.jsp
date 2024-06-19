@@ -31,6 +31,31 @@ function deleteGame(button) {
 
 
 </script>
+<style>
+#favoritelist::-webkit-scrollbar {
+    width: 4px; 
+}
+
+#favoritelist::-webkit-scrollbar-thumb {
+    background: rgba(136, 136, 136, 0.3);
+    border-radius: 10px;
+    min-height: 20px;
+}
+
+#favoritelist::-webkit-scrollbar-thumb:hover {
+    background: rgba(85, 85, 85, 0.3);
+}
+
+#favoritelist::-webkit-scrollbar-track {
+    background: rgba(241, 241, 241, 0.5);
+}
+
+#favoritelist {
+	max-height: 360px; 
+	overflow-y: auto;
+	overflow-x: hidden; 
+}
+</style>
 <body>
 	<!-- 	공통 모달 - 헤더 장바구니 등 클릭 시 나오는 사이드 창 -->
 	<%@include file="../common/modals.jsp"%>
@@ -66,7 +91,7 @@ function deleteGame(button) {
 		    	<!-- List group -->
             <ul class="list-group list-group-lg list-group-flush-x mb-6">
             <c:forEach var="favorite" items="${favorite}">
-              <li class="list-group-item py-2">
+              <li class="list-group-item py-2 me-5">
                 <div class="row align-items-center">
                   <div class="col-2 d-flex justify-content-center align-items-center" >
                       <img style="width: 160px;" src="${favorite.sport_pictogram }" alt="..." >
