@@ -131,7 +131,114 @@
 		</div>
 	</form>
 </div>
+<!-- 주문 내역 취소 모달 -->
+<div class="modal fade" id="CancelOrderModal" data-bs-backdrop="static" tabindex="-1" role="dialog" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered" role="document">
+		<div class="modal-content">
 
+			<!-- Close -->
+			<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+				<i class="fe fe-x" aria-hidden="true"></i>
+			</button>
+
+			<!-- Header-->
+			<div class="modal-header lh-fixed fs-lg">
+				<strong class="mx-auto">예매취소 유의사항</strong>
+			</div>
+
+			<!-- Body -->
+			<div class="modal-body">
+				<!-- <div class="row fs-6 mb-5 text-center">
+					<div class="col-12">
+						예매 내역 확인
+					</div>
+				</div> -->
+				<div class="row mb-3">
+					<div class="col-4">
+						주문번호:
+					</div>
+					<div class="col-8" id="modalOrderNo">
+					</div>
+				</div>
+				<div class="row mb-3">
+					<div class="col-4">
+						주문일:
+					</div>
+					<div class="col-8" id="modalBuyDate">
+					</div>
+				</div>
+				<div class="row mb-3">
+					<div class="col-4">
+						경기정보:
+					</div>
+					<div class="col-8" id="modalSportName">
+					</div>
+				</div>
+				<div class="row mb-3">
+					<div class="col-4">
+						경기장:
+					</div>
+					<div class="col-8" id="modalStadiumName">
+					</div>
+				</div>
+				<div class="row mb-3">
+					<div class="col-4" >
+						경기일자:
+					</div>
+					<div class="col-8" id="modalKoreaDate">
+					</div>
+				</div>
+				<div class="row mb-3">
+					<div class="col-4">
+						매수:
+					</div>
+					<div class="col-8" id="modalTicketCount">
+					</div>
+				</div>
+
+				<hr>
+				<div class="row justify-content-center">
+					<div class="text-center mb-4">
+					    <div class="row mb-2">
+					        <div class="col-6 fw-bold">
+					            기한
+					        </div>
+					        <div class="col-6 fw-bold">
+					            취소 수수료
+					        </div>
+					    </div>
+					    <div class="row mb-2">
+					        <div class="col-6">
+					            관람일 전 7일
+					        </div>
+					        <div class="col-6">
+					            티켓 금액의 50% 환불
+					        </div>
+					    </div>
+					    <div class="row mb-7">
+					        <div class="col-6">
+					            당일 취소
+					        </div>
+					        <div class="col-6">
+					            환불 불가
+					        </div>
+					    </div>
+					    <div class="row">
+					        <div class="col-12">
+					            정말로 취소하시겠습니까?
+					        </div>
+					    </div>
+					</div>
+					<div class="row col-6 text-center">
+						<button id="cancelcheck" class="btn btn-sm btn-danger" onclick="">취소하기</button>
+					</div>
+				</div>
+			</div>
+
+		</div>
+
+	</div>
+</div>
 <!-- 비밀번호 초기화 알림 모달 -->
 <div class="modal fade " id="modalpwdreset" data-bs-backdrop="static" tabindex="-1" role="dialog" aria-hidden="true">
 	<div class="modal-dialog modal-dialog-centered" role="document">

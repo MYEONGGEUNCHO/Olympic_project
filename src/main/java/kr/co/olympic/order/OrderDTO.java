@@ -15,4 +15,6 @@ public class OrderDTO {
 	private Date korea_date;
 	private String korea_time;
 	private int ticket_count;
+	
+	private String imp_uid;
 }
