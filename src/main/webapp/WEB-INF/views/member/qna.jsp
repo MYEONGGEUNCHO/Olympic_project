@@ -6,7 +6,7 @@
 <script src="../js/jquery-3.7.1.min.js"></script>
 <script>
 function pagination() {
-    var req_num_row = 3; //보여지는 행 개수
+    var req_num_row = 5; //보여지는 행 개수
     var $tr = $('tbody tr');
     var total_num_row = $tr.length;  //테이블의 총 행 개수
     var num_pages = Math.ceil(total_num_row / req_num_row); //몇페이지

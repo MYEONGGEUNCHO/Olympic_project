@@ -98,7 +98,7 @@ public class MemberController {
 			return "/common/alert";
 		} else {
 			sess.setAttribute("login", login);
-			return "/index";
+			return "redirect: /olympic/index.do";
 		}
 	}
 

@@ -10,9 +10,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
+<script src="../js/jquery-3.7.1.min.js"></script>
 <script>
 
  $(document).ready(function() {
@@ -33,6 +31,62 @@
 
          $("#editModal").modal('show');
      });
+     
+     $("#saveBtn").click(function() {
+         // 폼 데이터를 직렬화하여 전송
+         var form = $("#frm");
+         var formData = form.serialize();
+
+         $.ajax({
+             type: 'POST',
+             url: '/olympic/admin/updateMember.do',
+             data: formData,
+             success: function(data) {
+                 if (data == 1) { // 예를 들어 서버에서 성공적으로 처리되었음을 'success' 문자열로 반환한다고 가정
+                     var mememail = $("#editEmail").val();
+                     var row = $("#dataTable").find("tr").filter(function() {
+                         return $(this).find("#email").text() === mememail;
+                     });
+                     row.find("#name").text($("#editName").val());
+                     row.find("#point").text($("#editPoint").val());
+                     row.find("#membership").text($("#editMemberShip").val());
+                     
+                     var stateValue = $("#editState").val(); 
+                     row.find("#state").data("state", stateValue);
+                     
+                     var newState = $("#editState").val(); 
+                     row.find("#state").data("state", newState); 
+                     
+                     switch (newState) {
+                         case "0":
+                             row.find("#state").text("회원");
+                             break;
+                         case "1":
+                             row.find("#state").text("탈퇴");
+                             break;
+                         case "2":
+                             row.find("#state").text("계정잠금");
+                             break;
+                         case "3":
+                             row.find("#state").text("관리자");
+                             break;
+                         default:
+                             row.find("#state").text("알 수 없음");
+                             break;
+                     }
+                     alert('정보가 수정되었습니다.');
+                     
+                     $("#editModal").modal('hide'); 
+                 } else {
+                     alert('업데이트 실패');
+                 }
+             },
+             error: function(xhr, status, error) {
+                 alert('오류 발생: ' + error);
+             }
+         });
+     });
+     
      
      $(".issueCouponBtn").click(function() {
          var row = $(this).closest("tr");
