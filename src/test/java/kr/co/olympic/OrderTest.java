@@ -71,7 +71,7 @@ public class OrderTest {
     @Test
     public void getOrdersByMemberPagedTest() {
         MemberVO member = new MemberVO();
-        member.setMember_no("1");
+        member.setMember_no("e6f6e88c-ab7d-4052-b2f7-3bae4c31ed7e");
 
         int page = 1;
         int size = 10;

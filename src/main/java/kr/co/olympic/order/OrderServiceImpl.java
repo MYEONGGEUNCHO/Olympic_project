@@ -12,9 +12,16 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 
+import kr.co.olympic.game.GameVO;
+import kr.co.olympic.game.ItemService;
+import kr.co.olympic.game.StadiumService;
+import kr.co.olympic.game.StadiumVO;
+import kr.co.olympic.game.ItemVO;
 import kr.co.olympic.member.CouponVO;
 import kr.co.olympic.member.MemberService;
 import kr.co.olympic.member.MemberVO;
@@ -26,6 +33,12 @@ public class OrderServiceImpl implements OrderService {
 	
 	@Autowired
     private MemberService memberService;
+	
+	@Autowired
+	private StadiumService stadiumService;
+	
+	@Autowired
+	private ItemService itemService;
 	
 	
 	@Value("${order.api.key}")
@@ -224,6 +237,14 @@ public class OrderServiceImpl implements OrderService {
 	}
 	
 	@Override
+    public void addPoint(String memberNo, int point) {
+        Map<String, Object> params = new HashMap<>();
+        params.put("member_no", memberNo);
+        params.put("point", point);
+        mapper.addPoint(params);
+    }
+	
+	@Override
 	public List<PointVO> getPointsByMemberNo(MemberVO member){
 		return mapper.getPointsByMemberNo(member);
 	}
@@ -316,10 +337,136 @@ public class OrderServiceImpl implements OrderService {
         }
        
     }
+	
+	@Override
+	public Map<String, Boolean> checkSeatAvailability(PaymentVO paymentVO) {
+		GameVO gameVo = new GameVO();
+		gameVo.setGame_id(paymentVO.getGame_id());
+		gameVo.setStadium_no(paymentVO.getStadium_no());
+		
+		// 경기장 최대 좌석 수 조회
+		//StadiumVO stadiumVo = new StadiumVO();
+		//stadiumVo.setStadium_no(paymentVO.getStadium_no());
+		StadiumVO stadiumVO = stadiumService.detailStadium(gameVo);
+		        
+		// 상품 판매된 좌석 수 조회
+		//ItemVO itemVo = new ItemVO();
+		//itemVo.setItem_no(paymentVO.getItem_no());
+		ItemVO itemVO = itemService.detailItem(gameVo);
+        
+        Map<String, Boolean> seatAvailability = new HashMap<>();
+        seatAvailability.put("A", stadiumVO.getA_seat_quantity() - itemVO.getA_seat_sold() >= paymentVO.getA_seat_sold());
+        seatAvailability.put("B", stadiumVO.getB_seat_quantity() - itemVO.getB_seat_sold() >= paymentVO.getB_seat_sold());
+        seatAvailability.put("C", stadiumVO.getC_seat_quantity() - itemVO.getC_seat_sold() >= paymentVO.getC_seat_sold());
+        seatAvailability.put("D", stadiumVO.getD_seat_quantity() - itemVO.getD_seat_sold() >= paymentVO.getD_seat_sold());
+        seatAvailability.put("VIP", stadiumVO.getVip_seat_quantity() - itemVO.getVip_seat_sold() >= paymentVO.getVip_seat_sold());
+        
+        return seatAvailability;
+    }
+	@Override
+	public Map<String, Integer> countSeatAvailability(PaymentVO paymentVO) {
+		GameVO gameVo = new GameVO();
+		gameVo.setGame_id(paymentVO.getGame_id());
+		gameVo.setStadium_no(paymentVO.getStadium_no());
+		
+		// 경기장 최대 좌석 수 조회
+		//StadiumVO stadiumVo = new StadiumVO();
+		//stadiumVo.setStadium_no(paymentVO.getStadium_no());
+        StadiumVO stadiumVO = stadiumService.detailStadium(gameVo);
+        
+        // 상품 판매된 좌석 수 조회
+        //ItemVO itemVo = new ItemVO();
+        //itemVo.setItem_no(paymentVO.getItem_no());
+        ItemVO itemVO = itemService.detailItem(gameVo);
+        
+        Map<String, Integer> countSeatAvailability = new HashMap<>();
+        countSeatAvailability.put("A", stadiumVO.getA_seat_quantity() - itemVO.getA_seat_sold());
+        countSeatAvailability.put("B", stadiumVO.getB_seat_quantity() - itemVO.getB_seat_sold());
+        countSeatAvailability.put("C", stadiumVO.getC_seat_quantity() - itemVO.getC_seat_sold());
+        countSeatAvailability.put("D", stadiumVO.getD_seat_quantity() - itemVO.getD_seat_sold());
+        countSeatAvailability.put("VIP", stadiumVO.getVip_seat_quantity() - itemVO.getVip_seat_sold());
+        
+        return countSeatAvailability;
+    }
+	// 좌석 수 증가 메서드 추가
+    @Override
+	public void updateSeatSoldCount(PaymentVO paymentVO) {
+        mapper.updateSeatSoldCount(paymentVO);
+    }
+    // 좌석 수 감소(되돌리기 ) 메서드 추가 
+    @Override
+    public void releaseSeats(PaymentVO paymentVO) {
+        mapper.releaseSeatSold(paymentVO);
+    }
+    
+    @Override
+    public void recordEntryTime(MemberVO member, PaymentVO payment) {
+        Map<String, Object> params = new HashMap<>();
+        params.put("member", member);
+        params.put("payment", payment);
+        mapper.recordEntryTime(params);
+    }
+
+    @Override
+    public void releaseUnpaidSeats() {
+    	mapper.releaseUnpaidSeats();
+    }
+
+    @Override
+    public void rollbackSeatCounts(MemberVO member, PaymentVO payment) {
+        Map<String, Object> params = new HashMap<>();
+        params.put("member", member);
+        params.put("payment", payment);
+        mapper.rollbackSeatCounts(params);
+    }
+    
+    @Override
+    public List<PaymentVO> getExpiredReservations() {
+        return mapper.getExpiredReservations();
+    }
+    
+    //@Scheduled(fixedRate = 60000) // 1분마다 실행
+    
+    public void releaseExpiredSeatsScheduled(MemberVO member) {
+        List<PaymentVO> expiredReservations = mapper.getExpiredReservations();
+        Map<String, Object> params = new HashMap<>();
+        params.put("member", member);
+        
+        for (PaymentVO reservation : expiredReservations) {
+        	params.put("payment", reservation);
+        	mapper.rollbackSeatCounts(params);
+        }
+        mapper.releaseUnpaidSeats();
+    }
+    @Override
+    public void updateReservationToConfirmed(Map<String, Object> params) {
+    	mapper.updateReservationToConfirmed(params);
+    }
 
 	@Override
 	public List<OrderDTO> listOrder(MemberVO vo) {
 		return mapper.listOrder(vo);
+	}
+	
+	@Override
+	public void cleanupExpiredReservations(int item_no) {
+		 // 만료된 예약의 좌석 수 합산
+	    PaymentVO expiredSeatCounts = mapper.getTotalExpiredSeatCountsByItemNo(item_no);
+
+	    if (expiredSeatCounts != null) {
+	        // item 테이블의 좌석 수 감소
+	        Map<String, Object> params = new HashMap<>();
+	        params.put("a_seat_sold", expiredSeatCounts.getA_seat_sold());
+	        params.put("b_seat_sold", expiredSeatCounts.getB_seat_sold());
+	        params.put("c_seat_sold", expiredSeatCounts.getC_seat_sold());
+	        params.put("d_seat_sold", expiredSeatCounts.getD_seat_sold());
+	        params.put("vip_seat_sold", expiredSeatCounts.getVip_seat_sold());
+	        params.put("item_no", item_no);
+	        mapper.decreaseSeatSoldCount(params);
+	    }
+
+	    // 만료된 예약 삭제
+	    mapper.deleteExpiredReservationsByItemNo(item_no);
 	}
 
 }

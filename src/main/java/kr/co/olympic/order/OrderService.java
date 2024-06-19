@@ -24,6 +24,7 @@ public interface OrderService {
 	int delete(OrderVO no);
 	//주문정보 상태 paid 로 업데이트 
     void updateOrderStateToPaid(OrderVO order);
+    
 	
 	//회원 객체로 전체 주문 개수 조회 
     int getTotalOrdersByMember(MemberVO member);
@@ -52,6 +53,8 @@ public interface OrderService {
     PaymentVO preparePaymentVO(MemberVO member, PaymentVO paymentVO);
   	//포인트 객체 DB 저장 
     void insertPoint(PointVO pointVO);
+    // 포인트 추가 메서드
+    void addPoint(String memberNo, int point);
     //회원객체로 포인트 건 조회 
     List<PointVO> getPointsByMemberNo(MemberVO member);
     //회원객체로 잔여 포인트 확인 
@@ -63,4 +66,26 @@ public interface OrderService {
 	String getImpCode();
 	
 	List<OrderDTO> listOrder(MemberVO vo);
+	//잔여 좌석 판매가능여부 확인하기 
+	Map<String, Boolean> checkSeatAvailability(PaymentVO paymentVO);
+	//잔여 좌석 개수 확인하기 
+	Map<String, Integer> countSeatAvailability(PaymentVO paymentVO);
+	//좌석 판매량 증가시키기  
+	void updateSeatSoldCount(PaymentVO paymentVO);
+	//좌석 돌려놓기 
+	void releaseSeats(PaymentVO paymentVO);
+	
+	void recordEntryTime(MemberVO member, PaymentVO payment);
+	
+	void releaseUnpaidSeats();
+	
+	void rollbackSeatCounts(MemberVO member, PaymentVO payment);
+	
+	List<PaymentVO> getExpiredReservations();
+	
+	void updateReservationToConfirmed(Map<String, Object> params);
+	
+	void cleanupExpiredReservations(int item_no);
+
+	
 }

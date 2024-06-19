@@ -16,6 +16,7 @@ public class PaymentVO {
 	
 	private int game_id; //추후 티켓 발행등에 사용할 경기 식별자 
 	private int item_no; // 상품번호
+	private int stadium_no; //경기장번호
 	private String content; // 결제 요청시 '상품명'으로 사용할 경기상세
 	
 	private int a_seat_price; //사용자가 경기상세에서 선택한 좌석들의 가격과, 선택수량 정보 
