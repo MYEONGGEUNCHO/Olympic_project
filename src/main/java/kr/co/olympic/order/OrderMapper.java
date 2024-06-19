@@ -81,4 +81,8 @@ public interface OrderMapper {
     PaymentVO getTotalExpiredSeatCountsByItemNo(int item_no);
     void decreaseSeatSoldCount(Map<String, Object> params);
     void deleteExpiredReservationsByItemNo(int item_no);
+    //결제 취소 처리 위한 메소드
+	int isCanceledUpdate(OrderVO vo);
+	int isRefundedUpdate(OrderVO vo);
+	int cancelsTableUpdate(OrderVO vo);
 }

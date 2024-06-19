@@ -87,5 +87,5 @@ public interface OrderService {
 	
 	void cleanupExpiredReservations(int item_no);
 
-	
+	int cancelOrder(OrderVO vo);
 }
