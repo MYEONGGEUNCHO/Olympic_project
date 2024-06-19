@@ -3,21 +3,23 @@
 <mapper namespace="kr.co.olympic.order.OrderMapper">
     <!-- 결제 버튼을 눌렀을 때 주문 정보를 ready 상태로 DB에 삽입 -->
     <insert id="insertOrder" parameterType="kr.co.olympic.order.OrderVO">
-        INSERT INTO `order` (
+        INSERT INTO `orders` (
             order_no, buy_date, state, member_no,
             item_no, game_id, coupon_no, imp_uid,
-            real_price, original_price, point, member_email
+            real_price, original_price, point, member_email,
+            is_paid, is_canceled, is_refunded
         )
         VALUES (
             #{order_no}, NOW(), 'ready', #{member_no}, 
             #{item_no}, #{game_id}, #{coupon_no}, #{imp_uid},
-            #{real_price}, #{original_price}, #{point}, #{member_email}
+            #{real_price}, #{original_price}, #{point}, #{member_email},
+            #{is_paid}, #{is_canceled}, #{is_refunded}
         );
     </insert>
     
     <!-- 매개변수로 받은 OrderVO의 order_no에 해당하는 데이터를 찾아서 전달받은 imp_uid를 삽입  -->
     <insert id="insertUid" parameterType="kr.co.olympic.order.OrderVO">
-        UPDATE `order`
+        UPDATE `orders`
         SET imp_uid = #{imp_uid}
         WHERE order_no = #{order_no};
     </insert>
@@ -25,34 +27,34 @@
     <!-- 새로운 메서드 추가: imp_uid로 주문 정보 가져오기 -->
     <select id="getOrderByImpUid" parameterType="String" resultType="kr.co.olympic.order.OrderVO">
         SELECT *
-        FROM `order`
+        FROM `orders`
         WHERE imp_uid = #{imp_uid};
     </select>
 
     <!-- 기존 주문 데이터의 상태를 paid로 업데이트 -->
     <update id="updateOrderStateToPaid" parameterType="kr.co.olympic.order.OrderVO">
-        UPDATE `order`
-        SET state = 'paid'
+        UPDATE `orders`
+        SET is_paid = 1
         WHERE order_no = #{order_no};
     </update>
 
     <!-- 주문 정보를 ID로 조회 -->
     <select id="getOrderById" parameterType="String" resultType="kr.co.olympic.order.OrderVO">
         SELECT *
-        FROM `order`
+        FROM `orders`
         WHERE order_no = #{order_no}
     </select>
 
     <!-- 특정 회원의 모든 주문 정보 조회 -->
     <select id="getOrdersByMember" parameterType="kr.co.olympic.member.MemberVO" resultType="kr.co.olympic.order.OrderVO">
         SELECT *
-        FROM `order`
+        FROM `orders`
         WHERE member_no = #{member_no}
     </select>
 
     <!-- 주문 정보 업데이트 (일반 업데이트) -->
     <update id="updateOrder" parameterType="kr.co.olympic.order.OrderVO">
-        UPDATE `order`
+        UPDATE `orders`
         SET buy_date = #{buy_date}, state = #{state}, imp_uid = #{imp_uid},
             real_price = #{real_price}, original_price = #{original_price}, point = #{point}
         WHERE order_no = #{order_no};
@@ -60,14 +62,14 @@
 
     <!-- 주문 정보 삭제 -->
     <delete id="deleteOrder" parameterType="String">
-        DELETE FROM `order`
+        DELETE FROM `orders`
         WHERE order_no = #{order_no};
     </delete>
     
     <!-- 페이징 처리된 최신순 주문 내역 조회 -->
     <select id="getOrdersByMemberPaged" parameterType="map" resultType="kr.co.olympic.order.OrderVO">
         SELECT *
-        FROM `order`
+        FROM `orders`
         WHERE member_no = #{member.member_no}
         ORDER BY buy_date DESC
         LIMIT #{limit} OFFSET #{offset}
@@ -76,7 +78,7 @@
     <!-- 특정 회원의 전체 주문 개수 조회 -->
     <select id="getTotalOrdersByMember" parameterType="kr.co.olympic.member.MemberVO" resultType="int">
         SELECT COUNT(*)
-        FROM `order`
+        FROM `orders`
         WHERE member_no = #{member_no}
     </select>
     
@@ -170,4 +172,155 @@
     	g.korea_date, g.korea_time;
     	
     </select>
+    
+     <!-- 판매된 좌석 수 업데이트 -->
+    <update id="updateSeatSoldCount" parameterType="kr.co.olympic.order.PaymentVO">
+        UPDATE item
+        SET
+            a_seat_sold = a_seat_sold + #{a_seat_sold},
+            b_seat_sold = b_seat_sold + #{b_seat_sold},
+            c_seat_sold = c_seat_sold + #{c_seat_sold},
+            d_seat_sold = d_seat_sold + #{d_seat_sold},
+            vip_seat_sold = vip_seat_sold + #{vip_seat_sold}
+        WHERE item_no = #{item_no};
+    </update>
+    
+    <!-- 좌석수 다시 되돌리기  -->
+    <update id="releaseSeatSold" parameterType="kr.co.olympic.order.PaymentVO">
+        UPDATE item
+        SET
+            a_seat_sold = a_seat_sold - #{a_seat_sold},
+            b_seat_sold = b_seat_sold - #{b_seat_sold},
+            c_seat_sold = c_seat_sold - #{c_seat_sold},
+            d_seat_sold = d_seat_sold - #{d_seat_sold},
+            vip_seat_sold = vip_seat_sold - #{vip_seat_sold}
+        WHERE item_no = #{item_no};
+    </update>
+    
+    <insert id="recordEntryTime" parameterType="map">
+    INSERT INTO seat_reservation (
+        member_no, item_no, a_seat_count, b_seat_count, c_seat_count, d_seat_count, vip_seat_count, expiration_time
+    )
+    VALUES (
+        #{member.member_no}, #{payment.item_no}, #{payment.a_seat_sold}, #{payment.b_seat_sold}, #{payment.c_seat_sold}, #{payment.d_seat_sold}, #{payment.vip_seat_sold},
+        DATE_ADD(NOW(), INTERVAL 1 MINUTE)
+    );
+	</insert>
+
+	<delete id="releaseUnpaidSeats">
+		<![CDATA[
+			DELETE 
+		    FROM seat_reservation
+		    WHERE expiration_time < NOW();
+		]]>
+	</delete>
+
+	<update id="rollbackSeatCounts" parameterType="map">
+	    UPDATE item
+	    SET
+	        a_seat_sold = a_seat_sold - (
+	            SELECT IFNULL(SUM(a_seat_count), 0)
+	            FROM seat_reservation
+	            WHERE item_no = #{payment.item_no} AND member_no = #{member.member_no} AND is_confirmed = FALSE
+	        ),
+	        b_seat_sold = b_seat_sold - (
+	            SELECT IFNULL(SUM(b_seat_count), 0)
+	            FROM seat_reservation
+	            WHERE item_no = #{payment.item_no} AND member_no = #{member.member_no} AND is_confirmed = FALSE
+	        ),
+	        c_seat_sold = c_seat_sold - (
+	            SELECT IFNULL(SUM(c_seat_count), 0)
+	            FROM seat_reservation
+	            WHERE item_no = #{payment.item_no} AND member_no = #{member.member_no} AND is_confirmed = FALSE
+	        ),
+	        d_seat_sold = d_seat_sold - (
+	            SELECT IFNULL(SUM(d_seat_count), 0)
+	            FROM seat_reservation
+	            WHERE item_no = #{payment.item_no} AND member_no = #{member.member_no} AND is_confirmed = FALSE
+	        ),
+	        vip_seat_sold = vip_seat_sold - (
+	            SELECT IFNULL(SUM(vip_seat_count), 0)
+	            FROM seat_reservation
+	            WHERE item_no = #{payment.item_no} AND member_no = #{member.member_no} AND is_confirmed = FALSE
+	        )
+	    WHERE item_no = #{payment.item_no}
+	</update>
+	
+    <select id="getExpiredReservations" resultType="kr.co.olympic.order.PaymentVO">
+    	<![CDATA[
+    		SELECT 
+            member_no,
+            item_no,
+            a_seat_count AS a_seat_sold,
+            b_seat_count AS b_seat_sold,
+            c_seat_count AS c_seat_sold,
+            d_seat_count AS d_seat_sold,
+            vip_seat_count AS vip_seat_sold
+	        FROM seat_reservation
+	        WHERE expiration_time < NOW() AND is_confirmed = FALSE
+    	]]>
+    </select>
+    
+    <update id="updateReservationToConfirmed" parameterType="map">
+	    UPDATE seat_reservation
+	    SET is_confirmed = TRUE
+	    WHERE item_no = #{payment.item_no} AND member_no = #{member.member_no}
+	</update>
+	
+	<update id="addPoint" parameterType="map">
+	    UPDATE member
+	    SET point = point + #{point}
+	    WHERE member_no = #{member_no}
+	</update>
+	
+	<select id="getExpiredReservationsByItemNo" resultType="kr.co.olympic.order.PaymentVO">
+	<![CDATA[
+        SELECT 
+            member_no,
+            item_no,
+            a_seat_count AS a_seat_sold,
+            b_seat_count AS b_seat_sold,
+            c_seat_count AS c_seat_sold,
+            d_seat_count AS d_seat_sold,
+            vip_seat_count AS vip_seat_sold
+        FROM seat_reservation
+        WHERE item_no = #{item_no} AND expiration_time < NOW() AND is_confirmed = FALSE
+        ]]>
+    </select>
+    
+    <!-- seat_reservation 테이블에서 만료된 예약의 좌석 수 합산 -->
+	<select id="getTotalExpiredSeatCountsByItemNo" resultType="kr.co.olympic.order.PaymentVO">
+	    <![CDATA[
+	    SELECT 
+	        SUM(a_seat_count) AS a_seat_sold,
+	        SUM(b_seat_count) AS b_seat_sold,
+	        SUM(c_seat_count) AS c_seat_sold,
+	        SUM(d_seat_count) AS d_seat_sold,
+	        SUM(vip_seat_count) AS vip_seat_sold
+	    FROM seat_reservation
+	    WHERE item_no = #{item_no} AND expiration_time < NOW() AND is_confirmed = FALSE
+	    ]]>
+	</select>
+	
+	<!-- item 테이블의 좌석 수 감소 -->
+	<update id="decreaseSeatSoldCount" parameterType="map">
+	    <![CDATA[
+	    UPDATE item
+	    SET 
+	        a_seat_sold = a_seat_sold - #{a_seat_sold},
+	        b_seat_sold = b_seat_sold - #{b_seat_sold},
+	        c_seat_sold = c_seat_sold - #{c_seat_sold},
+	        d_seat_sold = d_seat_sold - #{d_seat_sold},
+	        vip_seat_sold = vip_seat_sold - #{vip_seat_sold}
+	    WHERE item_no = #{item_no}
+	    ]]>
+	</update>
+
+    <delete id="deleteExpiredReservationsByItemNo">
+    <![CDATA[
+        DELETE 
+        FROM seat_reservation
+        WHERE item_no = #{item_no} AND expiration_time < NOW() AND is_confirmed = FALSE
+        ]]>
+    </delete>
 </mapper>

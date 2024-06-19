@@ -53,10 +53,32 @@ public interface OrderMapper {
   	
   	//포인트 객체 DB 저장 
     void insertPoint(PointVO pointVO);
+    // 포인트 회원 추가 메서드
+    void addPoint(Map<String, Object> params);
     //회원객체로 포인트 건 조회 
     List<PointVO> getPointsByMemberNo(MemberVO member);
     //회원객체로 잔여 포인트 확인 
     int getTotalAvailablePoints(MemberVO member);
     //주문 상세 정보 조회
     List<OrderDTO> listOrder(MemberVO vo);
+    //좌석수 증가 로직
+    void updateSeatSoldCount(PaymentVO payment);
+    //좌석수 되돌리기 
+    void releaseSeatSold(PaymentVO paymentVO);
+    
+    //진입 시간 기록 
+    void recordEntryTime(Map<String, Object> params);
+    //유효시간 지났으면 알아서 삭제 
+    void releaseUnpaidSeats();
+    //결제 안된 좌석수 되돌리기 
+    void rollbackSeatCounts(Map<String, Object> params);
+    
+    List<PaymentVO> getExpiredReservations();
+    
+    void updateReservationToConfirmed(Map<String, Object> params);
+    
+    List<PaymentVO> getExpiredReservationsByItemNo(int item_no);
+    PaymentVO getTotalExpiredSeatCountsByItemNo(int item_no);
+    void decreaseSeatSoldCount(Map<String, Object> params);
+    void deleteExpiredReservationsByItemNo(int item_no);
 }
