@@ -10,9 +10,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
+<script src="../../../js/jquery-3.7.1.min.js"></script>
 <style type="text/css">
     table {
         border-collapse: collapse !important;
@@ -29,45 +27,90 @@
 <script>
 	$(document).ready(function() {
 		$(".update_btn").click(function() {
+			$("#editStadiumModal").modal('show');
 			var row = $(this).closest("tr");
-			var stadium_name = row.find("stadium_name").text();
-			var stadium_img_url = row.find("stadium_img_url").text();
-			var stadium_url = row.find("stadium_url").text();
-			var stadium_en_name = row.find("stadium_en_name").text();
-			var stadium_position = row.find("stadium_position").text();
-			var a_seat_quantity = row.find("a_seat_quantity").text();
-			var b_seat_quantity = row.find("b_seat_quantity").text();
-			var c_seat_quantity = row.find("c_seat_quantity").text();
-			var d_seat_quantity = row.find("d_seat_quantity").text();
-			var vip_seat_quantity = row.find("vip_seat_quantity").text();
 			
-			$("#stadium_name").val(stadium_name);
-			$("#stadium_img_url").val(stadium_img_url);
-			$("#stadium_url").val(stadium_url);
-			$("#stadium_en_name").val(stadium_en_name);
-			$("#stadium_position").val(stadium_position);
-			$("#a_seat_quantity").val(a_seat_quantity);
-			$("#b_seat_quantity").val(b_seat_quantity);
-			$("#c_seat_quantity").val(c_seat_quantity);
-			$("#d_seat_quantity").val(d_seat_quantity);
-			$("#vip_seat_quantity").val(vip_seat_quantity);
+			$("#editstadiumNo").val(row.find("#stadiumNo").text());
+			$("#editstadiumName").val(row.find("#stadiumName").text());
+			$("#editstadium_img_url").val(row.find("#stadium_img_url").text());
+			$("#editstadium_url").val(row.find("#stadium_url").text());
+			$("#editstadium_en_name").val(row.find("#stadium_en_name").text());
+			$("#editstadium_position").val(row.find("#stadium_position").text());
+			$("#edita_seat_quantity").val(row.find("#a_seat_quantity").text());
+			$("#editb_seat_quantity").val(row.find("#b_seat_quantity").text());
+			$("#editc_seat_quantity").val(row.find("#c_seat_quantity").text());
+			$("#editd_seat_quantity").val(row.find("#d_seat_quantity").text());
+			$("#editvip_seat_quantity").val(row.find("#vip_seat_quantity").text());
 			
-			$("#editModal").modal('show');
+			$("#editStadiumModal").modal('show');
+		});
+		
+		$("#saveStadium").click(function() {
+	        var form = $("#stadiumfrm");
+	        var formData = form.serialize();
+	        
+	        $.ajax({
+	        	type: 'POST',
+	        	url: '/olympic/admin/game/stadium/update.do',
+	        	data: formData,
+	        	success:function(res){
+	        		if(res == 1){
+	        			var stadiumNo = $("#editstadiumNo").val();
+		       	 		var row;
+		            	// 수정일 경우
+			            row = $("#dataTable").find("tr").filter(function() {
+			                return $(this).find("#stadiumNo").text() == stadiumNo;
+			            });
+			
+			            row.find("#stadiumNo").text($("#editstadiumNo").val());
+			            row.find("#stadiumName").text($("#editstadiumName").val());
+			            row.find("#stadium_img_url").text($("#editstadium_img_url").val());
+			            row.find("#stadium_url").text($("#editstadium_url").val());
+			            row.find("#stadium_en_name").text($("#editstadium_en_name").val());
+			            row.find("#stadium_position").text($("#editstadium_position").val());
+			            row.find("#a_seat_quantity").text($("#edita_seat_quantity").val());
+			            row.find("#b_seat_quantity").text($("#editb_seat_quantity").val());
+			            row.find("#c_seat_quantity").text($("#editc_seat_quantity").val());
+			            row.find("#d_seat_quantity").text($("#editd_seat_quantity").val());
+			            row.find("#vip_seat_quantity").text($("#editvip_seat_quantity").val());
+			
+			            alert('수정되었습니다.');
+			            $("#editStadiumModal").modal('hide');
+	        		}
+	        		else{
+	        			alert('수정 오류');
+	        		}
+	        		
+		            
+	        	},error: function(xhr, status, error) {
+	                alert('오류 발생:  ' + error);
+	            }
+	        	
+	        });
 		});
 		
 		$(".delete_btn").click(function() {
 			// 서버로 이메일 값 전송
+			var row = $(this).closest("tr");
+	    	var stadiumNo = row.find("#stadiumNo").text();
+	    	var delete_confirm = confirm("정말로 삭제하시겠습니까?");
+	    	
 	         $.ajax({
 	             type: "POST",
 	             url: "/olympic/admin/game/stadium/delete.do",
-	             data: { email: email },
+	             data: { stadiumNo : parseInt(stadiumNo) },
 	             success: function(data) {
 	            	 if(data == 1){
-		            	 alert("해당 회원의 비밀번호를 생년월일로 초기화 하였습니다.");
+	            		alert('삭제가 완료되었습니다.');
+	            		location.reload();
+	 					//location.href = "/olympic/admin/game/index.do";
 	            	 }else{
-	                	 alert("오류 발생.");
+	                	 alert("삭제 실패");
 	                	 return;
 	                 }
+	             },
+	             error: function(xhr, status, error) {
+	                 alert('오류 발생: ' + error);
 	             }
 	         });
 		});
@@ -75,6 +118,7 @@
 </script>
 </head>
 <body>
+	<%@include file="/WEB-INF/views/common/adminmodals.jsp"%>
 	<%@include file="/WEB-INF/views/admin/game/stadium/modals.jsp"%>
 	<div id="wrapper">
 	<!-- 슬라이더 바 -->
@@ -141,8 +185,8 @@
 										</c:if>
 										<c:forEach var="vo" items="${map.list }">
 											<tr>
-												<td id="stadium_no">${vo.stadium_no }</td>
-												<td id="stadium_name">${vo.stadium_name }</td>
+												<td id="stadiumNo">${vo.stadium_no }</td>
+												<td id="stadiumName">${vo.stadium_name }</td>
 												<td id="stadium_img_url">${vo.stadium_img_url }</td>
 												<td id="stadium_url">${vo.stadium_url }</td>
 												<td id="stadium_en_name">${vo.stadium_en_name }</td>

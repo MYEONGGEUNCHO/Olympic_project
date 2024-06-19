@@ -8,7 +8,7 @@
 					<div class="col-12 col-md-3">
 
 						<!-- Heading -->
-						<h4 class="mb-6 text-white">Shopper.</h4>
+						<h4 class="mb-6 text-white">Olympic</h4>
 
 						<!-- Social -->
 						<ul class="list-unstyled list-inline mb-7 mb-md-0">

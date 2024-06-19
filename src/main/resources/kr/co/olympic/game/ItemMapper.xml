@@ -38,7 +38,7 @@
             d_seat_sold = #{d_seat_sold},
             vip_seat_sold = #{vip_seat_sold},
             state = #{state},
-            is_korean = #{is_korean},
+            korean_advancement = #{korean_advancement},
             a_seat_price = #{a_seat_price},
             b_seat_price = #{b_seat_price},
             c_seat_price = #{c_seat_price},
