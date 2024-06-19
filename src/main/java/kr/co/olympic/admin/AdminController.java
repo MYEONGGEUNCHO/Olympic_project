@@ -12,7 +12,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import kr.co.olympic.member.CouponVO;
 import kr.co.olympic.member.MemberService;
@@ -66,19 +68,13 @@ public class AdminController {
 		return "admin/member/index";
 	}
 	
+	
 	@PostMapping("/admin/updateMember.do")
-	public String updateMember(MemberVO vo, Model model) {
-		int r = service.updateMember(vo);
-		if(r>0) {
-			return "redirect: /olympic/admin/index.do";
-		}
-		else {
-			model.addAttribute("msg","수정오류");
-			model.addAttribute("url","/olympic/admin/index.do");
-			return "/common/alert";
-		}
-		
-	}
+    @ResponseBody
+    public int updateMember(@ModelAttribute MemberVO vo) {
+        return service.updateMember(vo);
+    }
+	
 	@PostMapping("/admin/resetPwd.do")
 	public ResponseEntity<Integer> resetPwd(MemberVO vo) {
 		int r = service.resetMember(vo);

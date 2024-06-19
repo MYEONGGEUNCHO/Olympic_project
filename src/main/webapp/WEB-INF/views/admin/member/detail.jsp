@@ -44,7 +44,8 @@ $(document).ready(function() {
 			    }),
 			    success : function() {
 				alert('삭제가 완료되었습니다.');
-				location.href = "/olympic/qna/index.do";
+				//location.href = "/olympic/admin/index.do";
+				location.reload();
 			    },
 			    error : function(xhr, status, error) {
 				console.error("Error:", error);

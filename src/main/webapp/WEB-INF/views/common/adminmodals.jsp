@@ -9,7 +9,7 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form method="post" action="/olympic/admin/updateMember.do">
+            <form id="frm" method="post" action="/olympic/admin/updateMember.do">
                 <div class="modal-body">
                     <input type="hidden" id="editEmail" name="email">
                     <div class="form-group">
@@ -39,7 +39,7 @@
                 </div>
                 <div class="modal-footer d-flex">
                 	<button type="button" class="btn btn-danger ms-auto" id="resetPwdBtn" style="margin-right: auto;">비밀번호 초기화</button>
-                    <button type="submit" class="btn btn-primary">저장</button>
+                    <button type="button" id="saveBtn" class="btn btn-primary">저장</button>
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
                 </div>
             </form>
