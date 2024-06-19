@@ -51,8 +51,8 @@ public class SportTest {
     // 종목 상세 조회 테스트
     @Test
     public void detailSport() {
-        SportVO vo = new SportVO();
-        vo.setSport_code("test1");
+        GameVO vo = new GameVO();
+        vo.setSport_code("ARC");
         SportVO result = mapper.detailSport(vo);
         assertNotNull(result);
         log.info("Sport read: " + result);

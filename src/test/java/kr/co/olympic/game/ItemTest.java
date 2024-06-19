@@ -59,8 +59,8 @@ public class ItemTest {
  // 상품 상세 조회 테스트
     @Test
     public void detailItem() {
-        ItemVO vo = new ItemVO();
-        vo.setItem_no(1); // Assuming ID 1 exists for testing
+        GameVO vo = new GameVO();
+        vo.setGame_id(1); // Assuming ID 1 exists for testing
         ItemVO retrievedItem = mapper.detailItem(vo);
         assertNotNull(retrievedItem);
         log.info("Item read: " + retrievedItem);

@@ -11,11 +11,11 @@ public interface ItemMapper {
     // 상품 리스트 조회
     List<ItemVO> listItem(ItemVO item);
     // 상품 상세 조회
-    ItemVO detailItem(ItemVO item);
+    ItemVO detailItem(GameVO game);
     // 상품 수정
     int updateItem(ItemVO item);
     // 상품 삭제
     int deleteItem(ItemVO item);
     // 상품 수
-    int count(ItemVO vo);
+    int count(ItemVO item);
 }

@@ -21,7 +21,7 @@
         SELECT * FROM sport
     </select>
 	<!-- 종목 상세조회 -->
-	<select id="detailSport" parameterType="kr.co.olympic.game.SportVO" resultType="kr.co.olympic.game.SportVO">
+	<select id="detailSport" parameterType="kr.co.olympic.game.GameVO" resultType="kr.co.olympic.game.SportVO">
         SELECT * FROM sport WHERE sport_code = #{sport_code}
     </select>
 	<!-- 종목 수정 -->

@@ -45,8 +45,8 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
-    public ItemVO detailItem(ItemVO item) {
-        return mapper.detailItem(item);
+    public ItemVO detailItem(GameVO game) {
+        return mapper.detailItem(game);
     }
 
     @Override

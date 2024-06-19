@@ -72,88 +72,126 @@
 </script>
 </head>
 <body>
-	<h3>경기장 관리자 추가</h3>
-	<form method="post" name="frm" id="frm" action="/olympic/admin/game/stadium/create.do">
-		<table>
-			<colgroup>
-				<col width="40px">
-				<col width="40px">
-				<col width="40px">
-				<col width="40px">
-				<col width="40px">
-				<col width="40px">
-				<col width="40px">
-				<col width="40px">
-				<col width="40px">
-				<col width="40px">
-				<col width="40px">
-			</colgroup>
-			<tbody>
-				<tr>
-					<th>경기장 이름</th>
-					<td>
-						<input type="text" name="stadium_name" value=""/>
-					</td>
-				</tr>
-				<tr>
-					<th>경기장 이미지 URL</th>
-					<td>
-						<input type="text" name="stadium_img_url" value=""/>
-					</td>
-				</tr>
-				<tr>
-					<th>경기장 주소 URL</th>
-					<td>
-						<input type="text" name="stadium_url" value=""/>
-					</td>
-				</tr>
-				<tr>
-					<th>영문 경기장명</th>
-					<td>
-						<input type="text" name="stadium_en_name" value=""/>
-					</td>
-				</tr>
-				<tr>
-					<th>경기장 주소</th>
-					<td>
-						<input type="text" name="stadium_position" value=""/>
-					</td>
-				</tr>
-				<tr>
-					<th>A좌석 수</th>
-					<td>
-						<input type="text" name="a_seat_quantity" value=""/>
-					</td>
-				</tr>
-				<tr>
-					<th>B좌석 수</th>
-					<td>
-						<input type="text" name="b_seat_quantity" value=""/>
-					</td>
-				</tr>
-				<tr>
-					<th>C좌석 수</th>
-					<td>
-						<input type="text" name="c_seat_quantity" value=""/>
-					</td>
-				</tr>
-				<tr>
-					<th>D좌석 수</th>
-					<td>
-						<input type="text" name="d_seat_quantity" value=""/>
-					</td>
-				</tr>
-				<tr>
-					<th>VIP좌석 수</th>
-					<td>
-						<input type="text" name="vip_seat_quantity" value=""/>
-					</td>
-				</tr>
-			</tbody>
-		</table>
-		<div>
-            <a href="javascript:goSave()">생성</a>
-        </div>
-	</form>
+	<div id="wrapper">
+		<!-- 슬라이더 바 -->
+		<%@include file="/WEB-INF/views/common/adminslide.jsp"%>
+			<!-- Content Wrapper -->
+			<div id="content-wrapper" class="d-flex flex-column">
+	
+				<!-- Main Content -->
+				<div id="content">
+				<!-- 상단 툴바 -->
+				<%@include file="/WEB-INF/views/common/adminheader.jsp"%>
+					
+					<!-- 추가 -->
+					<!-- Begin Page Content -->
+					<div class="container-fluid">
+	
+						<!-- Page Heading -->
+						<h1 class="h3 mb-2 text-gray-800">Stadium Table</h1>
+						<p class="mb-4">경기장 생성 페이지입니다.</p>
+	
+						<!-- DataTales Example -->
+						<div class="card shadow mb-4">
+							<div class="card-header py-3">
+								<h6 class="m-0 font-weight-bold text-primary">Stadium Table</h6>
+							</div>
+							<div class="card-body">
+								<div class="table-responsive">
+									<form method="post" name="frm" id="frm" action="/olympic/admin/game/stadium/create.do"></form>
+										<table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+											<colgroup>
+												<col width="40px">
+												<col width="40px">
+												<col width="40px">
+												<col width="40px">
+												<col width="40px">
+												<col width="40px">
+												<col width="40px">
+												<col width="40px">
+												<col width="40px">
+												<col width="40px">
+												<col width="40px">
+											</colgroup>
+											<tbody>
+												<tr>
+													<th>경기장 이름</th>
+													<td>
+														<input type="text" name="stadium_name" value=""/>
+													</td>
+												</tr>
+												<tr>
+													<th>경기장 이미지 URL</th>
+													<td>
+														<input type="text" name="stadium_img_url" value=""/>
+													</td>
+												</tr>
+												<tr>
+													<th>경기장 주소 URL</th>
+													<td>
+														<input type="text" name="stadium_url" value=""/>
+													</td>
+												</tr>
+												<tr>
+													<th>영문 경기장명</th>
+													<td>
+														<input type="text" name="stadium_en_name" value=""/>
+													</td>
+												</tr>
+												<tr>
+													<th>경기장 주소</th>
+													<td>
+														<input type="text" name="stadium_position" value=""/>
+													</td>
+												</tr>
+												<tr>
+													<th>A좌석 수</th>
+													<td>
+														<input type="text" name="a_seat_quantity" value=""/>
+													</td>
+												</tr>
+												<tr>
+													<th>B좌석 수</th>
+													<td>
+														<input type="text" name="b_seat_quantity" value=""/>
+													</td>
+												</tr>
+												<tr>
+													<th>C좌석 수</th>
+													<td>
+														<input type="text" name="c_seat_quantity" value=""/>
+													</td>
+												</tr>
+												<tr>
+													<th>D좌석 수</th>
+													<td>
+														<input type="text" name="d_seat_quantity" value=""/>
+													</td>
+												</tr>
+												<tr>
+													<th>VIP좌석 수</th>
+													<td>
+														<input type="text" name="vip_seat_quantity" value=""/>
+													</td>
+												</tr>
+											</tbody>
+										</table>
+										<div>
+											<a href="javascript:goSave()">생성</a>
+										</div>
+									</form>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- /.container-fluid -->
+				</div>
+				<!-- End of Main Content -->
+				<!-- Footer -->
+				<%@include file="/WEB-INF/views/common/adminfooter.jsp"%>
+				<!-- End of Footer -->
+			</div>
+			<!-- End of Content Wrapper -->
+		</div>
 </body>
 </html>

@@ -1,5 +1,95 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<script>
+    $(document).ready(function() {
+	$("#login_button").click(function() {
+	    console.log("로그인버튼눌림");
+		$.ajax({
+		    type: 'POST',
+		    url: '/olympic/member/login.do',
+		    data: {
+				email: $('#loginEmail').val(),
+				pwd: $('#loginPassword').val()
+		    },
+		    success: function() {
+				location.href="/olympic/index.do";
+		    }
+		});	    
+	});
+	
+	//로그인 이메일 저장(쿠키 사용)
+	var key = getCookie("saveId");
+	if (key != "") {
+	    $("#loginEmail").val(key);
+	}
+	if ($("#loginEmail").val() != "") {
+	    $("#loginRemember").attr("checked", true);
+	}
 
+	$("#loginRemember").change(function() {
+	    if ($("#loginRemember").is(":checked")) { //아이디 저장 체크시
+		setCookie("saveId", $("#loginEmail").val(), 7); //7일 동안 쿠키 보관
+	    } else { //해제했을 경우
+		deleteCookie("saveId");
+	    }
+	});
+
+	$("#loginEmail").keyup(function() {
+	    if ($("#loginRemember").is(":checked")) {
+		setCookie("saveId", $("#loginEmail").val(), 7);
+	    }
+
+	});
+    });
+    //쿠키 저장 => saveid함수에서 넘겨준 시간이 현재시간과 비교해서 쿠키를 생성하고 지워주는 역할
+    function setCookie(cookieName, value, exdays) { //쿠키명, 쿠키값, 쿠키 만료일
+	var exdate = new Date();
+	exdate.setDate(exdate.getDate() + exdays);
+	var cookieValue = escape(value)
+		+ ((exdays == null) ? "" : "; expires=" + exdate.toGMTString());
+	document.cookie = cookieName + "=" + cookieValue;
+    }
+    //쿠키 삭제
+    function deleteCookie(cookieName) {
+	var expireDate = new Date();
+	expireDate.setDate(expireDate.getDate() - 1);
+	document.cookie = cookieName + "= " + "; expires="
+		+ expireDate.toGMTString();
+    }
+    //쿠키 값 가져오기 
+    function getCookie(cookieName) {
+	cookieName = cookieName + '=';
+	var cookieData = document.cookie;
+	var start = cookieData.indexOf(cookieName);
+	var cookieValue = '';
+	if (start != -1) { //쿠키가 존재할 경우
+	    start += cookieName.length;
+	    var end = cookieData.indexOf(';', start);
+	    if (end == -1) // 쿠키 값의 마지막 위치 인덱스 번호 설정
+		end = cookieData.length;
+
+	    cookieValue = cookieData.substring(start, end);
+	}
+	return unescape(cookieValue);
+    }
+</script>
+<style>
+#login_form {
+	width: 90%;
+	margin: 10% auto;
+}
+
+#login_buttons {
+	display: flex;
+}
+
+#login_buttons>* {
+	flex: 1;
+}
+
+#login_buttons :nth-child(1) {
+	margin-right: 1%;
+}
+</style>
 <!-- LoginForm -->
 <div class="offcanvas offcanvas-end" id="modalLoginForm" tabindex="-1" role="dialog" aria-hidden="true">
 
@@ -17,23 +107,43 @@
 		</a>
 	</div>
 
-	<!-- List group -->
-	<ul class="list-group list-group-lg list-group-flush">
-		<li class="list-group-item">
-			<div class="row align-items-center">아이디</div>
-		</li>
-		<li class="list-group-item">
-			<div class="row align-items-center">비밀번호</div>
-		</li>
-	</ul>
-
-
-	<!-- Buttons -->
-	<div class="offcanvas-body">
-		<a class="btn w-100 btn-dark" href="/olympic/member/login.do">로그인</a>
-		<a class="btn w-100 btn-outline-dark mt-2" href="/olympic/member/find.do">비밀번호 찾기</a>
-	</div>
-
+	<!-- Form -->
+	<form id="login_form" action="/olympic/member/login.do" method="post">
+		<!-- Heading -->
+		<h6 class="mb-7">Login</h6>
+		<div class="row">
+			<div class="col-12">
+				<div class="form-group">
+					<label class="visually-hidden" for="loginEmail"> Email Address * </label>
+					<input class="form-control form-control-sm" id="loginEmail" name="email" type="email" placeholder="Email Address *" required>
+				</div>
+			</div>
+			<div class="col-12">
+				<!-- Password -->
+				<div class="form-group">
+					<label class="visually-hidden" for="loginPassword"> Password * </label>
+					<input class="form-control form-control-sm" id="loginPassword" name="pwd" type="password" placeholder="Password *" required>
+				</div>
+			</div>
+		</div>
+		<div class="col-12 col-md">
+			<!-- Remember -->
+			<div class="form-group">
+				<div class="form-check">
+					<input class="form-check-input" id="loginRemember" type="checkbox">
+					<label class="form-check-label" for="loginRemember"> 아이디 저장 </label>
+				</div>
+			</div>
+		</div>
+		<!-- Buttons -->
+		<div class="offcanvas-body">
+			<button type="button" id="login_button" class="btn w-100 btn-dark">로그인</button>
+			<div id="login_buttons">
+				<a class="btn  btn-outline-dark mt-2" href="/olympic/member/find.do">비밀번호 찾기</a>
+				<a class="btn  btn-outline-dark mt-2" href="/olympic/member/regist.do">회원가입</a>
+			</div>
+		</div>
+	</form>
 </div>
 
 <!-- 비밀번호 초기화 알림 모달 -->
@@ -360,6 +470,7 @@
 			<h6>제24조(재판권 및 준거법)</h6>
 			<p>① “몰”과 이용자 간에 발생한 전자상거래 분쟁에 관한 소송은 제소 당시의 이용자의 주소에 의하고, 주소가 없는 경우에는 거소를 관할하는 지방법원의 전속관할로 합니다. 다만, 제소 당시 이용자의 주소 또는 거소가 분명하지 않거나 외국 거주자의 경우에는 민사소송법상의 관할법원에 제기합니다.</p>
 			<p>② “몰”과 이용자 간에 제기된 전자상거래 소송에는 한국법을 적용합니다.</p>
+
 		</div>
 	</div>
 </div>

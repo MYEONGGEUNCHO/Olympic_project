@@ -45,8 +45,8 @@ public class SportServiceImpl implements SportService {
     }
 
     @Override
-    public SportVO detailSport(SportVO sport) {
-        return mapper.detailSport(sport);
+    public SportVO detailSport(GameVO game) {
+        return mapper.detailSport(game);
     }
 
     @Override

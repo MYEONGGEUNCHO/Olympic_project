@@ -30,7 +30,7 @@ public class FavoriteTest {
         
     	// When
         Map<String, Object> map = new HashMap<>();
-        map.put("member_no", "1");
+        map.put("member_no", "3");
         map.put("game_id", 3);
 
         mapper.createFavorite(map);
