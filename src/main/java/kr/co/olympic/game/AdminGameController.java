@@ -48,12 +48,30 @@ public class AdminGameController {
     }
 
     @PostMapping("update.do")
-    public String updateGame(@RequestBody GameVO vo) {
-        return "admin/game/detail";
+    public String updateGame(Model model, GameVO vo) {
+    	int r = service.updateGame(vo);
+    	if (r > 0) {
+    		model.addAttribute("cmd", "move");
+    		model.addAttribute("msg", "정상적으로 수정되었습니다.");
+    		model.addAttribute("url", "/olympic/admin/game/stadium/index.do");
+    	} else {
+    		model.addAttribute("cmd", "back");
+    		model.addAttribute("msg", "등록 오류");
+    	}
+        return "common/alert";
     }
 
     @PostMapping("delete.do")
-    public String deleteGame(@RequestBody GameVO vo) {
-        return "admin/game/index";
+    public String deleteGame(Model model, GameVO vo) {
+    	int r = service.deleteGame(vo);
+    	if (r > 0) {
+    		model.addAttribute("cmd", "move");
+    		model.addAttribute("msg", "정상적으로 삭제되었습니다.");
+    		model.addAttribute("url", "/olympic/admin/game/index.do");
+    	} else {
+    		model.addAttribute("cmd", "back");
+    		model.addAttribute("msg", "삭제 오류");
+    	}
+        return "common/alert";
     }
 }

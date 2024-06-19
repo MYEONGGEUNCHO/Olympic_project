@@ -1,5 +1,9 @@
+<%@page import="com.fasterxml.jackson.annotation.JsonInclude.Include"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -63,116 +67,154 @@
 </script>
 </head>
 <body>
-	<h3>올림픽 경기일정 관리자 추가</h3>
-	<form method="post" name="frm" id="frm" action="/olympic/admin/game/create.do">
-		<table>
-			<colgroup>
-				<col width="35px">
-				<col width="35px">
-				<col width="35px">
-				<col width="35px">
-				<col width="35px">
-				<col width="35px">
-				<col width="35px">
-				<col width="35px">
-				<col width="35px">
-				<col width="35px">
-				<col width="35px">
-				<col width="35px">
-				<col width="35px">
-				<col width="35px">
-				<col width="35px">
-			</colgroup>
-			<tbody>
-				<tr>
-					<th>종목명</th>
-					<td>
-						<input type="text" name="sport_name" value=""/>
-					</td>
-				</tr>
-				<tr>
-					<th>국가1이름</th>
-					<td>
-						<input type="text" name="country1_name" value=""/>
-					</td>
-				</tr>
-				<tr>
-					<th>국가2이름</th>
-					<td>
-						<input type="text" name="country2_name" value=""/>
-					</td>
-				</tr>
-				<tr>
-					<th>토너먼트</th>
-					<td>
-						<input type="text" name="tournament" value=""/>
-					</td>
-				</tr>
-				<tr>
-					<th>국가대진</th>
-					<td>
-						<input type="text" name="country" value=""/>
-					</td>
-				</tr>
-				<tr>
-					<th>국가1국기_IMG_URL</th>
-					<td>
-						<input type="text" name="country1_flag" value=""/>
-					</td>
-				</tr>
-				<tr>
-					<th>국가2국기_IMG_URL</th>
-					<td>
-						<input type="text" name="country2_flag" value=""/>
-					</td>
-				</tr>
-				<tr>
-					<th>경기장이름</th>
-					<td>
-						<input type="text" name="stadium_name" value=""/>
-					</td>
-				</tr>
-				<tr>
-					<th>파리경기일자</th>
-					<td>
-						<input type="text" name="paris_date" value=""/>
-					</td>
-				</tr>
-				<tr>
-					<th>파리경기시간</th>
-					<td>
-						<input type="text" name="paris_time" value=""/>
-					</td>
-				</tr>
-				<tr>
-					<th>한국경기일자</th>
-					<td>
-						<input type="text" name="korea_date" value=""/>
-					</td>
-				</tr>
-				<tr>
-					<th>한국경기시간</th>
-					<td>
-						<input type="text" name="korea_time" value=""/>
-					</td>
-				</tr>
-				<tr>
-					<th>종목코드</th>
-					<td>
-						<input type="text" name="sport_code" value=""/>
-					</td>
-				</tr>
-				<tr>
-					<th>경기장ID</th>
-					<td>
-						<input type="text" name="stadium_no" value=""/>
-					</td>
-				</tr>
-			</tbody>
-		</table>
-		<div>
-			<a href="javascript:goSave()">생성</a>
-		</div>
-	</form>
+	<div id="wrapper">
+        <!-- 슬라이더 바 -->
+        <%@include file="/WEB-INF/views/common/adminslide.jsp"%>
+            <!-- Content Wrapper -->
+            <div id="content-wrapper" class="d-flex flex-column">
+    
+                <!-- Main Content -->
+                <div id="content">
+                <!-- 상단 툴바 -->
+                <%@include file="/WEB-INF/views/common/adminheader.jsp"%>
+                    
+                    <!-- 추가 -->
+                    <!-- Begin Page Content -->
+                    <div class="container-fluid">
+    
+                        <!-- Page Heading -->
+                        <h1 class="h3 mb-2 text-gray-800">Game Table</h1>
+                        <p class="mb-4">올림픽 경기일정 생성 페이지입니다.</p>
+    
+                        <!-- DataTales Example -->
+                        <div class="card shadow mb-4">
+                            <div class="card-header py-3">
+                                <h6 class="m-0 font-weight-bold text-primary">Game Table</h6>
+                            </div>
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <form method="post" name="frm" id="frm" action="/olympic/admin/game/create.do"></form>
+                                        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                            <colgroup>
+                                                <col width="35px">
+                                                <col width="35px">
+                                                <col width="35px">
+                                                <col width="35px">
+                                                <col width="35px">
+                                                <col width="35px">
+                                                <col width="35px">
+                                                <col width="35px">
+                                                <col width="35px">
+                                                <col width="35px">
+                                                <col width="35px">
+                                                <col width="35px">
+                                                <col width="35px">
+                                                <col width="35px">
+                                                <col width="35px">
+                                            </colgroup>
+                                            <tbody>
+                                                <tr>
+                                                    <th>종목명</th>
+                                                    <td>
+                                                        <input type="text" name="sport_name" value=""/>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <th>국가1이름</th>
+                                                    <td>
+                                                        <input type="text" name="country1_name" value=""/>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <th>국가2이름</th>
+                                                    <td>
+                                                        <input type="text" name="country2_name" value=""/>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <th>토너먼트</th>
+                                                    <td>
+                                                        <input type="text" name="tournament" value=""/>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <th>국가대진</th>
+                                                    <td>
+                                                        <input type="text" name="country" value=""/>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <th>국가1국기_IMG_URL</th>
+                                                    <td>
+                                                        <input type="text" name="country1_flag" value=""/>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <th>국가2국기_IMG_URL</th>
+                                                    <td>
+                                                        <input type="text" name="country2_flag" value=""/>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <th>경기장이름</th>
+                                                    <td>
+                                                        <input type="text" name="stadium_name" value=""/>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <th>파리경기일자</th>
+                                                    <td>
+                                                        <input type="text" name="paris_date" value=""/>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <th>파리경기시간</th>
+                                                    <td>
+                                                        <input type="text" name="paris_time" value=""/>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <th>한국경기일자</th>
+                                                    <td>
+                                                        <input type="text" name="korea_date" value=""/>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <th>한국경기시간</th>
+                                                    <td>
+                                                        <input type="text" name="korea_time" value=""/>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <th>종목코드</th>
+                                                    <td>
+                                                        <input type="text" name="sport_code" value=""/>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <th>경기장ID</th>
+                                                    <td>
+                                                        <input type="text" name="stadium_no" value=""/>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                        <div>
+                                            <a href="javascript:goSave()">생성</a>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /.container-fluid -->
+                </div>
+                <!-- End of Main Content -->
+                <!-- Footer -->
+                <%@include file="/WEB-INF/views/common/adminfooter.jsp"%>
+                <!-- End of Footer -->
+            </div>
+            <!-- End of Content Wrapper -->
+        </div>
 </body>
 </html>

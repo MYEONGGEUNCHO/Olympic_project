@@ -5,49 +5,100 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="UTF-8">
-    <title>올림픽 경기 일정</title>
-    <style>
-        #unknown_flag {
-            width: 100px;
-            height: 100px;
-            border-radius: 50%;
-            background: gray;
-            text-align: center;
-            line-height: 100px;
-            font-size: 50px;
-        }
-		#flag {
-			width: 100px;
-            height: 100px;
-            border-radius: 50%;
-            line-height: 100px;
-		}
-		#sport_pictogram {
-			width: 200px;
-            height: 100px;
-		}
-    </style>
-    <script src="/olympic/js/jquery-3.7.1.min.js"></script>
-    <script>
-   
+<meta charset="UTF-8">
+<title>올림픽 경기 일정</title>
+<style>
+    #unknown_flag {
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        background: gray;
+        text-align: center;
+        line-height: 100px;
+        font-size: 50px;
+    }
+    #flag {
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        line-height: 100px;
+    }
+    #sport_pictogram {
+        width: 200px;
+        height: 100px;
+    }
+</style>
+<script src="/olympic/js/jquery-3.7.1.min.js"></script>
+<script>
+    $(document).ready(function() {
+        $('#korea_date, #sport_name').on('change', function() {
+            var korea_date = $('#korea_date').val();
+            var sport_name = $('#sport_name').val();
+            
+            $.ajax({
+                url: '/olympic/game/index.do',
+                type: 'GET',
+                data: {
+                    korea_date: korea_date,
+                    sport_name: sport_name
+                },
+                success: function(data) {
+                    var content = '';
+                    if (!data || !Array.isArray(data)) {
+                        content += '<div><p>등록된 경기 일정이 없습니다.</p></div>';
+                    } else {
+                        data.forEach(function(vo) {
+                            content += '<div>';
+                            content += '<img src="' + vo.sport_pictogram + '" alt="스포츠 아이콘">';
+                            
+                            if (vo.country1_flag) {
+                                content += '<img src="' + vo.country1_flag + '" alt="나라1">';
+                            } else {
+                                content += '<div id="unknown_flag">?</div>';
+                            }
+                            
+                            if (vo.country2_flag) {
+                                content += '<img src="' + vo.country2_flag + '" alt="나라2">';
+                            } else {
+                                content += '<div id="unknown_flag">?</div>';
+                            }
+                            
+                            content += '<p>' + vo.stadium_name + '</p>';
+                            content += '<p>' + vo.tournament + '</p>';
+                            content += '<p>' + vo.korea_date + '</p>';
+                            
+                            if (vo.favorite == 0) {
+                                content += '<i class="fa-regular fa-heart" style="color: #4f4f4f;"></i>';
+                            } else {
+                                content += '<i class="fa-solid fa-heart" style="color: #f51919;"></i>';
+                            }
+                            
+                            content += '<button onclick="redirectToDetail(' + vo.game_id + ')">경기 상세 보기</button>';
+                            content += '</div>';
+                        });
+                    }
+                    
+                    $('#gameList').html(content);
+                },
+                error: function(xhr, status, error) {
+                    console.error('에러 발생: ' + error);
+                }
+            });
+        });
+    });
 
     function redirectToDetail(game_id) {
-        window.location.href = '/olympic/game/detail.do?game_id=' + game_id;
+        window.location.href = '${pageContext.request.contextPath}/game/detail.do?game_id=' + game_id;
     }
-    </script>
+</script>
 </head>
 <body>
-    <!--  타이틀 - 카테고리 - 아이콘들 포함된 헤더 -->
     <%@include file="/WEB-INF/views/common/header.jsp"%>
-    <!--  헤더 하단 현재 경로 노출 -->
     <%@include file="/WEB-INF/views/common/breadcrumb.jsp"%>
-    <!--  메인 컨텐트 CONTENT 태그 찾아서 그 부분만 사용하면됨-->
     <section>
         <div>
-            <input type="date" name="search_date" id="search_date" min="2024-07-26" max="2024-08-11"
-                value="2024-07-26">
-            <select name="search_sport" id="search_sport" >
+            <input type="date" name="korea_date" id="korea_date" min="2024-07-26" max="2024-08-11" value="2024-07-26">
+            <select name="sport_name" id="sport_name">
                 <option value="all" selected>전체종목</option>
                 <option value="양궁">양궁</option>
                 <option value="육상">육상</option>
@@ -96,44 +147,10 @@
                 <option value="레슬링">레슬링</option>
             </select>
         </div>
-        <div>
-            <c:if test="${empty map}">
-                <tr>
-                    <td colspan="15">등록된 종목이 없습니다.</td>
-                </tr>
-            </c:if>
-            <c:forEach var="vo" items="${map}">
-                <div>
-                    <img src="${vo.sport_pictogram}" alt="" id="sport_pictogram">
-                    <c:if test="${!empty vo.country1_flag}">
-                        <img src="${vo.country1_flag}" alt="" id="flag">
-                    </c:if>
-                    <c:if test="${empty vo.country1_flag}">
-                        <div id="unknown_flag">?</div>
-                    </c:if>
-                    <c:if test="${!empty vo.country2_flag}">
-                        <img src="${vo.country2_flag}" alt="" id="flag">
-                    </c:if>
-                    <c:if test="${empty vo.country2_flag}">
-                        <div id="unknown_flag">?</div>
-                    </c:if>
-                    <p>${vo.stadium_name}</p>
-                    <p>${vo.tournament}</p>
-                    <p>${vo.korea_date}</p>
-					
-					<c:if test="${vo.favorite == 0}">
-						<i id="create_favorite" class="fa-regular fa-heart" style="color: #4f4f4f;"></i>
-					</c:if>
-					<c:if test="${vo.favorite == 1}">
-						<i id="delete_favorite" class="fa-solid fa-heart" style="color: #f51919;"></i>
-					</c:if>
-					
-                    <button onclick="redirectToDetail(${vo.game_id })">경기 상세 보기</button>
-                </div>
-            </c:forEach>
+        <div id="gameList">
+            <!-- Ajax로 받은 데이터를 여기에 추가할 예정 -->
         </div>
     </section>
-    <!-- 푸터  -->
     <%@include file="/WEB-INF/views/common/footer.jsp"%>
 </body>
 </html>

@@ -28,7 +28,7 @@
 		SELECT * FROM stadium
 	</select>
 	<!-- 경기장 상세조회 -->
-	<select id="detailStadium" parameterType="kr.co.olympic.game.StadiumVO" resultType="kr.co.olympic.game.StadiumVO">
+	<select id="detailStadium" parameterType="kr.co.olympic.game.GameVO" resultType="kr.co.olympic.game.StadiumVO">
 		SELECT * FROM stadium WHERE stadium_no = #{stadium_no}
 	</select>
 	<!-- 경기장 수정 -->

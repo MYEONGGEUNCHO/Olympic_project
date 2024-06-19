@@ -94,7 +94,7 @@ public class MemberTest {
 		mapper.checkEmail(vo);
 	}
 
-	// 선호하는 게임 목록 조회 테스트
+	// 관심 경기 테스트
     @Test
     public void listFavorite() {
     	MemberVO vo = new MemberVO();

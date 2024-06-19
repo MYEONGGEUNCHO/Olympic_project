@@ -13,9 +13,6 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
-<script>
-
-</script>
 <style type="text/css">
     table {
         border-collapse: collapse !important;
@@ -29,9 +26,36 @@
         padding: 8px !important; /* 셀의 여백 설정 */
     }
 </style>
+<script>
+	$(document).ready(function() {
+		$(".update_btn").click(function() {
+			alert(1)
+			
+			$("#editModal").modal('show');
+		});
+		
+		$(".delete_btn").click(function() {
+			// 서버로 이메일 값 전송
+	         $.ajax({
+	             type: "POST",
+	             url: "/olympic/admin/game/delete.do",
+	             data: { email: email },
+	             success: function(data) {
+	            	 if(data == 1){
+		            	 alert("");
+	            	 }else{
+	                	 alert("오류 발생.");
+	                	 return;
+	                 }
+	             }
+	         });
+		});
+	});
+</script>
 </head>
 
 <body>
+	<%@include file="/WEB-INF/views/admin/game/item/modals.jsp"%>
 	<div id="wrapper">
 	<!-- 슬라이더 바 -->
 	<%@include file="/WEB-INF/views/common/adminslide.jsp"%>
@@ -106,24 +130,24 @@
                                         </c:if>
                                         <c:forEach var="vo" items="${map.list }">
                                             <tr>
-                                                <td>${vo.game_id }</td>
-                                                <td>${vo.sport_name }</td>
-                                                <td>${vo.country1_name }</td>
-                                                <td>${vo.country2_name }</td>
-                                                <td>${vo.tournament }</td>
-                                                <td>${vo.country }</td>
-                                                <td>${vo.country1_flag }</td>
-                                                <td>${vo.country2_flag }</td>
-                                                <td>${vo.stadium_name }</td>
-                                                <td>${vo.paris_date }</td>
-                                                <td>${vo.paris_time }</td>
-                                                <td>${vo.korea_date }</td>
-                                                <td>${vo.korea_time }</td>
-                                                <td>${vo.sport_code }</td>
-                                                <td>${vo.stadium_no }</td>
+                                                <td id="game_id">${vo.game_id }</td>
+                                                <td id="sport_name">${vo.sport_name }</td>
+                                                <td id="country1_name">${vo.country1_name }</td>
+                                                <td id="country2_name">${vo.country2_name }</td>
+                                                <td id="tournament">${vo.tournament }</td>
+                                                <td id="country">${vo.country }</td>
+                                                <td id="country1_flag">${vo.country1_flag }</td>
+                                                <td id="country2_flag">${vo.country2_flag }</td>
+                                                <td id="stadium_name">${vo.stadium_name }</td>
+                                                <td id="paris_date">${vo.paris_date }</td>
+                                                <td id="paris_time">${vo.paris_time }</td>
+                                                <td id="korea_date">${vo.korea_date }</td>
+                                                <td id="korea_time">${vo.korea_time }</td>
+                                                <td id="sport_code">${vo.sport_code }</td>
+                                                <td id="stadium_no">${vo.stadium_no }</td>
                                                 <td>
-													<input type="button" value="수정" onclick="" id="update">
-													<input type="button" value="삭제" onclick="" id="update">
+													<button type="button" class="update_btn btn btn-info">수정</button>&ensp; 
+											        <button type="button" class="delete_btn btn btn-warning">삭제</button>
 												</td>
                                             </tr>
                                         </c:forEach>

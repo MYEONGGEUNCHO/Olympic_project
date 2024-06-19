@@ -13,9 +13,6 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
-<script>
-
-</script>
 <style type="text/css">
     table {
         border-collapse: collapse !important;
@@ -29,9 +26,36 @@
         padding: 8px !important; /* 셀의 여백 설정 */
     }
 </style>
+<script>
+	$(document).ready(function() {
+		$(".update_btn").click(function() {
+			alert(1)
+			
+			$("#editModal").modal('show');
+		});
+		
+		$(".delete_btn").click(function() {
+			// 서버로 이메일 값 전송
+	         $.ajax({
+	             type: "POST",
+	             url: "/olympic/admin/game/sport/delete.do",
+	             data: { email: email },
+	             success: function(data) {
+	            	 if(data == 1){
+		            	 alert("");
+	            	 }else{
+	                	 alert("오류 발생.");
+	                	 return;
+	                 }
+	             }
+	         });
+		});
+	});
+</script>
 </head>
 
 <body>
+	<%@include file="/WEB-INF/views/admin/game/sport/modals.jsp"%>
 	<div id="wrapper">
 	<!-- 슬라이더 바 -->
 	<%@include file="/WEB-INF/views/common/adminslide.jsp"%>
@@ -93,22 +117,25 @@
                                         </c:if>
                                         <c:forEach var="vo" items="${map.list }">
                                             <tr>
-                                                <td >${vo.sport_code }</td>
-                                                <td >${vo.sport_name }</td>
-                                                <td >${vo.sport_pictogram }</td>
-                                                <td >${vo.title_image }</td>
-                                                <td >${vo.link }</td>
-                                                <td >${vo.sport_info }</td>
-                                                <td >${vo.sport_rule }</td>
-                                                <td >${vo.sport_history }</td>
+                                                <td id="sport_code">${vo.sport_code }</td>
+                                                <td id="sport_name">${vo.sport_name }</td>
+                                                <td id="sport_pictogram">${vo.sport_pictogram }</td>
+                                                <td id="title_image">${vo.title_image }</td>
+                                                <td id="link">${vo.link }</td>
+                                                <td id="sport_info">${vo.sport_info }</td>
+                                                <td id="sport_rule">${vo.sport_rule }</td>
+                                                <td id="sport_history">${vo.sport_history }</td>
                                                 <td>
-													<input type="button" value="수정" onclick="" id="update">
-													<input type="button" value="삭제" onclick="" id="update">
+													<button type="button" class="update_btn btn btn-info">수정</button>&ensp; 
+											        <button type="button" class="delete_btn btn btn-warning">삭제</button>
 												</td>
                                             </tr>
                                         </c:forEach>
                                     </tbody>
 								</table>
+								<div>
+                                    <a href="/olympic/admin/game/sport/write.do">종목 추가</a>
+                                </div>
                             </div>
                         </div>
                     </div>

@@ -9,7 +9,7 @@ public interface SportService {
 	// 종목 리스트
 	Map<String, Object> listSport(SportVO sport);
 	// 종목 상세
-    SportVO detailSport(SportVO sport);
+    SportVO detailSport(GameVO game);
     // 종목 수정
     int updateSport(SportVO sport);
     // 종목 삭제

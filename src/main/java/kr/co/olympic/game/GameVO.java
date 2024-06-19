@@ -1,6 +1,5 @@
 package kr.co.olympic.game;
 
-import java.sql.Timestamp;
 import java.util.List;
 
 import lombok.Data;
@@ -22,12 +21,19 @@ public class GameVO {
 	private String korea_time;
 	private String sport_code;
 	private int stadium_no;
-	
 	private String sport_pictogram;
-	private List<PlayerVO> play_game;
+	private int favorite;
+	
+	private StadiumVO stadium;
+	private SportVO sport;
+	private ItemVO item;
+	
+	private List<PlayerVO> game_player;
 	private List<CommentVO> comment;
 	
 	// 사용자로부터 전송되어지는 값(검색, 페이징, 필터링(조건))
+	private String search_date;
+	private String search_sport;
 	private String searchType;
 	private String searchWord;
 	private int page; // 사용자가 요청한 페이지 번호
@@ -35,6 +41,8 @@ public class GameVO {
 	
 	public GameVO() {
 		this.page = 1;
+		// 위 객체를 통해서 detail이 가져와야함
+		
 	}
 	
 	public int getStartIdx() {
