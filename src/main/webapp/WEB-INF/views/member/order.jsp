@@ -86,6 +86,18 @@ function pagination() {
 
 $(document).ready(function() {
     pagination();
+    
+    $(document).on("click", ".cancelOrder", function() {
+    	
+        var row = $(this).closest("tr");
+		var imp_uid = row.find("#imp_uid").text();
+        $('#modalOrderNo').text(row.find("#order_no").text());
+        $('#modalBuyDate').text(row.find("#buy_date").text());
+        $('#modalSportName').text(row.find("#tournament").text());
+        $('#modalStadiumName').text(row.find("#stadium_name").text());
+        $('#modalKoreaDate').text(row.find("#korea_date").text());
+        $('#modalTicketCount').text(row.find("#ticket_count").text());
+    });
 });
 </script>
 <style>
@@ -162,10 +174,11 @@ $(document).ready(function() {
 		        <colgroup>
 		            <col width=28%>
 		            <col width=12%>
-		            <col width=20%>
+		            <col width=17%>
 		            <col width=15%>
-		            <col width=14%>
+		            <col width=13%>
 		            <col width=5%>
+		            <col width=8%>
 		        </colgroup>
 				  <thead>
 				    <tr>
@@ -175,6 +188,7 @@ $(document).ready(function() {
 				      <th class="px-0 py-2" scope="col">경기장</th>
 				      <th class="px-0 py-2" scope="col">경기일자</th>
 				      <th class="px-0 py-2" scope="col">매수</th>
+				      <th class="px-0 py-2" scope="col">취소</th>
 				    </tr>
 				  </thead>
 				  <tbody class="table-group-divider" id="orderBody">
@@ -182,18 +196,20 @@ $(document).ready(function() {
 				  <c:choose>
 					<c:when test="${empty order}">
 						<tr>
-					    	<td colspan="6" onclick='event.cancelBubble=true;'>예매 내역이 없습니다.</td>
+					    	<td colspan="7" onclick='event.cancelBubble=true;'>예매 내역이 없습니다.</td>
 						</tr>
 					</c:when>
 					<c:otherwise>
 						<c:forEach var="orderItem" items="${order}">
-							<tr>
-                                <td class="py-4 px-1">${orderItem.order_no}</td>
-                                <td class="py-4 px-1"><fmt:formatDate value="${orderItem.buy_date}" pattern="yyyy-MM-dd"/></td>
-                                <td class="py-4 px-1">${orderItem.sport_name} ${orderItem.tournament }</td>
-                                <td class="py-4 px-1">${orderItem.stadium_name}</td>
-								<td class="py-2 px-1"><fmt:formatDate value="${orderItem.korea_date}" pattern="yyyy-MM-dd"/><br>${orderItem.korea_time}</td>
-                                <td class="py-4 px-1">${orderItem.ticket_count }</td>
+							<tr class="order-row">
+								<td id="imp_uid" style="display:none;">${orderItem.imp_uid}</td>
+                                <td class="py-3 px-1" id="order_no">${orderItem.order_no}</td>
+                                <td class="py-3 px-1" id="buy_date"><fmt:formatDate value="${orderItem.buy_date}" pattern="yyyy-MM-dd"/></td>
+                                <td class="py-2 px-1" id="tournament">${orderItem.sport_name}<br>${orderItem.tournament }</td>
+                                <td class="py-3 px-1" id="stadium_name">${orderItem.stadium_name}</td>
+								<td class="py-2 px-1" id="korea_date"><fmt:formatDate value="${orderItem.korea_date}" pattern="yyyy-MM-dd"/><br>${orderItem.korea_time}</td>
+                                <td class="py-3 px-1" id="ticket_count">${orderItem.ticket_count }</td>
+                                <td class="py-3 px-1" id="cancel"><a class="cancelOrder danger" data-bs-toggle="modal" href="#CancelOrderModal" >취소하기</a></td>
 							</tr>
 						</c:forEach>
 					</c:otherwise>
