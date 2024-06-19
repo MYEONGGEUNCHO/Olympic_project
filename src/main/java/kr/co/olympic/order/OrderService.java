@@ -53,6 +53,8 @@ public interface OrderService {
     PaymentVO preparePaymentVO(MemberVO member, PaymentVO paymentVO);
   	//포인트 객체 DB 저장 
     void insertPoint(PointVO pointVO);
+    // 포인트 추가 메서드
+    void addPoint(String memberNo, int point);
     //회원객체로 포인트 건 조회 
     List<PointVO> getPointsByMemberNo(MemberVO member);
     //회원객체로 잔여 포인트 확인 
@@ -82,5 +84,8 @@ public interface OrderService {
 	List<PaymentVO> getExpiredReservations();
 	
 	void updateReservationToConfirmed(Map<String, Object> params);
+	
+	void cleanupExpiredReservations(int item_no);
+
 	
 }

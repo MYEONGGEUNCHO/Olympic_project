@@ -266,4 +266,61 @@
 	    SET is_confirmed = TRUE
 	    WHERE item_no = #{payment.item_no} AND member_no = #{member.member_no}
 	</update>
+	
+	<update id="addPoint" parameterType="map">
+	    UPDATE member
+	    SET point = point + #{point}
+	    WHERE member_no = #{member_no}
+	</update>
+	
+	<select id="getExpiredReservationsByItemNo" resultType="kr.co.olympic.order.PaymentVO">
+	<![CDATA[
+        SELECT 
+            member_no,
+            item_no,
+            a_seat_count AS a_seat_sold,
+            b_seat_count AS b_seat_sold,
+            c_seat_count AS c_seat_sold,
+            d_seat_count AS d_seat_sold,
+            vip_seat_count AS vip_seat_sold
+        FROM seat_reservation
+        WHERE item_no = #{item_no} AND expiration_time < NOW() AND is_confirmed = FALSE
+        ]]>
+    </select>
+    
+    <!-- seat_reservation 테이블에서 만료된 예약의 좌석 수 합산 -->
+	<select id="getTotalExpiredSeatCountsByItemNo" resultType="kr.co.olympic.order.PaymentVO">
+	    <![CDATA[
+	    SELECT 
+	        SUM(a_seat_count) AS a_seat_sold,
+	        SUM(b_seat_count) AS b_seat_sold,
+	        SUM(c_seat_count) AS c_seat_sold,
+	        SUM(d_seat_count) AS d_seat_sold,
+	        SUM(vip_seat_count) AS vip_seat_sold
+	    FROM seat_reservation
+	    WHERE item_no = #{item_no} AND expiration_time < NOW() AND is_confirmed = FALSE
+	    ]]>
+	</select>
+	
+	<!-- item 테이블의 좌석 수 감소 -->
+	<update id="decreaseSeatSoldCount" parameterType="map">
+	    <![CDATA[
+	    UPDATE item
+	    SET 
+	        a_seat_sold = a_seat_sold - #{a_seat_sold},
+	        b_seat_sold = b_seat_sold - #{b_seat_sold},
+	        c_seat_sold = c_seat_sold - #{c_seat_sold},
+	        d_seat_sold = d_seat_sold - #{d_seat_sold},
+	        vip_seat_sold = vip_seat_sold - #{vip_seat_sold}
+	    WHERE item_no = #{item_no}
+	    ]]>
+	</update>
+
+    <delete id="deleteExpiredReservationsByItemNo">
+    <![CDATA[
+        DELETE 
+        FROM seat_reservation
+        WHERE item_no = #{item_no} AND expiration_time < NOW() AND is_confirmed = FALSE
+        ]]>
+    </delete>
 </mapper>

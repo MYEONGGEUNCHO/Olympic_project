@@ -37,12 +37,22 @@ document.addEventListener("DOMContentLoaded", function() {
         const remainingTime = timeoutMilliseconds - (Date.now() - startTime);
         const minutes = Math.floor(remainingTime / (60 * 1000));
         const seconds = Math.floor((remainingTime % (60 * 1000)) / 1000);
-        //countdownElement.innerText = `남은 시간: ${minutes}분 ${seconds}초`;
+        countdownElement.innerText = `남은 시간: ${minutes}분 ${seconds}초`;
 
         if (remainingTime <= 0) {
             clearInterval(countdownInterval);
             alert('결제 시간이 초과되었습니다. 다시 시도해주세요.');
-            window.location.href = '/olympic/index.do'; // 메인 페이지로 리다이렉트
+            const item_no2 = document.getElementById('hidden_item_no').value;
+            fetch(`/olympic/order/cleanupExpiredReservations?item_no=${item_no2}`)
+                .then(response => response.text())
+                .then(data => {
+                    console.log(data);
+                    window.location.href = '/olympic/index.do'; // 메인 페이지로 리다이렉트
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    window.location.href = '/olympic/index.do'; // 메인 페이지로 리다이렉트
+                });
         }
     }, 1000);
 

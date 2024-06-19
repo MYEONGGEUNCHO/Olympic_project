@@ -53,6 +53,8 @@ public interface OrderMapper {
   	
   	//포인트 객체 DB 저장 
     void insertPoint(PointVO pointVO);
+    // 포인트 회원 추가 메서드
+    void addPoint(Map<String, Object> params);
     //회원객체로 포인트 건 조회 
     List<PointVO> getPointsByMemberNo(MemberVO member);
     //회원객체로 잔여 포인트 확인 
@@ -74,4 +76,9 @@ public interface OrderMapper {
     List<PaymentVO> getExpiredReservations();
     
     void updateReservationToConfirmed(Map<String, Object> params);
+    
+    List<PaymentVO> getExpiredReservationsByItemNo(int item_no);
+    PaymentVO getTotalExpiredSeatCountsByItemNo(int item_no);
+    void decreaseSeatSoldCount(Map<String, Object> params);
+    void deleteExpiredReservationsByItemNo(int item_no);
 }

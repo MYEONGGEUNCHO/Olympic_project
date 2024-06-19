@@ -17,6 +17,7 @@ import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
+import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
@@ -34,6 +35,7 @@ import com.zaxxer.hikari.HikariDataSource;
 @MapperScan(basePackages = "kr.co.olympic", annotationClass = Mapper.class)
 @EnableWebMvc
 @EnableTransactionManagement
+@EnableScheduling
 public class MvcConfig implements WebMvcConfigurer {
 	
 	@Value("${email.username}")

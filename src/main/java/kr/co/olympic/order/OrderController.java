@@ -58,6 +58,16 @@ public class OrderController {
 		return "/order/index";
 	}
 	
+	@GetMapping("/order/cleanupExpiredReservations")
+	public ResponseEntity<String> cleanupExpiredReservations(@RequestParam("item_no") int item_no) {
+	    try {
+	        orderService.cleanupExpiredReservations(item_no);
+	        return ResponseEntity.ok("Expired reservations cleaned up successfully.");
+	    } catch (Exception e) {
+	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error occurred during cleanup.");
+	    }
+	}
+	
 	@GetMapping("/order/test_temp.do")
 	public String start_test(HttpSession session, Model model) {
 		// 세션에서 MemberVO 객체 가져오기
@@ -96,7 +106,11 @@ public class OrderController {
 	}
 	
 	@PostMapping("/order/initOrder")
-	public String initOrder(@ModelAttribute PaymentVO paymentVO, HttpSession session, RedirectAttributes redirectAttributes) {
+	public String initOrder(@ModelAttribute PaymentVO paymentVO,@RequestParam("a_seat_cnt") int aSeatCnt,
+	        @RequestParam("b_seat_cnt") int bSeatCnt,
+	        @RequestParam("c_seat_cnt") int cSeatCnt,
+	        @RequestParam("d_seat_cnt") int dSeatCnt,
+	        @RequestParam("vip_seat_cnt") int vipSeatCnt, HttpSession session, RedirectAttributes redirectAttributes) {
 		
 		
 		// 세션에서 MemberVO 객체 가져오기
@@ -116,6 +130,12 @@ public class OrderController {
 	    if (member == null) {
 	        return "redirect:/login";
 	    }
+	    paymentVO.setA_seat_sold(aSeatCnt);
+	    paymentVO.setB_seat_sold(bSeatCnt);
+	    paymentVO.setC_seat_sold(cSeatCnt);
+	    paymentVO.setD_seat_sold(dSeatCnt);
+	    paymentVO.setVip_seat_sold(vipSeatCnt);
+	    
 	    
 	    Map<String, Boolean> seatAvailability = orderService.checkSeatAvailability(paymentVO);
 	    Map<String, Integer> countSeat = orderService.countSeatAvailability(paymentVO);
@@ -142,9 +162,6 @@ public class OrderController {
 	    redirectAttributes.addFlashAttribute("member", member);
 	    redirectAttributes.addFlashAttribute("payment", tempPay);
 	    redirectAttributes.addFlashAttribute("impKey", orderService.getImpCode());
-	    
-	    //주문서 들어가기 직전에 카운트업하기 
-	    //orderService.updateSeatSoldCount(paymentVO);
 	    
 	    // 좌석이 충분한 경우에만 카운트업하기
 	    if (seatAvailability.values().stream().allMatch(available -> available)) {
@@ -295,6 +312,8 @@ public class OrderController {
             pointVO.setPoint(currentOrder.getPoint());
             pointVO.setUse(false); //false 가 적립건, true는 사용건 
             orderService.insertPoint(pointVO);
+            orderService.addPoint(member.getMember_no(), pointVO.getPoint());
+            
             
             // TODO 4 : 사용한 쿠폰을 쿠폰DB에서 coupon_no로 찾아서 상태를 used로 변경해주기 
             orderService.setCouponUsed(currentOrder.getCoupon_no());

@@ -236,6 +236,14 @@ public class OrderServiceImpl implements OrderService {
 	}
 	
 	@Override
+    public void addPoint(String memberNo, int point) {
+        Map<String, Object> params = new HashMap<>();
+        params.put("member_no", memberNo);
+        params.put("point", point);
+        mapper.addPoint(params);
+    }
+	
+	@Override
 	public List<PointVO> getPointsByMemberNo(MemberVO member){
 		return mapper.getPointsByMemberNo(member);
 	}
@@ -408,8 +416,8 @@ public class OrderServiceImpl implements OrderService {
         return mapper.getExpiredReservations();
     }
     
-    @Scheduled(fixedRate = 60000) // 1분마다 실행
-    @Transactional
+    //@Scheduled(fixedRate = 60000) // 1분마다 실행
+    
     public void releaseExpiredSeatsScheduled(MemberVO member) {
         List<PaymentVO> expiredReservations = mapper.getExpiredReservations();
         Map<String, Object> params = new HashMap<>();
@@ -429,6 +437,27 @@ public class OrderServiceImpl implements OrderService {
 	@Override
 	public List<OrderDTO> listOrder(MemberVO vo) {
 		return mapper.listOrder(vo);
+	}
+	
+	@Override
+	public void cleanupExpiredReservations(int item_no) {
+		 // 만료된 예약의 좌석 수 합산
+	    PaymentVO expiredSeatCounts = mapper.getTotalExpiredSeatCountsByItemNo(item_no);
+
+	    if (expiredSeatCounts != null) {
+	        // item 테이블의 좌석 수 감소
+	        Map<String, Object> params = new HashMap<>();
+	        params.put("a_seat_sold", expiredSeatCounts.getA_seat_sold());
+	        params.put("b_seat_sold", expiredSeatCounts.getB_seat_sold());
+	        params.put("c_seat_sold", expiredSeatCounts.getC_seat_sold());
+	        params.put("d_seat_sold", expiredSeatCounts.getD_seat_sold());
+	        params.put("vip_seat_sold", expiredSeatCounts.getVip_seat_sold());
+	        params.put("item_no", item_no);
+	        mapper.decreaseSeatSoldCount(params);
+	    }
+
+	    // 만료된 예약 삭제
+	    mapper.deleteExpiredReservationsByItemNo(item_no);
 	}
 
 }
