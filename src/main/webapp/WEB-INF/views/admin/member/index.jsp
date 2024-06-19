@@ -34,7 +34,7 @@
      
      $("#saveBtn").click(function() {
          // 폼 데이터를 직렬화하여 전송
-         var form = $("#frm");
+         var form = $("#memberfrm");
          var formData = form.serialize();
 
          $.ajax({
@@ -42,7 +42,7 @@
              url: '/olympic/admin/updateMember.do',
              data: formData,
              success: function(data) {
-                 if (data == 1) { // 예를 들어 서버에서 성공적으로 처리되었음을 'success' 문자열로 반환한다고 가정
+                 if (data == 1) { 
                      var mememail = $("#editEmail").val();
                      var row = $("#dataTable").find("tr").filter(function() {
                          return $(this).find("#email").text() === mememail;
@@ -50,9 +50,6 @@
                      row.find("#name").text($("#editName").val());
                      row.find("#point").text($("#editPoint").val());
                      row.find("#membership").text($("#editMemberShip").val());
-                     
-                     var stateValue = $("#editState").val(); 
-                     row.find("#state").data("state", stateValue);
                      
                      var newState = $("#editState").val(); 
                      row.find("#state").data("state", newState); 

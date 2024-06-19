@@ -29,32 +29,96 @@
 <script>
 	$(document).ready(function() {
 		$(".update_btn").click(function() {
-			alert(1)
+			var row = $(this).closest("tr");
+			$("#editsportCode").val(row.find("#sport_code").text());
+	    	$("#editsportName").val(row.find("#sport_name").text());
+	    	$("#editsport_pictogram").val(row.find("#sport_pictogram").text());
+	    	$("#edittitle_image").val(row.find("#title_image").text());
+	    	$("#editlink").val(row.find("#link").text());
+	    	$("#editsport_info").val(row.find("#sport_info").text());
+	    	$("#editsport_rule").val(row.find("#sport_rule").text());
+	    	$("#editsport_history").val(row.find("#sport_history").text());
+	    	
+			$("#editSportModal").modal('show');
+		});
+		
+		$("#saveSport").click(function() {
 			
-			$("#editModal").modal('show');
+	        var form = $("#sportfrm");
+	        var formData = form.serialize();
+	        
+	        $.ajax({
+	        	type: 'POST',
+	        	url: '/olympic/admin/game/sport/update.do',
+	        	data: formData,
+	        	success:function(res){
+	        		if(res == 1){
+	        			var sportCode = $("#editsportCode").val();
+		       	 		var row;
+		            	// 수정일 경우
+			            row = $("#dataTable").find("tr").filter(function() {
+			                return $(this).find("#sport_code").text() == sportCode;
+			            });
+			
+			            row.find("#sport_code").text($("#editsportCode").val());
+			            row.find("#sport_name").text($("#editsportName").val());
+			            row.find("#sport_pictogram").text($("#editsport_pictogram").val());
+			            row.find("#title_image").text($("#edittitle_image").val());
+			            row.find("#link").text($("#editlink").val());
+			            row.find("#country1_flag").text($("#editcountry1_flag").val());
+			            row.find("#country2_flag").text($("#editcountry2_flag").val());
+			            row.find("#stadium_name").text($("#editstadium_name").val());
+			            row.find("#sport_info").text($("#editsport_info").val());
+			            row.find("#sport_rule").text($("#editsport_rule").val());
+			            row.find("#sport_history").text($("#editsport_history").val());
+			
+			            alert('수정되었습니다.');
+			            $("#editSportModal").modal('hide');
+	        		}
+	        		else{
+	        			alert('수정 오류');
+	        		}
+	        		
+		            
+	        	},error: function(xhr, status, error) {
+	                alert('오류 발생:  ' + error);
+	            }
+	        	
+	        });
 		});
 		
 		$(".delete_btn").click(function() {
 			// 서버로 이메일 값 전송
+			var row = $(this).closest("tr");
+	    	var sport_code = row.find("#sport_code").text();
+	    	var delete_confirm = confirm("정말로 삭제하시겠습니까?");
+	    	
 	         $.ajax({
 	             type: "POST",
 	             url: "/olympic/admin/game/sport/delete.do",
-	             data: { email: email },
+	             data: { sport_code : parseInt(sport_code) },
 	             success: function(data) {
 	            	 if(data == 1){
-		            	 alert("");
+	            		alert('삭제가 완료되었습니다.');
+	            		location.reload();
+	 					//location.href = "/olympic/admin/game/index.do";
 	            	 }else{
-	                	 alert("오류 발생.");
+	                	 alert("삭제 실패");
 	                	 return;
 	                 }
+	             },
+	             error: function(xhr, status, error) {
+	                 alert('오류 발생: ' + error);
 	             }
 	         });
+		});
 		});
 	});
 </script>
 </head>
 
 <body>
+	<%@include file="/WEB-INF/views/common/adminmodals.jsp"%>
 	<%@include file="/WEB-INF/views/admin/game/sport/modals.jsp"%>
 	<div id="wrapper">
 	<!-- 슬라이더 바 -->

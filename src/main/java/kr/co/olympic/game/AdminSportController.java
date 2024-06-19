@@ -7,9 +7,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import kr.co.olympic.member.MemberVO;
 
@@ -49,32 +51,16 @@ public class AdminSportController {
     public String detailSport(@RequestBody SportVO vo) {
         return "/admin/game/item/detail";
     }
-
+    
+    @ResponseBody
     @PostMapping("update.do")
-    public String updateSport(Model model, SportVO vo) {
-    	int r = service.updateSport(vo);
-    	if (r > 0) {
-    		model.addAttribute("cmd", "move");
-    		model.addAttribute("msg", "정상적으로 수정되었습니다.");
-    		model.addAttribute("url", "/olympic/admin/game/sport/index.do");
-    	} else {
-    		model.addAttribute("cmd", "back");
-    		model.addAttribute("msg", "수정 오류");
-    	}
-        return "common/alert";
+    public int updateSport(@ModelAttribute SportVO vo) {
+    	return service.updateSport(vo);
     }
 
+    @ResponseBody
     @PostMapping("delete.do")
-    public String deleteSport(Model model, SportVO vo) {
-    	int r = service.deleteSport(vo);
-    	if (r > 0) {
-    		model.addAttribute("cmd", "move");
-    		model.addAttribute("msg", "정상적으로 삭제되었습니다.");
-    		model.addAttribute("url", "/olympic/admin/game/sport/index.do");
-    	} else {
-    		model.addAttribute("cmd", "back");
-    		model.addAttribute("msg", "삭제 오류");
-    	}
-        return "common/alert";
+    public int deleteSport(SportVO vo) {
+    	return service.deleteSport(vo);
     }
 }

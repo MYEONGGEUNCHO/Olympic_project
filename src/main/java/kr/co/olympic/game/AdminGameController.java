@@ -7,9 +7,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 @RequestMapping("/admin/game")
@@ -48,30 +50,25 @@ public class AdminGameController {
     }
 
     @PostMapping("update.do")
-    public String updateGame(Model model, GameVO vo) {
-    	int r = service.updateGame(vo);
-    	if (r > 0) {
-    		model.addAttribute("cmd", "move");
-    		model.addAttribute("msg", "정상적으로 수정되었습니다.");
-    		model.addAttribute("url", "/olympic/admin/game/stadium/index.do");
-    	} else {
-    		model.addAttribute("cmd", "back");
-    		model.addAttribute("msg", "등록 오류");
-    	}
-        return "common/alert";
+    @ResponseBody
+    public int updateGame(@ModelAttribute GameVO vo) {
+    	return service.updateGame(vo);
+//    	return r;
+//    	if (r > 0) {
+//    		model.addAttribute("cmd", "move");
+//    		model.addAttribute("msg", "정상적으로 수정되었습니다.");
+//    		model.addAttribute("url", "/olympic/admin/game/stadium/index.do");
+//    	} else {
+//    		model.addAttribute("cmd", "back");
+//    		model.addAttribute("msg", "등록 오류");
+//    	}
+//        return "common/alert";
     }
 
+    @ResponseBody
     @PostMapping("delete.do")
-    public String deleteGame(Model model, GameVO vo) {
-    	int r = service.deleteGame(vo);
-    	if (r > 0) {
-    		model.addAttribute("cmd", "move");
-    		model.addAttribute("msg", "정상적으로 삭제되었습니다.");
-    		model.addAttribute("url", "/olympic/admin/game/index.do");
-    	} else {
-    		model.addAttribute("cmd", "back");
-    		model.addAttribute("msg", "삭제 오류");
-    	}
-        return "common/alert";
+    public int deleteGame(GameVO vo) {
+    	return service.deleteGame(vo);
+    	
     }
 }
