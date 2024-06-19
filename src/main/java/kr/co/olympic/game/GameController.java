@@ -28,7 +28,7 @@ public class GameController {
 	private String apikey;
 
 	@GetMapping("index.do")
-	public String searchGame(Model model, HttpSession session, GameVO game) {
+	public String listGame(Model model, HttpSession session, GameVO game) {
 		MemberVO member = (MemberVO) session.getAttribute("login");
 		Map<String, Object> map = new HashMap<>();
 		map.put("member", member);
@@ -36,6 +36,16 @@ public class GameController {
 		model.addAttribute("member", member);
 		model.addAttribute("map", gameService.searchGame(map));
 		return "game/index";
+	}
+	
+	@GetMapping("search.do")
+	@ResponseBody
+	public Map<String, Object> searchGame(Model model, HttpSession session, GameVO game) {
+		MemberVO member = (MemberVO) session.getAttribute("login");
+		Map<String, Object> map = new HashMap<>();
+		map.put("member", member);
+		map.put("game", gameService.searchGame(map));
+		return map;
 	}
 
 	@GetMapping("detail.do")

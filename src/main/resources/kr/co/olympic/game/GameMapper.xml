@@ -12,35 +12,13 @@
     <!-- #경기관련 -->
 	<sql id="searchDateSport">
 		<where>
-	        <if test="korea_date != null and korea_date != ''">
-	            korea_date = #{korea_date}
+	        <if test="sport_name == 'all'">
+	            korea_date = #{search_date}
 	        </if>
-	        <if test="korea_date == null">
-	            korea_date = '2024-07-16'
-	        </if>
-	        <if test="sport_name != null and sport_name != '' and sport_name != 'all'">
-	            AND sport_name = #{sport_name}
-	        </if>
+	        <if test="sport_name != 'all'">
+	            korea_date = #{search_date} and sport_name = #{search_sport}
+	        </if>	        
 	    </where>
-	    <!-- 
-		<where>
-			<choose>
-				<when test="korea_date != null and korea_date != ''">
-					<if test="sport_name == 'all'">
-						korea_date = ${korea_date }
-					</if>
-					<if test="sport_name != 'all'">
-						korea_date = ${korea_date } and sport_name = ${sport_name }
-					</if>
-				</when>
-				<when test="korea_date == null">
-					<if test="sport_name == 'all'">
-						korea_date = "2024-07-16"
-					</if>
-				</when>
-			</choose>
-		</where>
-		 -->
 	</sql>
     <!-- 검색 리스트  -->
 	<select id="searchGame" parameterType="map"
@@ -49,8 +27,10 @@
 			, (SELECT count(*) FROM favorite_game WHERE member_no=#{member_no} and game_id = a.game_id) as favorite
 			, (SELECT sport_pictogram FROM sport WHERE sport_code = a.sport_code) sport_pictogram
 		FROM game as a
-		<!-- <include refid="searchDateSport"></include> -->
-		ORDER BY game_id; 
+		<!-- 
+		<include refid="searchDateSport"></include>
+		 -->
+		ORDER BY a.game_id; 
     </select>
     
     <!-- 경기 조회 -->

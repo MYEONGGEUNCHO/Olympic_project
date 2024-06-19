@@ -20,6 +20,7 @@
 }
 </style>
 <script src="https://maps.googleapis.com/maps/api/js?key=${apikey}"></script>
+<script src="/WEB-INF/views/common/modals.jsp"></script>
 <script src="../js/jquery-3.7.1.min.js"></script>
 <script>
     $(document).ready(function() {

@@ -42,6 +42,8 @@ public class GameTest {
     @Test
     public void searchGame() {
     	GameVO game = new GameVO();
+    	game.setSearch_date("2024-07-26");
+    	game.setSearch_sport("all");
     	MemberVO member = new MemberVO();
     	Map<String, Object> map = new HashMap<String, Object>();
     	map.put("game", game);

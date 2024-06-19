@@ -3,70 +3,58 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
-<html lang="ko">
+<html>
 <head>
     <meta charset="UTF-8">
-    <title>올림픽 경기</title>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <title>올림픽 경기 일정</title>
     <style>
-        /* 스타일을 추가하여 보기 좋게 합니다. */
         #unknown_flag {
-            display: inline-block;
-            width: 20px;
-            height: 20px;
-            background-color: grey;
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: gray;
             text-align: center;
-            color: white;
-            line-height: 20px;
+            line-height: 100px;
+            font-size: 50px;
         }
+		#flag {
+			width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            line-height: 100px;
+		}
+		#sport_pictogram {
+			width: 200px;
+            height: 100px;
+		}
     </style>
+    <script src="/olympic/js/jquery-3.7.1.min.js"></script>
+    <script src="/WEB-INF/views/common/modals.jsp"></script>
     <script>
         $(document).ready(function() {
-            function listGame() {
-                var search_date = $('#search_date').val();
-                var search_sport = $('#search_sport').val();
+            searchGame();
+            function searchGame() {
                 
-                $.ajax({
-                    url: "/olympic/game/search.do",
-                    type: "GET",
-                    data: {
-                        search_date: search_date,
-                        search_sport: search_sport
-                    },
-                    success: function(data) {
-                        var content = '';
-                        $.each(data.game, function(idx, vo) {
-                            // content += '<div>';
-                            content += '<img src="' + vo.sport_pictogram + '" alt="스포츠 아이콘">';
-                            // content += '</div>';
-                        });
-                        $('#listGame').html(content); // AJAX로 받은 데이터 추가
-                    }
-                });
-            }
+            };
 
-            // 검색 조건이 변경될 때마다 listGame 함수 호출
-            $('#search_date, #search_sport').on('change', listGame);
-
-            // 페이지 로드 시 초기 데이터 로드
-            listGame();
         });
 
-        function redirectToDetail(gameId) {
-            window.location.href = '/game/detail/' + gameId;
+        function redirectToDetail(game_id) {
+            window.location.href = '/olympic/game/detail.do?game_id=' + game_id;
         }
     </script>
 </head>
 <body>
-    !--  타이틀 - 카테고리 - 아이콘들 포함된 헤더 -->
+    <!--  타이틀 - 카테고리 - 아이콘들 포함된 헤더 -->
     <%@include file="/WEB-INF/views/common/header.jsp"%>
     <!--  헤더 하단 현재 경로 노출 -->
     <%@include file="/WEB-INF/views/common/breadcrumb.jsp"%>
     <!--  메인 컨텐트 CONTENT 태그 찾아서 그 부분만 사용하면됨-->
     <section>
         <div>
-            <input type="date" name="search_date" id="search_date" min="2024-07-26" max="2024-08-11" value="2024-07-26">
-            <select name="search_sport" id="search_sport">
+            <input type="date" name="search_date" id="search_date" min="2024-07-26" max="2024-08-11"
+                value="2024-07-26">
+            <select name="search_sport" id="search_sport" >
                 <option value="all" selected>전체종목</option>
                 <option value="양궁">양궁</option>
                 <option value="육상">육상</option>
@@ -115,8 +103,50 @@
                 <option value="레슬링">레슬링</option>
             </select>
         </div>
-        <div id="listGame">
-            <!-- ajax로 받은 데이터 추가 -->
+        <div>
+            <c:if test="${empty map}">
+                <tr>
+                    <td colspan="15">등록된 종목이 없습니다.</td>
+                </tr>
+            </c:if>
+            <c:forEach var="vo" items="${map}">
+                <div>
+                    <img src="${vo.sport_pictogram}" alt="" id="sport_pictogram">
+                    <c:if test="${!empty vo.country1_flag}">
+                        <img src="${vo.country1_flag}" alt="" id="flag">
+                    </c:if>
+                    <c:if test="${empty vo.country1_flag}">
+                        <div id="unknown_flag">?</div>
+                    </c:if>
+                    <c:if test="${!empty vo.country2_flag}">
+                        <img src="${vo.country2_flag}" alt="" id="flag">
+                    </c:if>
+                    <c:if test="${empty vo.country2_flag}">
+                        <div id="unknown_flag">?</div>
+                    </c:if>
+                    <p>${vo.stadium_name}</p>
+                    <p>${vo.tournament}</p>
+                    <p>${vo.korea_date}</p>
+					
+					<c:if test="${!empty member.member_no}">
+                        <c:if test="${vo.favorite == 0}">
+                            <i id="create_favorite" class="fa-regular fa-heart" style="color: #4f4f4f;"></i>
+                        </c:if>
+                        <c:if test="${vo.favorite == 1}">
+                            <i id="delete_favorite" class="fa-solid fa-heart" style="color: #f51919;"></i>
+                        </c:if>
+                    </c:if>
+                    <c:if test="${empty member.member_no}">
+                        <c:if test="${vo.favorite == 0}">
+                            <a href="${pageContext.request.contextPath}/member/login.do">
+                                <i id="create_favorite" class="fa-regular fa-heart" style="color: #4f4f4f;"></i>
+                            </a>
+                        </c:if>
+                    </c:if>
+					
+                    <button onclick="redirectToDetail(${vo.game_id })">경기 상세 보기</button>
+                </div>
+            </c:forEach>
         </div>
     </section>
     <!-- 푸터  -->
