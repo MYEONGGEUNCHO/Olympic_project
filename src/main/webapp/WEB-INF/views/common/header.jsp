@@ -99,21 +99,25 @@
 						<div>로그인 후 이용하세요.</div>
 					</c:if>
 				</li>
-				<li class="nav-item">
-					<c:if test="${empty login }">
-						<a class="nav-link" data-bs-toggle="offcanvas" href="#modalLoginForm">
+				<c:if test="${empty login }">
+					<li class="nav-item">
+						<a class="nav-link" data-bs-toggle="offcanvas" href="#modalLoginForm" title="로그인">
 							<i class="fe fe-user"></i>
 						</a>
-					</c:if>
-					<c:if test="${!empty login }">
-						<a class="nav-link" href="/olympic/member/membership.do">
+					</li>
+				</c:if>
+				<c:if test="${!empty login }">
+					<li class="nav-item">
+						<a class="nav-link" href="/olympic/member/membership.do" title="마이페이지">
 							<i class="fe fe-user"></i>
 						</a>
-						<a class="nav-link" href="/olympic/member/logout.do">
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="/olympic/member/logout.do" title="로그아웃">
 							<i class="fa-solid fa-arrow-right-from-bracket"></i>
 						</a>
-					</c:if>
-				</li>
+					</li>
+				</c:if>
 
 			</ul>
 

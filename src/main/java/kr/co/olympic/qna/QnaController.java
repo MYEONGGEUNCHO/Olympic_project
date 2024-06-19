@@ -29,7 +29,7 @@ public class QnaController {
 	@Autowired
 	private QnaService service;
 
-	@GetMapping("/qna/index.do")
+	@GetMapping({"/qna/index.do", "/qna/*"})
 	public String index(Model model, QnaSearchDTO dto, Locale locale, HttpSession session) {
 		List<QnaVO> qnaList = service.list(dto);
 //		model.addAttribute("qna", qnaList);
