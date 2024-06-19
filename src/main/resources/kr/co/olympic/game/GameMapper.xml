@@ -49,7 +49,7 @@
 			, (SELECT count(*) FROM favorite_game WHERE member_no=#{member_no} and game_id = a.game_id) as favorite
 			, (SELECT sport_pictogram FROM sport WHERE sport_code = a.sport_code) sport_pictogram
 		FROM game as a
-		<include refid="searchDateSport"></include>
+		<!-- <include refid="searchDateSport"></include> -->
 		ORDER BY game_id; 
     </select>
     
