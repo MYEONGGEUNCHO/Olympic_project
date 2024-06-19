@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 
+import kr.co.olympic.game.GameVO;
 import kr.co.olympic.game.ItemService;
 import kr.co.olympic.game.StadiumService;
 import kr.co.olympic.game.StadiumVO;
@@ -339,15 +340,19 @@ public class OrderServiceImpl implements OrderService {
 	
 	@Override
 	public Map<String, Boolean> checkSeatAvailability(PaymentVO paymentVO) {
+		GameVO gameVo = new GameVO();
+		gameVo.setGame_id(paymentVO.getGame_id());
+		gameVo.setStadium_no(paymentVO.getStadium_no());
+		
 		// 경기장 최대 좌석 수 조회
-		StadiumVO stadiumVo = new StadiumVO();
-		stadiumVo.setStadium_no(paymentVO.getStadium_no());
-		StadiumVO stadiumVO = stadiumService.detailStadium(stadiumVo);
+		//StadiumVO stadiumVo = new StadiumVO();
+		//stadiumVo.setStadium_no(paymentVO.getStadium_no());
+		StadiumVO stadiumVO = stadiumService.detailStadium(gameVo);
 		        
 		// 상품 판매된 좌석 수 조회
-		ItemVO itemVo = new ItemVO();
-		itemVo.setItem_no(paymentVO.getItem_no());
-		ItemVO itemVO = itemService.detailItem(itemVo);
+		//ItemVO itemVo = new ItemVO();
+		//itemVo.setItem_no(paymentVO.getItem_no());
+		ItemVO itemVO = itemService.detailItem(gameVo);
         
         Map<String, Boolean> seatAvailability = new HashMap<>();
         seatAvailability.put("A", stadiumVO.getA_seat_quantity() - itemVO.getA_seat_sold() >= paymentVO.getA_seat_sold());
@@ -360,15 +365,19 @@ public class OrderServiceImpl implements OrderService {
     }
 	@Override
 	public Map<String, Integer> countSeatAvailability(PaymentVO paymentVO) {
+		GameVO gameVo = new GameVO();
+		gameVo.setGame_id(paymentVO.getGame_id());
+		gameVo.setStadium_no(paymentVO.getStadium_no());
+		
 		// 경기장 최대 좌석 수 조회
-		StadiumVO stadiumVo = new StadiumVO();
-		stadiumVo.setStadium_no(paymentVO.getStadium_no());
-        StadiumVO stadiumVO = stadiumService.detailStadium(stadiumVo);
+		//StadiumVO stadiumVo = new StadiumVO();
+		//stadiumVo.setStadium_no(paymentVO.getStadium_no());
+        StadiumVO stadiumVO = stadiumService.detailStadium(gameVo);
         
         // 상품 판매된 좌석 수 조회
-        ItemVO itemVo = new ItemVO();
-        itemVo.setItem_no(paymentVO.getItem_no());
-        ItemVO itemVO = itemService.detailItem(itemVo);
+        //ItemVO itemVo = new ItemVO();
+        //itemVo.setItem_no(paymentVO.getItem_no());
+        ItemVO itemVO = itemService.detailItem(gameVo);
         
         Map<String, Integer> countSeatAvailability = new HashMap<>();
         countSeatAvailability.put("A", stadiumVO.getA_seat_quantity() - itemVO.getA_seat_sold());
