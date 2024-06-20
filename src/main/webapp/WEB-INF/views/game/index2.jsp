@@ -121,6 +121,7 @@
                         <p>${vo.stadium_name}</p>
                         <p>${vo.tournament}</p>
                         <p>${vo.korea_date}</p>
+                        <p>${vo.favorite}</p>
                         <c:if test="${!empty member.member_no}">
                             <c:if test="${vo.favorite == 0}">
                                 <i id="create_favorite" class="fa-regular fa-heart" style="color: #4f4f4f;"></i>

@@ -44,11 +44,11 @@ public class GameTest {
     	GameVO game = new GameVO();
     	game.setSearch_date("2024-07-26");
     	game.setSearch_sport("all");
-    	MemberVO member = new MemberVO();
     	Map<String, Object> map = new HashMap<String, Object>();
     	map.put("game", game);
-    	map.put("member", member);
+    	map.put("member", null);
     	List<GameVO> list = mapper.searchGame(map);
+    	System.out.println(list);
     }
     
     // 경기 날짜별 리스트

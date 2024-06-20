@@ -22,10 +22,10 @@
     </style>
     <script>
         $(document).ready(function() {
-            function listGame() {
-                var search_date = $('#search_date').val();
-                var search_sport = $('#search_sport').val();
-                
+            var search_date = $('#search_date').val();
+            var search_sport = $('#search_sport').val();
+            
+            function listGame(search_date, search_sport) {             
                 $.ajax({
                     url: "/olympic/game/search.do",
                     type: "GET",
@@ -35,30 +35,109 @@
                     },
                     success: function(data) {
                         var content = '';
-                        $.each(data.game, function(idx, vo) {
-                            // content += '<div>';
-                            content += '<img src="' + vo.sport_pictogram + '" alt="스포츠 아이콘">';
-                            // content += '</div>';
-                        });
+                        if(data.game.length === 0) {
+                            content += '<div><p>등록된 경기 일정이 없습니다.</p></div>';
+                        } else {
+                            $.each(data.game, function(idx, vo) {
+                                content += '<div>';
+                                content += '<img src="' + vo.sport_pictogram + '" alt="스포츠 아이콘" id="sport_pictogram">';
+                                content += '<p>' + vo.sport_name + '</p>';
+                                content += '<p>' + vo.tournament + '</p>';
+                                if (vo.country1_flag) {
+                                    content += '<img src="' + vo.country1_flag + '" alt="" id="flag">';
+                                } else {
+                                    content += '<div id="unknown_flag">?</div>';
+                                }
+
+                                if (vo.country2_flag) {
+                                    content += '<img src="' + vo.country2_flag + '" alt="" id="flag">';
+                                } else {
+                                    content += '<div id="unknown_flag">?</div>';
+                                }
+                                
+                                content += '<p>' + vo.stadium_name + '</p>';
+                                content += '<p>' + vo.korea_date + '</p>';
+                                content += '<p>' + vo.favorite + '</p>';
+                                content += '<p>' + data.member.member_no + '</p>';
+                                if (data.member.member_no) {
+                                    if (vo.favorite === 0) {
+                                        content += '<i onclick="create_favorite(' + vo.game_id + ')" id="create_favorite" class="fa-regular fa-heart" style="color: #4f4f4f;"></i>';
+                                    } else if (vo.favorite === 1) {
+                                        content += '<i onclick=""delete_favorite(' + vo.game_id + ')"" id="delete_favorite" class="fa-solid fa-heart" style="color: #f51919;"></i>';
+                                    }
+                                } else {
+                                    if (vo.favorite === 0) {
+                                    	/* content += '<a data-bs-toggle="modal" href="#modalLoginForm">'; */
+                                    	content += '<a href="/olympic/member/login.do" id="loginLink">';
+                                        content += '<i class="fa-regular fa-heart" style="color: #4f4f4f;"></i>';
+                                        content += '</a>';
+                                    }
+                                }
+                                content += '<button onclick="redirectToDetail(' + vo.game_id + ')">경기 상세 보기</button>';
+                                content += '</div>';                    
+                            });
+                        }
                         $('#listGame').html(content); // AJAX로 받은 데이터 추가
                     }
                 });
-            }
+            };
 
             // 검색 조건이 변경될 때마다 listGame 함수 호출
-            $('#search_date, #search_sport').on('change', listGame);
+            $('#search_date, #search_sport').on('change', function() {
+                var search_date = $('#search_date').val();
+                var search_sport = $('#search_sport').val();
+                listGame(search_date, search_sport);
+            });
 
             // 페이지 로드 시 초기 데이터 로드
-            listGame();
+            listGame(search_date, search_sport);
         });
 
         function redirectToDetail(gameId) {
-            window.location.href = '/game/detail/' + gameId;
-        }
+            window.location.href = '/olympic/game/detail.do?game_id=' + gameId;
+        };
+
+        function create_favorite(game_id) {
+        	alert(1)
+            $.ajax({
+                url: "/olympic/game/createFavorite.do",
+                tpye: "POST",
+                data: {
+                    game_id : game_id
+                },
+                success: function(res) {
+                    if (res == 1) {
+                        $('#create_favorite').attr('id', 'delete_favorite').removeClass('fa-regular fa-heart').addClass('fa-solid fa-heart').css('color', '#f51919');
+                    }
+                },
+                error: function() {
+                    alert('오류가 발생했습니다.');
+                }
+            })
+        };
+
+        function delete_favorite(game_id) {
+        	alert(1)
+            $.ajax({
+                url: "/olympic/game/deleteFavorite.do",
+                tpye: "POST",
+                data: {
+                    game_id : game_id
+                },
+                success: function(res) {
+                    if (res == 1) {
+                        $('#delete_favorite').attr('id', 'create_favorite').removeClass('fa-regular fa-heart').addClass('fa-solid fa-heart').css('color', '#4f4f4f');
+                    }
+                },
+                error: function() {
+                    alert('오류가 발생했습니다.');
+                }
+            })
+        };
     </script>
 </head>
 <body>
-    !--  타이틀 - 카테고리 - 아이콘들 포함된 헤더 -->
+    <!--  타이틀 - 카테고리 - 아이콘들 포함된 헤더 -->
     <%@include file="/WEB-INF/views/common/header.jsp"%>
     <!--  헤더 하단 현재 경로 노출 -->
     <%@include file="/WEB-INF/views/common/breadcrumb.jsp"%>
