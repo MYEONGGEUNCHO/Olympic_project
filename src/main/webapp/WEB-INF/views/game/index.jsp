@@ -58,8 +58,7 @@
                                 content += '<p>' + vo.stadium_name + '</p>';
                                 content += '<p>' + vo.korea_date + '</p>';
                                 content += '<p>' + vo.favorite + '</p>';
-                                content += '<p>' + data.member.member_no + '</p>';
-                                if (data.member.member_no) {
+                                if (data.member && data.member.member_no) {
                                     if (vo.favorite === 0) {
                                         content += '<i onclick="create_favorite(' + vo.game_id + ')" id="create_favorite" class="fa-regular fa-heart" style="color: #4f4f4f;"></i>';
                                     } else if (vo.favorite === 1) {
