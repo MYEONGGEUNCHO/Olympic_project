@@ -12,24 +12,41 @@
     <!-- #경기관련 -->
 	<sql id="searchDateSport">
 		<where>
-	        <if test="sport_name == 'all'">
-	            korea_date = #{search_date}
+	        <if test="game.search_sport == 'all'">
+	            korea_date = #{game.search_date}
 	        </if>
-	        <if test="sport_name != 'all'">
-	            korea_date = #{search_date} and sport_name = #{search_sport}
+	        <if test="game.search_sport != 'all'">
+	            korea_date = #{game.search_date} and sport_name = #{game.search_sport}
 	        </if>	        
 	    </where>
+	</sql>
+	<sql id="member">
+		<where>
+			<if test="member.member_no != '' and member.member_no != null">
+				member_no=#{member.member_no} 
+			</if>
+			and game_id = a.game_id
+		</where>
 	</sql>
     <!-- 검색 리스트  -->
 	<select id="searchGame" parameterType="map"
 		resultType="kr.co.olympic.game.GameVO">
 		SELECT a.*
-			, (SELECT count(*) FROM favorite_game WHERE member_no=#{member_no} and game_id = a.game_id) as favorite
+			, (SELECT count(*) FROM favorite_game <include refid="member"></include>) as favorite
 			, (SELECT sport_pictogram FROM sport WHERE sport_code = a.sport_code) sport_pictogram
 		FROM game as a
-		<!-- 
 		<include refid="searchDateSport"></include>
-		 -->
+		ORDER BY a.game_id; 
+    </select>
+    
+    <!-- 검색 리스트  -->
+	<select id="searchGame2" parameterType="map"
+		resultType="kr.co.olympic.game.GameVO">
+		SELECT a.*
+			, (SELECT count(*) FROM favorite_game WHERE member_no=#{member.member_no} and game_id = a.game_id) as favorite
+			, (SELECT sport_pictogram FROM sport WHERE sport_code = a.sport_code) sport_pictogram
+		FROM game as a
+		<include refid="searchDateSport"></include>
 		ORDER BY a.game_id; 
     </select>
     
@@ -116,7 +133,7 @@
 	<!-- 경기 댓글 생성 -->
 	<insert id="createComment" parameterType="map">
         INSERT INTO comment (regdate, content, game_id, member_no) 
-        VALUES (#{regdate}, #{content}, #{game_id}, #{member_no})
+        VALUES (#{game.regdate}, #{game.content}, #{game.game_id}, #{meber.member_no})
         <selectKey keyProperty="comment_no" order="AFTER" resultType="int">
             SELECT LAST_INSERT_ID()
         </selectKey>
@@ -134,7 +151,7 @@
         INSERT INTO favorite_game (
         	member_no, game_id
         ) VALUES (
-        	#{member_no}, #{game_id}
+        	#{member.member_no}, #{game.game_id}
         )
     </insert>
 	
@@ -151,6 +168,6 @@
 	<!-- 경기 관심 삭제 -->
 	<delete id="deleteFavorite" parameterType="map">
         DELETE FROM favorite_game
-        WHERE member_no = #{member_no} AND game_id = #{game_id}
+        WHERE member_no = #{member.member_no} AND game_id = #{game.game_id}
     </delete>
 </mapper>

@@ -50,6 +50,7 @@ public class GameServiceImpl implements GameService {
 	
 	@Override
 	public List<GameVO> searchGame(Map<String, Object> map) {
+		System.out.println(mapper.searchGame(map));
 		return mapper.searchGame(map);
 	}
 
