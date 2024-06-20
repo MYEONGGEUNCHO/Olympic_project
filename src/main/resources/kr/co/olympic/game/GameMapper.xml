@@ -133,7 +133,7 @@
 	<!-- 경기 댓글 생성 -->
 	<insert id="createComment" parameterType="map">
         INSERT INTO comment (regdate, content, game_id, member_no) 
-        VALUES (#{game.regdate}, #{game.content}, #{game.game_id}, #{meber.member_no})
+        VALUES (#{regdate}, #{content}, #{game_id}, #{member_no})
         <selectKey keyProperty="comment_no" order="AFTER" resultType="int">
             SELECT LAST_INSERT_ID()
         </selectKey>
