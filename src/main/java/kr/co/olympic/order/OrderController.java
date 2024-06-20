@@ -29,7 +29,37 @@ public class OrderController {
 
 	@Autowired
 	private MemberService memberService;
-
+	
+	@GetMapping("/order/ticket_test.do")
+	public String ticket_test(HttpSession session, Model model) {
+		// 세션에서 MemberVO 객체 가져오기
+	    MemberVO member = (MemberVO)session.getAttribute("login");
+	    
+	   	// 모델에 MemberVO 객체 추가
+	    model.addAttribute("login", member);
+	    //모델에 order 객체 추가 
+	    List<OrderDTO> order = orderService.listOrder(member);
+		model.addAttribute("order", order);
+		return "/order/ticket_test";
+	}
+	
+	@GetMapping("/order/getTicketDetails")
+    public ResponseEntity<?> getTicketDetails(@RequestParam("order_no") String orderNo) {
+        try {
+        	//System.out.println( "orderNO : " + orderNo);
+            List<TicketVO> tickets = orderService.getTicketsByOrderNo(orderNo);
+            
+         
+//            for (TicketVO ticket : tickets) {
+//                System.out.println(ticket.toString());
+//            }
+            
+            return ResponseEntity.ok().body(Map.of("tickets", tickets));
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body(Map.of("error", "Failed to retrieve ticket details."));
+        }
+    }
+	
 	@PostMapping("/order/checkAvailability")
 	public ResponseEntity<Map<String, Boolean>> checkSeatAvailability(@RequestBody PaymentVO paymentVO) {
 		Map<String, Boolean> seatAvailability = orderService.checkSeatAvailability(paymentVO);
