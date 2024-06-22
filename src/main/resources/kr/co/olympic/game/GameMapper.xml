@@ -151,7 +151,7 @@
         INSERT INTO favorite_game (
         	member_no, game_id
         ) VALUES (
-        	#{member.member_no}, #{game.game_id}
+        	#{member_no}, #{game_id}
         )
     </insert>
 	
@@ -168,6 +168,6 @@
 	<!-- 경기 관심 삭제 -->
 	<delete id="deleteFavorite" parameterType="map">
         DELETE FROM favorite_game
-        WHERE member_no = #{member.member_no} AND game_id = #{game.game_id}
+        WHERE member_no = #{member_no} AND game_id = #{game_id}
     </delete>
 </mapper>
