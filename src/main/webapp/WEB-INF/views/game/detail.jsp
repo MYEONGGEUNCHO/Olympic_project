@@ -139,17 +139,29 @@
         <p>${game.tournament}</p>
         <img style="width: 300px; height: 250px;"
             src="${game.sport.title_image}" alt="">
-        <c:if test="${!empty vo.country1_flag}">
-            <img src="${vo.country1_flag}" alt="" id="flag">
+        <c:if test="${game.country1_flag != ''}">
+            <img src="${game.country1_flag}" alt="국가1" id="flag">
         </c:if>
-        <c:if test="${empty vo.country1_flag}">
+        <c:if test="${game.country1_flag == ''}">
             <div id="unknown_flag">?</div>
         </c:if>
-        <c:if test="${!empty vo.country2_flag}">
-            <img src="${vo.country2_flag}" alt="" id="flag">
+        <c:if test="${game.country2_flag != ''}">
+            <img src="${game.country2_flag}" alt="국가2" id="flag">
         </c:if>
-        <c:if test="${empty vo.country2_flag}">
+        <c:if test="${game.country2_flag == ''}">
             <div id="unknown_flag">?</div>
+        </c:if>
+        <c:if test="${game.country1_name != ''}">
+        	<p>${game.country1_name}</p>
+        </c:if>
+        <c:if test="${game.country1_name == ''}">
+            <div id="">?</div>
+        </c:if>
+        <c:if test="${game.country2_name != ''}">
+        	<p>${game.country2_name}</p>
+        </c:if>
+        <c:if test="${game.country2_name == ''}">
+            <div id="">?</div>
         </c:if>
 
         <h4>지도 정보</h4>

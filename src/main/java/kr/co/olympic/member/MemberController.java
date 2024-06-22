@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -81,7 +82,13 @@ public class MemberController {
 	}
 
 	@GetMapping("/member/login.do")
-	public String login(HttpSession session) {
+	public String login(HttpSession session, HttpServletRequest req) {
+		// 이전 페이지 주소
+		String referer = req.getHeader("Referer");
+//		System.out.println("referer: " + referer);
+		session.setAttribute("refUrl", referer);
+		String refUrl = (String) session.getAttribute("refUrl");
+				
 		if (session.getAttribute("login") != null) {
 			return "/index";
 		}
@@ -90,7 +97,18 @@ public class MemberController {
 
 	// @ResponseBody
 	@PostMapping("/member/login.do")
-	public String login(Model model, @ModelAttribute MemberVO vo, HttpSession sess) {
+	public String login(Model model, @ModelAttribute MemberVO vo, HttpSession sess, HttpServletRequest req) {
+		String refUrl = (String) sess.getAttribute("refUrl");
+//		System.out.println(refUrl);
+		String referUrl = refUrl;
+		String startPattern = "/olympic/";
+        
+        String result = "";
+        int startIndex = referUrl.indexOf(startPattern);
+        if (startIndex != -1) {
+            result = referUrl.substring(startIndex + startPattern.length());
+        }
+//        System.out.println(result);
 		MemberVO login = service.login(vo);
 		if (login == null) {
 			model.addAttribute("msg", "이메일 비밀번호를 확인하세요.");
@@ -98,7 +116,7 @@ public class MemberController {
 			return "/common/alert";
 		} else {
 			sess.setAttribute("login", login);
-			return "redirect: /olympic/index.do";
+			return "redirect:/"+result;
 		}
 	}
 
