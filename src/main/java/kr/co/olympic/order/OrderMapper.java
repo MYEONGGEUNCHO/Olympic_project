@@ -85,4 +85,7 @@ public interface OrderMapper {
 	int isCanceledUpdate(OrderVO vo);
 	int isRefundedUpdate(OrderVO vo);
 	int cancelsTableUpdate(OrderVO vo);
+	
+	//회원 취소 주문 내역 리스트
+	List<OrderDTO> listcancelOrder(MemberVO vo);
 }

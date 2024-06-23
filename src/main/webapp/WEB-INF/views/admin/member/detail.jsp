@@ -7,25 +7,24 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>관리자 상세 페이지</title>
 <script src="../js/jquery-3.7.1.min.js"></script>
-
 <script>
 $(document).ready(function() {
-	$('#dataTable').DataTable({
-        paging: true, // 페이지네이션 사용
-        searching: true, // 검색 기능 사용
-        ordering: true, // 정렬 기능 사용
-        lengthMenu: [ [2, 5, 7], [2, 5, 7] ],
+/* 	$('#dataTableOrder').DataTable({
+        paging: true,
+        searching: true,
+        ordering: true,
+        lengthMenu: [[2, 5, 7], [2, 5, 7]]
     });
 
-    // 문의 내역 테이블 초기화
     $('#dataTableQnA').DataTable({
         paging: true,
         searching: true,
         ordering: true,
-        lengthMenu: [ [2, 5, 7], [2, 5, 7] ],
-    });
+        lengthMenu: [[2, 5, 7], [2, 5, 7]]
+    }); */
+    
     
     $(document).on("click", ".editBtn", function() {
 		var qna_no = parseInt($(this).data('qna-no'));
@@ -54,6 +53,30 @@ $(document).ready(function() {
 			    }
 			});
 		}
+    });
+    
+    $(document).on('click', '.editOrderBtn', function() {
+        var order_no = $(this).closest('tr').find('#order_no').text(); // 주문번호 가져오기
+        var delete_confirm = confirm("정말로 취소하시겠습니까?");
+        
+        if (delete_confirm) {
+            $.ajax({
+                type: 'POST',
+                url: '/olympic/order/cancel',
+                data: {
+                    order_no: order_no,
+                    member_no: "${detail.member_no}"
+                },
+                success: function(response) {
+                    alert(response.msg);
+                    location.reload(); // 성공 시 페이지 새로고침
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error:', error);
+                    alert('서버 오류 발생. 다시 시도해주세요.');
+                }
+            });
+        }
     });
     
     $("#qnalist").on("click", "tr", function() {
@@ -174,42 +197,50 @@ $(document).ready(function() {
                                 </div>
                                 <div class="card-body">
 		                            <div class="table-responsive">
-		                                <table class="table table-bordered text-center" id="dataTable" width="100%" cellspacing="0">
+		                                <table class="table table-bordered text-center" id="dataTableOrder" width="100%" cellspacing="0">
 			                                <colgroup>
-										    	<col width="25%" />
+										    	<col width="24%" />
 										    	<col width="12%" />
 										    	<col width="12%" />
+										        <col width="16%" />
 										        <col width="12%" />
-										        <col width="12%" />
-										        <col width="8%" />
+										        <col width="6%" />
+										        <col width="9%" />
 										    </colgroup>
 		                                    <thead class="fs-3">
 		                                        <tr>
+		                                        	<th style="display:none;"></th>
+		                                        	<th style="display:none;"></th>
 		                                            <th>주문번호</th>
 		                                            <th>주문일</th>
 		                                            <th>경기정보</th>
 		                                            <th>경기장</th>
 		                                            <th>경기일자</th>
 		                                            <th>매수</th>
+		                                            <th>Edit</th>
 		                                        </tr>
 		                                    </thead>
 		                                    
 		                                    <tbody id="oderlist">
 												<c:choose>
-			                                    	<c:when test="${empty qna}">
+			                                    	<c:when test="${empty order}">
 			                                        	<tr>
-			                                            	<td colspan="6" onclick='event.cancelBubble=true;'>예매 내역이 없습니다.</td>
+			                                            	<td colspan="9" onclick='event.cancelBubble=true;'>예매 내역이 없습니다.</td>
 			                                        	</tr>
 			                                    	</c:when>
 			                                    <c:otherwise>
 			                                        <c:forEach var="orderItem" items="${order}">
 														<tr>
-							                                <td class="py-3 px-1">${orderItem.order_no}</td>
+															<td id="member_no" style="display:none;">${orderItem.member_no}</td>
+															<td id="imp_uid" style="display:none;">${orderItem.imp_uid}</td>
+							                                <td class="py-2 px-1" id="order_no">${orderItem.order_no}</td>
 							                                <td class="py-3 px-1"><fmt:formatDate value="${orderItem.buy_date}" pattern="yyyy-MM-dd"/></td>
-							                                <td class="py-3 px-1">${orderItem.sport_name}<br> ${orderItem.tournament }</td>
+							                                <td class="py-2 px-1">${orderItem.sport_name}<br> ${orderItem.tournament }</td>
 							                                <td class="py-3 px-1">${orderItem.stadium_name}</td>
-															<td class="py-3 px-1"><fmt:formatDate value="${orderItem.korea_date}" pattern="yyyy-MM-dd"/><br>${orderItem.korea_time}</td>
+															<td class="py-2 px-1"><fmt:formatDate value="${orderItem.korea_date}" pattern="yyyy-MM-dd"/><br>${orderItem.korea_time}</td>
 							                                <td class="py-3 px-1">${orderItem.ticket_count }</td>
+							                                <td class="py-3 px-1"><button type="button" class="p-1 editOrderBtn btn btn-danger" id="deleteorder" data-imp-no="${qnaItem.imp_uid}">취소하기</button>
+			                                                </td>
 														</tr>
 													</c:forEach>
 			                                    </c:otherwise>

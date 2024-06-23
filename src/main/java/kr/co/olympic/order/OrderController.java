@@ -360,34 +360,31 @@ public class OrderController {
 
 	// 받아야 하는 값: imp_uid, login정보
 	@PostMapping("/order/cancel")
-	public String cancelOrder(@RequestBody OrderVO orderVO, HttpSession session, Model model) {
+	public ResponseEntity<String> cancelOrder(@RequestBody OrderVO orderVO, HttpSession session, Model model) {
 		MemberVO login = (MemberVO) session.getAttribute("login");
-		if (login == null) {
-			model.addAttribute("msg", "로그인 후 이용하세요.");
-			model.addAttribute("url", "/olympic/member/login.do");
-			return "common/alert";
-		}
-		if (!login.getMember_no().equals(orderVO.getMember_no())) {
-			model.addAttribute("msg", "본인의 주문만 취소 요청할 수 있습니다.");
-			return "common/alert";
-		}
-		try {
-			int r = orderService.cancelOrder(orderVO);
-			if (r == 0) {
-				model.addAttribute("msg", "주문 취소에 실패하였습니다.");
-				return "common/alert";
-			}
-			if (r == 2) {
-				model.addAttribute("msg", "이미 취소된 주문입니다.");
-				return "common/alert";
-			}
-		} catch (Exception e) {
-			model.addAttribute("msg", e);
-			return "common/alert";
-		}
-		model.addAttribute("msg", "주문이 취소되었습니다.");
-		model.addAttribute("url", "/olympic/member/order.do");
-		return "common/alert";
+		String orderNo = orderVO.getOrder_no();
+		OrderVO vo = orderService.getOrderByOrderNo(orderNo);
+		
+		System.out.println("컨트롤러 OrderVO:"+ vo);
+
+        if (login == null) {
+            return ResponseEntity.badRequest().body("로그인 후 이용하세요.");
+        }
+//        if (!login.getMember_no().equals(orderVO.getMember_no())) {
+//            return ResponseEntity.badRequest().body("본인의 주문만 취소 요청할 수 있습니다.");
+//        }
+        try {
+            int r = orderService.cancelOrder(vo);
+            if (r == 0) {
+                return ResponseEntity.badRequest().body("Order cancellation failed.");
+            }
+            if (r == 2) {
+                return ResponseEntity.badRequest().body("This order has already been cancelled.");
+            }
+            return ResponseEntity.ok().body("Order cancellation successful");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+        }
 
 	}
 

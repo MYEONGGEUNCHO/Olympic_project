@@ -7,7 +7,8 @@
 <script>
 function pagination() {
     var req_num_row = 3; //보여지는 행 개수
-    var $tr = $('tbody tr');
+    var $table = $('#orderBody'); 
+    var $tr = $table.find('tr');
     var total_num_row = $tr.length;  //테이블의 총 행 개수
     var num_pages = Math.ceil(total_num_row / req_num_row); //몇페이지
     var max_visible_pages = 3;  //하단 페이징 번호 수
@@ -87,16 +88,92 @@ function pagination() {
 $(document).ready(function() {
     pagination();
     
+    
     $(document).on("click", ".cancelOrder", function() {
+    	
     	
         var row = $(this).closest("tr");
 		var imp_uid = row.find("#imp_uid").text();
+		var order_no = row.find("#order_no").text();
+		
+		var fullText = row.find("#korea_date").html(); 
+		var parts = fullText.split('<br>'); 
+		var formattedText = parts.join(' | '); 
+		
         $('#modalOrderNo').text(row.find("#order_no").text());
         $('#modalBuyDate').text(row.find("#buy_date").text());
         $('#modalSportName').text(row.find("#tournament").text());
         $('#modalStadiumName').text(row.find("#stadium_name").text());
-        $('#modalKoreaDate').text(row.find("#korea_date").text());
+        $('#modalKoreaDate').text(formattedText);
         $('#modalTicketCount').text(row.find("#ticket_count").text());
+    	
+        $("#cancelcheck").data("impuid", imp_uid); //버튼에 저장
+        $("#cancelcheck").data("orderNo", order_no); //버튼에 저장
+        
+    });
+    
+ /*    $("#cancelcheck").click(function() {
+    	var imp_uid = $(this).data("impuid"); // 저장된 imp_uid 가져오기
+    	var order_no = $(this).data("orderNo");
+    	const member_no = '${login.member_no}';
+    	
+    	console.log(order_no);
+    	console.log(imp_uid);
+    	console.log(member_no);
+		
+        var form = $("<form>", {
+            "method": "POST",
+            "action": '/olympic/order/cancel' 
+        });
+
+        $("<input>").attr({
+            "type": "hidden",
+            "name": "imp_uid",
+            "value": imp_uid
+        }).appendTo(form);
+        
+        $("<input>").attr({
+            "type": "hidden",
+            "name": "member_no",
+            "value": member_no
+        }).appendTo(form);
+        $("<input>").attr({
+            "type": "hidden",
+            "name": "order_no",
+            "value": order_no
+        }).appendTo(form);
+
+        form.appendTo('body').submit();
+    }); */
+    
+    $("#cancelcheck").click(function() {
+        var imp_uid = $(this).data("impuid"); // 저장된 imp_uid 가져오기
+        var order_no = $(this).data("orderNo");
+        var member_no = '${login.member_no}';
+        
+        /* console.log(order_no);
+        console.log(imp_uid);
+        console.log(member_no); */
+
+        $.ajax({
+            type: 'POST',
+            url: '/olympic/order/cancel',
+            contentType: 'application/json',
+            data: JSON.stringify({
+                order_no: order_no,
+                imp_uid: imp_uid,
+                member_no: member_no
+            }),
+            success: function(response) {
+                alert(response); // 서버에서 반환된 메시지를 알림으로 표시
+                location.reload(); // 성공 시 페이지 새로고침
+                
+            },
+            error: function(xhr, status, error) {
+                console.error('Error:', error);
+                alert('서버 오류 발생. 다시 시도해주세요.');
+            }
+        });
     });
 });
 </script>
@@ -140,10 +217,14 @@ $(document).ready(function() {
     }
     
     .pagination a.pagination-link.active {
-        /*background-color: #dc3545;*/
         color: #dc3545;
         border-color: #007bff;
     }
+    
+    .modal-body-scrollable {
+	    max-height: 400px; 
+	    overflow-y: auto;
+	}
 </style>
 <body>
 	<!-- 	공통 모달 - 헤더 장바구니 등 클릭 시 나오는 사이드 창 -->
@@ -167,18 +248,21 @@ $(document).ready(function() {
 			<div class="col-12 col-md-9 col-lg-8 offset-1 p-0">
             <!-- Heading -->
             <h5 class="mt-7 mb-5">예매 확인/취소</h5>
-            <p class="fs-7">상세보기 클릭시 결제 내역을 확인하실 수 있습니다.</p>
+            <div class="d-flex justify-content-between align-items-center mb-5">
+	            <p class="fs-7 mb-0">상세보기 클릭시 결제 내역을 확인하실 수 있습니다.</p>
+	            <a href="#ListCancelOrderModal" class="mb-1" data-bs-toggle="modal" data-bs-target="#ListCancelOrderModal" id="openModal">취소내역 보기</a>
+	        </div>
             <!-- Card -->
             <div id="favoritelist" class="table-responsive">
 		        <table class="table text-center fs-8 table-bordered">
 		        <colgroup>
-		            <col width=28%>
+		            <col width=29%>
 		            <col width=12%>
-		            <col width=17%>
 		            <col width=15%>
+		            <col width=17%>
 		            <col width=13%>
-		            <col width=5%>
-		            <col width=8%>
+		            <col width=6%>
+		            <col width=9%>
 		        </colgroup>
 				  <thead>
 				    <tr>
@@ -196,18 +280,19 @@ $(document).ready(function() {
 				  <c:choose>
 					<c:when test="${empty order}">
 						<tr>
-					    	<td colspan="7" onclick='event.cancelBubble=true;'>예매 내역이 없습니다.</td>
+					    	<td colspan="9" onclick='event.cancelBubble=true;'>예매 내역이 없습니다.</td>
 						</tr>
 					</c:when>
 					<c:otherwise>
 						<c:forEach var="orderItem" items="${order}">
 							<tr class="order-row">
+								<td id="member_no" style="display:none;">${orderItem.member_no}</td>
 								<td id="imp_uid" style="display:none;">${orderItem.imp_uid}</td>
                                 <td class="py-3 px-1" id="order_no">${orderItem.order_no}</td>
                                 <td class="py-3 px-1" id="buy_date"><fmt:formatDate value="${orderItem.buy_date}" pattern="yyyy-MM-dd"/></td>
                                 <td class="py-2 px-1" id="tournament">${orderItem.sport_name}<br>${orderItem.tournament }</td>
                                 <td class="py-3 px-1" id="stadium_name">${orderItem.stadium_name}</td>
-								<td class="py-2 px-1" id="korea_date"><fmt:formatDate value="${orderItem.korea_date}" pattern="yyyy-MM-dd"/><br>${orderItem.korea_time}</td>
+								<td class="py-2 px-1" id="korea_date"><fmt:formatDate value="${orderItem.korea_date}" pattern="yyyy-MM-dd"/><br>Time: ${orderItem.korea_time}</td>
                                 <td class="py-3 px-1" id="ticket_count">${orderItem.ticket_count }</td>
                                 <td class="py-3 px-1" id="cancel"><a class="cancelOrder danger" data-bs-toggle="modal" href="#CancelOrderModal" >취소하기</a></td>
 							</tr>
@@ -220,6 +305,7 @@ $(document).ready(function() {
     				<!-- 페이징 하단 바 -->
   				</ul>
 			  </div>
+			  
             </div>
         </div>
       </div>
@@ -227,5 +313,66 @@ $(document).ready(function() {
 
 	<!-- 푸터  -->
 	<%@include file="../common/footer.jsp"%>
+	<!-- 주문 취소 내역 테이블 모달 -->
+	<div class="modal fade" id="ListCancelOrderModal" data-bs-backdrop="static" tabindex="-1" role="dialog" aria-hidden="true">
+	        <div class="modal-dialog modal-dialog-centered modal-xl" role="document" style="width: 70%;">
+	            <div class="modal-content">
+	            	<!-- Close -->
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+						<i class="fe fe-x" aria-hidden="true"></i>
+					</button>
+					<!-- Header-->
+					<div class="modal-header fs-lg">
+						<strong class="mx-auto my-auto h3">예매 취소 내역</strong>
+					</div>
+	                <div class="modal-body modal-body-scrollable">
+	                    <table class="table text-center fs-7 table-bordered ">
+	                        <colgroup>
+	                            <col width=25%>
+	                            <col width=12%>
+	                            <col width=12%>
+	                            <col width=15%>
+	                            <col width=13%>
+	                            <col width=13%>
+	                            <col width=8%>
+	                        </colgroup>
+	                        <thead>
+	                            <tr>
+	                                <th class="px-0 py-2" scope="col">주문번호</th>
+	                                <th class="px-0 py-1" scope="col">경기정보</th>
+	                                <th class="px-0 py-1" scope="col">경기일자</th>
+	                                <th class="px-0 py-2" scope="col">경기장</th>
+	                                <th class="px-0 py-2" scope="col">주문일자</th>
+	                                <th class="px-0 py-2" scope="col">취소일자</th>
+	                                <th class="px-0 py-2" scope="col">매수</th>
+	                            </tr>
+	                        </thead>
+	                        <tbody>
+	                            <c:choose>
+	                                <c:when test="${empty cancel}">
+	                                    <tr>
+	                                        <td colspan="7" onclick='event.cancelBubble=true;'>취소 내역이 없습니다.</td>
+	                                    </tr>
+	                                </c:when>
+	                                <c:otherwise>
+	                                    <c:forEach var="cancelItem" items="${cancel}">
+	                                        <tr class="cancel-row">
+	                                            <td class="py-3 px-1">${cancelItem.order_no}</td>
+	                                            <td class="py-2 px-1">${cancelItem.sport_name} <br> ${cancelItem.tournament }</td>
+	                                            <td class="py-2 px-1"><fmt:formatDate value="${cancelItem.korea_date}" pattern="yyyy-MM-dd"/><br>${cancelItem.korea_time}</td>
+	                                            <td class="py-3 px-1">${cancelItem.stadium_name}</td>
+	                                            <td class="py-3 px-1"><fmt:formatDate value="${cancelItem.buy_date}" pattern="yyyy-MM-dd"/></td>
+	                                            <td class="py-3 px-1"><fmt:formatDate value="${cancelItem.cancel_date}" pattern="yyyy-MM-dd"/></td>
+	                                            <td class="py-3 px-1">${cancelItem.ticket_count }</td>
+	                                        </tr>
+	                                    </c:forEach>
+	                                </c:otherwise>
+	                            </c:choose>
+	                        </tbody>
+	                    </table>
+	                </div>
+	            </div>
+	        </div>
+	    </div>
 </body>
 </html>

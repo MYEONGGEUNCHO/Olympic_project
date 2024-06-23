@@ -38,6 +38,7 @@ public class OrderTest {
         order.setReal_price(10000);
         order.setOriginal_price(15000);
         order.setPoint(500);
+        order.setIs_paid(1);
         log.info("Insert 되기 전 Order: " + order);
         mapper.insertOrder(order);
     }
@@ -86,5 +87,12 @@ public class OrderTest {
     	MemberVO member = new MemberVO();
     	member.setMember_no("test@test.com");
     	//mapper.listOrder(member);
+    }
+    
+    @Test
+    public void listCancelOrder() {
+    	MemberVO vo = new MemberVO();
+    	vo.setMember_no("f57c671f-cf5a-4e20-a03a-8b895d625bb4");
+    	mapper.listcancelOrder(vo);
     }
 }
