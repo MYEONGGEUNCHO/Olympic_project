@@ -29,12 +29,6 @@ public class GameController {
 
 	@GetMapping("index.do")
 	public String listGame(Model model, HttpSession session, GameVO game) {
-		MemberVO member = (MemberVO) session.getAttribute("login");
-		Map<String, Object> map = new HashMap<>();
-		map.put("member", member);
-		map.put("game", game);
-		model.addAttribute("member", member);
-		model.addAttribute("map", gameService.searchGame(map));
 		return "game/index";
 	}
 	
@@ -44,6 +38,7 @@ public class GameController {
 		MemberVO member = (MemberVO) session.getAttribute("login");
 		Map<String, Object> map = new HashMap<>();
 		map.put("member", member);
+		map.put("game", game);
 		map.put("game", gameService.searchGame(map));
 		return map;
 	}

@@ -22,10 +22,10 @@
     </style>
     <script>
         $(document).ready(function() {
-            function listGame() {
-                var search_date = $('#search_date').val();
-                var search_sport = $('#search_sport').val();
-                
+            var search_date = $('#search_date').val();
+            var search_sport = $('#search_sport').val();
+            
+            function listGame(search_date, search_sport) {             
                 $.ajax({
                     url: "/olympic/game/search.do",
                     type: "GET",
@@ -35,37 +35,138 @@
                     },
                     success: function(data) {
                         var content = '';
-                        $.each(data.game, function(idx, vo) {
-                            // content += '<div>';
-                            content += '<img src="' + vo.sport_pictogram + '" alt="스포츠 아이콘">';
-                            // content += '</div>';
-                        });
+                        if(data.game.length === 0) {
+                            content += '<div><p>등록된 경기 일정이 없습니다.</p></div>';
+                        } else {
+                            $.each(data.game, function(idx, vo) {
+                                content += '<div>';
+                                content += '<img src="' + vo.sport_pictogram + '" alt="스포츠 아이콘" id="sport_pictogram">';
+                                content += '<p>' + vo.sport_name + '</p>';
+                                content += '<p>' + vo.tournament + '</p>';
+                                if (vo.country1_flag) {
+                                    content += '<img src="' + vo.country1_flag + '" alt="" id="flag">';
+                                } else {
+                                    content += '<div id="unknown_flag">?</div>';
+                                }
+
+                                if (vo.country2_flag) {
+                                    content += '<img src="' + vo.country2_flag + '" alt="" id="flag">';
+                                } else {
+                                    content += '<div id="unknown_flag">?</div>';
+                                }
+                                
+                                if (vo.country1_name) {
+                                	content += '<p>' + vo.country1_name + '</p>';
+                                } else {
+                                    content += '<div id="">?</div>';
+                                }
+
+                                if (vo.country2_name) {
+                                	content += '<p>' + vo.country2_name + '</p>';
+                                } else {
+                                    content += '<div id="">?</div>';
+                                }
+                                
+                                content += '<p>' + vo.stadium_name + '</p>';
+                                content += '<p>' + vo.korea_date + '</p>';
+                                content += '<p>' + vo.korea_time + '</p>';
+                                if (data.member && data.member.member_no) {
+                                    if (vo.favorite === 0) {
+                                    	content += '<img src="/olympic/img/fake_love.png" id="favorite_' + vo.game_id + '" onclick="toggle_favorite(' + vo.game_id + ', 0)" style="cursor: pointer; width: 20px; height: 20px;">'
+                                        /*  content += '<i onclick="create_favorite(' + vo.game_id + ')" id="create_favorite" class="fa-regular fa-heart" style="color: #4f4f4f;"></i>';*/
+                                    } else if (vo.favorite === 1) {
+                                    	content += '<img src="/olympic/img/true_love.png" id="favorite_' + vo.game_id + '" onclick="toggle_favorite(' + vo.game_id + ', 1)" style="cursor: pointer; width: 20px; height: 20px;">'
+                                        /* content += '<i onclick=""delete_favorite(' + vo.game_id + ')"" id="delete_favorite" class="fa-solid fa-heart" style="color: #f51919;"></i>'; */
+                                    }
+                                } else {
+                                    	/* content += '<a data-bs-toggle="modal" href="#modalLoginForm">'; */
+                                    	content += '<a id="loginLink" onclick="loginLink()">';
+                                    	content += '<img src="/olympic/img/fake_love.png" style="cursor: pointer; width: 20px; height: 20px;">'
+                                        content += '</a>';
+                                }
+                                content += '<button onclick="redirectToDetail(' + vo.game_id + ')">경기 상세 보기</button>';
+                                content += '</div>';                    
+                            });
+                        }
                         $('#listGame').html(content); // AJAX로 받은 데이터 추가
                     }
                 });
-            }
+            };
 
             // 검색 조건이 변경될 때마다 listGame 함수 호출
-            $('#search_date, #search_sport').on('change', listGame);
+            $('#search_date, #search_sport').on('change', function() {
+                var search_date = $('#search_date').val();
+                var search_sport = $('#search_sport').val();
+                listGame(search_date, search_sport);
+            });
 
             // 페이지 로드 시 초기 데이터 로드
-            listGame();
+            listGame(search_date, search_sport);
         });
+        
+        function loginLink() {
+        	var userConfirmed = confirm("로그인 페이지로 이동하시겠습니까?");
+            if (userConfirmed) {
+                window.location.href = '/olympic/member/login.do';
+            }
+        }
+        
+        function toggle_favorite(game_id, favorite_status) {
+            if (favorite_status === 0) {
+                // 추가
+                $.ajax({
+                    url: "/olympic/game/createFavorite.do",
+                    type: "POST",
+                    data: {
+                        game_id: game_id
+                    },
+                    success: function(res) {
+                        if (res == 1) {
+                        	$('#favorite_' + game_id)
+                            .attr('onclick', 'toggle_favorite(' + game_id + ', 1)')
+                            .attr('src', '/olympic/img/true_love.png')
+                        }
+                    },
+                    error: function() {
+                        alert('오류가 발생했습니다.');
+                    }
+                });
+            } else {
+                // 삭제
+                $.ajax({
+                    url: "/olympic/game/deleteFavorite.do",
+                    type: "POST",
+                    data: {
+                        game_id: game_id
+                    },
+                    success: function(res) {
+                        if (res == 1) {
+                        	$('#favorite_' + game_id)
+                            .attr('onclick', 'toggle_favorite(' + game_id + ', 0)')
+                            .attr('src', '/olympic/img/fake_love.png')
+                        }
+                    },
+                    error: function() {
+                        alert('오류가 발생했습니다.');
+                    }
+                });
+            }
+        }
 
         function redirectToDetail(gameId) {
-            window.location.href = '/game/detail/' + gameId;
-        }
+            window.location.href = '/olympic/game/detail.do?game_id=' + gameId;
+        };
     </script>
 </head>
 <body>
-    !--  타이틀 - 카테고리 - 아이콘들 포함된 헤더 -->
+    <!--  타이틀 - 카테고리 - 아이콘들 포함된 헤더 -->
     <%@include file="/WEB-INF/views/common/header.jsp"%>
     <!--  헤더 하단 현재 경로 노출 -->
     <%@include file="/WEB-INF/views/common/breadcrumb.jsp"%>
     <!--  메인 컨텐트 CONTENT 태그 찾아서 그 부분만 사용하면됨-->
     <section>
         <div>
-            <input type="date" name="search_date" id="search_date" min="2024-07-26" max="2024-08-11" value="2024-07-26">
+            <input type="date" name="search_date" id="search_date" min="2024-07-24" max="2024-08-11" value="2024-07-24">
             <select name="search_sport" id="search_sport">
                 <option value="all" selected>전체종목</option>
                 <option value="양궁">양궁</option>
