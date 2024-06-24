@@ -267,7 +267,7 @@ function goSave(){
                       			<div class="form-group text-muted">
                       				&emsp;Birthday *
                         			<label class="visually-hidden" for="registerBirthday">Birthday</label>
-                        			<input class="form-control form-control-sm" name="birthday" id="birth" type="date" value="2024-07-24" placeholder="Birthday * 2024-07-26" required>
+                        			<input class="form-control form-control-sm" name="birthday" id="birth" type="date" value="2024-07-26" placeholder="Birthday * 2024-07-26" required>
                       			</div>
                     		</div>
                     

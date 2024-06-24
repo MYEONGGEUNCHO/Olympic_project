@@ -98,7 +98,7 @@
 	         $.ajax({
 	             type: "POST",
 	             url: "/olympic/admin/game/stadium/delete.do",
-	             data: { stadiumNo : parseInt(stadiumNo) },
+	             data: { stadium_no : parseInt(stadiumNo) },
 	             success: function(data) {
 	            	 if(data == 1){
 	            		alert('삭제가 완료되었습니다.');

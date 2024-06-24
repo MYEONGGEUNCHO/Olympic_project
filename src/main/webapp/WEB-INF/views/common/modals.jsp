@@ -200,10 +200,10 @@
 				<div class="row justify-content-center">
 					<div class="text-center mb-4">
 					    <div class="row mb-2">
-					        <div class="col-6 fw-bold">
+					        <div class="col-6 fw-bold text-decoration-underline">
 					            기한
 					        </div>
-					        <div class="col-6 fw-bold">
+					        <div class="col-6 fw-bold text-decoration-underline">
 					            취소 수수료
 					        </div>
 					    </div>
@@ -230,7 +230,7 @@
 					    </div>
 					</div>
 					<div class="row col-6 text-center">
-						<button id="cancelcheck" class="btn btn-sm btn-danger" onclick="">취소하기</button>
+						<button id="cancelcheck" class="btn btn-sm btn-danger" >취소하기</button>
 					</div>
 				</div>
 			</div>
@@ -239,6 +239,8 @@
 
 	</div>
 </div>
+
+
 <!-- 비밀번호 초기화 알림 모달 -->
 <div class="modal fade " id="modalpwdreset" data-bs-backdrop="static" tabindex="-1" role="dialog" aria-hidden="true">
 	<div class="modal-dialog modal-dialog-centered" role="document">

@@ -475,7 +475,6 @@ public class OrderServiceImpl implements OrderService {
 	public int cancelOrder(OrderVO vo) {
 		// 취소 요청 들어오면 orders 테이블 is_canceled 1로 변경
 		mapper.isCanceledUpdate(vo);
-
 		// POST 요청으로 포트원에 전달
 		RestTemplate restTemplate = new RestTemplate();
 		HttpHeaders headers = new HttpHeaders();
@@ -489,21 +488,38 @@ public class OrderServiceImpl implements OrderService {
 		ResponseEntity<Map> response = restTemplate.exchange("https://api.iamport.kr/payments/cancel", HttpMethod.POST,
 				entity, Map.class);
 
-		if (response.getStatusCode().is2xxSuccessful() && response.getBody() != null) {
-			if((Integer)response.getBody().get("code") > 0) {
-				throw new RuntimeException((String) response.getBody().get("message"));
+		try {
+			if (response.getStatusCode().is2xxSuccessful() && response.getBody() != null) {
+				if((Integer)response.getBody().get("code") > 0) {
+					throw new RuntimeException("error:"+(String) response.getBody().get("message"));
+					
+				}
+				//TODO: 포트원에서 웹훅으로 처리 됐는지 여부 받아와서 전달해야함
+				//현재는 DB 과정에 오류가 발생하면 우리 DB는 롤백되지만, 실제로는 결제 취소처리됨
+				Map<String, Object> responseBody = (Map<String, Object>) response.getBody().get("response");
+				System.out.println("결제 취소 완료된 상품 : " + (String) responseBody.get("name"));
+				// 리펀드 확인 후에 업데이트 치고
+				mapper.isRefundedUpdate(vo);
+				// 취소 내역 테이블에 내용 작성 후 종료
+				return mapper.cancelsTableUpdate(vo);
+			} else {
+				throw new RuntimeException("포트원 취소 요청 실패");
 			}
-			//TODO: 포트원에서 웹훅으로 처리 됐는지 여부 받아와서 전달해야함
-			//현재는 DB 과정에 오류가 발생하면 우리 DB는 롤백되지만, 실제로는 결제 취소처리됨
-			Map<String, Object> responseBody = (Map<String, Object>) response.getBody().get("response");
-			System.out.println("결제 취소 완료된 상품 : " + (String) responseBody.get("name"));
-			// 리펀드 확인 후에 업데이트 치고
-			mapper.isRefundedUpdate(vo);
-			// 취소 내역 테이블에 내용 작성 후 종료
-			return mapper.cancelsTableUpdate(vo);
-		} else {
-			throw new RuntimeException("포트원 취소 요청 실패");
+			
+		} catch (Exception e) {
+			 if (e.getMessage().startsWith("error:")) {
+				 e.printStackTrace();
+			     return 2;
+			 } else  {
+			     e.printStackTrace();
+			     return 0;
+			 } 
 		}
+		
+	}
+	@Override
+	public List<OrderDTO> listcancelOrder(MemberVO vo) {
+		return mapper.listcancelOrder(vo);
 	}
 
 }

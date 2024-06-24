@@ -220,12 +220,29 @@
 		o.game_id = g.game_id JOIN ticket t ON
 		t.order_no = o.order_no
 		WHERE
-		o.member_no = #{member_no}
+		o.member_no = #{member_no} AND o.is_paid = 1 AND o.is_canceled = 0
 		GROUP BY o.order_no, o.buy_date, o.imp_uid,
 		g.sport_name, g.stadium_name,
 		g.tournament,
 		g.korea_date, g.korea_time;
 
+	</select>
+	<!-- 회원 취소 주문 상세 정보 조회 -->
+	<select id="listcancelOrder" parameterType="kr.co.olympic.member.MemberVO" resultType="kr.co.olympic.order.OrderDTO">
+		SELECT o.order_no, o.buy_date, g.sport_name, o.imp_uid,
+		g.stadium_name, g.tournament,
+		g.korea_date, g.korea_time,
+		COUNT(t.order_no) AS ticket_count, c.cancel_date
+		FROM orders o JOIN game g on
+		o.game_id = g.game_id JOIN ticket t ON
+		t.order_no = o.order_no JOIN cancels c ON
+		o.order_no = c.order_no
+		WHERE
+		o.member_no = #{member_no} AND o.is_refunded = 1
+		GROUP BY o.order_no, o.buy_date, o.imp_uid,
+		g.sport_name, g.stadium_name,
+		g.tournament,
+		g.korea_date, g.korea_time, c.cancel_date;
 	</select>
 
 	<!-- 판매된 좌석 수 업데이트 -->
@@ -424,15 +441,11 @@
 		parameterType="kr.co.olympic.order.OrderVO">
 		UPDATE orders SET is_refunded = 1 WHERE imp_uid = #{imp_uid}
 	</update>
+	
 	<insert id="cancelsTableUpdate"
 		parameterType="kr.co.olympic.order.OrderVO">
 		INSERT INTO cancels (cancel_date, imp_uid, point, order_no )
 		VALUES (
 		NOW(), #{imp_uid}, #{point}, #{order_no} )
-		<selectKey order="AFTER" keyProperty="cancel_no"
-			resultType="int">
-			SELECT
-			LAST_INSERT_ID()
-		</selectKey>
 	</insert>
 </mapper>
