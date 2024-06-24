@@ -109,7 +109,7 @@ public class MemberController {
         if (startIndex != -1) {
             result = referUrl.substring(startIndex + startPattern.length());
         }
-//        System.out.println(result);
+        System.out.println(result);
 		MemberVO login = service.login(vo);
 		if (login == null) {
 			model.addAttribute("msg", "이메일 비밀번호를 확인하세요.");

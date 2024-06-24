@@ -5,7 +5,7 @@
 			<div class="container">
 				
 				<div class="row">
-					<div class="col-12 col-md-3">
+					<div class="col-12 col-sm-3">
 
 						<!-- Heading -->
 						<h4 class="mb-6 text-white">Olympic</h4>
@@ -13,22 +13,22 @@
 						<!-- Social -->
 						<ul class="list-unstyled list-inline mb-7 mb-md-0">
 							<li class="list-inline-item">
-								<a href="#!" class="text-gray-350">
+								<a href="https://www.facebook.com/olympics/" class="text-gray-350">
 									<i class="fab fa-facebook-f"></i>
 								</a>
 							</li>
 							<li class="list-inline-item">
-								<a href="#!" class="text-gray-350">
+								<a href="https://www.youtube.com/channel/UCJXmxIlpj9eb-bNLYOel0iQ" class="text-gray-350">
 									<i class="fab fa-youtube"></i>
 								</a>
 							</li>
 							<li class="list-inline-item">
-								<a href="#!" class="text-gray-350">
+								<a href="https://x.com/Olympic" class="text-gray-350">
 									<i class="fab fa-twitter"></i>
 								</a>
 							</li>
 							<li class="list-inline-item">
-								<a href="#!" class="text-gray-350">
+								<a href="https://www.instagram.com/olympic/" class="text-gray-350">
 									<i class="fab fa-instagram"></i>
 								</a>
 							</li>
@@ -40,73 +40,7 @@
 						</ul>
 
 					</div>
-					<div class="col-6 col-sm">
-
-						<!-- Heading -->
-						<h6 class="heading-xxs mb-4 text-white">Support</h6>
-
-						<!-- Links -->
-						<ul class="list-unstyled mb-7 mb-sm-0">
-							<li>
-								<a class="text-gray-300" href="./contact-us.html">Contact Us</a>
-							</li>
-							<li>
-								<a class="text-gray-300" href="./faq.html">FAQs</a>
-							</li>
-							<li>
-								<a class="text-gray-300" data-bs-toggle="modal" href="#modalSizeChart">Size Guide</a>
-							</li>
-							<li>
-								<a class="text-gray-300" href="./shipping-and-returns.html">Shipping & Returns</a>
-							</li>
-						</ul>
-
-					</div>
-					<div class="col-6 col-sm">
-
-						<!-- Heading -->
-						<h6 class="heading-xxs mb-4 text-white">Shop</h6>
-
-						<!-- Links -->
-						<ul class="list-unstyled mb-7 mb-sm-0">
-							<li>
-								<a class="text-gray-300" href="./shop.html">Men's Shopping</a>
-							</li>
-							<li>
-								<a class="text-gray-300" href="./shop.html">Women's Shopping</a>
-							</li>
-							<li>
-								<a class="text-gray-300" href="./shop.html">Kids' Shopping</a>
-							</li>
-							<li>
-								<a class="text-gray-300" href="./shop.html">Discounts</a>
-							</li>
-						</ul>
-
-					</div>
-					<div class="col-6 col-sm">
-
-						<!-- Heading -->
-						<h6 class="heading-xxs mb-4 text-white">Company</h6>
-
-						<!-- Links -->
-						<ul class="list-unstyled mb-0">
-							<li>
-								<a class="text-gray-300" href="./about.html">Our Story</a>
-							</li>
-							<li>
-								<a class="text-gray-300" href="#!">Careers</a>
-							</li>
-							<li>
-								<a class="text-gray-300" href="#!">Terms & Conditions</a>
-							</li>
-							<li>
-								<a class="text-gray-300" href="#!">Privacy & Cookie policy</a>
-							</li>
-						</ul>
-
-					</div>
-					<div class="col-6 col-sm">
+					<div class="col-8 col-sm-6">
 
 						<!-- Heading -->
 						<h6 class="heading-xxs mb-4 text-white">Contact</h6>
@@ -114,17 +48,37 @@
 						<!-- Links -->
 						<ul class="list-unstyled mb-0">
 							<li>
-								<a class="text-gray-300" href="#!">1-202-555-0105</a>
+								<p class="text-gray-300 my-0">상호: 올림픽 티켓 판매 | 대표: OOO</p>
 							</li>
 							<li>
-								<a class="text-gray-300" href="#!">1-202-555-0106</a>
+								<p class="text-gray-300 my-0">전화번호: 000-0000-0000</p>
 							</li>
 							<li>
-								<a class="text-gray-300" href="#!">help@shopper.com</a>
+								<p class="text-gray-300 my-0">이메일: shdsearlybird@naver.com</p>
+							</li>
+							<li>
+								<p class="text-gray-300 my-0">주소: 서울 마포구 월드텁북로4길 77(동교동) ANT 빌딩 1층 class3</p>
 							</li>
 						</ul>
 
 					</div>
+					<div class="col-2 col-sm-3">
+
+						<!-- Heading -->
+						<h6 class="heading-xxs mb-4 text-white">Support</h6>
+
+						<!-- Links -->
+						<ul class="list-unstyled mb-7 mb-sm-0">
+							<li>
+								<a class="text-gray-300" href="/olympic/game/index.do">Game</a>
+							</li>
+							<li>
+								<a class="text-gray-300" href="/olympic/qna/index.do">QnA</a>
+							</li>
+						</ul>
+
+					</div>
+					
 				</div>
 			</div>
 		</div>
@@ -134,18 +88,18 @@
 					<div class="col">
 
 						<!-- Copyright -->
-						<p class="mb-3 mb-md-0 fs-xxs text-muted">© 2019 All rights reserved. Designed by Unvab.</p>
+						<p class="mb-3 mb-md-0 fs-xxs text-muted">© 2024 All rights reserved. Designed by EarlyBird.</p>
 
 					</div>
 					<div class="col-auto">
 
 						<!-- Payment methods -->
-						<img class="footer-payment" src="/olympic/dist/assets/img/payment/mastercard.svg" alt="...">
-						<img class="footer-payment" src="/olympic/dist/assets/img/payment/visa.svg" alt="...">
+						<img class="footer-payment" src="https://i.namu.wiki/i/DRTBUHA314XYTx-pkzY4XSmQ0Job0j10vQhiETotjLCGUULQemriSC67Yh9UCsYq7Dw7WyvK0GkP9f3jP8r8gA.svg" alt="카카오페이">
+						<!-- <img class="footer-payment" src="/olympic/dist/assets/img/payment/visa.svg" alt="...">
 						<img class="footer-payment" src="/olympic/dist/assets/img/payment/amex.svg" alt="...">
 						<img class="footer-payment" src="/olympic/dist/assets/img/payment/paypal.svg" alt="...">
 						<img class="footer-payment" src="/olympic/dist/assets/img/payment/maestro.svg" alt="...">
-						<img class="footer-payment" src="/olympic/dist/assets/img/payment/klarna.svg" alt="...">
+						<img class="footer-payment" src="/olympic/dist/assets/img/payment/klarna.svg" alt="..."> -->
 
 					</div>
 				</div>

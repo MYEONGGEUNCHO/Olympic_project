@@ -85,7 +85,7 @@ function deleteGame(button) {
 		    <!-- 반복문 시작 자리 -->
 		    <c:choose>
 		    	<c:when test="${empty favorite}">
-		    		<div>찜한 경기가 없습니다.</div>
+		    		<div class="text-center my-3">찜한 경기가 없습니다.</div>
 		    	</c:when>
 		    	<c:otherwise>
 		    	<!-- List group -->
