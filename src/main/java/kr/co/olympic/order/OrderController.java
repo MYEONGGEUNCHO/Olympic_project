@@ -392,6 +392,7 @@ public class OrderController {
 	@PostMapping("/order/cancel")
 	public String cancelOrder(@RequestBody OrderVO orderVO, HttpSession session, Model model) {
 		MemberVO login = (MemberVO) session.getAttribute("login");
+		model.addAttribute("order_imp_uid", orderVO.getImp_uid());
 		if (login == null) {
 			model.addAttribute("msg", "로그인 후 이용하세요.");
 			model.addAttribute("url", "/olympic/member/login.do");
