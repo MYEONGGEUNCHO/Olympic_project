@@ -51,12 +51,6 @@
 									<li class="list-styled-item">
 										<a class="list-styled-link" href="/olympic/game/index.do">경기 일정 확인</a>
 									</li>
-									<li class="list-styled-item">
-										<a class="list-styled-link" href="/olympic/game/">날짜별 보기</a>
-									</li>
-									<li class="list-styled-item">
-										<a class="list-styled-link" href="/olympic/game/">종목별 보기</a>
-									</li>
 								</ul>
 							</div>
 						</div>
