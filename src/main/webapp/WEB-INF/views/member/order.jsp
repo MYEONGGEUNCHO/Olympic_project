@@ -315,13 +315,13 @@ $(document).ready(function() {
 							<tr class="order-row">
 								<td id="member_no" style="display:none;">${orderItem.member_no}</td>
 								<td id="imp_uid" style="display:none;">${orderItem.imp_uid}</td>
-                                <td class="py-3 px-1" id="order_no">${orderItem.order_no}</td>
-                                <td class="py-3 px-1" id="buy_date"><fmt:formatDate value="${orderItem.buy_date}" pattern="yyyy-MM-dd"/></td>
+                                <td class="py-4 px-1" id="order_no">${orderItem.order_no}</td>
+                                <td class="py-4 px-1" id="buy_date"><fmt:formatDate value="${orderItem.buy_date}" pattern="yyyy-MM-dd"/></td>
                                 <td class="py-2 px-1" id="tournament">${orderItem.sport_name}<br>${orderItem.tournament }</td>
-                                <td class="py-3 px-1" id="stadium_name">${orderItem.stadium_name}</td>
+                                <td class="py-4 px-1" id="stadium_name">${orderItem.stadium_name}</td>
 								<td class="py-2 px-1" id="korea_date"><fmt:formatDate value="${orderItem.korea_date}" pattern="yyyy-MM-dd"/><br>Time: ${orderItem.korea_time}</td>
-                                <td class="py-3 px-1" id="ticket_count">${orderItem.ticket_count }</td>
-                                <td class="py-3 px-1" id="cancel"><a class="cancelOrder danger" data-bs-toggle="modal" href="#CancelOrderModal" >취소하기</a></td>
+                                <td class="py-4 px-1" id="ticket_count">${orderItem.ticket_count }</td>
+                                <td class="py-4 px-1" id="cancel"><a class="cancelOrder danger" data-bs-toggle="modal" href="#CancelOrderModal" >취소하기</a></td>
                                 <td class="py-4 px-1" id="show">
                                     <a class="showTicket danger" data-bs-toggle="modal" data-order-no="${orderItem.order_no}" href="#ticketModal">티켓확인</a>
                                 </td>
