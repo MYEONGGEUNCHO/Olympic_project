@@ -258,7 +258,10 @@
                                 <label for="d_seat_quantity">d_seat_quantity</label>
                                 <input type="number" class="form-control" id="editd_seat_quantity" name="d_seat_quantity">
                             </div>
-                            
+                            <div class="form-group">
+                                <label for="vip_seat_quantity">vip_seat_quantity</label>
+                                <input type="number" class="form-control" id="editvip_seat_quantity" name="vip_seat_quantity">
+                            </div>
                     	</div>
                     	
                     </div>
