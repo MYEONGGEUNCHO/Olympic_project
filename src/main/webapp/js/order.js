@@ -28,7 +28,7 @@ document.addEventListener("DOMContentLoaded", function() {
     });
     
     // 10분 타이머 설정
-    const timeoutMinutes = 1;
+    const timeoutMinutes = 3;
     const timeoutMilliseconds = timeoutMinutes * 60 * 1000;
     const countdownElement = document.getElementById('countdown');
     const startTime = Date.now();
@@ -146,17 +146,21 @@ document.addEventListener("DOMContentLoaded", function() {
         					window.location.href = `/olympic/order/finish.do?order_no=${encodedOrderNo}`;
                         } else {
                             alert('UID 업데이트에 실패하였습니다.');
+                            window.location.href = `/olympic/game/detail.do?game_id=${game_id}`;
                         }
                     }).catch(error => {
                         console.error('Error:', error);
                         alert('서버와 통신 중 오류가 발생하였습니다.');
+                        window.location.href = `/olympic/game/detail.do?game_id=${game_id}`;
                     });
                 } else {
                     alert('결제에 실패하였습니다. 에러 내용: ' + rsp.error_msg);
+                    window.location.href = `/olympic/game/detail.do?game_id=${game_id}`;
                 }
             });
         } else {
             alert('주문 생성에 실패하였습니다.');
+            window.location.href = `/olympic/game/detail.do?game_id=${game_id}`;
         }
     };
 

@@ -291,7 +291,7 @@
 		#{payment.b_seat_sold},
 		#{payment.c_seat_sold}, #{payment.d_seat_sold},
 		#{payment.vip_seat_sold},
-		DATE_ADD(NOW(), INTERVAL 1 MINUTE)
+		DATE_ADD(NOW(), INTERVAL 3 MINUTE)
 		);
 	</insert>
 
