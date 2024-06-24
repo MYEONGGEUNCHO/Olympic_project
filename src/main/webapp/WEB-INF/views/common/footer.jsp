@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 	<!-- FOOTER -->
 	<footer class="bg-dark bg-cover " style="background-image: url(/olympic/dist/assets//img/patterns/pattern-2.svg)">
-		<div class="py-12 border-bottom border-gray-700">
+		<div class="py-10 pb-0 border-bottom border-gray-700">
 			<div class="container">
 				
 				<div class="row">
@@ -32,11 +32,6 @@
 									<i class="fab fa-instagram"></i>
 								</a>
 							</li>
-							<li class="list-inline-item">
-								<a href="#!" class="text-gray-350">
-									<i class="fab fa-medium"></i>
-								</a>
-							</li>
 						</ul>
 
 					</div>
@@ -57,7 +52,7 @@
 								<p class="text-gray-300 my-0">이메일: shdsearlybird@naver.com</p>
 							</li>
 							<li>
-								<p class="text-gray-300 my-0">주소: 서울 마포구 월드텁북로4길 77(동교동) ANT 빌딩 1층 class3</p>
+								<p class="text-gray-300 my-0">주소: 서울 마포구 월드컵북로4길 77(동교동) ANT 빌딩 1층 Class3</p>
 							</li>
 						</ul>
 
@@ -82,13 +77,13 @@
 				</div>
 			</div>
 		</div>
-		<div class="py-6">
+		<div class="py-7">
 			<div class="container">
 				<div class="row">
 					<div class="col">
 
 						<!-- Copyright -->
-						<p class="mb-3 mb-md-0 fs-xxs text-muted">© 2024 All rights reserved. Designed by EarlyBird.</p>
+						<p class="mb-3 mb-md-0 fs-xxs text-muted">© 2024 All rights reserved. Designed by SHDEarlyBird.</p>
 
 					</div>
 					<div class="col-auto">

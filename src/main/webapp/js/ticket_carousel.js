@@ -11,16 +11,35 @@ $(function() {
                                '국가 대진 정보 없음';
             let slide = `
                 <div class="carousel-item${activeClass}">
-                    <div class="d-block w-100 p-3">
-                        <img src="${sport.title_image}" alt="Title Image" class="img-fluid">
-                        <h5 style="font-size: 1.5em;">${game.sport_name} - ${game.tournament}</h5>
-                        <h5>${countryMatch}</h5>
-                        <p>경기장: ${game.stadium_name}</p>
-                        <p>티켓 번호: ${ticket.ticket_no}</p>
-                        <p>가격: ${ticket.price}원</p>
-                        <p>좌석 정보: ${seatInfo}</p>
-                    </div>
-                </div>
+				    <div class="d-block w-100">
+				        <div class="fs-3 mb-7" id="ticketName">${game.sport_name} - ${game.tournament}</div>
+				        <div class="row align-items-center">
+				            <div class="col-md-4 text-center d-flex justify-content-center" style="max-width: 200px; overflow: hidden;">
+							    <img src="${sport.sport_pictogram}" alt="Title Image" class="align-self-center rounded border border-*" style="max-width: 300px;">
+							</div>
+				            <div class="col-md-8">
+				                <p><strong style="font-weight:bold;">경기 대진:</strong> ${countryMatch}</p>
+				                <p><strong style="font-weight:bold;">경기 날짜:</strong> ${game.korea_date} &nbsp; <strong style="font-weight:bold;">Time:</strong> ${game.korea_time}</p>
+				                <p><strong style="font-weight:bold;">경기장:</strong> ${game.stadium_name}</p>
+				            </div>
+				        </div>
+				        <hr>
+				        <div class="row">
+				             <div class="col-md-12">
+				                <p><strong style="font-weight:bold;">예매 번호:</strong> ${ticket.order_no}</p>
+				                <p><strong style="font-weight:bold;">티켓 번호:</strong> ${ticket.ticket_no}</p>
+				        </div>
+				        <div class="row">
+				        	<div class="col-md-9">
+				        		<p><strong style="font-weight:bold;">가격:</strong> ${ticket.price}원</p>
+				                <p><strong style="font-weight:bold;">좌석 정보:</strong> ${seatInfo}</p>
+				            </div>
+				            <div class="col-md-3 ms-auto pb-2 text-center d-flex justify-content-center align-items-center">
+				                <img src="../img/mascot.png" alt="..." style="max-width: 200px;">
+				            </div>
+				        </div>
+				    </div>
+				</div>
             `;
             carouselInner.append(slide);
         });

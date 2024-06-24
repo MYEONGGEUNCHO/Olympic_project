@@ -5,6 +5,9 @@
 <html lang="ko">
 <script src="../js/jquery-3.7.1.min.js"></script>
 <script src="../js/ticket_carousel.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&display=swap" rel="stylesheet">
 <script>
 function pagination() {
     var req_num_row = 3; //보여지는 행 개수
@@ -247,8 +250,51 @@ $(document).ready(function() {
 	.carousel-control-next {
 	    width: 5%; /* 슬라이드 바깥쪽으로 위치 조정 */
 	    z-index: 1; /* 슬라이드와 겹치지 않도록 함 */
-	    opacity: 0.7; /* 투명도 조정 */
+	    
+	    opacity: 0.1; /* 투명도 조정 */
 	}
+	.ticket-modal .modal-content {
+        border-radius: 0;
+        border: 2px solid #444;
+        background: #f8f9fa;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        position: relative;
+    }
+
+    .ticket-modal .modal-header {
+        background: #fff; /* 흰색 배경 */
+        border-bottom: 2px dashed #444;
+        border-top-left-radius: 0;
+        border-top-right-radius: 0;
+    }
+
+    .ticket-modal .modal-footer {
+        background: #fff; /* 흰색 배경 */
+        border-top: 2px dashed #444;
+        border-bottom-left-radius: 0;
+        border-bottom-right-radius: 0;
+        position: relative;
+        padding: 20px;
+    }
+
+    .ticket-modal .btn-close {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+    }
+
+    .ticket-modal .modal-footer::before {
+        content: "";
+        display: block;
+        position: absolute;
+        left: 0;
+        bottom: -20px; 
+        width: 100%;
+        height: 20px; 
+        background: linear-gradient(135deg, #fff 25%, transparent 25%), 
+                    linear-gradient(225deg, #fff 25%, transparent 25%);
+        background-size: 20px 20px;
+    }
 
 </style>
 <body>
@@ -298,8 +344,8 @@ $(document).ready(function() {
 				      <th class="px-0 py-2" scope="col">경기장</th>
 				      <th class="px-0 py-2" scope="col">경기일자</th>
 				      <th class="px-0 py-2" scope="col">매수</th>
+				      <th class="px-0 py-2" scope="col">상세</th>
 				      <th class="px-0 py-2" scope="col">취소</th>
-				      <th class="px-0 py-2" scope="col">티켓확인</th>
 				    </tr>
 				  </thead>
 				  <tbody class="table-group-divider" id="orderBody">
@@ -307,7 +353,7 @@ $(document).ready(function() {
 				  <c:choose>
 					<c:when test="${empty order}">
 						<tr>
-					    	<td colspan="9" onclick='event.cancelBubble=true;'>예매 내역이 없습니다.</td>
+					    	<td colspan="10" onclick='event.cancelBubble=true;'>예매 내역이 없습니다.</td>
 						</tr>
 					</c:when>
 					<c:otherwise>
@@ -321,10 +367,10 @@ $(document).ready(function() {
                                 <td class="py-4 px-1" id="stadium_name">${orderItem.stadium_name}</td>
 								<td class="py-2 px-1" id="korea_date"><fmt:formatDate value="${orderItem.korea_date}" pattern="yyyy-MM-dd"/><br>Time: ${orderItem.korea_time}</td>
                                 <td class="py-4 px-1" id="ticket_count">${orderItem.ticket_count }</td>
-                                <td class="py-4 px-1" id="cancel"><a class="cancelOrder danger" data-bs-toggle="modal" href="#CancelOrderModal" >취소하기</a></td>
                                 <td class="py-4 px-1" id="show">
-                                    <a class="showTicket danger" data-bs-toggle="modal" data-order-no="${orderItem.order_no}" href="#ticketModal">티켓확인</a>
+                                    <a class="showTicket text-dark" data-bs-toggle="modal" data-order-no="${orderItem.order_no}" href="#ticketModal">티켓확인</a>
                                 </td>
+                                <td class="py-4 px-1" id="cancel"><a class="cancelOrder danger" data-bs-toggle="modal" href="#CancelOrderModal" >취소하기</a></td>
 							</tr>
 						</c:forEach>
 					</c:otherwise>

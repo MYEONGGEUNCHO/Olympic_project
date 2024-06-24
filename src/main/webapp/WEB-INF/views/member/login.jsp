@@ -68,7 +68,7 @@ function getCookie(cookieName) {
 	<%@include file="../common/breadcrumb.jsp"%>
 	<!-- 	메인 컨텐트 CONTENT 태그 찾아서 그 부분만 사용하면됨-->
 	<!-- 	이 부분에 내용 작성하여 사용 -->
-	<section class="pt-7 pb-12">
+	<section class="pt-8 pb-12">
 		<div class="container">
 			<div class="row justify-content-center">
 				<!-- Card -->

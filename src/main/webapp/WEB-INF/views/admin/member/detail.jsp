@@ -57,18 +57,21 @@ $(document).ready(function() {
     
     $(document).on('click', '.editOrderBtn', function() {
         var order_no = $(this).closest('tr').find('#order_no').text(); // 주문번호 가져오기
+        var imp_uid = $(this).closest('tr').find('#imp_uid').text(); // 주문번호 가져오기
         var delete_confirm = confirm("정말로 취소하시겠습니까?");
         
         if (delete_confirm) {
             $.ajax({
                 type: 'POST',
                 url: '/olympic/order/cancel',
-                data: {
+                contentType: 'application/json',
+                data: JSON.stringify({
                     order_no: order_no,
+                    imp_uid: imp_uid,
                     member_no: "${detail.member_no}"
-                },
+                }),
                 success: function(response) {
-                    alert(response.msg);
+                    alert(response);
                     location.reload(); // 성공 시 페이지 새로고침
                 },
                 error: function(xhr, status, error) {

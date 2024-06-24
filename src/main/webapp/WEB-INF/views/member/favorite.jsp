@@ -101,7 +101,7 @@ function deleteGame(button) {
 
                     <!-- Title -->
                     <div class="d-flex mb-4 fw-bold">
-                      <a class="text-body" href="product.html">${favorite.sport_name } &nbsp; ${favorite.tournament }</a> <span class="ms-auto">${favorite.stadium_name}</span>
+                      <a class="text-body" href="/olympic/game/detail.do?game_id=${favorite.game_id }">${favorite.sport_name }&nbsp;${favorite.tournament }</a> <span class="ms-auto">${favorite.stadium_name}</span>
                     </div>
 
                     <!-- Text -->
