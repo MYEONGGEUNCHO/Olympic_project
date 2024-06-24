@@ -1,0 +1,46 @@
+#unknown_flag {
+	width: 100px;
+	border-radius: 50%;
+	height: 100px;
+	background: gray;
+	text-align: center;
+	line-height: 100px;
+	font-size: 60px;
+}
+
+#left_card {
+	position: relative;
+}
+
+#black_container {
+	position: absolute;
+	background-color: black;
+	opacity: 0.7;
+	width: 100%;
+	height: 100%;
+}
+
+#left_card #game_info {
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	transform: translate(-50%, -50%);
+	color: white;
+	font-weight: 800;
+	z-index: 1;
+	text-align: center;
+	color: white;
+}
+
+#seat_choice, #choice_cancel {
+	cursor: pointer;
+}
+
+#a_seat:hover, #b_seat:hover, #c_seat:hover, #d_seat:hover {
+	border: 1px solid;
+}
+
+#a_seat_price, #b_seat_price, #c_seat_price, #d_seat_price,
+	#vip_seat_price {
+	text-wrap: nowrap;
+}

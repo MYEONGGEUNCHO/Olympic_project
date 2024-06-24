@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
@@ -279,25 +278,22 @@ $(document).ready(function() {
 		</table>
 	</div>
 
-
-	</div>
-
 	<!-- Pagination -->
-	<nav
-		class="pt-3 d-flex justify-content-center justify-content-md-center">
+	<nav class="pt-3 d-flex justify-content-center justify-content-md-center">
 		<ul class="pagination pagination-sm text-gray-400" id="pagination">
 			<!-- ajax로 값이 들어갈 부분 -->
 		</ul>
 	</nav>
-	<c:if test="${!empty login && login.state == 0}">
-		<div class="d-flex justify-content-end m-2">
-			<a class="btn btn-sm btn-dark" href="/olympic/qna/write.do?game_id=${game.game_id }">작성하기</a>
-		</div>
-	</c:if>
-	<c:if test="${login.state == 3}">
-		<div class="d-flex justify-content-end m-2">
-			<a class="btn btn-sm btn-dark" href="/olympic/qna/write.do?game_id=${game.game_id }">공지사항 등록</a>
-		</div>
-	</c:if>
-	</section>
+	<div class="mx-auto">
+		<c:if test="${!empty login && login.state == 0}">
+			<div class="d-flex justify-content-end m-2">
+				<a class="btn btn-sm btn-dark" href="/olympic/qna/write.do?game_id=${game.game_id }">작성하기</a>
+			</div>
+		</c:if>
+		<c:if test="${login.state == 3}">
+			<div class="d-flex justify-content-end m-2">
+				<a class="btn btn-sm btn-dark" href="/olympic/qna/write.do?game_id=${game.game_id }">공지사항 등록</a>
+			</div>
+		</c:if>
+	</div>
 </body>
