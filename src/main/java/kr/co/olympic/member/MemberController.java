@@ -89,11 +89,24 @@ public class MemberController {
 //		System.out.println("referer: " + referer);
 		session.setAttribute("refUrl", referer);
 		String refUrl = (String) session.getAttribute("refUrl");
-				
+
 		if (session.getAttribute("login") != null) {
 			return "/index";
 		}
 		return "member/login";
+	}
+
+	@PostMapping("/member/modalLogin.do")
+	public String login(Model model, @ModelAttribute MemberVO vo, HttpSession sess) {
+		MemberVO login = service.login(vo);
+		if (login == null) {
+			model.addAttribute("msg", "이메일 비밀번호를 확인하세요.");
+			model.addAttribute("url", "/olympic/member/login.do");
+			return "/common/alert";
+		} else {
+			sess.setAttribute("login", login);
+			return "redirect: /olympic/index.do";
+		}
 	}
 
 	// @ResponseBody
@@ -103,13 +116,16 @@ public class MemberController {
 //		System.out.println(refUrl);
 		String referUrl = refUrl;
 		String startPattern = "/olympic/";
-        
-        String result = "";
-        int startIndex = referUrl.indexOf(startPattern);
-        if (startIndex != -1) {
-            result = referUrl.substring(startIndex + startPattern.length());
-        }
-        System.out.println(result);
+
+		String result = "";
+		int startIndex = referUrl.indexOf(startPattern);
+		if (startIndex != -1) {
+			result = referUrl.substring(startIndex + startPattern.length());
+		}
+//		System.out.println(result);
+		if("member/logout.do".equals(result)) {
+			result = "index.do";
+		}
 		MemberVO login = service.login(vo);
 		if (login == null) {
 			model.addAttribute("msg", "이메일 비밀번호를 확인하세요.");
@@ -117,7 +133,7 @@ public class MemberController {
 			return "/common/alert";
 		} else {
 			sess.setAttribute("login", login);
-			return "redirect:/"+result;
+			return "redirect:/" + result;
 		}
 	}
 

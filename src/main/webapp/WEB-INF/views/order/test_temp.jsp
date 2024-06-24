@@ -8,8 +8,6 @@
 <script type="text/javascript">
     $(function() {
 	cleanup();
-	impUID = $("#test_uid").val();
-	console.log(impUID);
 	$("#test_btn").click(function() {
 	    $.ajax({
 		url : "/olympic/order/cancel",
@@ -19,7 +17,7 @@
 		},
 		data : JSON.stringify({
 		    member_no : "${login.member_no}",
-		    imp_uid : "imp_916656562310"
+		    imp_uid : "${order_imp_uid}"
 		}),
 		success : function(res) {
 		    console.log("성공", res);

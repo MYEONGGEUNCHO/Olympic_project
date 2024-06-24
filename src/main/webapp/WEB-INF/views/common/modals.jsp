@@ -94,7 +94,7 @@
 	</div>
 
 	<!-- Form -->
-	<form id="login_form" action="/olympic/member/login.do" method="post">
+	<form id="login_form" action="/olympic/member/modalLogin.do" method="post">
 		<!-- Heading -->
 		<h6 class="mb-7">Login</h6>
 		<div class="row">
