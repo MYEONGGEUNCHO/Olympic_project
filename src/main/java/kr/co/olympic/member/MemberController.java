@@ -40,11 +40,12 @@ public class MemberController {
 	@Autowired
 	private OrderService orderservice;
 
-	// 테스트용 지워야함
 	@GetMapping("/member/order.do")
 	public String order(HttpSession sess, Model model) {
 		MemberVO vo = (MemberVO) sess.getAttribute("login");
 		List<OrderDTO> order = orderservice.listOrder(vo);
+		List<OrderDTO> cancel = orderservice.listcancelOrder(vo);
+		model.addAttribute("cancel", cancel);
 		model.addAttribute("order", order);
 		return "member/order";
 	}

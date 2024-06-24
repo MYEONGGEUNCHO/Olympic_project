@@ -96,7 +96,7 @@
 	         $.ajax({
 	             type: "POST",
 	             url: "/olympic/admin/game/sport/delete.do",
-	             data: { sport_code : parseInt(sport_code) },
+	             data: { sport_code : sport_code },
 	             success: function(data) {
 	            	 if(data == 1){
 	            		alert('삭제가 완료되었습니다.');
@@ -112,8 +112,8 @@
 	             }
 	         });
 		});
-		});
 	});
+
 </script>
 </head>
 
