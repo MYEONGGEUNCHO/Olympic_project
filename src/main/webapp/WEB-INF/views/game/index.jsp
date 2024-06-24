@@ -9,15 +9,59 @@
     <title>올림픽 경기</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <style>
-        /* 스타일을 추가하여 보기 좋게 합니다. */
-        #unknown_flag {
-            display: inline-block;
-            width: 20px;
-            height: 20px;
-            background-color: grey;
-            text-align: center;
-            color: white;
-            line-height: 20px;
+        .list-group {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .list-group-item {
+            border: 1px solid #ddd;
+            margin-bottom: 6px;
+            padding: 12px;
+            display: flex;
+            flex-direction: row;
+        }
+        .list-group-item img {
+            max-width: 100%;
+        }
+        .inline-container {
+            display: flex;
+            align-items: center;
+        }
+        .inline-container > div, .inline-container > img {
+            margin-right: 10px;
+        }
+        .flag, #unknown_flag {
+            width: 50px;
+            height: 30px;
+            object-fit: cover;
+            border: 1px solid #000; /* 테두리 추가 */
+            display: flex;
+			    align-items: center;
+			    justify-content: center;
+        }
+        .fw-bold {
+            font-weight: bold;
+        }
+        .fs-sm {
+            font-size: 0.875rem;
+        }
+        .mb-4 {
+            margin-bottom: 1.5rem;
+        }
+        .mb-6 {
+            margin-bottom: 3rem;
+        }
+        .ms-auto {
+            margin-left: auto;
+        }
+        .text-muted {
+            color: #6c757d;
+        }
+        .btn-link {
+            border: none;
+            background: none;
+            padding: 0;
         }
     </style>
     <script>
@@ -38,56 +82,58 @@
                         if(data.game.length === 0) {
                             content += '<div><p>등록된 경기 일정이 없습니다.</p></div>';
                         } else {
-                            $.each(data.game, function(idx, vo) {
-                                content += '<div>';
-                                content += '<img src="' + vo.sport_pictogram + '" alt="스포츠 아이콘" id="sport_pictogram">';
-                                content += '<p>' + vo.sport_name + '</p>';
-                                content += '<p>' + vo.tournament + '</p>';
-                                if (vo.country1_flag) {
-                                    content += '<img src="' + vo.country1_flag + '" alt="" id="flag">';
-                                } else {
-                                    content += '<div id="unknown_flag">?</div>';
-                                }
+                        	content += '<ul>'
+                        	$.each(data.game, function(idx, vo) {
+                                content += '<li class="list-group-item">';
+                                content += '<div class="row align-items-center">';
+                                content += '<div class="col-2 d-flex justify-content-center align-items-center">';
+                                content += '<img src="' + vo.sport_pictogram + '" alt="스포츠 아이콘" class="sport_pictogram" style="width: 160px;">';
+                                content += '</div>';
 
-                                if (vo.country2_flag) {
-                                    content += '<img src="' + vo.country2_flag + '" alt="" id="flag">';
-                                } else {
-                                    content += '<div id="unknown_flag">?</div>';
-                                }
-                                
-                                if (vo.country1_name) {
-                                	content += '<p>' + vo.country1_name + '</p>';
-                                } else {
-                                    content += '<div id="">?</div>';
-                                }
+                                content += '<div class="col my-1">';
+                                content += '<div class="d-flex mb-4 fw-bold">';
+                                content += '<a class="text-body" href="#">' + vo.sport_name + ' &nbsp; ' + vo.tournament + '</a>';
+                                content += '<span class="ms-auto">' + vo.stadium_name + '</span>';
+                                content += '</div>';
 
-                                if (vo.country2_name) {
-                                	content += '<p>' + vo.country2_name + '</p>';
-                                } else {
-                                    content += '<div id="">?</div>';
-                                }
-                                
-                                content += '<p>' + vo.stadium_name + '</p>';
-                                content += '<p>' + vo.korea_date + '</p>';
-                                content += '<p>' + vo.korea_time + '</p>';
+                                content += '<div class="row">';
+                                content += '<div class="col-9 fs-sm text-muted m-0">';
+                                content += '경기 일자: ' + vo.korea_date + ' &ensp; 시간: ' + vo.korea_time + '<br>';
+                                content += '출전 나라: ';
+                                content += vo.country1_name ? vo.country1_name : '미정';
+                                content += ' vs ';
+                                content += vo.country2_name ? vo.country2_name : '미정';
+                                content += '</div>';
+
+                                content += '<div class="col-3 d-flex align-items-center">';
                                 if (data.member && data.member.member_no) {
                                     if (vo.favorite === 0) {
-                                    	content += '<img src="/olympic/img/fake_love.png" id="favorite_' + vo.game_id + '" onclick="toggle_favorite(' + vo.game_id + ', 0)" style="cursor: pointer; width: 20px; height: 20px;">'
-                                        /*  content += '<i onclick="create_favorite(' + vo.game_id + ')" id="create_favorite" class="fa-regular fa-heart" style="color: #4f4f4f;"></i>';*/
+                                        content += '<img src="/olympic/img/fake_love.png" id="favorite_' + vo.game_id + '" onclick="toggle_favorite(' + vo.game_id + ', 0)" style="cursor: pointer; width: 50px; height: 50px;">';
                                     } else if (vo.favorite === 1) {
-                                    	content += '<img src="/olympic/img/true_love.png" id="favorite_' + vo.game_id + '" onclick="toggle_favorite(' + vo.game_id + ', 1)" style="cursor: pointer; width: 20px; height: 20px;">'
-                                        /* content += '<i onclick=""delete_favorite(' + vo.game_id + ')"" id="delete_favorite" class="fa-solid fa-heart" style="color: #f51919;"></i>'; */
+                                        content += '<img src="/olympic/img/true_love.png" id="favorite_' + vo.game_id + '" onclick="toggle_favorite(' + vo.game_id + ', 1)" style="cursor: pointer; width: 50px; height: 50px;">';
                                     }
                                 } else {
-                                    	/* content += '<a data-bs-toggle="modal" href="#modalLoginForm">'; */
-                                    	content += '<a id="loginLink" onclick="loginLink()">';
-                                    	content += '<img src="/olympic/img/fake_love.png" style="cursor: pointer; width: 20px; height: 20px;">'
-                                        content += '</a>';
+                                    content += '<a id="loginLink" onclick="loginLink()">';
+                                    content += '<img src="/olympic/img/fake_love.png" style="cursor: pointer; width: 50px; height: 50px;">';
+                                    content += '</a>';
                                 }
                                 content += '<button onclick="redirectToDetail(' + vo.game_id + ')">경기 상세 보기</button>';
-                                content += '</div>';                    
+                                content += '</div>'; // col-3
+                                content += '</div>'; // row
+
+                                content += '<div class="inline-container">';
+                                content += vo.country1_flag ? '<img src="' + vo.country1_flag + '" alt="" class="flag">' : '<div id="unknown_flag" class="flag">?</div>';
+                                content += '<div id=""> vs </div>';
+                                content += vo.country2_flag ? '<img src="' + vo.country2_flag + '" alt="" class="flag">' : '<div id="unknown_flag" class="flag">?</div>';
+                                content += '</div>'; // inline-container
+
+                                content += '</div>'; // col my-1
+                                content += '</div>'; // row align-items-center
+                                content += '</li>';
                             });
+                        	content += '<ul>'
                         }
+                        
                         $('#listGame').html(content); // AJAX로 받은 데이터 추가
                     }
                 });

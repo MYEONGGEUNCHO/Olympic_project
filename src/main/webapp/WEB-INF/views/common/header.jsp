@@ -49,7 +49,7 @@
 							<div class="card-body">
 								<ul class="list-styled fs-sm">
 									<li class="list-styled-item">
-										<a class="list-styled-link" href="/olympic/game/">경기 일정 확인</a>
+										<a class="list-styled-link" href="/olympic/game/index.do">경기 일정 확인</a>
 									</li>
 									<li class="list-styled-item">
 										<a class="list-styled-link" href="/olympic/game/">날짜별 보기</a>
@@ -93,7 +93,7 @@
 			<ul class="navbar-nav flex-row align-items-center">
 				<li class="nav-item">
 					<c:if test="${!empty login }">
-						<div>${login.name }님환영합니다.</div>
+						<div>${login.name }님 환영합니다.</div>
 					</c:if>
 					<c:if test="${empty login }">
 						<div>로그인 후 이용하세요.</div>
@@ -108,7 +108,7 @@
 				</c:if>
 				<c:if test="${!empty login }">
 					<li class="nav-item">
-						<a class="nav-link" href="/olympic/member/membership.do" title="마이페이지">
+						<a class="nav-link" href="/olympic/member/favorite.do" title="마이페이지">
 							<i class="fe fe-user"></i>
 						</a>
 					</li>

@@ -85,7 +85,7 @@ function deleteGame(button) {
 		    <!-- 반복문 시작 자리 -->
 		    <c:choose>
 		    	<c:when test="${empty favorite}">
-		    		<div>찜한 경기가 없습니다.</div>
+		    		<div class="text-center my-3">찜한 경기가 없습니다.</div>
 		    	</c:when>
 		    	<c:otherwise>
 		    	<!-- List group -->
@@ -101,7 +101,7 @@ function deleteGame(button) {
 
                     <!-- Title -->
                     <div class="d-flex mb-4 fw-bold">
-                      <a class="text-body" href="product.html">${favorite.sport_name } &nbsp; ${favorite.tournament }</a> <span class="ms-auto">${favorite.stadium_name}</span>
+                      <a class="text-body" href="/olympic/game/detail.do?game_id=${favorite.game_id }">${favorite.sport_name }&nbsp;${favorite.tournament }</a> <span class="ms-auto">${favorite.stadium_name}</span>
                     </div>
 
                     <!-- Text -->

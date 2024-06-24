@@ -5,7 +5,6 @@
 <script src="../js/jquery-3.7.1.min.js"></script>
 <script>
 $(function() {
-	
 	const login = ${login.point}; 
 	if(login < 10000 || ${login.membership == "VIP"}) {
 		$("#purchasebtn").prop("disabled", true);

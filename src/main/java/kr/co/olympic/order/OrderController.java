@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import kr.co.olympic.game.GameService;
+import kr.co.olympic.game.GameVO;
 import kr.co.olympic.member.MemberService;
 import kr.co.olympic.member.MemberVO;
 
@@ -29,7 +31,61 @@ public class OrderController {
 
 	@Autowired
 	private MemberService memberService;
-
+	
+	@Autowired
+	private GameService gameService;
+	
+	
+	@GetMapping("/order/ticket_test.do")
+	public String ticket_test(HttpSession session, Model model) {
+		// 세션에서 MemberVO 객체 가져오기
+	    MemberVO member = (MemberVO)session.getAttribute("login");
+	    
+	   	// 모델에 MemberVO 객체 추가
+	    model.addAttribute("login", member);
+	    //모델에 order 객체 추가 
+	    List<OrderDTO> order = orderService.listOrder(member);
+		model.addAttribute("order", order);
+		return "/order/ticket_test";
+	}
+	
+//	@GetMapping("/order/getTicketDetails")
+//    public ResponseEntity<?> getTicketDetails(@RequestParam("order_no") String orderNo) {
+//        try {
+//            List<TicketVO> tickets = orderService.getTicketsByOrderNo(orderNo);
+//            
+//            return ResponseEntity.ok().body(Map.of("tickets", tickets));
+//        } catch (Exception e) {
+//            return ResponseEntity.status(500).body(Map.of("error", "Failed to retrieve ticket details."));
+//        }
+//    }
+	
+	@GetMapping("/order/getTicketDetails")
+	public ResponseEntity<Map<String, Object>> getTicketDetails(@RequestParam("order_no") String orderNo) {
+		Map<String, Object> response = new HashMap<>();
+		try {
+	      List<TicketVO> tickets = orderService.getTicketsByOrderNo(orderNo);	     
+	      OrderVO order = orderService.getOrderByOrderNo(orderNo);
+	      
+	      Map<String, Object> map = new HashMap<>();
+	      GameVO tGame = new GameVO();
+	      tGame.setGame_id(order.getGame_id());
+	      map.put("game", tGame);
+	      GameVO game = gameService.detailGame(map);
+	      
+	      
+	      response.put("tickets", tickets);
+	      response.put("order", order);
+	      response.put("game", game);
+	      response.put("sport",game.getSport());
+	      
+	      return ResponseEntity.ok(response);
+	      //return ResponseEntity.ok().body(Map.of("tickets", tickets));
+		} catch (Exception e) {
+		  return ResponseEntity.status(500).body(Map.of("error", "티켓 상세 조회 실패"));
+		}
+	}
+	
 	@PostMapping("/order/checkAvailability")
 	public ResponseEntity<Map<String, Boolean>> checkSeatAvailability(@RequestBody PaymentVO paymentVO) {
 		Map<String, Boolean> seatAvailability = orderService.checkSeatAvailability(paymentVO);
@@ -360,35 +416,31 @@ public class OrderController {
 
 	// 받아야 하는 값: imp_uid, login정보
 	@PostMapping("/order/cancel")
-	public String cancelOrder(@RequestBody OrderVO orderVO, HttpSession session, Model model) {
+	public ResponseEntity<String> cancelOrder(@RequestBody OrderVO orderVO, HttpSession session, Model model) {
 		MemberVO login = (MemberVO) session.getAttribute("login");
-		model.addAttribute("order_imp_uid", orderVO.getImp_uid());
-		if (login == null) {
-			model.addAttribute("msg", "로그인 후 이용하세요.");
-			model.addAttribute("url", "/olympic/member/login.do");
-			return "common/alert";
-		}
-		if (!login.getMember_no().equals(orderVO.getMember_no())) {
-			model.addAttribute("msg", "본인의 주문만 취소 요청할 수 있습니다.");
-			return "common/alert";
-		}
-		try {
-			int r = orderService.cancelOrder(orderVO);
-			if (r == 0) {
-				model.addAttribute("msg", "주문 취소에 실패하였습니다.");
-				return "common/alert";
-			}
-			if (r == 2) {
-				model.addAttribute("msg", "이미 취소된 주문입니다.");
-				return "common/alert";
-			}
-		} catch (Exception e) {
-			model.addAttribute("msg", e);
-			return "common/alert";
-		}
-		model.addAttribute("msg", "주문이 취소되었습니다.");
-		model.addAttribute("url", "/olympic/member/order.do");
-		return "common/alert";
+		String orderNo = orderVO.getOrder_no();
+		OrderVO vo = orderService.getOrderByOrderNo(orderNo);
+		
+		System.out.println("컨트롤러 OrderVO:"+ vo);
+
+        if (login == null) {
+            return ResponseEntity.badRequest().body("로그인 후 이용하세요.");
+        }
+//        if (!login.getMember_no().equals(orderVO.getMember_no())) {
+//            return ResponseEntity.badRequest().body("본인의 주문만 취소 요청할 수 있습니다.");
+//        }
+        try {
+            int r = orderService.cancelOrder(vo);
+            if (r == 0) {
+                return ResponseEntity.badRequest().body("Order cancellation failed.");
+            }
+            if (r == 2) {
+                return ResponseEntity.badRequest().body("This order has already been cancelled.");
+            }
+            return ResponseEntity.ok().body("Order cancellation successful");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+        }
 
 	}
 

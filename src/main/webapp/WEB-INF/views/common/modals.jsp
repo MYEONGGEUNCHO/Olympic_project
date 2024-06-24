@@ -200,10 +200,10 @@
 				<div class="row justify-content-center">
 					<div class="text-center mb-4">
 					    <div class="row mb-2">
-					        <div class="col-6 fw-bold">
+					        <div class="col-6 fw-bold text-decoration-underline">
 					            기한
 					        </div>
-					        <div class="col-6 fw-bold">
+					        <div class="col-6 fw-bold text-decoration-underline">
 					            취소 수수료
 					        </div>
 					    </div>
@@ -230,7 +230,7 @@
 					    </div>
 					</div>
 					<div class="row col-6 text-center">
-						<button id="cancelcheck" class="btn btn-sm btn-danger" onclick="">취소하기</button>
+						<button id="cancelcheck" class="btn btn-sm btn-danger" >취소하기</button>
 					</div>
 				</div>
 			</div>
@@ -239,6 +239,8 @@
 
 	</div>
 </div>
+
+
 <!-- 비밀번호 초기화 알림 모달 -->
 <div class="modal fade " id="modalpwdreset" data-bs-backdrop="static" tabindex="-1" role="dialog" aria-hidden="true">
 	<div class="modal-dialog modal-dialog-centered" role="document">
@@ -703,3 +705,43 @@
 		</div>
 	</div>
 </div>
+<!-- ShowTicket 모달 창 정의 -->
+    <div class="modal fade ticket-modal" id="ticketModal" tabindex="-1" role="dialog" aria-labelledby="ticketModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document" style="max-width: 600px;">
+            <div class="modal-content">
+                <!-- Close -->
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+
+                <!-- Header -->
+                <div class="modal-header lh-fixed fs-lg">
+                    <strong class="mx-auto">티켓 상세 정보</strong>
+                </div>
+
+                <!-- Body -->
+                <div class="modal-body">
+                    <!-- 슬라이드 쇼 부분 -->
+                    <div id="ticketCarousel" class="carousel slide" data-bs-ride="carousel">
+                        <div class="carousel-inner">
+                            <!-- 티켓 슬라이드 동적 생성 -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Carousel Controls -->
+                <button class="carousel-control-prev" type="button" data-bs-target="#ticketCarousel" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#ticketCarousel" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </button>
+
+                <!-- Footer -->
+                <div class="modal-footer text-center">
+                    <button type="button" class="btn btn-dark" data-bs-dismiss="modal" style="margin: 0 auto;">닫기</button>
+                </div>
+            </div>
+        </div>
+    </div>
+

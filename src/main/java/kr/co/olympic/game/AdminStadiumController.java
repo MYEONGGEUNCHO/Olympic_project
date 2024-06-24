@@ -54,18 +54,13 @@ public class AdminStadiumController {
     public int updateStadium(@ModelAttribute StadiumVO vo) {
     	return service.updateStadium(vo);
     }
-
+    
+    @ResponseBody
     @PostMapping("delete.do")
-    public String deleteStadium(Model model, StadiumVO vo) {
+    public int deleteStadium(StadiumVO vo) {
     	int r = service.deleteStadium(vo);
-    	if (r > 0) {
-    		model.addAttribute("cmd", "move");
-    		model.addAttribute("msg", "정상적으로 삭제되었습니다.");
-    		model.addAttribute("url", "/olympic/admin/game/stadium/index.do");
-    	} else {
-    		model.addAttribute("cmd", "back");
-    		model.addAttribute("msg", "삭제 오류");
-    	}
-        return "common/alert";
+    	if(r>0) {
+    		return 1;
+    	} else return 0;
     }
 }

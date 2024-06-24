@@ -40,11 +40,12 @@ public class MemberController {
 	@Autowired
 	private OrderService orderservice;
 
-	// 테스트용 지워야함
 	@GetMapping("/member/order.do")
 	public String order(HttpSession sess, Model model) {
 		MemberVO vo = (MemberVO) sess.getAttribute("login");
 		List<OrderDTO> order = orderservice.listOrder(vo);
+		List<OrderDTO> cancel = orderservice.listcancelOrder(vo);
+		model.addAttribute("cancel", cancel);
 		model.addAttribute("order", order);
 		return "member/order";
 	}
@@ -123,6 +124,9 @@ public class MemberController {
 		}
 //		System.out.println(result);
 		if("member/logout.do".equals(result)) {
+			result = "index.do";
+		}
+		if("member/modalLogin.do".equals(result)) {
 			result = "index.do";
 		}
 		MemberVO login = service.login(vo);
