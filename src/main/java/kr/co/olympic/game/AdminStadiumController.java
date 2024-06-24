@@ -10,9 +10,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import kr.co.olympic.member.MemberVO;
 
@@ -47,19 +49,10 @@ public class AdminStadiumController {
     	model.addAttribute("map", service.listStadium(vo));
         return "admin/game/stadium/index";
     }
-
+    @ResponseBody
     @PostMapping("update.do")
-    public String updateStadium(Model model, StadiumVO vo) {
-    	int r = service.updateStadium(vo);
-    	if (r > 0) {
-    		model.addAttribute("cmd", "move");
-    		model.addAttribute("msg", "정상적으로 수정되었습니다.");
-    		model.addAttribute("url", "/olympic/admin/game/stadium/index.do");
-    	} else {
-    		model.addAttribute("cmd", "back");
-    		model.addAttribute("msg", "등록 오류");
-    	}
-        return "common/alert";
+    public int updateStadium(@ModelAttribute StadiumVO vo) {
+    	return service.updateStadium(vo);
     }
 
     @PostMapping("delete.do")

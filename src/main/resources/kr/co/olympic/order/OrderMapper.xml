@@ -212,7 +212,7 @@
 	<select id="listOrder"
 		parameterType="kr.co.olympic.member.MemberVO"
 		resultType="kr.co.olympic.order.OrderDTO">
-		SELECT o.order_no, o.buy_date, g.sport_name,
+		SELECT o.order_no, o.buy_date, g.sport_name, o.imp_uid,
 		g.stadium_name, g.tournament,
 		g.korea_date, g.korea_time,
 		COUNT(t.order_no) AS ticket_count
@@ -221,7 +221,7 @@
 		t.order_no = o.order_no
 		WHERE
 		o.member_no = #{member_no}
-		GROUP BY o.order_no, o.buy_date,
+		GROUP BY o.order_no, o.buy_date, o.imp_uid,
 		g.sport_name, g.stadium_name,
 		g.tournament,
 		g.korea_date, g.korea_time;

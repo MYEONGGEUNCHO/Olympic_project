@@ -29,24 +29,95 @@
 <script>
 	$(document).ready(function() {
 		$(".update_btn").click(function() {
-			alert(1)
 			
-			$("#editModal").modal('show');
+			var row = $(this).closest("tr");
+	    	$("#itemitem_no").val(row.find("#item_no").text());
+	    	$("#itema_seat_sold").val(row.find("#a_seat_sold").text());
+	    	$("#itemb_seat_sold").val(row.find("#b_seat_sold").text());
+	    	$("#itemc_seat_sold").val(row.find("#c_seat_sold").text());
+	    	$("#itemd_seat_sold").val(row.find("#d_seat_sold").text());
+	    	$("#itemvip_seat_sold").val(row.find("#vip_seat_sold").text());
+	    	$("#itemstate").val(row.find("#state").text());
+	    	$("#itemis_korean").val(row.find("#korean_advancement").text());
+	    	$("#itema_seat_price").val(row.find("#a_seat_price").text());
+	    	$("#itemb_seat_price").val(row.find("#b_seat_price").text());
+	    	$("#itemc_seat_price").val(row.find("#c_seat_price").text());
+	    	$("#itemd_seat_price").val(row.find("#d_seat_price").text());
+	    	$("#itemvip_seat_price").val(row.find("#vip_seat_price").text());
+	    	$("#itemgame_id").val(row.find("#game_id").text());
+			
+			$("#editItemModal").modal('show');
+		});
+		
+		$("#saveItem").click(function() {
+			
+	        var form = $("#itemfrm");
+	        var formData = form.serialize();
+	        
+	        $.ajax({
+	        	type: 'POST',
+	        	url: '/olympic/admin/game/item/update.do',
+	        	data: formData,
+	        	success:function(res){
+	        		if(res == 1){
+	        			var itemNo = $("#itemitem_no").val();
+		       	 		var row;
+		            	// 수정일 경우
+			            row = $("#dataTable").find("tr").filter(function() {
+			                return $(this).find("#item_no").text() == itemNo;
+			            });
+			
+			            row.find("#a_seat_sold").text($("#itema_seat_sold").val());
+			            row.find("#b_seat_sold").text($("#itemb_seat_sold").val());
+			            row.find("#c_seat_sold").text($("#itemc_seat_sold").val());
+			            row.find("#d_seat_sold").text($("#itemd_seat_sold").val());
+			            row.find("#vip_seat_sold").text($("#itemvip_seat_sold").val());
+			            row.find("#state").text($("#itemstate").val());
+			            row.find("#korean_advancement").text($("#itemis_korean").val());
+			            row.find("#stadium_name").text($("#editstadium_name").val());
+			            row.find("#a_seat_price").text($("#itema_seat_price").val());
+			            row.find("#b_seat_price").text($("#itemb_seat_price").val());
+			            row.find("#c_seat_price").text($("#itemc_seat_price").val());
+			            row.find("#d_seat_price").text($("#itemd_seat_price").val());
+			            row.find("#vip_seat_price").text($("#itemvip_seat_price").val());
+			            row.find("#game_id").text($("#itemgame_id").val());
+			
+			            alert('수정되었습니다.');
+			            $("#editItemModal").modal('hide');
+	        		}
+	        		else{
+	        			alert('수정 오류');
+	        		}
+	        		
+		            
+	        	},error: function(xhr, status, error) {
+	                alert('오류 발생:  ' + error);
+	            }
+	        	
+	        });
 		});
 		
 		$(".delete_btn").click(function() {
-			// 서버로 이메일 값 전송
+			var row = $(this).closest("tr");
+	    	var item_no = row.find("#item_no").text();
+	    	var delete_confirm = confirm("정말로 삭제하시겠습니까?");
+	    	
 	         $.ajax({
 	             type: "POST",
-	             url: "/olympic/admin/game/sport/delete.do",
-	             data: { email: email },
+	             url: "/olympic/admin/game/item/delete.do",
+	             data: { item_no : parseInt(item_no) },
 	             success: function(data) {
 	            	 if(data == 1){
-		            	 alert("");
+	            		alert('삭제가 완료되었습니다.');
+	            		location.reload();
+	 					//location.href = "/olympic/admin/game/index.do";
 	            	 }else{
-	                	 alert("오류 발생.");
+	                	 alert("삭제 실패");
 	                	 return;
 	                 }
+	             },
+	             error: function(xhr, status, error) {
+	                 alert('오류 발생: ' + error);
 	             }
 	         });
 		});
@@ -55,6 +126,7 @@
 </head>
 
 <body>
+	<%@include file="/WEB-INF/views/common/adminmodals.jsp"%>
 	<%@include file="/WEB-INF/views/admin/game/item/modals.jsp"%>
 	<div id="wrapper">
 	<!-- 슬라이더 바 -->
