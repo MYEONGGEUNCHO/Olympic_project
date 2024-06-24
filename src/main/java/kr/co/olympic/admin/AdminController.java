@@ -38,7 +38,8 @@ public class AdminController {
 	private OrderService orderservice;
 	
 	@GetMapping("/admin/login.do")
-	public String adlogin() {
+	public String adlogin(HttpSession sess) {
+		sess.invalidate();
 		return "/admin/login";
 	}
 	

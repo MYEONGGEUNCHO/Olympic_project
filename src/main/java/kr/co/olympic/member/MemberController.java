@@ -126,6 +126,9 @@ public class MemberController {
 		if("member/logout.do".equals(result)) {
 			result = "index.do";
 		}
+		if("member/modalLogin.do".equals(result)) {
+			result = "index.do";
+		}
 		MemberVO login = service.login(vo);
 		if (login == null) {
 			model.addAttribute("msg", "이메일 비밀번호를 확인하세요.");
