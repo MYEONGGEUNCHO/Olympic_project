@@ -114,7 +114,7 @@
                                     }
                                 } else {
                                     content += '<a id="loginLink" onclick="loginLink()">';
-                                    content += '<img src="/olympic/img/fake_love.png" style="cursor: pointer; width: 20px; height: 20px;">';
+                                    content += '<img src="/olympic/img/fake_love.png" style="cursor: pointer; width: 50px; height: 50px;">';
                                     content += '</a>';
                                 }
                                 content += '<button onclick="redirectToDetail(' + vo.game_id + ')">경기 상세 보기</button>';
