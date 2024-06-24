@@ -170,16 +170,18 @@ td {
 				<!-- ajax로 값이 들어갈 부분 -->
 			</ul>
 		</nav>
-		<c:if test="${!empty login && login.state == 0}">
-			<div class="d-flex justify-content-end m-2">
-				<a class="btn btn-sm btn-dark" href="write.do">작성하기</a>
-			</div>
-		</c:if>
-		<c:if test="${login.state == 3}">
-			<div class="d-flex justify-content-end m-2">
-				<a class="btn btn-sm btn-dark" href="write.do">공지사항 등록</a>
-			</div>
-		</c:if>
+		<div class="mx-auto">
+			<c:if test="${!empty login && login.state == 0}">
+				<div class="d-flex justify-content-end m-2">
+					<a class="btn btn-sm btn-dark" href="write.do">작성하기</a>
+				</div>
+			</c:if>
+			<c:if test="${login.state == 3}">
+				<div class="d-flex justify-content-end m-2">
+					<a class="btn btn-sm btn-dark" href="write.do">공지사항 등록</a>
+				</div>
+			</c:if>
+		</div>
 	</section>
 	<!-- 푸터  -->
 	<%@include file="../common/footer.jsp"%>
