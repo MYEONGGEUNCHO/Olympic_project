@@ -5,51 +5,66 @@
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-
-    <!-- Favicon -->
-    <link rel="shortcut icon" href="/olympic/dist/assets/favicon/favicon.ico" type="image/x-icon" />
-    
-    <!-- Libs CSS -->
-    <link rel="stylesheet" href="/olympic/dist/assets/css/libs.bundle.css" />
-    
-    <!-- Theme CSS -->
-    <link rel="stylesheet" href="/olympic/dist/assets/css/theme.bundle.css" />
     <script src="../js/jquery-3.7.1.min.js"></script>
-    
+    <style>
+    	img.small {
+            width: 33.33%; /* 현재 크기의 1/3 */
+            height: auto;
+        }
+    </style>
+    <script>
+        $(document).ready(function() {
+            // 마이페이지 버튼 클릭 이벤트
+            $('#mypageButton').on('click', function() {
+                window.location.href = 'http://localhost:8090/olympic/member/order.do';
+            });
+
+            // 현재 URL의 쿼리스트링에서 order_no 값을 가져와서 표시
+            const urlParams = new URLSearchParams(window.location.search);
+            const orderNo = urlParams.get('order_no');
+            if (orderNo) {
+                $('#orderNoSpan').text(orderNo);
+            }
+        });
+    </script>
 </head>
 <body>
-    <!--  공통 모달 - 헤더 장바구니 등 클릭 시 나오는 사이드 창 -->
+    <!-- 공통 모달 - 헤더 장바구니 등 클릭 시 나오는 사이드 창 -->
     <%@include file="../common/modals.jsp"%>
-    <!--  타이틀 - 카테고리 - 아이콘들 포함된 헤더 -->
+    <!-- 타이틀 - 카테고리 - 아이콘들 포함된 헤더 -->
     <%@include file="../common/header.jsp"%>
-    <!--  헤더 하단 현재 경로 노출 -->
+    <!-- 헤더 하단 현재 경로 노출 -->
     <%@include file="../common/breadcrumb.jsp"%>
-    <h2>티켓 정보</h2>
-    <p>결제가 완료되었습니다.</p>
-    <table>
-        <thead>
-            <tr>
-                <th>티켓 번호</th>
-                <th>가격</th>
-                <th>좌석 정보</th>
-                <th>게임 ID</th>
-                <th>상품 번호</th>
-            </tr>
-        </thead>
-        <tbody>
-            <c:forEach var="ticket" items="${ticketList}">
-                <tr>
-                    <td>${ticket.ticket_no}</td>
-                    <td>${ticket.price}</td>
-                    <td>${ticket.seat_info}</td>
-                    <td>${ticket.game_id}</td>
-                    <td>${ticket.item_no}</td>
-                </tr>
-            </c:forEach>
-        </tbody>
-    </table>
-    <!-- 푸터  -->
+    <!-- CONTENT -->
+    <section class="py-12">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-12 col-md-10 col-lg-8 col-xl-6 text-center">
+
+                    <!-- Icon -->
+                    <div class="mb-7 fs-1">
+                        <img src="/olympic/img/olympic.png" alt="Olympic Logo" class="small"/>
+                    </div>
+
+                    <!-- Heading -->
+                    <h2 class="mb-5">결제가 완료되었습니다!</h2>
+
+                    <!-- Text -->
+                    <p class="mb-7 text-gray-500">
+                        주문 번호: <span class="text-body text-decoration-underline" id="orderNoSpan">673290789</span><br> 
+                        티켓과 상세내역은 "마이페이지 - 예매 내역"을 이용해주세요.
+                    </p>
+
+                    <!-- Button -->
+                    <a id="mypageButton" class="btn btn-dark" href="#!">
+                        마이페이지
+                    </a>
+
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- 푸터 -->
     <%@include file="../common/footer.jsp"%>
 </body>
 </html>

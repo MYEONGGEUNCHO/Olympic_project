@@ -4,6 +4,7 @@
 <!doctype html>
 <html lang="ko">
 <script src="../js/jquery-3.7.1.min.js"></script>
+<script src="../js/ticket_carousel.js"></script>
 <script>
 function pagination() {
     var req_num_row = 3; //보여지는 행 개수
@@ -225,6 +226,30 @@ $(document).ready(function() {
 	    max-height: 400px; 
 	    overflow-y: auto;
 	}
+	.carousel-control-prev-icon,
+	.carousel-control-next-icon {
+	    background-color: black;
+	    opacity: 0.5; /* 투명도 조정 */
+	}
+	.carousel-item {
+	    display: none;
+	    width: 100%;
+	}
+	.carousel-item.active {
+	    display: block;
+	}
+	.carousel-inner {
+	    position: relative;
+	    overflow: hidden;
+	    display: flex;
+	}
+	.carousel-control-prev,
+	.carousel-control-next {
+	    width: 5%; /* 슬라이드 바깥쪽으로 위치 조정 */
+	    z-index: 1; /* 슬라이드와 겹치지 않도록 함 */
+	    opacity: 0.7; /* 투명도 조정 */
+	}
+
 </style>
 <body>
 	<!-- 	공통 모달 - 헤더 장바구니 등 클릭 시 나오는 사이드 창 -->
@@ -263,6 +288,7 @@ $(document).ready(function() {
 		            <col width=13%>
 		            <col width=6%>
 		            <col width=9%>
+		            <col width=9%>
 		        </colgroup>
 				  <thead>
 				    <tr>
@@ -273,6 +299,7 @@ $(document).ready(function() {
 				      <th class="px-0 py-2" scope="col">경기일자</th>
 				      <th class="px-0 py-2" scope="col">매수</th>
 				      <th class="px-0 py-2" scope="col">취소</th>
+				      <th class="px-0 py-2" scope="col">티켓확인</th>
 				    </tr>
 				  </thead>
 				  <tbody class="table-group-divider" id="orderBody">
@@ -295,6 +322,9 @@ $(document).ready(function() {
 								<td class="py-2 px-1" id="korea_date"><fmt:formatDate value="${orderItem.korea_date}" pattern="yyyy-MM-dd"/><br>Time: ${orderItem.korea_time}</td>
                                 <td class="py-3 px-1" id="ticket_count">${orderItem.ticket_count }</td>
                                 <td class="py-3 px-1" id="cancel"><a class="cancelOrder danger" data-bs-toggle="modal" href="#CancelOrderModal" >취소하기</a></td>
+                                <td class="py-4 px-1" id="show">
+                                    <a class="showTicket danger" data-bs-toggle="modal" data-order-no="${orderItem.order_no}" href="#ticketModal">티켓확인</a>
+                                </td>
 							</tr>
 						</c:forEach>
 					</c:otherwise>
