@@ -109,7 +109,7 @@ $(document).ready(function() {
         $('#modalSportName').text(row.find("#tournament").text());
         $('#modalStadiumName').text(row.find("#stadium_name").text());
         $('#modalKoreaDate').text(formattedText);
-        $('#modalTicketCount').text(row.find("#ticket_count").text());
+        $('#modalTicketCount').text(row.find("#ticket_count").text()+" 장");
     	
         $("#cancelcheck").data("impuid", imp_uid); //버튼에 저장
         $("#cancelcheck").data("orderNo", order_no); //버튼에 저장

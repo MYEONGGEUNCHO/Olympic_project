@@ -92,7 +92,7 @@
 	
 	<!-- 쿠폰 확인-->
 	<select id="coupon_list" resultType="kr.co.olympic.member.CouponVO" parameterType="kr.co.olympic.member.MemberVO">
-		SELECT * FROM coupon WHERE member_no=#{member_no}
+		SELECT * FROM coupon WHERE member_no=#{member_no} and used=0;
 	</select>
 	
 	<insert id="insert_coupon" parameterType="kr.co.olympic.member.CouponVO">

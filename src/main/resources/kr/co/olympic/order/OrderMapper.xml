@@ -224,7 +224,8 @@
 		GROUP BY o.order_no, o.buy_date, o.imp_uid,
 		g.sport_name, g.stadium_name,
 		g.tournament,
-		g.korea_date, g.korea_time;
+		g.korea_date, g.korea_time
+		ORDER BY g.korea_date;
 
 	</select>
 	<!-- 회원 취소 주문 상세 정보 조회 -->
@@ -242,7 +243,8 @@
 		GROUP BY o.order_no, o.buy_date, o.imp_uid,
 		g.sport_name, g.stadium_name,
 		g.tournament,
-		g.korea_date, g.korea_time, c.cancel_date;
+		g.korea_date, g.korea_time, c.cancel_date
+		ORDER BY c.cancel_date;
 	</select>
 
 	<!-- 판매된 좌석 수 업데이트 -->
