@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import kr.co.olympic.game.GameService;
+import kr.co.olympic.game.GameVO;
 import kr.co.olympic.member.MemberService;
 import kr.co.olympic.member.MemberVO;
 
@@ -29,6 +31,10 @@ public class OrderController {
 
 	@Autowired
 	private MemberService memberService;
+	
+	@Autowired
+	private GameService gameService;
+	
 	
 	@GetMapping("/order/ticket_test.do")
 	public String ticket_test(HttpSession session, Model model) {
@@ -43,22 +49,42 @@ public class OrderController {
 		return "/order/ticket_test";
 	}
 	
+//	@GetMapping("/order/getTicketDetails")
+//    public ResponseEntity<?> getTicketDetails(@RequestParam("order_no") String orderNo) {
+//        try {
+//            List<TicketVO> tickets = orderService.getTicketsByOrderNo(orderNo);
+//            
+//            return ResponseEntity.ok().body(Map.of("tickets", tickets));
+//        } catch (Exception e) {
+//            return ResponseEntity.status(500).body(Map.of("error", "Failed to retrieve ticket details."));
+//        }
+//    }
+	
 	@GetMapping("/order/getTicketDetails")
-    public ResponseEntity<?> getTicketDetails(@RequestParam("order_no") String orderNo) {
-        try {
-        	//System.out.println( "orderNO : " + orderNo);
-            List<TicketVO> tickets = orderService.getTicketsByOrderNo(orderNo);
-            
-         
-//            for (TicketVO ticket : tickets) {
-//                System.out.println(ticket.toString());
-//            }
-            
-            return ResponseEntity.ok().body(Map.of("tickets", tickets));
-        } catch (Exception e) {
-            return ResponseEntity.status(500).body(Map.of("error", "Failed to retrieve ticket details."));
-        }
-    }
+	public ResponseEntity<Map<String, Object>> getTicketDetails(@RequestParam("order_no") String orderNo) {
+		Map<String, Object> response = new HashMap<>();
+		try {
+	      List<TicketVO> tickets = orderService.getTicketsByOrderNo(orderNo);	     
+	      OrderVO order = orderService.getOrderByOrderNo(orderNo);
+	      
+	      Map<String, Object> map = new HashMap<>();
+	      GameVO tGame = new GameVO();
+	      tGame.setGame_id(order.getGame_id());
+	      map.put("game", tGame);
+	      GameVO game = gameService.detailGame(map);
+	      
+	      
+	      response.put("tickets", tickets);
+	      response.put("order", order);
+	      response.put("game", game);
+	      response.put("sport",game.getSport());
+	      
+	      return ResponseEntity.ok(response);
+	      //return ResponseEntity.ok().body(Map.of("tickets", tickets));
+		} catch (Exception e) {
+		  return ResponseEntity.status(500).body(Map.of("error", "티켓 상세 조회 실패"));
+		}
+	}
 	
 	@PostMapping("/order/checkAvailability")
 	public ResponseEntity<Map<String, Boolean>> checkSeatAvailability(@RequestBody PaymentVO paymentVO) {
