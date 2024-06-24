@@ -83,6 +83,8 @@ $(function() {
 			alert("로그인 후 이용하세요");
 			return;
 		}
+		commentContent.replace('<', "&lt;");
+		commentContent.replace('>', "&rt;");
 		$.ajax({
 			url: 'createComment.do', // 댓글 작성 요청 URL
 			type: 'POST',
@@ -120,7 +122,7 @@ $(function() {
 		xhr.send();
 	}
 
-	function loadComments() {
+	function loadComments() {		
 		$.ajax({
 			url: 'listComment.do',
 			type: 'GET',
@@ -128,11 +130,25 @@ $(function() {
 				game_id: $("#game_id").val()
 			},
 			success: function(data) {
+				$("#comment_count").html(data.length);
 				var commentsHtml = '';
 				for (var i = 0; i < data.length; i++) {
-					commentsHtml += '<p>' + data[i].content + '</p>';
+					let date = new Date(data[i].regdate);
+					commentsHtml += '<p class="d-flex justify-content-between"><span>';
+					commentsHtml += data[i].content + '</span>';
+					commentsHtml += '<span class="fs-xs text-gray-400">' + data[i].name + '(' + data[i].email + ') ' + date.toLocaleString() + '</span></p>';
 				}
-				$('#listComment').html(commentsHtml);
+				const $element = $("#listComment");
+				// 현재의 최하단 구하기
+				const eh = $element.clientHeight + $element.scrollTop;
+				// 요소가 추가되어 길이가 길어지기 전에 비교
+				const isScroll = $element.scrollHeight <= eh;
+				// -- 요소 추가하는 코드 --
+				$element.html(commentsHtml);
+				// 스크롤이 최하단 일때만 고정
+				if (isScroll) {
+					$element.scrollTop = $element.scrollHeight;
+				}
 			},
 			error: function(xhr, status, error) {
 				alert('댓글을 불러오는 데 실패했습니다.');

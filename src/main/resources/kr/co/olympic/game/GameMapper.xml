@@ -142,7 +142,7 @@
 	<select id="listComment" parameterType="kr.co.olympic.game.GameVO" 
 		resultType="kr.co.olympic.game.CommentVO">
         SELECT * FROM comment c
-        LEFT JOIN (SELECT member_no, name FROM member) m
+        LEFT JOIN (SELECT member_no, name, email FROM member) m
         ON m.member_no = c.member_no
         WHERE game_id = #{game_id}
     </select>

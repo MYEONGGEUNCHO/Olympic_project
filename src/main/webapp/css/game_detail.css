@@ -36,11 +36,19 @@
 	cursor: pointer;
 }
 
-#a_seat:hover, #b_seat:hover, #c_seat:hover, #d_seat:hover {
+#a_seat:hover, #b_seat:hover, #c_seat:hover, #d_seat:hover, #vip_seat:hover
+	{
 	border: 1px solid;
 }
 
 #a_seat_price, #b_seat_price, #c_seat_price, #d_seat_price,
 	#vip_seat_price {
 	text-wrap: nowrap;
+}
+
+#listComment {
+	max-height: 300px;
+	overflow-y: scroll;
+	display: flex;
+	flex-direction: column;
 }
