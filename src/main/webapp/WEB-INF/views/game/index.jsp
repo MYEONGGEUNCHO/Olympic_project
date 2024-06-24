@@ -82,7 +82,7 @@
                         if(data.game.length === 0) {
                             content += '<div><p>등록된 경기 일정이 없습니다.</p></div>';
                         } else {
-                        	content += '<ul>'
+                        	content += '<ul class="ps-0" style="list-style-type: none;">'
                         	$.each(data.game, function(idx, vo) {
                                 content += '<li class="list-group-item">';
                                 content += '<div class="row align-items-center">';
@@ -92,7 +92,7 @@
 
                                 content += '<div class="col my-1">';
                                 content += '<div class="d-flex mb-4 fw-bold">';
-                                content += '<a class="text-body" href="#">' + vo.sport_name + ' &nbsp; ' + vo.tournament + '</a>';
+                                content += '<a class="text-body fs-5" href="#">' + vo.sport_name + '&nbsp; ' + vo.tournament + '</a>';
                                 content += '<span class="ms-auto">' + vo.stadium_name + '</span>';
                                 content += '</div>';
 
@@ -105,7 +105,7 @@
                                 content += vo.country2_name ? vo.country2_name : '미정';
                                 content += '</div>';
 
-                                content += '<div class="col-3 d-flex align-items-center">';
+                                content += '<div class="col-3 d-flex justify-content-end">';
                                 if (data.member && data.member.member_no) {
                                     if (vo.favorite === 0) {
                                         content += '<img src="/olympic/img/fake_love.png" id="favorite_' + vo.game_id + '" onclick="toggle_favorite(' + vo.game_id + ', 0)" style="cursor: pointer; width: 50px; height: 50px;">';
@@ -114,21 +114,24 @@
                                     }
                                 } else {
                                     content += '<a id="loginLink" onclick="loginLink()">';
-                                    content += '<img src="/olympic/img/fake_love.png" style="cursor: pointer; width: 50px; height: 50px;">';
+//                                     content += '<img src="/olympic/img/fake_love.png" style="cursor: pointer; width: 50px; height: 50px;">';
                                     content += '</a>';
                                 }
-                                content += '<button onclick="redirectToDetail(' + vo.game_id + ')">경기 상세 보기</button>';
+                                
                                 content += '</div>'; // col-3
                                 content += '</div>'; // row
-
-                                content += '<div class="inline-container">';
+								content += '<div class="row">'
+                                content += '<div class="inline-container col-9">';
                                 content += vo.country1_flag ? '<img src="' + vo.country1_flag + '" alt="" class="flag">' : '<div id="unknown_flag" class="flag">?</div>';
                                 content += '<div id=""> vs </div>';
                                 content += vo.country2_flag ? '<img src="' + vo.country2_flag + '" alt="" class="flag">' : '<div id="unknown_flag" class="flag">?</div>';
                                 content += '</div>'; // inline-container
-
+								content += '<div class="col-3 d-flex justify-content-end mt-2"><button class="text-decoration-underline p-0 m-0 btn btn-link" onclick="redirectToDetail(' + vo.game_id + ')">경기 상세 보기</button><div>'
+                                content += '</div>'; // row
                                 content += '</div>'; // col my-1
                                 content += '</div>'; // row align-items-center
+                                
+                                
                                 content += '</li>';
                             });
                         	content += '<ul>'
@@ -210,61 +213,70 @@
     <!--  헤더 하단 현재 경로 노출 -->
     <%@include file="/WEB-INF/views/common/breadcrumb.jsp"%>
     <!--  메인 컨텐트 CONTENT 태그 찾아서 그 부분만 사용하면됨-->
-    <section>
-        <div>
-            <input type="date" name="search_date" id="search_date" min="2024-07-24" max="2024-08-11" value="2024-07-24">
-            <select name="search_sport" id="search_sport">
-                <option value="all" selected>전체종목</option>
-                <option value="양궁">양궁</option>
-                <option value="육상">육상</option>
-                <option value="배드민턴">배드민턴</option>
-                <option value="3x3 농구">3x3 농구</option>
-                <option value="농구">농구</option>
-                <option value="브레이킹">브레이킹</option>
-                <option value="사이클 BMX 프리스타일">사이클 BMX 프리스타일</option>
-                <option value="사이클 BMX 레이싱">사이클 BMX 레이싱</option>
-                <option value="복싱">복싱</option>
-                <option value="스포츠클라이밍">스포츠클라이밍</option>
-                <option value="사이클 도로">사이클 도로</option>
-                <option value="카누 슬라럼">카누 슬라럼</option>
-                <option value="카누 스프린트">카누 스프린트</option>
-                <option value="사이클 트랙">사이클 트랙</option>
-                <option value="다이빙">다이빙</option>
-                <option value="승마">승마</option>
-                <option value="축구">축구</option>
-                <option value="펜싱">펜싱</option>
-                <option value="기계체조">기계체조</option>
-                <option value="골프">골프</option>
-                <option value="리듬체조">리듬체조</option>
-                <option value="트램폴린">트램폴린</option>
-                <option value="핸드볼">핸드볼</option>
-                <option value="하키">하키</option>
-                <option value="유도">유도</option>
-                <option value="근대5종">근대5종</option>
-                <option value="사이클 산악자전거">사이클 산악자전거</option>
-                <option value="마라톤 수영">마라톤 수영</option>
-                <option value="조정">조정</option>
-                <option value="7인제 럭비">7인제 럭비</option>
-                <option value="요트">요트</option>
-                <option value="사격">사격</option>
-                <option value="스케이트보드">스케이트보드</option>
-                <option value="서핑">서핑</option>
-                <option value="아티스틱 스위밍">아티스틱 스위밍</option>
-                <option value="경영">경영</option>
-                <option value="테니스">테니스</option>
-                <option value="태권도">태권도</option>
-                <option value="트라이애슬론">트라이애슬론</option>
-                <option value="탁구">탁구</option>
-                <option value="비치발리볼">비치발리볼</option>
-                <option value="배구">배구</option>
-                <option value="역도">역도</option>
-                <option value="수구">수구</option>
-                <option value="레슬링">레슬링</option>
-            </select>
-        </div>
-        <div id="listGame">
-            <!-- ajax로 받은 데이터 추가 -->
-        </div>
+    <section class="pt-7 pb-12">
+        <div class="container">
+        	<div class="row">
+				<div class="col-12">
+					<!-- Heading -->
+					<h3 class="mb-10 text-center">경기 일정</h3>
+				</div>
+			</div>
+			<div class="mb-9">
+	            <input type="date" name="search_date" id="search_date" min="2024-07-24" max="2024-08-11" value="2024-07-24">
+	            <select name="search_sport" id="search_sport">
+	                <option value="all" selected>전체종목</option>
+	                <option value="양궁">양궁</option>
+	                <option value="육상">육상</option>
+	                <option value="배드민턴">배드민턴</option>
+	                <option value="3x3 농구">3x3 농구</option>
+	                <option value="농구">농구</option>
+	                <option value="브레이킹">브레이킹</option>
+	                <option value="사이클 BMX 프리스타일">사이클 BMX 프리스타일</option>
+	                <option value="사이클 BMX 레이싱">사이클 BMX 레이싱</option>
+	                <option value="복싱">복싱</option>
+	                <option value="스포츠클라이밍">스포츠클라이밍</option>
+	                <option value="사이클 도로">사이클 도로</option>
+	                <option value="카누 슬라럼">카누 슬라럼</option>
+	                <option value="카누 스프린트">카누 스프린트</option>
+	                <option value="사이클 트랙">사이클 트랙</option>
+	                <option value="다이빙">다이빙</option>
+	                <option value="승마">승마</option>
+	                <option value="축구">축구</option>
+	                <option value="펜싱">펜싱</option>
+	                <option value="기계체조">기계체조</option>
+	                <option value="골프">골프</option>
+	                <option value="리듬체조">리듬체조</option>
+	                <option value="트램폴린">트램폴린</option>
+	                <option value="핸드볼">핸드볼</option>
+	                <option value="하키">하키</option>
+	                <option value="유도">유도</option>
+	                <option value="근대5종">근대5종</option>
+	                <option value="사이클 산악자전거">사이클 산악자전거</option>
+	                <option value="마라톤 수영">마라톤 수영</option>
+	                <option value="조정">조정</option>
+	                <option value="7인제 럭비">7인제 럭비</option>
+	                <option value="요트">요트</option>
+	                <option value="사격">사격</option>
+	                <option value="스케이트보드">스케이트보드</option>
+	                <option value="서핑">서핑</option>
+	                <option value="아티스틱 스위밍">아티스틱 스위밍</option>
+	                <option value="경영">경영</option>
+	                <option value="테니스">테니스</option>
+	                <option value="태권도">태권도</option>
+	                <option value="트라이애슬론">트라이애슬론</option>
+	                <option value="탁구">탁구</option>
+	                <option value="비치발리볼">비치발리볼</option>
+	                <option value="배구">배구</option>
+	                <option value="역도">역도</option>
+	                <option value="수구">수구</option>
+	                <option value="레슬링">레슬링</option>
+	            </select>
+			</div> 
+        
+	        <div id="listGame">
+	            <!-- ajax로 받은 데이터 추가 -->
+	        </div>
+       </div> 
     </section>
     <!-- 푸터  -->
     <%@include file="/WEB-INF/views/common/footer.jsp"%>
