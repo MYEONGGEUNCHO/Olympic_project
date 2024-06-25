@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -118,6 +119,7 @@
                                 <input class="form-check-input" id="agreement" type="checkbox" required>
                                 <label class="form-check-label fs-sm" for="agreement">구매자 동의</label>
                             </div>
+                            <p class="text-muted fs-sm mt-1">본 계약을 체결하는 것은 당사의<a class="text-reset text-decoration-underline ms-3" data-bs-toggle="modal" href="#modalTerms">상품 예약에 관한 약관</a>에 동의하는 것을 의미합니다.</p>
                         </div>
                         
                         <div id="timer-container" class="d-flex flex-column align-items-center">
@@ -160,7 +162,7 @@
                                         <!-- Title -->
                                         <p class="mb-4 fs-sm fw-bold">
                                             A좌석 <br>
-                                            <span class="text-muted">${payment.a_seat_price}원</span>
+                                            <span class="text-muted"><fmt:formatNumber value="${payment.a_seat_price}" type="number" groupingUsed="true"/>원</span>
                                         </p>
                                         <!-- Text -->
                                         <div class="fs-sm text-muted">
@@ -177,7 +179,7 @@
                                         <!-- Title -->
                                         <p class="mb-4 fs-sm fw-bold">
                                             B좌석 <br>
-                                            <span class="text-muted">${payment.b_seat_price}원</span>
+                                            <span class="text-muted"><fmt:formatNumber value="${payment.b_seat_price}" type="number" groupingUsed="true"/>원</span>
                                         </p>
                                         <!-- Text -->
                                         <div class="fs-sm text-muted">
@@ -194,7 +196,7 @@
                                         <!-- Title -->
                                         <p class="mb-4 fs-sm fw-bold">
                                             C좌석 <br>
-                                            <span class="text-muted">${payment.c_seat_price}원</span>
+                                            <span class="text-muted"><fmt:formatNumber value="${payment.c_seat_price}" type="number" groupingUsed="true"/>원</span>
                                         </p>
                                         <!-- Text -->
                                         <div class="fs-sm text-muted">
@@ -211,7 +213,7 @@
                                         <!-- Title -->
                                         <p class="mb-4 fs-sm fw-bold">
                                             D좌석 <br>
-                                            <span class="text-muted">${payment.d_seat_price}원</span>
+                                            <span class="text-muted"><fmt:formatNumber value="${payment.d_seat_price}" type="number" groupingUsed="true"/>원</span>
                                         </p>
                                         <!-- Text -->
                                         <div class="fs-sm text-muted">
@@ -228,7 +230,7 @@
                                         <!-- Title -->
                                         <p class="mb-4 fs-sm fw-bold">
                                             VIP좌석 <br>
-                                            <span class="text-muted">${payment.vip_seat_price}원</span>
+                                            <span class="text-muted"><fmt:formatNumber value="${payment.vip_seat_price}" type="number" groupingUsed="true"/>원</span>
                                         </p>
                                         <!-- Text -->
                                         <div class="fs-sm text-muted">
@@ -245,13 +247,13 @@
                         <div class="card-body">
                             <ul class="list-group list-group-sm list-group-flush-y list-group-flush-x">
                                 <li class="list-group-item d-flex">
-                                    <span>금액</span> <span class="ms-auto fs-sm" id="total_price">${payment.total_price}원</span>
+                                    <span>금액</span> <span class="ms-auto fs-sm" id="total_price"><fmt:formatNumber value="${payment.total_price}" type="number" groupingUsed="true"/>원</span>
                                 </li>
                                 <li class="list-group-item d-flex">
                                     <span>쿠폰 할인 금액</span> <span class="ms-auto fs-sm" id="coupon_discount">0원</span>
                                 </li>
                                 <li class="list-group-item d-flex fs-lg fw-bold">
-                                    <span>결제 금액</span> <span class="ms-auto" id="final_price">${payment.total_price}원</span>
+                                    <span>결제 금액</span> <span class="ms-auto" id="final_price"><fmt:formatNumber value="${payment.total_price}" type="number" groupingUsed="true"/>원</span>
                                 </li>
                             </ul>
                         </div>
@@ -264,30 +266,64 @@
             </div>
         </div>
     </section>
+    
+    <!-- 약관 모달 -->
+    <div class="modal fade" id="modalTerms" tabindex="-1" role="dialog" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+    
+          <!-- Close -->
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+            <i class="fe fe-x" aria-hidden="true"></i>
+          </button>
+    
+          <!-- Header-->
+          <div class="modal-header lh-fixed fs-lg">
+            <strong class="mx-auto">상품 예약에 관한 약관</strong>
+          </div>
+    
+          <!-- Body -->
+          <div class="modal-body border-bottom">
+            <p>상품 예약에 관한 약관입니다. 본 계약을 체결하는 것은 당사의 '상품 예약에 관한 약관'에 동의하는 것을 의미합니다. 고객님께서는 다음의 내용을 유의하시기 바랍니다.</p>
+            <p>1. 예약 변경 및 취소는 예약 확정 후 24시간 이내에만 가능합니다. 이후에는 취소 및 변경이 불가합니다.</p>
+            <p>2. 상품 예약 금액은 전액 선불로 결제되어야 하며, 결제가 완료되어야 예약이 확정됩니다.</p>
+            <p>3. 예약 확정 후 발생하는 모든 추가 비용은 고객님의 부담입니다.</p>
+            <p>4. 본 약관은 회사의 정책에 따라 언제든지 변경될 수 있으며, 변경된 약관은 웹사이트를 통해 공지됩니다.</p>
+            <p>5. 기타 상세한 사항은 고객 서비스 센터를 통해 문의하시기 바랍니다.</p>
+          </div>
+        </div>
+      </div>
+    </div>
 
     <!-- 푸터 -->
     <%@include file="../common/footer.jsp"%>
 
-    <script>
+     <script>
         $(document).ready(function() {
+            function formatNumber(num) {
+                return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + '원';
+            }
+
             // 쿠폰 적용 버튼 클릭 시
             $('#apply_coupon').click(function() {
                 var discount = $('#coupon_select option:selected').data('discount') || 0;
                 var totalPrice = parseInt($('#total_price').text().replace(/[^0-9]/g, ''));
                 var discountAmount = totalPrice * (discount / 100);
                 var finalPrice = totalPrice - discountAmount;
-
-                $('#coupon_discount').text(discountAmount + '원');
-                $('#final_price').text(finalPrice + '원');
+                
+				$('#total_price').text(formatNumber(totalPrice));
+                $('#coupon_discount').text(formatNumber(discountAmount));
+                $('#final_price').text(formatNumber(finalPrice));
             });
 
             // 쿠폰 선택 안함 버튼 클릭 시
             $('#remove_coupon').click(function() {
                 $('#coupon_select').val('');
                 var totalPrice = parseInt($('#total_price').text().replace(/[^0-9]/g, ''));
-
+				
+                $('#total_price').text(formatNumber(totalPrice));
                 $('#coupon_discount').text('0원');
-                $('#final_price').text(totalPrice + '원');
+                $('#final_price').text(formatNumber(totalPrice));
             });
 
             // 예매자 동의 체크박스 클릭 시

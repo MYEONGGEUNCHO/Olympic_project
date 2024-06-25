@@ -12,10 +12,10 @@ $(function() {
             let slide = `
                 <div class="carousel-item${activeClass}">
 				    <div class="d-block w-100">
-				        <div class="fs-3 mb-7" id="ticketName">${game.sport_name} - ${game.tournament}</div>
+				        <div class="fs-3 mb-6" id="ticketName">${game.sport_name} - ${game.tournament}</div>
 				        <div class="row align-items-center">
 				            <div class="col-md-4 text-center d-flex justify-content-center" style="max-width: 200px; overflow: hidden;">
-							    <img src="${sport.sport_pictogram}" alt="Title Image" class="align-self-center rounded border border-*" style="max-width: 300px;">
+							    <img src="${sport.sport_pictogram}" alt="Title Image" class="align-self-center rounded border border-dark" style="max-width: 300px;">
 							</div>
 				            <div class="col-md-8">
 				                <p><strong style="font-weight:bold;">경기 대진:</strong> ${countryMatch}</p>
