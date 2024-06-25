@@ -1,4 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<style>
+
+</style>
+
 	<!-- FOOTER -->
 	<footer class="bg-dark bg-cover " style="background-image: url(/olympic/dist/assets//img/patterns/pattern-2.svg)">
 		<div class="py-10 pb-0 border-bottom border-gray-700">

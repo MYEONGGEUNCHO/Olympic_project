@@ -31,7 +31,8 @@
 					</c:if>
 					<c:if test="${qna.state == 1 || login.state == 3}">
 						<h3 class="mb-10 text-center">공지사항 작성</h3>
-					</c:if>				</div>
+					</c:if>
+				</div>
 			</div>
 			<div class="row justify-content-center">
 				<div class="col-12 col-md-8">
@@ -46,6 +47,7 @@
 						<input type="hidden" name="writer" value="${login.member_no}">
 						<input type="hidden" name="writer_state" value="${login.state}">
 						<c:if test="${!empty param.game_id}">
+							<input type="hidden" id="game_id" value="${param.game_id }">
 							<input type="radio" id="game" name="type" value=0 checked>
 							<label for="game">경기 문의</label>
 						</c:if>

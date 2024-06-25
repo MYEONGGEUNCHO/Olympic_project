@@ -11,4 +11,11 @@ public class CommentVO {
 	private String content;
 	private int game_id;
 	private String member_no;
+	private String name;
+	private String email;
+
+	public String getEmail() {
+		if(this.email == null) return "****";
+		return this.email.substring(0, 3) + "***";
+	}
 }

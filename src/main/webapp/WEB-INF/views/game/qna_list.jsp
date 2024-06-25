@@ -252,15 +252,6 @@ $(document).ready(function() {
 	<div class="row justify-content-center">
 		<table border="1">
 			<caption style="display: none;">게시판 목록</caption>
-			<colgroup>
-				<col width="80px" />
-				<col width="80px" />
-				<col width="*" />
-				<col width="100px" />
-				<col width="100px" />
-				<col width="80px" />
-				<col width="100px" />
-			</colgroup>
 			<thead class="lh-lg bg-dark text-white">
 				<tr>
 					<th data-head="q.qna_no">번호</th>
