@@ -6,17 +6,14 @@ document.addEventListener("DOMContentLoaded", function() {
     const removeCouponButton = document.getElementById('remove_coupon');
     const totalPriceElement = document.getElementById('total_price');
     const hiddenTotalPriceElement = document.getElementById('hidden_total_price');
-    let originalTotalPrice = parseInt(hiddenTotalPriceElement.value);
+    const originalTotalPrice = parseInt(hiddenTotalPriceElement.value);
     let selectedCouponNo = ''; // 쿠폰 번호 저장 변수
-    
-    
     
     applyCouponButton.addEventListener('click', () => {
         const selectedCoupon = couponSelect.options[couponSelect.selectedIndex];
         selectedCouponNo = selectedCoupon.value; // 선택된 쿠폰 번호 저장
         const discount = parseInt(selectedCoupon.getAttribute('data-discount')) || 0;
         const discountedPrice = originalTotalPrice - (originalTotalPrice*(discount/100));
-        totalPriceElement.innerText = discountedPrice;
         hiddenTotalPriceElement.value = discountedPrice;
     });
 

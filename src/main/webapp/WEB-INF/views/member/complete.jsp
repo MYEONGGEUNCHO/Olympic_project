@@ -28,8 +28,8 @@
             </p>
 
             <!-- Button -->
-            <a class="btn btn-dark" href="/olympic/member/login.do">
-              로그인 페이지
+            <a class="btn btn-dark" href="/olympic/index.do">
+              홈페이지
             </a>
 
           </div>

@@ -49,16 +49,6 @@ public class OrderController {
 		return "/order/ticket_test";
 	}
 	
-//	@GetMapping("/order/getTicketDetails")
-//    public ResponseEntity<?> getTicketDetails(@RequestParam("order_no") String orderNo) {
-//        try {
-//            List<TicketVO> tickets = orderService.getTicketsByOrderNo(orderNo);
-//            
-//            return ResponseEntity.ok().body(Map.of("tickets", tickets));
-//        } catch (Exception e) {
-//            return ResponseEntity.status(500).body(Map.of("error", "Failed to retrieve ticket details."));
-//        }
-//    }
 	
 	@GetMapping("/order/getTicketDetails")
 	public ResponseEntity<Map<String, Object>> getTicketDetails(@RequestParam("order_no") String orderNo) {
@@ -80,7 +70,6 @@ public class OrderController {
 	      response.put("sport",game.getSport());
 	      
 	      return ResponseEntity.ok(response);
-	      //return ResponseEntity.ok().body(Map.of("tickets", tickets));
 		} catch (Exception e) {
 		  return ResponseEntity.status(500).body(Map.of("error", "티켓 상세 조회 실패"));
 		}
@@ -96,16 +85,6 @@ public class OrderController {
 	public String login(HttpSession session, Model model) {
 		// 세션에서 MemberVO 객체 가져오기
 		MemberVO member = (MemberVO) session.getAttribute("login");
-
-		// 테스트용 임시값 설정
-		if (member == null) {
-			member = new MemberVO();
-			member.setMember_no("f57c671f-cf5a-4e20-a03a-8b895d625bb4");
-			member.setName("test20");
-			member.setEmail("test@test.com");
-			member.setPhone("010-1234-4321");
-			session.setAttribute("member", member);
-		}
 
 		// 모델에 MemberVO 객체 추가
 		model.addAttribute("login", member);
@@ -127,25 +106,11 @@ public class OrderController {
 		// 세션에서 MemberVO 객체 가져오기
 		MemberVO member = (MemberVO) session.getAttribute("login");
 
-		// 테스트용 임시값 설정
-		if (member == null) {
-			member = new MemberVO();
-			member.setMember_no("f57c671f-cf5a-4e20-a03a-8b895d625bb4");
-			member.setName("test20");
-			member.setEmail("test@test.com");
-			member.setPhone("010-1234-4321");
-			session.setAttribute("member", member);
-		}
-
 		// 모델에 MemberVO 객체 추가
 		model.addAttribute("login", member);
 		return "/order/test_temp";
 	}
 
-//	@GetMapping("/order/finish.do")
-//	public String end_test() {
-//		return "/order/finish";
-//	}
 	@GetMapping("/order/finish.do")
 	public String showFinishPage(@RequestParam("order_no") String order_no, Model model) {
 		List<TicketVO> ticketList = orderService.getTicketsByOrderNo(order_no);
@@ -167,16 +132,6 @@ public class OrderController {
 		// 세션에서 MemberVO 객체 가져오기
 		MemberVO member = (MemberVO) session.getAttribute("login");
 
-		// 테스트용 임시값 설정
-		if (member == null) {
-			member = new MemberVO();
-			member.setMember_no("f57c671f-cf5a-4e20-a03a-8b895d625bb4");
-			member.setName("test20");
-			member.setEmail("test@test.com");
-			member.setPhone("010-1234-4321");
-			session.setAttribute("member", member);
-		}
-
 		// 회원 여부 검증
 		if (member == null) {
 			return "redirect:/login";
@@ -191,13 +146,13 @@ public class OrderController {
 		Map<String, Integer> countSeat = orderService.countSeatAvailability(paymentVO);
 
 		// seatAvailability 출력
-		System.out.println("Seat Availability:");
-		seatAvailability
-				.forEach((key, value) -> System.out.println(key + ": " + (value ? "Available" : "Not Available")));
+//		System.out.println("Seat Availability:");
+//		seatAvailability
+//				.forEach((key, value) -> System.out.println(key + ": " + (value ? "Available" : "Not Available")));
 
 		// countSeat 출력
-		System.out.println("Seat Count:");
-		countSeat.forEach((key, value) -> System.out.println(key + ": " + value));
+//		System.out.println("Seat Count:");
+//		countSeat.forEach((key, value) -> System.out.println(key + ": " + value));
 
 		if (seatAvailability.containsValue(false)) {
 			// 좌석이 부족한 경우 메인 페이지로 리다이렉트
@@ -228,13 +183,13 @@ public class OrderController {
 		Map<String, Integer> countSeat2 = orderService.countSeatAvailability(paymentVO);
 
 		// seatAvailability 출력
-		System.out.println("Seat Availability2:");
-		seatAvailability2
-				.forEach((key, value) -> System.out.println(key + ": " + (value ? "Available" : "Not Available")));
+//		System.out.println("Seat Availability2:");
+//		seatAvailability2
+//				.forEach((key, value) -> System.out.println(key + ": " + (value ? "Available" : "Not Available")));
 
 		// countSeat 출력
-		System.out.println("Seat Count2:");
-		countSeat2.forEach((key, value) -> System.out.println(key + ": " + value));
+//		System.out.println("Seat Count2:");
+//		countSeat2.forEach((key, value) -> System.out.println(key + ": " + value));
 		// 결제 정보 화면으로 리다이렉트
 		return "redirect:/order/order.do";
 	}
@@ -245,16 +200,6 @@ public class OrderController {
 			HttpSession session) {
 		// 세션에서 MemberVO 객체 가져오기
 		MemberVO member = (MemberVO) session.getAttribute("login");
-
-		// 테스트용 임시값 설정
-		if (member == null) {
-			member = new MemberVO();
-			member.setMember_no("f57c671f-cf5a-4e20-a03a-8b895d625bb4");
-			member.setName("test20");
-			member.setEmail("test@test.com");
-			member.setPhone("010-1234-4321");
-			session.setAttribute("member", member);
-		}
 
 		// 이때 최초로 주문건 생성(UUID 생성시점)
 		OrderVO orderVO = new OrderVO();
@@ -318,16 +263,6 @@ public class OrderController {
 		// 세션에서 MemberVO 객체 가져오기
 		MemberVO member = (MemberVO) session.getAttribute("login");
 
-		// 테스트용 임시값 설정
-		if (member == null) {
-			member = new MemberVO();
-			member.setMember_no("f57c671f-cf5a-4e20-a03a-8b895d625bb4");
-			member.setName("test20");
-			member.setEmail("test@test.com");
-			member.setPhone("010-1234-4321");
-			session.setAttribute("member", member);
-		}
-
 		// currentOrder은 order_no과 상관없이 포트원으로 부터 결제요청에 대한 응답으로 받은 imp_uid로 주문객체를 찾는다.
 		// 현 상황 : 서버DB(imp_uid가 없는 즉, 결제 버튼을 누르기 직전의 주문 객체를 가지고 있다.)
 		// rsp.imp_uid : 위의 서버DB에 저장된 객체를 포함해서 아임 포트로 결제 요청한 리턴 imp_uid 이다.
@@ -375,20 +310,15 @@ public class OrderController {
 			// TODO 5 : 결제 상태 paid로 DB 업데이트하기
 			orderService.updateOrderStateToPaid(currentOrder);
 
-			// TODO 6 : 판매된 좌석수 카운트 증가 시키기
-			// orderService.updateSeatSoldCount(paymentData);
-
 			// TODO 7 : 임시 예약 테이블에 해당 item의 컬럼을 결제 완료로 변경해서 삭제되지 않도록하기
 			Map<String, Object> reservationParams = new HashMap<>();
 			reservationParams.put("member", member);
 			reservationParams.put("payment", paymentData);
 			orderService.updateReservationToConfirmed(reservationParams);
 
-			// return new ResponseEntity<>("결제 유효성 검사 완료", HttpStatus.OK);
 			return new ResponseEntity<>(Map.of("message", "결제 유효성 검사 완료", "order_no", order_no), HttpStatus.OK);
 		} else {
 			return new ResponseEntity<>(Map.of("message", "결제 유효성 검사 실패"), HttpStatus.BAD_REQUEST);
-			// return new ResponseEntity<>("결제 유효성 검사 실패", HttpStatus.BAD_REQUEST);
 		}
 	}
 
@@ -426,9 +356,6 @@ public class OrderController {
         if (login == null) {
             return ResponseEntity.badRequest().body("로그인 후 이용하세요.");
         }
-//        if (!login.getMember_no().equals(orderVO.getMember_no())) {
-//            return ResponseEntity.badRequest().body("본인의 주문만 취소 요청할 수 있습니다.");
-//        }
         try {
             int r = orderService.cancelOrder(vo);
             if (r == 0) {

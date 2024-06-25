@@ -6,7 +6,6 @@
     $(function() {
 		let uri = "${uri}";
 		let afterUri = uri.split("/views/")[1];
-		console.log(afterUri);
 		afterUri = afterUri.replace(".jsp", "");
 		let uriArray = afterUri.split("/");
 		let link = "/olympic/";

@@ -163,10 +163,12 @@ public class MvcConfig implements WebMvcConfigurer {
 	public void addInterceptors(InterceptorRegistry registry) {
 		// url 설정
 		registry.addInterceptor(loginInterception())
-				.addPathPatterns("/member/*")
-				.excludePathPatterns("/member/login.do")
-				.excludePathPatterns("/member/modalLogin.do")
-				.excludePathPatterns("/member/logout.do")
+				.addPathPatterns("/member/favorite.do")
+				.addPathPatterns("/member/mypage.do")
+				.addPathPatterns("/member/qna.do")
+				.addPathPatterns("/member/edit.do")
+				.addPathPatterns("/member/membership.do")
+				.addPathPatterns("/member/coupon.do")
 				.addPathPatterns("/qna/write.do")
 				.addPathPatterns("/qna/upload.do")
 				.addPathPatterns("/qna/download.do")
@@ -174,7 +176,8 @@ public class MvcConfig implements WebMvcConfigurer {
 				.addPathPatterns("/qna/reply.do")
 				.addPathPatterns("/game/deleteFavorite.do")
 				.addPathPatterns("/game/createComment.do")
-				.addPathPatterns("/game/createFavorite.do");
+				.addPathPatterns("/game/createFavorite.do")
+				.addPathPatterns("/order/*");
 				
 		
 		registry.addInterceptor(adminInterceptor())

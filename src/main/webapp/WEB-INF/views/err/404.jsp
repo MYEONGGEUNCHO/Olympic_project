@@ -27,9 +27,7 @@
           <div class="col-12 col-md-10 col-lg-8 col-xl-6 text-center">
 
             <!-- Icon -->
-            <div class="mb-7 fs-1">
-            	<h1>🤷‍♂️</h1>
-            </div>
+            <div class="mb-7 fs-1">🤷‍♂️</div>
 
             <!-- Heading -->
             <h2 class="mb-5">404. Page not found</h2>
