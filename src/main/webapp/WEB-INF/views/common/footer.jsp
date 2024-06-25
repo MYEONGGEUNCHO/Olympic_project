@@ -45,7 +45,7 @@
 						<h6 class="heading-xxs mb-4 text-white">Contact</h6>
 
 						<!-- Links -->
-						<ul class="list-unstyled mb-0">
+						<ul class="list-unstyled fs-xs mb-3">
 							<li>
 								<p class="text-gray-300 my-0">상호: 올림픽 티켓 판매 | 대표: OOO</p>
 							</li>
@@ -87,7 +87,7 @@
 					<div class="col">
 
 						<!-- Copyright -->
-						<p class="mb-3 mb-md-0 fs-xxs text-muted">© 2024 All rights reserved. Designed by SHDEarlyBird.</p>
+						<p class="mb-3 mb-md-0 fs-xxs text-muted">© 2024 All rights reserved. Designed by SHDS Team EarlyBird.</p>
 
 					</div>
 					<div class="col-auto">
