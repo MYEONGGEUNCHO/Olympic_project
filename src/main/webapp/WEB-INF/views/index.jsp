@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 
 <!-- Favicon -->
-<link rel="shortcut icon" href="/olympic/dist/assets/favicon/favicon.ico" type="image/x-icon" />
+<link rel="shortcut icon" href="/olympic/favicon/olympic-rings.ico" type="image/x-icon" />
 <script src="/olympic/js/jquery-3.7.1.min.js"></script>
 
 <!-- Title -->

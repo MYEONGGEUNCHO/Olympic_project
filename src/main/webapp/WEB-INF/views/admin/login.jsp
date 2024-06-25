@@ -7,11 +7,10 @@
 	<%@include file="../common/modals.jsp"%>
 	<!-- 	타이틀 - 카테고리 - 아이콘들 포함된 헤더 -->
 	<%@include file="../common/header.jsp"%>
-	<!-- 	헤더 하단 현재 경로 노출 -->
-	<%@include file="../common/breadcrumb.jsp"%>
+	
 	<!-- 	메인 컨텐트 CONTENT 태그 찾아서 그 부분만 사용하면됨-->
 	<!-- 	이 부분에 내용 작성하여 사용 -->
-	<section class="pt-7 pb-12">
+	<section class="pt-14 pb-12">
 		<div class="container">
 			<div class="row justify-content-center">
 				<!-- Card -->
