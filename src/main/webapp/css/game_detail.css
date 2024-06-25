@@ -50,11 +50,9 @@
 	max-height: 300px;
 	overflow-y: scroll;
 	display: flex;
-	flex-direction: column;
+	flex-direction: column-reverse;
 }
-#commentContent {
-	
-}
+
 #createComment {
 	min-width: 102px;
 	padding: inherit;

@@ -225,7 +225,6 @@ $(document).ready(function() {
 	}
 
 	function loadQnaList() {
-	    console.log("${game.game_id}");
 		$.ajax({
 			type: "POST",
 			url: "/olympic/qna/search.do",

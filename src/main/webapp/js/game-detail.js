@@ -89,7 +89,6 @@ $(function() {
 			return;
 		}
 		commentContent = commentContent.replace(/(<([^>]+)>)/ig, "");
-		console.log(commentContent);
 		$.ajax({
 			url: 'createComment.do', // 댓글 작성 요청 URL
 			type: 'POST',

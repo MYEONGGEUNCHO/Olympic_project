@@ -6,15 +6,12 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>올림픽 경기 일정</title>
+<title>올림픽 경기 일정 - ${game.sport_name }</title>
 <link rel="stylesheet" type="text/css" href="../css/game_detail.css" />
 
 <script src="https://maps.googleapis.com/maps/api/js?key=${apikey}"></script>
 <script src="../js/jquery-3.7.1.min.js"></script>
 <script src="../js/game-detail.js"></script>
-<script>
-    console.log("${game}")
-</script>
 </head>
 <body>
 	<!--  타이틀 - 카테고리 - 아이콘들 포함된 헤더 -->
