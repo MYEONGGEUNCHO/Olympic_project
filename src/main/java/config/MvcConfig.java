@@ -174,7 +174,8 @@ public class MvcConfig implements WebMvcConfigurer {
 				.addPathPatterns("/qna/reply.do")
 				.addPathPatterns("/game/deleteFavorite.do")
 				.addPathPatterns("/game/createComment.do")
-				.addPathPatterns("/game/createFavorite.do");
+				.addPathPatterns("/game/createFavorite.do")
+				.addPathPatterns("/order/*");
 				
 		
 		registry.addInterceptor(adminInterceptor())
