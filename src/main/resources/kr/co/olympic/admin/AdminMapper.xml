@@ -2,36 +2,44 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="kr.co.olympic.admin.AdminMapper">
 	<!-- 관리자 로그인 -->
-	<select id="loginAdmin" parameterType="kr.co.olympic.member.MemberVO"
+	<select id="loginAdmin"
+		parameterType="kr.co.olympic.member.MemberVO"
 		resultType="kr.co.olympic.member.MemberVO">
-		SELECT * FROM member WHERE email=#{email} AND pwd = MD5(#{pwd}) AND state = 3
+		SELECT * FROM member WHERE email=#{email} AND pwd =
+		MD5(#{pwd}) AND state = 3
 	</select>
 	<!-- 회원 리스트 -->
-	<select id="memberList" resultType="kr.co.olympic.member.MemberVO">
+	<select id="memberList"
+		resultType="kr.co.olympic.member.MemberVO">
 		SELECT * FROM member WHERE state != 3
 	</select>
 	<!-- 회원정보 수정 등급, 포인트 -->
-	<update id="updateMember" parameterType="kr.co.olympic.member.MemberVO">
+	<update id="updateMember"
+		parameterType="kr.co.olympic.member.MemberVO">
 		UPDATE member SET
 		name = #{name},
 		<if test="membership != ''">
-		membership = #{membership},
+			membership = #{membership},
 		</if>
 		<if test="point != ''">
-		point = #{point},
+			point = #{point},
 		</if>
 		state = #{state}
 		WHERE email = #{email}
-		
-	</update>	
-	<!-- 비밀번호 초기화 -->
-	<update id="resetMember" parameterType="kr.co.olympic.member.MemberVO">
-		UPDATE member SET pwd = MD5(REPLACE(DATE_FORMAT(birthday, '%Y-%m-%d'), '-', ''))
-		WHERE email = #{email}
+
 	</update>
-	
+	<!-- 비밀번호 초기화 -->
+	<update id="resetMember"
+		parameterType="kr.co.olympic.member.MemberVO">
+		UPDATE member SET pwd =
+		MD5(REPLACE(DATE_FORMAT(birthday, '%Y-%m-%d'), '-', ''))
+		WHERE email =
+		#{email}
+	</update>
+
 	<!-- 쿠폰 생성 -->
-	<insert id="couponAdmin" parameterType="kr.co.olympic.member.CouponVO">
+	<insert id="couponAdmin"
+		parameterType="kr.co.olympic.member.CouponVO">
 		INSERT INTO coupon (
 		coupon_no,
 		content, discount,
@@ -44,7 +52,84 @@
 		)
 	</insert>
 	<!-- 회원 상세 정보 조회 -->
-	<select id="detailMember" parameterType="String" resultType="kr.co.olympic.member.MemberVO">
+	<select id="detailMember" parameterType="String"
+		resultType="kr.co.olympic.member.MemberVO">
 		SELECT * FROM member WHERE member_no=#{member_no}
+	</select>
+
+	<!-- 경기별 판매 가격 조회 -->
+	<select id="sumSalesByGame"
+		resultType="kr.co.olympic.admin.AnalyticsVO">
+		SELECT game_id,
+		sum(real_price) AS total_price
+		FROM
+		orders
+		WHERE is_paid = 1
+		GROUP BY
+		game_id
+		ORDER BY
+		total_price DESC
+	</select>
+	<!-- 날짜별 판매 가격 조회 -->
+	<select id="sumSalesByDays"
+		resultType="kr.co.olympic.admin.AnalyticsVO">
+		SELECT game_id, DATE(buy_date) AS buy_date, SUM(real_price)
+		AS total_price
+		FROM orders
+		WHERE is_paid = 1
+		GROUP BY game_id,
+		DATE(buy_date)
+		ORDER BY DATE(buy_date)
+		DESC, total_price DESC
+	</select>
+	<!-- 경기별 판매 건수 조회 -->
+	<select id="countSalesByGame"
+		resultType="kr.co.olympic.admin.AnalyticsVO">
+		SELECT game_id, COUNT(*) AS sale_count
+		FROM orders
+		WHERE
+		is_paid = 1
+		GROUP BY game_id
+		ORDER BY sale_count DESC
+	</select>
+
+	<!-- 날짜별 판매 건수 조회 -->
+	<select id="countSalesByDays"
+		resultType="kr.co.olympic.admin.AnalyticsVO">
+		SELECT DATE(buy_date) AS buy_date, COUNT(*) AS sale_count
+		FROM orders
+		WHERE is_paid = 1
+		GROUP BY DATE(buy_date)
+		ORDER BY buy_date
+		DESC
+	</select>
+
+	<!-- 경기별 취소 수 조회 -->
+	<select id="countCancelsByGame"
+		resultType="kr.co.olympic.admin.AnalyticsVO">
+		SELECT game_id, COUNT(*) AS cancel_count
+		FROM orders
+		WHERE
+		is_canceled = 1
+		GROUP BY game_id
+		ORDER BY cancel_count DESC
+	</select>
+
+	<!-- 날짜별 취소 수 조회 -->
+	<select id="countCancelsByDays"
+		resultType="kr.co.olympic.admin.AnalyticsVO">
+		SELECT
+		DATE(s.cancel_date) AS cancel_date,
+		COUNT(*) as cancel_count
+		FROM
+		orders o
+		JOIN
+		cancels s ON o.order_no = s.order_no
+		WHERE
+		o.is_canceled = 1
+		GROUP BY
+		DATE(s.cancel_date)
+		ORDER BY
+		DATE(s.cancel_date) DESC;
 	</select>
 </mapper>
