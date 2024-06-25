@@ -208,6 +208,8 @@
     </script>
 </head>
 <body>
+	<!-- 	공통 모달 - 헤더 장바구니 등 클릭 시 나오는 사이드 창 -->
+	<%@include file="/WEB-INF/views/common/modals.jsp"%>
     <!--  타이틀 - 카테고리 - 아이콘들 포함된 헤더 -->
     <%@include file="/WEB-INF/views/common/header.jsp"%>
     <!--  헤더 하단 현재 경로 노출 -->
