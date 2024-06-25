@@ -273,6 +273,7 @@
 			<div class="mb-9">
 				<input type="date" name="search_date" id="search_date" min="2024-07-24" max="2024-08-11" value="2024-07-24">
 				<select name="search_sport" id="search_sport">
+					<option value="all" selected>전체종목</option>
 					<option value="3x3 농구">3x3 농구</option>
 					<option value="7인제 럭비">7인제 럭비</option>
 					<option value="경영">경영</option>
