@@ -69,7 +69,7 @@ $(function() {
 				}),
 				success: function(response) {
 					alert('공지사항이 성공적으로 작성되었습니다.');
-					location.href = "/olympic/qna/index.do";
+					window.history.back();
 				},
 				error: function(xhr, status, error) {
 					console.error("Error:", error);
@@ -89,11 +89,12 @@ $(function() {
 					type: $("input[name='type']:checked").val(),
 					title: $("#title").val(),
 					content: inner_html,
-					member_no: $("input[name='writer']").val()
+					member_no: $("input[name='writer']").val(),
+					game_id: $("#game_id").val()
 				}),
 				success: function(response) {
 					alert('글이 성공적으로 작성되었습니다.');
-					location.href = "/olympic/qna/index.do";
+					window.history.back();
 				},
 				error: function(xhr, status, error) {
 					console.error("Error:", error);

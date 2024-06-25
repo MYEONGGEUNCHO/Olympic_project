@@ -207,7 +207,7 @@
 									<div class="col-12 col-lg">
 
 										<!-- Submit -->
-										<button type="submit" class="btn w-100 btn-dark mb-2">
+										<button type="submit" class="btn w-100 btn-dark mb-2" onclick="return purchase();">
 											구매하기 <i class="fe fe-shopping-cart ms-2"></i>
 										</button>
 
@@ -223,10 +223,17 @@
 		<section class="pt-11">
 			<div class="container">
 				<div class="row">
-					<h4>댓글(<span id="comment_count">0</span>)</h4>
+					<h4>
+						댓글(
+						<span id="comment_count">0</span>
+						)
+					</h4>
 					<div id="listComment" class="pt-5 bg-light"></div>
-					<input type="text" id="commentContent">
-					<button id="createComment" type="button">댓글 등록</button>
+					<div id="commentInput" class="d-flex justify-content-between mt-2 w-100">
+						<input type="text" class="col-10" id="commentContent">
+						<button id="createComment" class="fs-xs col-2 ms-2 btn btn-dark" type="button">댓글 등록</button>
+					</div>
+
 				</div>
 			</div>
 		</section>
@@ -272,3 +279,4 @@
 	</section>
 </body>
 </html>
+

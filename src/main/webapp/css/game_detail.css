@@ -52,3 +52,10 @@
 	display: flex;
 	flex-direction: column;
 }
+#commentContent {
+	
+}
+#createComment {
+	min-width: 102px;
+	padding: inherit;
+}

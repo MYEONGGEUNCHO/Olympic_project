@@ -55,7 +55,12 @@ function add_favorite(game_id) {
 	});
 
 }
-
+function purchase() {
+	if($("#a_seat_cnt").val() == 0 && $("#b_seat_cnt").val() == 0 && $("#c_seat_cnt").val() == 0 && $("#d_seat_cnt").val() == 0 && $("#vip_seat_cnt").val() == 0 ) {
+		alert("좌석을 하나라도 선택하세요.");
+		return false;
+	}
+}
 
 $(function() {
 	// 결제 중간 끊겼던 것들 초기화
@@ -73,7 +78,7 @@ $(function() {
 
 	// 댓글 작성 버튼 클릭 이벤트
 	$('#createComment').click(function() {
-		var commentContent = $('#commentContent').val();
+		let commentContent = $('#commentContent').val();
 		let member_no = $("#member_no").val();
 		if (commentContent.trim() === '') {
 			alert('댓글 내용을 입력하세요.');
@@ -83,8 +88,8 @@ $(function() {
 			alert("로그인 후 이용하세요");
 			return;
 		}
-		commentContent.replace('<', "&lt;");
-		commentContent.replace('>', "&rt;");
+		commentContent = commentContent.replace(/(<([^>]+)>)/ig, "");
+		console.log(commentContent);
 		$.ajax({
 			url: 'createComment.do', // 댓글 작성 요청 URL
 			type: 'POST',
@@ -122,7 +127,7 @@ $(function() {
 		xhr.send();
 	}
 
-	function loadComments() {		
+	function loadComments() {
 		$.ajax({
 			url: 'listComment.do',
 			type: 'GET',
