@@ -153,7 +153,6 @@ public class MemberController {
 		return "/common/alert";
 	}
 
-	// 나중에 지울 예정
 	@GetMapping("/member/pwdcheck.do")
 	public String complete() {
 		return "member/pwdcheck";
