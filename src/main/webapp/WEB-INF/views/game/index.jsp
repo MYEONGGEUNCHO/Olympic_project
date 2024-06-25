@@ -257,14 +257,16 @@
 </script>
 </head>
 <body>
-	<!--  타이틀 - 카테고리 - 아이콘들 포함된 헤더 -->
-	<%@include file="/WEB-INF/views/common/header.jsp"%>
-	<!--  헤더 하단 현재 경로 노출 -->
-	<%@include file="/WEB-INF/views/common/breadcrumb.jsp"%>
-	<!--  메인 컨텐트 CONTENT 태그 찾아서 그 부분만 사용하면됨-->
-	<section class="pt-7 pb-12">
-		<div class="container">
-			<div class="row">
+	<!-- 공통 모달 - 헤더 장바구니 등 클릭 시 나오는 사이드 창 -->
+	<%@include file="/WEB-INF/views/common/modals.jsp"%>
+    <!--  타이틀 - 카테고리 - 아이콘들 포함된 헤더 -->
+    <%@include file="/WEB-INF/views/common/header.jsp"%>
+    <!--  헤더 하단 현재 경로 노출 -->
+    <%@include file="/WEB-INF/views/common/breadcrumb.jsp"%>
+    <!--  메인 컨텐트 CONTENT 태그 찾아서 그 부분만 사용하면됨-->
+    <section class="pt-7 pb-12">
+        <div class="container">
+        	<div class="row">
 				<div class="col-12">
 					<!-- Heading -->
 					<h3 class="mb-10 text-center">경기 일정</h3>
