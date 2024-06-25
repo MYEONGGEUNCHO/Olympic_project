@@ -85,14 +85,14 @@
                         	content += '<ul class="ps-0" style="list-style-type: none;">'
                         	$.each(data.game, function(idx, vo) {
                                 content += '<li class="list-group-item">';
-                                content += '<div class="row align-items-center">';
+                                content += '<div class="row align-items-center ">';
                                 content += '<div class="col-2 d-flex justify-content-center align-items-center">';
                                 content += '<img src="' + vo.sport_pictogram + '" alt="스포츠 아이콘" class="sport_pictogram" style="width: 160px;">';
                                 content += '</div>';
 
                                 content += '<div class="col my-1">';
                                 content += '<div class="d-flex mb-4 fw-bold">';
-                                content += '<a class="text-body fs-5" href="#">' + vo.sport_name + '&nbsp; ' + vo.tournament + '</a>';
+                                content += '<a class="text-body fs-5" href="/olympic/game/detail.do?game_id='+vo.game_id+'">' + vo.sport_name + '&nbsp; ' + vo.tournament + '</a>';
                                 content += '<span class="ms-auto">' + vo.stadium_name + '</span>';
                                 content += '</div>';
 
@@ -114,7 +114,7 @@
                                     }
                                 } else {
                                     content += '<a id="loginLink" onclick="loginLink()">';
-//                                     content += '<img src="/olympic/img/fake_love.png" style="cursor: pointer; width: 50px; height: 50px;">';
+                                    content += '<img src="/olympic/img/fake_love.png" style="cursor: pointer; width: 50px; height: 50px;">';
                                     content += '</a>';
                                 }
                                 

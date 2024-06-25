@@ -169,7 +169,13 @@ $(document).ready(function() {
                 member_no: member_no
             }),
             success: function(response) {
-                alert(response); // 서버에서 반환된 메시지를 알림으로 표시
+            	if(response=="Order cancellation successful"){
+            		alert("주문 취소가 완료되었습니다.")
+            	}
+            	else{
+	                alert(response); // 서버에서 반환된 메시지를 알림으로 표시
+            	}
+            	
                 location.reload(); // 성공 시 페이지 새로고침
                 
             },

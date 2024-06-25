@@ -40,6 +40,11 @@ public class MemberController {
 	@Autowired
 	private OrderService orderservice;
 
+	@GetMapping({"/member/index.do", "/member/*"})
+	public String index() {
+		return "redirect: /olympic/member/favorite.do";
+	}
+	
 	@GetMapping("/member/order.do")
 	public String order(HttpSession sess, Model model) {
 		MemberVO vo = (MemberVO) sess.getAttribute("login");
