@@ -40,7 +40,7 @@
 										<div class="col d-flex flex-column ">
 											<!-- 토너먼트 정보 -->
 											<div id="game_info">
-												<a class="text-muted" href="./index.do"> ${game.tournament}</a>
+												<a class="text-muted" href="./index.do">${game.tournament}</a>
 												<h3 class="mb-2">${game.sport_name}</h3>
 												<div class="d-flex justify-content-center">
 													<c:if test="${game.country1_name != ''}">
@@ -62,10 +62,12 @@
 									</div>
 
 									<!-- 경기 대표 이미지 -->
-									<img style="width: 100%;" src="${game.sport.title_image}" alt="">
+									<img style="width: 100%;" src="${game.sport.title_image}"
+										alt="">
 								</div>
 								<!-- 국가 정보 -->
-								<div class="d-flex justify-content-evenly align-items-center my-10">
+								<div
+									class="d-flex justify-content-evenly align-items-center my-10">
 									<c:if test="${game.country1_flag != ''}">
 
 										<img src="${game.country1_flag}" alt="국가1" id="flag">
@@ -84,20 +86,30 @@
 							</div>
 							<div class="col-12 col-md-6 ps-lg-10">
 								<h4>날짜</h4>
-								<p>${game.korea_date},${game.korea_time}</p>
+								<p>Date: ${game.korea_date} &emsp; Time: ${game.korea_time}</p>
+								<hr class="my-3">
 								<h4>경기장</h4>
-								<span>📍${game.stadium_name}(${game.stadium.stadium_position})</span>
+								<span>📍 ${game.stadium_name}<br>(${game.stadium.stadium_position})
+								</span>
 
-								<div id="map" style="width: 100%; height: 300px;"></div>
-								<img style="width: 100%;" src="${game.stadium.stadium_img_url}" alt="">
-
+								<div class="my-1" id="map" style="width: 100%; height: 300px;"></div>
+								<hr class="my-2">
+								<div style="position: relative; width: 100%; overflow: hidden;">
+									<img style="width: 100%;" src="${game.stadium.stadium_img_url}"
+										alt="">
+									<div
+										style="position: absolute; top: 0; left: 0; width: 40%; text-align: left; font-size: 1.5em; color: black; padding: 3px;">
+										좌석 등급 배치도</div>
+								</div>
 
 							</div>
 							<!--결제 선택 부분-->
-							<form id="paymentForm" action="/olympic/order/initOrder" method="post">
+							<form id="paymentForm" action="/olympic/order/initOrder"
+								method="post">
 
 								<div class="col-12 pt-3 pb-7 mb-7 bg-light d-flex flex-column">
-									<div id="payment_header" class="d-flex flex-row fs-6 pb-2 mb-3 border-bottom border-2">
+									<div id="payment_header"
+										class="d-flex flex-row fs-6 pb-2 mb-3 border-bottom border-2">
 										<div class="ps-2 col-5 fw-bolder">좌석 선택</div>
 										<div class="ps-2 col-7 fw-bolder">선택 정보 확인</div>
 									</div>
@@ -105,68 +117,74 @@
 
 										<!-- 좌석 선택-->
 										<div id="seat_choice" class="col-5 d-flex flex-column">
-											<div id="a_seat" class="d-flex justify-content-around align-items-baseline">
+											<div id="a_seat"
+												class="d-flex justify-content-around align-items-baseline">
 												<c:if test="${a_seat_able > 0}">
-													<label class="fs-sm ms-1" for="a_seat_price">
-														CAT A
+													<label class="fs-sm ms-1" for="a_seat_price"> CAT A
 														<span>(${a_seat_able}/${game.stadium.a_seat_quantity})</span>
 													</label>
-													<span class="ms-1 fs-5 fw-bolder text-primary" id="a_seat_price">
-														<fmt:formatNumber type="number" maxFractionDigits="3" value="${game.item.a_seat_price}" />
+													<span class="ms-1 fs-5 fw-bolder text-primary"
+														id="a_seat_price"> <fmt:formatNumber type="number"
+															maxFractionDigits="3" value="${game.item.a_seat_price}" />
 														<span class="fs-sm fw-normal text-body">원</span>
 
 													</span>
 
 												</c:if>
 											</div>
-											<div id="b_seat" class="d-flex justify-content-around align-items-baseline">
+											<div id="b_seat"
+												class="d-flex justify-content-around align-items-baseline">
 												<c:if test="${b_seat_able > 0 }">
-													<label class="fs-sm ms-1" for="b_seat_price">
-														CAT B
+													<label class="fs-sm ms-1" for="b_seat_price"> CAT B
 														<span>(${b_seat_able}/${game.stadium.b_seat_quantity})</span>
 													</label>
-													<span class="ms-1 fs-5 fw-bolder text-primary" id="b_seat_price">
-														<fmt:formatNumber type="number" maxFractionDigits="3" value="${game.item.b_seat_price}" />
+													<span class="ms-1 fs-5 fw-bolder text-primary"
+														id="b_seat_price"> <fmt:formatNumber type="number"
+															maxFractionDigits="3" value="${game.item.b_seat_price}" />
 														<span class="fs-sm fw-normal text-body">원</span>
 													</span>
 												</c:if>
 											</div>
-											<div id="c_seat" class="d-flex justify-content-around align-items-baseline">
+											<div id="c_seat"
+												class="d-flex justify-content-around align-items-baseline">
 												<c:if test="${c_seat_able > 0 }">
-													<label class="fs-sm ms-1" for="c_seat_price">
-														CAT C
+													<label class="fs-sm ms-1" for="c_seat_price"> CAT C
 
 														<span>(${c_seat_able}/${game.stadium.c_seat_quantity})</span>
 													</label>
-													<span class="ms-1 fs-5 fw-bolder text-primary" id="c_seat_price">
-														<fmt:formatNumber type="number" maxFractionDigits="3" value="${game.item.c_seat_price}" />
+													<span class="ms-1 fs-5 fw-bolder text-primary"
+														id="c_seat_price"> <fmt:formatNumber type="number"
+															maxFractionDigits="3" value="${game.item.c_seat_price}" />
 														<span class="fs-sm fw-normal text-body">원</span>
 													</span>
 												</c:if>
 											</div>
-											<div id="d_seat" class="d-flex justify-content-around align-items-baseline">
+											<div id="d_seat"
+												class="d-flex justify-content-around align-items-baseline">
 												<c:if test="${d_seat_able > 0 }">
-													<label class="fs-sm ms-1" for="d_seat_price">
-														CAT D
+													<label class="fs-sm ms-1" for="d_seat_price"> CAT D
 														<span>(${d_seat_able}/${game.stadium.d_seat_quantity})</span>
 
 													</label>
-													<span class="ms-1 fs-5 fw-bolder text-primary" id="d_seat_price">
-														<fmt:formatNumber type="number" maxFractionDigits="3" value="${game.item.d_seat_price}" />
+													<span class="ms-1 fs-5 fw-bolder text-primary"
+														id="d_seat_price"> <fmt:formatNumber type="number"
+															maxFractionDigits="3" value="${game.item.d_seat_price}" />
 														<span class="fs-sm fw-normal text-body">원</span>
 													</span>
 												</c:if>
 											</div>
-											<div id="vip_seat" class="d-flex justify-content-around align-items-baseline">
+											<div id="vip_seat"
+												class="d-flex justify-content-around align-items-baseline">
 												<c:if test="${vip_seat_able > 0 }">
-													<label class="fs-sm ms-1" for="vip_seat_price">
-														VIP
+													<label class="fs-sm ms-1" for="vip_seat_price">&emsp;VIP
 														<span>(${vip_seat_able}/${game.stadium.vip_seat_quantity})</span>
 
 													</label>
-													<span class="ms-1 fs-5 fw-bolder text-primary" id="vip_seat_price">
-														<fmt:formatNumber type="number" maxFractionDigits="3" value="${game.item.vip_seat_price}" />
-														<span class="fs-sm fw-normal text-body">원</span>
+													<span class="ms-1 fs-5 fw-bolder text-primary"
+														id="vip_seat_price"> <fmt:formatNumber
+															type="number" maxFractionDigits="3"
+															value="${game.item.vip_seat_price}" /> <span
+														class="fs-sm fw-normal text-body">원</span>
 													</span>
 												</c:if>
 											</div>
@@ -195,16 +213,15 @@
 
 
 								</div>
-								<div class="pb-5 text-end">
-									합계 금액 :
-									<span id="choice_sum">0</span>
-									원
+								<div class="fs-4 pb-5 text-end" style="font-weight: bold;">
+									합계 금액 : <span id="choice_sum">0</span> 원
 								</div>
 								<div class="row gx-5 mb-7">
 									<div class="col-12 col-lg">
 
 										<!-- Submit -->
-										<button type="submit" class="btn w-100 btn-dark mb-2" onclick="return purchase();">
+										<button type="submit" class="btn w-100 btn-dark mb-2"
+											onclick="return purchase();">
 											구매하기 <i class="fe fe-shopping-cart ms-2"></i>
 										</button>
 
@@ -221,14 +238,14 @@
 			<div class="container">
 				<div class="row">
 					<h4>
-						댓글(
-						<span id="comment_count">0</span>
-						)
+						댓글( <span id="comment_count">0</span> )
 					</h4>
-					<div id="listComment" class="pt-5 bg-light"></div>
-					<div id="commentInput" class="d-flex justify-content-between mt-2 w-100">
+					<div id="listComment" class="mx-3 py-3 bg-light"></div>
+					<div id="commentInput"
+						class="d-flex justify-content-between mt-2 w-100">
 						<input type="text" class="col-10" id="commentContent">
-						<button id="createComment" class="fs-xs col-2 ms-2 btn btn-dark" type="button">댓글 등록</button>
+						<button id="createComment" class="fs-xs col-2 ms-2 btn btn-dark"
+							type="button">댓글 등록</button>
 					</div>
 
 				</div>
@@ -245,16 +262,17 @@
 								<div class="row justify-content-center py-9">
 									<div class="col-12 col-lg-10 col-xl-8">
 										<div class="row">
-											<h4>종목 정보</h4>
-											<p>${game.sport_name}</p>
-											<p>종목 설명</p>
+											<h4>종목 정보 - &nbsp;【 ${game.sport_name} 】</h4>
+											<hr>
+											<p class="fs-5">종목 설명</p>
 											<p>${game.sport.sport_info}</p>
-											<p>종목 규칙</p>
+											<p class="fs-5">종목 규칙</p>
 											<p>${game.sport.sport_rule}</p>
-											<p>올림픽 역사</p>
+											<p class="fs-5">올림픽 역사</p>
 											<p>${game.sport.sport_history}</p>
 
 										</div>
+										<hr>
 									</div>
 								</div>
 							</div>
@@ -265,6 +283,7 @@
 				</div>
 			</div>
 		</section>
+
 		<section class="py-11">
 			<div class="container">
 				<h4>문의 사항</h4>

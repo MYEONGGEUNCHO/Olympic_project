@@ -5,7 +5,6 @@ import java.util.Properties;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
-import org.mybatis.spring.SqlSessionTemplate;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.factory.config.PropertyPlaceholderConfigurer;
@@ -13,7 +12,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
-import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
@@ -29,6 +27,9 @@ import org.springframework.web.servlet.config.annotation.ViewResolverRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import com.zaxxer.hikari.HikariDataSource;
+
+import util.AdminInterceptor;
+import util.LoginInterceptor;
 
 @Configuration
 @ComponentScan(basePackages = "kr.co.olympic")
@@ -148,21 +149,39 @@ public class MvcConfig implements WebMvcConfigurer {
 	}
 
 	// 로그인인터셉터 빈등록
-//	@Bean
-//	public LoginInterceptor loginInterception() {
-//		return new LoginInterceptor();
-//	}
+	@Bean
+	public LoginInterceptor loginInterception() {
+		return new LoginInterceptor();
+	}
+	@Bean
+	public AdminInterceptor adminInterceptor() {
+		return new AdminInterceptor();
+	}
 
 	// 인터셉터 설정
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
 		// url 설정
-//		registry.addInterceptor(loginInterception())
-//				.addPathPatterns("/member/mypage.do")
-//				.addPathPatterns("/member/order.do");
-		/*
-		 * 관리자페이지 .addPathPatterns("/admin/**") .excludePathPatterns("/admin/login.do")
-		 */
+		registry.addInterceptor(loginInterception())
+				.addPathPatterns("/member/*")
+				.excludePathPatterns("/member/login.do")
+				.excludePathPatterns("/member/modalLogin.do")
+				.excludePathPatterns("/member/logout.do")
+				.addPathPatterns("/qna/write.do")
+				.addPathPatterns("/qna/upload.do")
+				.addPathPatterns("/qna/download.do")
+				.addPathPatterns("/qna/update.do")
+				.addPathPatterns("/qna/reply.do")
+				.addPathPatterns("/game/deleteFavorite.do")
+				.addPathPatterns("/game/createComment.do")
+				.addPathPatterns("/game/createFavorite.do")
+				.addPathPatterns("/order/*");
+				
+		
+		registry.addInterceptor(adminInterceptor())
+				.addPathPatterns("/admin/**")
+				.excludePathPatterns("/admin/login.do");
+		
 	}
 
 	// properties 설정

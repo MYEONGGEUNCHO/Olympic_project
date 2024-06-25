@@ -218,7 +218,7 @@
                                                 <td id="stadium_no">${vo.stadium_no }</td>
                                                 <td>
 													<button type="button" class="update_btn btn btn-info">수정</button>&ensp; 
-											        <button type="button" class="delete_btn btn btn-warning">삭제</button>
+											        <button type="button" class="delete_btn btn btn-danger">삭제</button>
 												</td>
                                             </tr>
                                         </c:forEach>

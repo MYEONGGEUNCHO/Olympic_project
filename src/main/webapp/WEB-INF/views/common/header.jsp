@@ -6,7 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 
 <!-- Favicon -->
-<link rel="shortcut icon" href="/olympic/dist/assets/favicon/favicon.ico" type="image/x-icon" />
+<link rel="shortcut icon" href="/olympic/favicon/olympic-rings.ico" type="image/x-icon" />
 
 <!-- Libs CSS -->
 <link rel="stylesheet" href="/olympic/dist/assets/css/libs.bundle.css" />
