@@ -16,7 +16,7 @@
         $(document).ready(function() {
             // 마이페이지 버튼 클릭 이벤트
             $('#mypageButton').on('click', function() {
-                window.location.href = 'http://localhost:8090/olympic/member/order.do';
+                window.location.href = '/olympic/member/order.do';
             });
 
             // 현재 URL의 쿼리스트링에서 order_no 값을 가져와서 표시
