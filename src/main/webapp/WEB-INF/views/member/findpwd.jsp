@@ -25,7 +25,17 @@ function goCheck(){
     $("#passwordResetForm").submit();
 };
 </script>
-
+<style>
+    body {
+        padding-bottom: 100px; 
+    }
+    footer {
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+        
+    }
+</style>
 <body>
 	<!-- 	공통 모달 - 헤더 장바구니 등 클릭 시 나오는 사이드 창 -->
 	<%@include file="../common/modals.jsp"%>
@@ -85,6 +95,8 @@ function goCheck(){
 <%-- 	<%@include file="../contactus.jsp"%> --%>
 	<!-- 	이 부분에 내용 작성하여 사용 -->
 	<!-- 푸터  -->
-	<%@include file="../common/footer.jsp"%>
+	<footer>
+		<%@include file="../common/footer.jsp"%>
+	</footer>
 </body>
 </html>

@@ -40,14 +40,14 @@
 										<div class="col d-flex flex-column ">
 											<!-- 토너먼트 정보 -->
 											<div id="game_info">
-												<a class="text-muted" href="./index.do">${game.tournament}</a>
-												<h3 class="mb-2">${game.sport_name}</h3>
+												<a class="text-light" href="./index.do">${game.tournament}</a>
+												<h3 class="my-2">${game.sport_name}</h3>
 												<div class="d-flex justify-content-center">
 													<c:if test="${game.country1_name != ''}">
 														<span>${game.country1_name}</span>
 													</c:if>
 													<c:if test="${game.country1_name == ''}">
-														<span id="unknown_country">?</span>
+														<span class="text-light" id="unknown_country">?</span>
 													</c:if>
 													&nbsp; VS &nbsp;
 													<c:if test="${game.country2_name != ''}">
@@ -70,14 +70,14 @@
 									class="d-flex justify-content-evenly align-items-center my-10">
 									<c:if test="${game.country1_flag != ''}">
 
-										<img src="${game.country1_flag}" alt="국가1" id="flag">
+										<img src="${game.country1_flag}" alt="국가1" id="flag" class="shadow-lg">
 									</c:if>
 									<c:if test="${game.country1_flag == ''}">
 										<div id="unknown_flag">?</div>
 									</c:if>
 									VS
 									<c:if test="${game.country2_flag != ''}">
-										<img src="${game.country2_flag}" alt="국가2" id="flag">
+										<img src="${game.country2_flag}" alt="국가2" id="flag" class="shadow-lg">
 									</c:if>
 									<c:if test="${game.country2_flag == ''}">
 										<div id="unknown_flag">?</div>

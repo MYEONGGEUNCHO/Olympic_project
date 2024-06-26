@@ -96,7 +96,7 @@ public class MemberController {
 		String refUrl = (String) session.getAttribute("refUrl");
 
 		if (session.getAttribute("login") != null) {
-			return "/index";
+			return "redirect: /olympic/index.do";
 		}
 		return "member/login";
 	}
