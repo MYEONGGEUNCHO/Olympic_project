@@ -15,13 +15,13 @@
 	margin: 0;
 }
 
-.list-group-item {
+ .list-group-item {
 	border: 1px solid #ddd;
 	margin-bottom: 6px;
 	padding: 12px;
 	display: flex;
 	flex-direction: row;
-}
+} 
 
 .inline-container {
 	display: flex;
@@ -99,7 +99,7 @@
 								data.game,
 								function(idx,
 									vo) {
-								    content += '<li class="list-group-item">';
+								    content += '<li class="list-group-item shadow-lg p-4 mb-5 rounded-4" style="border-left: 3px solid black;">';
 								    content += '<div class="row align-items-center" id="game-item-' + vo.game_id + '">';
 								    content += '<div class="col-2 d-flex justify-content-center align-items-center overflow-hidden">';
 								    content += '<a href="#;" onclick="redirectToDetail('
@@ -109,27 +109,27 @@
 								    content += '</a></div>';
 
 								    content += '<div class="col my-1">';
-								    content += '<div class="d-flex mb-4 fw-bold">';
-								    content += '<a class="text-body fs-5" href="#;" onclick="redirectToDetail( '
+								    content += '<div class="d-flex mb-4">';
+								    content += '<a class="text-body fs-5 fw-bolder" href="#;" onclick="redirectToDetail( '
 									    + vo.game_id
 									    + ')">'
 									    + vo.sport_name
-									    + '&nbsp; '
+									    + '&nbsp;-&nbsp;'
 									    + vo.tournament
 									    + '</a>';
-								    content += '<span class="ms-auto">'
+								    content += '<span class="ms-auto"><i class="fa-solid fa-map-pin"></i> '
 									    + vo.stadium_name
 									    + '</span>';
 								    content += '</div>';
 
 								    content += '<div class="row">';
-								    content += '<div class="col-9 fs-sm text-muted m-0">';
-								    content += '경기 일자: '
+								    content += '<div class="col-9 fs-sm text-muted m-0 fw-bolder">';
+								    content += '<i class="fa-regular fa-calendar"></i> 경기 일자: '
 									    + vo.korea_date
-									    + ' &ensp; 시간: '
+									    + '&ensp; | &ensp; 시간: '
 									    + vo.korea_time
 									    + '<br>';
-								    content += '출전 나라: ';
+								    content += '<i class="fa-regular fa-flag"></i> 출전 나라: ';
 								    content += vo.country1_name ? vo.country1_name
 									    : '미정';
 								    content += ' vs ';
