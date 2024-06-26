@@ -12,12 +12,19 @@
     <!-- #경기관련 -->
 	<sql id="searchDateSport">
 		<where>
-	        <if test="game.search_sport == 'all'">
+			<if test="game.search_date == 'all'">
+		        <if test="game.search_sport != 'all'">
+		            sport_name = #{game.search_sport}
+		        </if>	      
+			</if>
+			<if test="game.search_date != 'all'">
+				<if test="game.search_sport == 'all'">
 	            korea_date = #{game.search_date}
-	        </if>
-	        <if test="game.search_sport != 'all'">
-	            korea_date = #{game.search_date} and sport_name = #{game.search_sport}
-	        </if>	        
+		        </if>
+		        <if test="game.search_sport != 'all'">
+		            korea_date = #{game.search_date} and sport_name = #{game.search_sport}
+		        </if>	      
+			</if>
 	    </where>
 	</sql>
 	<sql id="member">
