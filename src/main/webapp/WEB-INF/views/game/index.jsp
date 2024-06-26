@@ -79,15 +79,20 @@
 	grid-template-columns: repeat(7, 1fr);
 	grid-template-rows: repeat(5, 1fr);
 	gap: 5px; /* 각 셀 사이의 간격을 지정합니다 */
+	width: 25em;
 }
 
 .grid-item {
-	background-color: white;
-	border: 1px solid #000;
 	display: flex;
 	justify-content: center;
 	align-items: center;
 	height: 50px; /* 각 셀의 높이를 지정합니다 */
+}
+
+.sdate {
+	background-color: white;
+	border: 1px solid #000;
+	cursor: pointer;
 }
 
 .hidden {
@@ -97,6 +102,10 @@
 #calendar {
 	border: 1px solid #000;
 	padding: 10px;
+}
+
+#calendar, #search_sport, .total-date {
+	cursor: pointer;
 }
 </style>
 <script>
@@ -310,7 +319,7 @@
 				</div>
 			</div>
 			<div class="mb-9 d-flex">
-				<div id="search_date">
+				<div id="search_date" class="me-2">
 					<div id="calendar">2024-07-24</div>
 				</div>
 
@@ -365,8 +374,8 @@
 
 			</div>
 			<div id="toggle-date">
-				<button class="total-date">모든 날짜</button>
-				<div id="grid-container">
+				<a class="total-date mb-2">모든 날짜 선택</a>
+				<div id="grid-container" class="mb-10 p-2 shadow-lg">
 					<!-- 5x7 = 35개의 div 요소를 생성합니다 -->
 					<!-- 각 div 요소에 class="grid-item" data-sdate=""을 추가합니다 -->
 					<!-- 그리고 각 div 요소 안에 class="hidden"을 추가하여 값을 숨깁니다 -->
@@ -379,14 +388,14 @@
 					<div class="grid-item">토</div>
 					<div class="grid-item">7월</div>
 					<div class="grid-item"></div>
-					<div class="grid-item" data-sdate="2024-07-24">24</div>
-					<div class="grid-item" data-sdate="2024-07-25">25</div>
-					<div class="grid-item" data-sdate="2024-07-26">26</div>
-					<div class="grid-item" data-sdate="2024-07-27">27</div>
-					<div class="grid-item" data-sdate="2024-07-28">28</div>
-					<div class="grid-item" data-sdate="2024-07-29">29</div>
-					<div class="grid-item" data-sdate="2024-07-30">30</div>
-					<div class="grid-item" data-sdate="2024-07-31">31</div>
+					<div class="grid-item sdate" data-sdate="2024-07-24">24</div>
+					<div class="grid-item sdate" data-sdate="2024-07-25">25</div>
+					<div class="grid-item sdate" data-sdate="2024-07-26">26</div>
+					<div class="grid-item sdate" data-sdate="2024-07-27">27</div>
+					<div class="grid-item sdate" data-sdate="2024-07-28">28</div>
+					<div class="grid-item sdate" data-sdate="2024-07-29">29</div>
+					<div class="grid-item sdate" data-sdate="2024-07-30">30</div>
+					<div class="grid-item sdate" data-sdate="2024-07-31">31</div>
 					<div class="grid-item"></div>
 					<div class="grid-item"></div>
 					<div class="grid-item"></div>
@@ -394,19 +403,19 @@
 					<div class="grid-item">8월</div>
 					<div class="grid-item"></div>
 					<div class="grid-item"></div>
-					<div class="grid-item" data-sdate="2024-08-01">1</div>
-					<div class="grid-item" data-sdate="2024-08-02">2</div>
-					<div class="grid-item" data-sdate="2024-08-03">3</div>
-					<div class="grid-item" data-sdate="2024-08-04">4</div>
-					<div class="grid-item" data-sdate="2024-08-05">5</div>
-					<div class="grid-item" data-sdate="2024-08-06">6</div>
-					<div class="grid-item" data-sdate="2024-08-07">7</div>
-					<div class="grid-item" data-sdate="2024-08-08">8</div>
-					<div class="grid-item" data-sdate="2024-08-09">9</div>
-					<div class="grid-item" data-sdate="2024-08-10">10</div>
-					<div class="grid-item" data-sdate="2024-08-11">11</div>
+					<div class="grid-item sdate" data-sdate="2024-08-01">1</div>
+					<div class="grid-item sdate" data-sdate="2024-08-02">2</div>
+					<div class="grid-item sdate" data-sdate="2024-08-03">3</div>
+					<div class="grid-item sdate" data-sdate="2024-08-04">4</div>
+					<div class="grid-item sdate" data-sdate="2024-08-05">5</div>
+					<div class="grid-item sdate" data-sdate="2024-08-06">6</div>
+					<div class="grid-item sdate" data-sdate="2024-08-07">7</div>
+					<div class="grid-item sdate" data-sdate="2024-08-08">8</div>
+					<div class="grid-item sdate" data-sdate="2024-08-09">9</div>
+					<div class="grid-item sdate" data-sdate="2024-08-10">10</div>
+					<div class="grid-item sdate" data-sdate="2024-08-11">11</div>
 				</div>
-				
+
 			</div>
 
 			<div id="listGame">
