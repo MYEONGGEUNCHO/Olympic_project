@@ -138,6 +138,7 @@ document.addEventListener("DOMContentLoaded", function() {
                         })
                     }).then(response => {
                         if (response.ok) {
+                        	window.removeEventListener('beforeunload', preventNavigation);
                             alert('결제가 완료되었습니다.');
                             const encodedOrderNo = encodeURIComponent(savedOrder.order_no);
         					window.location.href = `/olympic/order/finish.do?order_no=${encodedOrderNo}`;
@@ -162,4 +163,34 @@ document.addEventListener("DOMContentLoaded", function() {
     };
 
     button.addEventListener('click', onClickPay);
+
+    const preventNavigation = (e) => {
+        const confirmationMessage = '현재화면을 벗어나면 주문정보가 사라집니다. 계속 하시겠습니까?';
+        e.returnValue = confirmationMessage;
+        return confirmationMessage;
+    };
+
+    window.addEventListener('beforeunload', preventNavigation);
+
+    document.querySelectorAll('a, button').forEach(element => {
+        element.addEventListener('click', function(e) {
+            const href = element.getAttribute('href');
+            const id = element.getAttribute('id');
+            if (href && href.startsWith('#') || id === 'apply_coupon' || id === 'remove_coupon' || id === 'closeModalTermsButton' || id === 'payButton' || href === '#modalTerms') {
+                return;
+            }
+            if (!confirm('현재화면을 벗어나면 주문정보가 사라집니다. 계속 하시겠습니까?')) {
+                e.preventDefault();
+            }
+        });
+    });
+
+    history.pushState(null, null, location.href);
+    window.onpopstate = function (event) {
+        if (confirm('현재화면을 벗어나면 주문정보가 사라집니다. 계속 하시겠습니까?')) {
+            window.location.href = `/olympic/game/detail.do?game_id=${game_id}`;
+        } else {
+            history.pushState(null, null, location.href);
+        }
+    };
 });
