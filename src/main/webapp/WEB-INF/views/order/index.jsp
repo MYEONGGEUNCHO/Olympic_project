@@ -273,7 +273,7 @@
         <div class="modal-content">
     
           <!-- Close -->
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="closeModalTermsButton">
             <i class="fe fe-x" aria-hidden="true"></i>
           </button>
     
