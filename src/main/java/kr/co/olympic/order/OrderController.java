@@ -112,9 +112,13 @@ public class OrderController {
 	}
 
 	@GetMapping("/order/finish.do")
-	public String showFinishPage(@RequestParam("order_no") String order_no, Model model) {
+	public String showFinishPage(@RequestParam("order_no") String order_no, Model model, HttpSession sess) {
 		List<TicketVO> ticketList = orderService.getTicketsByOrderNo(order_no);
 		model.addAttribute("ticketList", ticketList);
+		MemberVO vo = (MemberVO) sess.getAttribute("login");
+		vo.setPoint(memberService.detail(vo).getPoint());
+		sess.setAttribute("login", vo);
+		
 		return "/order/finish";
 	}
 
