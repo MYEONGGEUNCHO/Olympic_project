@@ -171,7 +171,6 @@ public class MvcConfig implements WebMvcConfigurer {
 				.addPathPatterns("/member/coupon.do")
 				.addPathPatterns("/qna/write.do")
 				.addPathPatterns("/qna/upload.do")
-				.addPathPatterns("/qna/download.do")
 				.addPathPatterns("/qna/update.do")
 				.addPathPatterns("/qna/reply.do")
 				.addPathPatterns("/game/deleteFavorite.do")
