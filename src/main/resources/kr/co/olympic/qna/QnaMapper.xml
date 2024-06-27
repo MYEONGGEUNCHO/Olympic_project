@@ -9,7 +9,8 @@
 		member_no, state
 		)
 		VALUES (
-		NOW(), #{type}, #{content}, #{title}, #{game_id}, 0,
+		NOW(), #{type}, #{content}, #{title},
+		#{game_id}, 0,
 		#{member_no}, ${state}
 		)
 		<selectKey order="AFTER" keyProperty="qna_no"
@@ -35,20 +36,23 @@
 			</if>
 			)
 		</if>
-		<if test="type != null">
-			<if test="type == 'all'">
-				AND q.type IN (1, 2, 3)
-			</if>
-			<if test="type != 'all'">
-				AND q.type = #{type}
+		<if test="member_no != null and member_no != ''">
+			AND q.member_no = #{member_no}
+		</if>
+		<if test="member_no == null or member_no == ''">
+			<if test="type != null">
+				<if test="type == 'all'">
+					AND q.type IN (1, 2, 3)
+				</if>
+				<if test="type != 'all'">
+					AND q.type = #{type}
+				</if>
 			</if>
 		</if>
 		<if test="game_id != null and game_id != ''">
 			AND q.game_id = #{game_id}
 		</if>
-		<if test="member_no != null and member_no != ''">
-			AND q.member_no = #{member_no}
-		</if>
+
 	</sql>
 	<!-- 고정된 공지사항 조회 -->
 	<select id="notice" resultType="kr.co.olympic.qna.QnaVO">
