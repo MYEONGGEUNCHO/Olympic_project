@@ -1,11 +1,12 @@
 package kr.co.olympic.qna;
 
-import java.text.DateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.TimeZone;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,9 +20,11 @@ public class QnaServiceImpl implements QnaService {
 
 	@Override
 	public Date serverTime(Locale locale) {
-		Date date = new Date();
-//		DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG, locale);
-//		String formattedDate = dateFormat.format(date);
+		// 한국 시간대의 Calendar 객체 생성
+		Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("Asia/Seoul"), locale);
+
+		// 현재 시간을 가져옴
+		Date date = calendar.getTime();
 		return date;
 	}
 
